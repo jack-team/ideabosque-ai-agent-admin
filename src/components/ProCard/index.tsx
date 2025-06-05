@@ -5,16 +5,33 @@ import type { ProCardProps } from './types';
 import './styles.less';
 
 const ProCard: FC<ProCardProps> = (props) => {
-  const { title, subTitle, children, ext } = props;
+  const {
+    extra,
+    title,
+    subTitle,
+    children,
+    hasTitleUnderLine = false
+  } = props;
+
+  const contentClassName = classNames(
+    "pro-card-content",
+    Boolean(extra) && "pro-card-content-over-flow"
+  );
+
+  const titleClassName = classNames(
+    "pro-card-title",
+    hasTitleUnderLine && "pro-card-title-underline"
+  );
+
   return (
     <Card>
       <div className="pro-card-container">
-        <div className={classNames("pro-card-content", !!ext && "over-flow")}>
-          {!!title && <div className="pro-card-title">{title}</div>}
+        <div className={contentClassName}>
+          {!!title && <div className={titleClassName}>{title}</div>}
           {!!subTitle && <div className="pro-card-subtitle">{subTitle}</div>}
           {!!children && <div className="pro-card-body">{children}</div>}
         </div>
-        {!!ext && <div className="pro-card-ext">{ext}</div>}
+        {!!extra && <div className="pro-card-extra">{extra}</div>}
       </div>
     </Card>
   );

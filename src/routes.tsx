@@ -10,5 +10,17 @@ export const routes: RouteObject[] = [
   {
     path: '/dashboard',
     element: lazyLoad(() => import('@/pages/Dashboard'))
+  },
+  {
+    path: '/customer-groups',
+    element: lazyLoad(() => import('@/pages/CustomerGroups'))
+  },
+  {
+    path: '/agent-workflows',
+    element: lazyLoad(() => import('@/pages/AgentWorkflows'))
+  },
+  {
+    path: '/settings',
+    element: lazyLoad(() => import('@/pages/Settings'))
   }
 ];

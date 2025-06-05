@@ -1,9 +1,11 @@
 .container {
   padding: 0 0 24px 0;
-}
+  
+  .item {
+    margin-bottom: 24px;
 
-.row {
-  &+.row {
-    margin-top: 24px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }

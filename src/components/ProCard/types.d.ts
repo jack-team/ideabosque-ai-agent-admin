@@ -5,6 +5,7 @@ type Element = ReactElement | null | false;
 export type ProCardProps = {
   title?: string;
   subTitle?: string;
-  ext?: Element;
+  extra?: Element;
+  hasTitleUnderLine?: boolean;
   children?: Element | Element[];
 }

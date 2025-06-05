@@ -10,7 +10,7 @@ const rows = Array.from({ length: 20 }).map(() => {
 const Newleads: FC = () => {
   return (
     <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 5 }}>
-      <ProCard title="New leads">
+      <ProCard title="New leads" hasTitleUnderLine>
         <div className={styles.container}>
           <TextField
             label=""

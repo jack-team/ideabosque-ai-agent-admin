@@ -27,26 +27,26 @@ const Dashboard: FC = () => {
       }
     >
       <div className={styles.container}>
-        <div className={styles.row}>
+        <div className={styles.item}>
           <Statistics />
         </div>
-        <div className={styles.row}>
+        <div className={styles.item}>
           <Grid>
             <AgentSales />
             <Newleads />
           </Grid>
         </div>
-        <div className={styles.row}>
+        <div className={styles.item}>
           <Grid>
             <AgentBookedMeetings />
             <FilterDatePicker />
           </Grid>
         </div>
+        <Welcome
+          open={welcomeOpen}
+          onClose={() => setWelcomeOpen(false)}
+        />
       </div>
-      <Welcome
-        open={welcomeOpen}
-        onClose={() => setWelcomeOpen(false)}
-      />
     </Page>
   );
 }

@@ -70,6 +70,7 @@ const AgentSales: FC = () => {
   return (
     <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 7 }}>
       <ProCard
+        hasTitleUnderLine
         title="Agent attributed sales"
         subTitle="$528,032.82"
       >
