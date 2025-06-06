@@ -12,7 +12,6 @@ const App: FC = () => {
   return (
     <div className="app-container">
       <AppProvider i18n={enTranslations}>
-        <RouterProvider router={router} />
         <NavMenu>
           <a href="/" rel="home">Home</a>
           <a href="/dashboard">Dashboard</a>
@@ -20,6 +19,7 @@ const App: FC = () => {
           <a href="/agent-workflows">Agent Workflows</a>
           <a href="/settings">Settings</a>
         </NavMenu>
+        <RouterProvider router={router} />
       </AppProvider>
     </div>
   );

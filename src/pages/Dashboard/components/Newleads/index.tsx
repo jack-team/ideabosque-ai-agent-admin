@@ -11,28 +11,26 @@ const Newleads: FC = () => {
   return (
     <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 5 }}>
       <ProCard title="New leads" hasTitleUnderLine>
-        <div className={styles.container}>
-          <TextField
-            label=""
-            placeholder="Search"
-            autoComplete="off"
+        <TextField
+          label=""
+          placeholder="Search"
+          autoComplete="off"
+        />
+        <Scrollable className={styles.scroller}>
+          <DataTable
+            columnContentTypes={[
+              'text',
+              'text',
+              'text'
+            ]}
+            headings={[
+              <Text as="strong">Company</Text>,
+              <Text as="strong">Contact email</Text>,
+              <Text as="strong">Quote</Text>,
+            ]}
+            rows={rows}
           />
-          <Scrollable className={styles.scroller}>
-            <DataTable
-              columnContentTypes={[
-                'text',
-                'text',
-                'text'
-              ]}
-              headings={[
-                <Text as="strong">Company</Text>,
-                <Text as="strong">Contact email</Text>,
-                <Text as="strong">Quote</Text>,
-              ]}
-              rows={rows}
-            />
-          </Scrollable>
-        </div>
+        </Scrollable>
       </ProCard>
     </Grid.Cell>
   );
