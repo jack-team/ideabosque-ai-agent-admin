@@ -1,20 +1,11 @@
 import type { FC } from 'react';
-import { Page, Button } from '@shopify/polaris';
 
-const CustomerGroups: FC = () => {
+const AgentWorkflows: FC = () => {
   return (
-    <Page
-      fullWidth
-      title="Customer Groups"
-      primaryAction={
-        <Button variant="primary">
-          Add Customer Group
-        </Button>
-      }
-    >
-      CustomerGroups
-    </Page>
-  );
+    <div>
+      111
+    </div>
+  )
 }
 
-export default CustomerGroups;
+export default AgentWorkflows;

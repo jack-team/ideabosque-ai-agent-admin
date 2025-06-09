@@ -1,53 +1,62 @@
 import type { FC } from 'react';
+import { Button, Row, Col } from 'antd';
 import { useSafeState } from 'ahooks';
-import { Page, Button, ButtonGroup, Grid } from '@shopify/polaris';
-import Statistics from './components/Statistics';
+import { PageContainer, } from '@ant-design/pro-components';
+import Statistic from './components/Statistic';
 import AgentSales from './components/AgentSales';
 import Newleads from './components/Newleads';
 import AgentBookedMeetings from './components/AgentBookedMeetings';
-import FilterDatePicker from './components/FilterDatePicker';
+import CalendarFilter from './components/CalendarFilter';
 import Welcome from './components/Welcome';
-import styles from './styles.module.less';
 
 const Dashboard: FC = () => {
-  const [welcomeOpen, setWelcomeOpen] = useSafeState(true);
+  const [
+    welcomeOpen,
+    setWelcomeOpen
+  ] = useSafeState(true);
+
   return (
-    <Page
-      fullWidth
+    <PageContainer
       title="Dashboard"
-      primaryAction={
-        <ButtonGroup>
-          <Button variant="secondary">
-            Add customer group
-          </Button>
-          <Button variant="primary">
-            Create workflow
-          </Button>
-        </ButtonGroup>
-      }
+      className="shopfy"
+      extra={[
+        <Button
+          key="1"
+          className="shopify"
+        >
+          Add customer group
+        </Button>,
+        <Button
+          type="primary"
+          key="2"
+          className="shopify"
+        >
+          Create workflow
+        </Button>
+      ]}
     >
-      <div className={styles.container}>
-        <div className={styles.item}>
-          <Statistics />
-        </div>
-        <div className={styles.item}>
-          <Grid>
-            <AgentSales />
-            <Newleads />
-          </Grid>
-        </div>
-        <div className={styles.item}>
-          <Grid>
-            <AgentBookedMeetings />
-            <FilterDatePicker />
-          </Grid>
-        </div>
-        <Welcome
-          open={welcomeOpen}
-          onClose={() => setWelcomeOpen(false)}
-        />
-      </div>
-    </Page>
+      <Statistic />
+      <Row gutter={24}>
+        <Col xl={14} sm={24} lg={12} xs={12}>
+          <AgentSales />
+        </Col>
+        <Col xl={10} sm={24} lg={12} xs={12}>
+          <Newleads />
+        </Col>
+      </Row>
+      <Row gutter={24}>
+        <Col xl={18} sm={24} lg={12} xs={12}>
+          <AgentBookedMeetings />
+        </Col>
+        <Col xl={6} sm={24} lg={12} xs={12}>
+          <CalendarFilter />
+        </Col>
+      </Row>
+      <Welcome
+        open={welcomeOpen}
+        onClose={() => setWelcomeOpen(false)}
+      />
+    </PageContainer>
   );
 }
 

@@ -1,6 +1,13 @@
+@import './styles/var.less';
+
+html {
+  font-size: 16px;
+}
+
 body {
   padding: 0;
   margin: 0;
+  @import (less, multiple) './styles/shopify-theme.less';
 }
 
 * {
@@ -14,12 +21,18 @@ a {
 .app-container {
   min-height: 100vh;
   position: relative;
-  padding: 0 24px;
+  background: #f2f2f2;
 }
 
-.app-page-loading {
+.lazy-loading {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
+}
+
+.space {
+  &+.space {
+    margin-top: 24px;
+  }
 }

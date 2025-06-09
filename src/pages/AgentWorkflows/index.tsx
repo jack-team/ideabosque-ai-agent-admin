@@ -1,26 +1,25 @@
 import type { FC } from 'react';
-import { Page, Button, Grid } from '@shopify/polaris';
+import { Button } from 'antd';
+import { PageContainer } from '@ant-design/pro-components';
 import Workflows from './components/Workflows';
-import FeaturedTemplates from './components/FeaturedTemplates';
-import ProCard from '@/components/ProCard';
-import styles from './styles.module.less';
 
 const AgentWorkflows: FC = () => {
   return (
-    <Page
-      fullWidth
-      title="Agent Workflows"
-      primaryAction={
-        <Button variant="primary">
-          Add Customer Group
+    <PageContainer
+      title="Agent workflows"
+      className="shopify"
+      extra={[
+        <Button
+          key="1"
+          type="primary"
+          className="shopify"
+        >
+          Create workflow
         </Button>
-      }
+      ]}
     >
       <Workflows />
-      <div className={styles.item}>
-        <FeaturedTemplates />
-      </div>
-    </Page>
+    </PageContainer>
   );
 }
 

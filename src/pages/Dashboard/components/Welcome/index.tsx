@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useMemoizedFn } from 'ahooks';
-import { Modal } from '@shopify/polaris'
+import { Modal } from 'antd';
 import WelcomeContent from './content';
 
 type WelcomeProps = {
@@ -15,12 +15,16 @@ const Welcome: FC<WelcomeProps> = (props) => {
 
   return (
     <Modal
+      width={620}
+      centered
       open={props.open}
-      onClose={handleClose}
+      onCancel={handleClose}
+      className="shopify"
+      okText="Get started"
       title="Welcome to your AI Chat Agent Setup!"
-      primaryAction={{
-        content: 'Get started',
-        onAction: handleClose,
+      okButtonProps={{ className: 'shopify' }}
+      cancelButtonProps={{
+        style: { display: 'none' }
       }}
     >
       <WelcomeContent />

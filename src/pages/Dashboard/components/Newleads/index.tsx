@@ -1,38 +1,55 @@
 import type { FC } from 'react';
-import { Grid, TextField, DataTable, Text, Scrollable } from '@shopify/polaris';
-import ProCard from '@/components/ProCard';
+import { Card, Input, Table } from 'antd';
 import styles from './styles.module.less';
 
-const rows = Array.from({ length: 20 }).map(() => {
-  return ['Vertex Solutions', 'tyler@vertexsolutions.com', '$5000'];
+const rows = Array.from({ length: 20 }).map((_, i) => {
+  return {
+    id: `id_${i}`,
+    company: 'Vertex Solutions',
+    email: 'tyler@vertexsolutions.com',
+    quote: '$5000'
+  };
 });
 
 const Newleads: FC = () => {
   return (
-    <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 5 }}>
-      <ProCard title="New leads" hasTitleUnderLine>
-        <TextField
-          label=""
-          placeholder="Search"
-          autoComplete="off"
-        />
-        <Scrollable className={styles.scroller}>
-          <DataTable
-            columnContentTypes={[
-              'text',
-              'text',
-              'text'
-            ]}
-            headings={[
-              <Text as="strong">Company</Text>,
-              <Text as="strong">Contact email</Text>,
-              <Text as="strong">Quote</Text>,
-            ]}
-            rows={rows}
+    <div className={styles.wrapper}>
+      <Card title="New leads" className="shopify">
+        <div className={styles.container}>
+          <Input
+            placeholder="Search"
+            autoComplete="off"
+            className="shopify"
           />
-        </Scrollable>
-      </ProCard>
-    </Grid.Cell>
+          <div className={styles.contet}>
+            <Table
+              dataSource={rows}
+              scroll={{ y: 208 }}
+              pagination={false}
+              className="shopify-no-header"
+              columns={[
+                {
+                  title: 'Company',
+                  dataIndex: 'company',
+                  render: (text) => {
+                    return <a>{text}</a>
+                  }
+                },
+                {
+                  title: 'Contact email',
+                  dataIndex: 'email'
+                },
+                {
+                  width: 100,
+                  title: 'Quote',
+                  dataIndex: 'quote'
+                }
+              ]}
+            />
+          </div>
+        </div>
+      </Card>
+    </div>
   );
 }
 

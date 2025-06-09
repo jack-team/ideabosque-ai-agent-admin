@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import { Grid } from '@shopify/polaris';
+import { Card, Col } from 'antd';
 import type { EChartsOption } from 'echarts';
-import ProCard from '@/components/ProCard';
 import ReactECharts from 'echarts-for-react';
 import styles from './styles.module.less';
 
@@ -68,17 +67,19 @@ var option: EChartsOption = {
 
 const AgentSales: FC = () => {
   return (
-    <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 7 }}>
-      <ProCard
-        hasTitleUnderLine
-        title="Agent attributed sales"
-        subTitle="$528,032.82"
-      >
+    <div className={styles.wrapper}>
+      <Card title="Agent attributed sales" className="shopify">
         <div className={styles.container}>
-          <ReactECharts option={option} style={{ height: 233 }} />
+          <div className={styles.total}>
+            $528,032.82
+          </div>
+          <ReactECharts
+            option={option}
+            style={{ height: 236 }}
+          />
         </div>
-      </ProCard>
-    </Grid.Cell>
+      </Card>
+    </div>
   );
 }
 

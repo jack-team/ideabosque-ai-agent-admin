@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Spinner } from '@shopify/polaris';
+import { Spinner } from '@/components';
 
 type LoadFn = Parameters<typeof lazy>[0];
 
@@ -8,8 +8,8 @@ export const lazyLoad = (load: LoadFn) => {
 
   const renderloading = () => {
     return (
-      <div className="app-page-loading">
-        <Spinner />
+      <div className="lazy-loading">
+        <Spinner size={48}/>
       </div>
     );
   }

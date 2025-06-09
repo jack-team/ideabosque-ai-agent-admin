@@ -1,9 +1,11 @@
 import type { FC } from 'react';
 
-const Settings: FC = () => {
+const AgentWorkflows: FC = () => {
   return (
-    <div>Settings</div>
+    <div>
+      111
+    </div>
   )
 }
 
-export default Settings;
+export default AgentWorkflows;

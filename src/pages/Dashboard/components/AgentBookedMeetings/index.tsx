@@ -1,36 +1,48 @@
 import type { FC } from 'react';
-import { Grid, DataTable, Scrollable, Text, Link } from '@shopify/polaris';
-import ProCard from '@/components/ProCard';
+import { Card, Table } from 'antd';
 import styles from './styles.module.less';
 
-const rows = Array.from({ length: 20 }).map(() => {
-  return [
-    <Text as="strong">Vertex Solutions</Text>,
-    'Monday, May 12 · 6:00 - 6:30pm',
-    <span>Call link: <Link>https://meet.google.com/fgt-oitd-qqr</Link></span>
-  ];
+const rows = Array.from({ length: 20 }).map((_, i) => {
+  return {
+    id: `id_${i}`,
+    userName: 'Nexus & Co.',
+    date: 'Monday, May 12 · 6:00 – 6:30pm',
+    link: 'https://meet.google.com/fgt-oitd-qqr'
+  };
 });
 
 const AgentBookedMeetings: FC = () => {
   return (
-    <Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 9 }}>
-      <ProCard
-        hasTitleUnderLine
-        title="Agent booked meetings"
-      >
-        <Scrollable className={styles.scroller}>
-          <DataTable
-            columnContentTypes={[
-              'text',
-              'text',
-              'text'
+    <div className={styles.wrapper}>
+      <Card title="Agent booked meetings" className="shopify">
+        <div className={styles.container}>
+          <Table
+            showHeader={false}
+            dataSource={rows}
+            scroll={{ y: 283 }}
+            pagination={false}
+            className="shopify-no-header"
+            columns={[
+              {
+                dataIndex: 'userName',
+                render: (text) => {
+                  return <strong>{text}</strong>
+                }
+              },
+              {
+                dataIndex: 'date'
+              },
+              {
+                dataIndex: 'link',
+                render: (text) => {
+                  return <>Call link: <a>{text}</a></>;
+                }
+              }
             ]}
-            rows={rows}
-            headings={[]}
           />
-        </Scrollable>
-      </ProCard>
-    </Grid.Cell>
+        </div>
+      </Card>
+    </div>
   );
 }
 
