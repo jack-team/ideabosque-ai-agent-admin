@@ -1,6 +1,6 @@
 import type { FC, MouseEvent } from 'react';
 import { cloneElement, Fragment, useMemo, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Modal, Drawer } from 'antd';
 import classNames from 'classnames';
 import EventEmitter from 'eventemitter3';
 import { ShopifyButton } from '@/components';
@@ -8,6 +8,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useSafeState, useMemoizedFn } from 'ahooks';
 import { TriggerModalContext } from './context';
 import type { TriggerModalProps, EventType } from './types';
+export * from './hooks';
 
 const TriggerModal: FC<TriggerModalProps> = (props) => {
   const {
@@ -17,6 +18,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     onClose,
     trigger,
     className,
+    hasFooter = true,
     cancelText = 'Back',
     showCancel = true,
     ...rest
@@ -73,7 +75,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
         className={classNames(
           'shopify', className
         )}
-        footer={
+        footer={hasFooter ?
           <Fragment>
             <ShopifyButton
               type="text"
@@ -87,7 +89,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
               children={okText}
               onClick={handleOk}
             />
-          </Fragment>
+          </Fragment> : null
         }
       />
     </TriggerModalContext.Provider>

@@ -24,7 +24,7 @@ const Newleads: FC = () => {
           <div className={styles.contet}>
             <Table
               dataSource={rows}
-              scroll={{ y: 208 }}
+              scroll={{ y: 211 }}
               pagination={false}
               className="shopify-no-header"
               columns={[

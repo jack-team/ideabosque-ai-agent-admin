@@ -12,6 +12,7 @@ export type TriggerModalProps = {
   modal?: ModalInstance;
   onOpen?: () => void;
   onClose?: () => void;
+  hasFooter?: boolean;
 } & Omit<
   ModalProps,
   'open' |
