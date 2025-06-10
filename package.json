@@ -25,13 +25,15 @@
     "@ant-design/pro-components": "2.8.7",
     "@ant-design/icons": "6.0.0",
     "@xyflow/react": "12.6.4",
-    "eventemitter3": "5.0.1"
+    "eventemitter3": "5.0.1",
+    "uuid": "9.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@types/node": "18.11.18",
+    "@types/uuid": "9.0.7",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",

@@ -1,11 +1,12 @@
 import type { FC, MouseEvent } from 'react';
-import { cloneElement, Fragment, useMemo, useEffect } from 'react';
-import { Modal, Drawer } from 'antd';
+import { Fragment, useMemo, useEffect } from 'react';
+import { Modal } from 'antd';
 import classNames from 'classnames';
 import EventEmitter from 'eventemitter3';
 import { ShopifyButton } from '@/components';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { useSafeState, useMemoizedFn } from 'ahooks';
+import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useTriggerState } from '@/hooks/useTriggerState';
 import { TriggerModalContext } from './context';
 import type { TriggerModalProps, EventType } from './types';
 export * from './hooks';
@@ -24,33 +25,27 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     ...rest
   } = props;
 
-  const [
-    modalOpen,
-    setModalOpen
-  ] = useSafeState(false);
+  const {
+    open: modalOpen,
+    onClose: closeModal,
+    trigger: triggerNode
+  } = useTriggerState(trigger);
 
   const event = useMemo(() => {
     return new EventEmitter<EventType>();
   }, []);
 
-  const openModal = useMemoizedFn(() => {
-    setModalOpen(true);
-    onOpen?.();
-  });
-
-  const closeModal = useMemoizedFn(() => {
-    setModalOpen(false);
-    onClose?.();
-  });
+  const getEventTasks = useMemoizedFn(
+    (type: EventType, e: MouseEvent) =>
+      event.listeners(type).map(f => f(e))
+  );
 
   const handleOk = useMemoizedFn(async (e: MouseEvent) => {
-    const tasks = event.listeners('ok').map(f => f(e));
-    await Promise.all(tasks);
+    await Promise.all(getEventTasks('ok', e));
   });
 
   const handleCancel = useMemoizedFn(async (e: MouseEvent) => {
-    const tasks = event.listeners('cancel').map(f => f(e));
-    await Promise.all(tasks);
+    await Promise.all(getEventTasks('cancel', e));
     closeModal();
   });
 
@@ -60,14 +55,19 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     }
   }, [modal]);
 
+  useUpdateEffect(() => {
+    if (modalOpen) {
+      onOpen?.();
+    } else {
+      onClose?.();
+    }
+  }, [modalOpen]);
+
   return (
     <TriggerModalContext.Provider
       value={{ event, closeModal }}
     >
-      {cloneElement(trigger, {
-        //@ts-ignore
-        onClick: openModal
-      })}
+      {triggerNode}
       <Modal
         {...rest}
         open={modalOpen}
