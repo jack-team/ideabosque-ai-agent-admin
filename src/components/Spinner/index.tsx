@@ -4,11 +4,15 @@ import type { SpinnerProps } from './types';
 import "./styles.less";
 
 const Spinner: FC<SpinnerProps> = (props) => {
-  const { size = 24 } = props;
+  const { size = 24, color = 'var(--theme-color)' } = props;
   return (
     <div
       className="global-spinner"
-      style={{ width: size, height: size }}
+      style={{ 
+        color,
+        width: size, 
+        height: size
+      }}
     >
       <Svg />
     </div>

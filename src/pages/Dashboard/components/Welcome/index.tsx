@@ -6,6 +6,7 @@ import WelcomeContent from './content';
 type WelcomeProps = {
   open: boolean;
   onClose?: () => void;
+  onOpen?: () => void;
 }
 
 const Welcome: FC<WelcomeProps> = (props) => {
@@ -23,11 +24,12 @@ const Welcome: FC<WelcomeProps> = (props) => {
       okText="Get started"
       title="Welcome to your AI Chat Agent Setup!"
       okButtonProps={{ className: 'shopify' }}
-      cancelButtonProps={{
-        style: { display: 'none' }
-      }}
+      cancelButtonProps={{ className: 'visb-hide' }}
     >
-      <WelcomeContent />
+      <WelcomeContent
+        onClose={handleClose}
+        onOpen={props.onOpen}
+      />
     </Modal>
   );
 }

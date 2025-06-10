@@ -55,6 +55,7 @@ const Dashboard: FC = () => {
       <Welcome
         open={welcomeOpen}
         onClose={() => setWelcomeOpen(false)}
+        onOpen={() => setWelcomeOpen(true)}
       />
     </PageContainer>
   );

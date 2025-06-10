@@ -1,8 +1,14 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
+import { TriggerModal } from '@/components';
 import styles from './styles.module.less';
 import headerImg from './header@2x.png';
+import ConnectLlm from '../ConnectLlm';
+import { useModal } from '@/components/TriggerModal/hooks';
 
-const WelcomeContent: FC = () => {
+const WelcomeContent: FC<any> = (props) => {
+  const [modal] = useModal();
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -19,7 +25,19 @@ const WelcomeContent: FC = () => {
               Connect your LLM
             </div>
             <div className={styles.table_text}>
-              Begin by linking your agent to a Language Learning Model (LLM). You can do this by entering an existing <strong>LLM API Key</strong> or by creating a new key through our service.
+              {`Begin by linking your agent to a Language Learning Model (LLM). You can do this by entering an existing `}
+              <TriggerModal
+                modal={modal}
+                showCancel={false}
+                title="Connect your LLM"
+                okText="Connect LLM"
+                trigger={<strong>LLM API Key</strong>}
+                onOpen={props.onClose}
+                onClose={props.onOpen}
+              >
+                <ConnectLlm />
+              </TriggerModal>
+              {` or by creating a new key through our service.`}
             </div>
           </div>
           <div className={styles.table_row}>
