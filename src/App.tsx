@@ -4,6 +4,7 @@ import { NavMenu } from '@shopify/app-bridge-react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { themeConfigs } from './theme/config';
 import { routes } from './routes';
+import './app.less';
 
 const router = createBrowserRouter(routes);
 

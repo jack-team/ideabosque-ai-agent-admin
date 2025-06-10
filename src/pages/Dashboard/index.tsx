@@ -22,7 +22,7 @@ const Dashboard: FC = () => {
       extra={[
         <Button
           key="1"
-          className="shopify"
+          className="shopify gray"
         >
           Add customer group
         </Button>,

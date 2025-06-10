@@ -20,6 +20,10 @@ export const routes: RouteObject[] = [
     element: lazyLoad(() => import('@/pages/AgentWorkflows'))
   },
   {
+    path: '/agent-workflows/detail/:id',
+    element: lazyLoad(() => import('@/pages/WorkflowDetail'))
+  },
+  {
     path: '/settings',
     element: lazyLoad(() => import('@/pages/Settings'))
   }
