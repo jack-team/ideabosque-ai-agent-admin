@@ -1,8 +1,42 @@
+.node_layout_wrapper {
+  position: relative;
+
+  :global {
+    .ai-node-tool-bar {
+      visibility: hidden;
+      opacity: 0;
+      transition: all .3s linear;
+    }
+  }
+
+  &:hover {
+    :global {
+      .ai-node-tool-bar {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.tool_bar {
+  position: absolute;
+  z-index: 1001;
+  min-width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translate3d(-50%, -100%, 0);
+}
+
 .node_layout {
-  min-width: 100px;
-  max-width: 268px;
   border-radius: 8px;
   background: #fff;
   border: 2px solid #E8E9EC;
-  padding: 12px 20px;
+  min-width: 160px;
+  max-width: 260px;
+  text-align: left;
+
+  .node_layout_body {
+    padding: 12px 20px;
+  }
 }

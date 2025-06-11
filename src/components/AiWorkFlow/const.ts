@@ -12,3 +12,8 @@ export const CONNECT_LINE_STYLE: Partial<Edge> = {
     type: MarkerType.ArrowClosed
   }
 }
+
+export const ConnectionTypes = {
+  target: 'Target',
+  source: 'Source'
+}

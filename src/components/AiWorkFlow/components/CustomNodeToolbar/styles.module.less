@@ -1,0 +1,25 @@
+.tool_bar_container {
+  text-align: right;
+  padding: 2px 6px;
+
+  .tool_bar_action {
+    font-size: 10px;
+    color: #777;
+    line-height: 10px;
+    border-radius: 2px;
+    padding: 3px;
+
+    &.open_state,
+    &:hover {
+      color: var(--theme-color);
+      background: #ececec;
+    }
+  }
+}
+
+:global {
+  .tool-bar-force-show {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}

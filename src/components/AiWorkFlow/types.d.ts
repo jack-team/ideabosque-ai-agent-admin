@@ -1,13 +1,16 @@
 import type { FC } from 'react';
 import type { Node, NodeProps } from '@xyflow/react';
+import type { DataType } from './components/NodeLayout/types';
 
 export type NodeComponent<D = any> = FC<NodeProps<Node<D>>>;
 
+export type NodeType =  Node<DataType>;
+
 export type AiWorkFlowProps = {
-  initialNodes?: Node[];
+  initialNodes?: NodeType[];
 }
 
 export type AiWorkFlowContextTypes = {
-  insertNodes: (nodes: Node[]) => void;
-  updateNodeData: (id: string, data: Record<string, any>) => void;
+  insertNodes: (nodes: NodeType[]) => void;
+  updateNodeData: (id: string, data: DataType) => void;
 }

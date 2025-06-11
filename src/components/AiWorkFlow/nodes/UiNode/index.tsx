@@ -1,30 +1,23 @@
-import { useMemo } from 'react';
 import type { NodeComponent } from '../../types';
 import NodeLayout from '../../components/NodeLayout';
 import type { DataType } from '../../components/NodeLayout/types';
-import { transformInputFormData } from '../../components/DynamicForm/helper';
 import styles from './styles.module.less';
 
 const UiNode: NodeComponent<DataType> = (props) => {
-  const { data } = props;
-  const values = data.values;
-
-  const formData = useMemo(() => {
-    return transformInputFormData(values.formData);
-  }, [values.formData]);
-
   return (
     <NodeLayout {...props}>
-      <div className={styles.ui_node}>
-        <div className={styles.ui_node_header}>
-          {formData.name}
-        </div>
-        <div className={styles.ui_node_body}>
-          <div className={styles.ui_node_text}>
-            {formData.text}
+      {(formData) => (
+        <div className={styles.ui_node}>
+          <div className={styles.ui_node_header}>
+            {formData.name}
+          </div>
+          <div className={styles.ui_node_body}>
+            <div className={styles.ui_node_text}>
+              {formData.text}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </NodeLayout>
   );
 }

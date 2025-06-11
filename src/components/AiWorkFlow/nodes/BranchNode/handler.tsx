@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import { Fragment } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { PlusOutlined } from '@ant-design/icons';
-import type { DataType, Conditions } from './types';
+import type { Conditions } from './types';
+import type { DataType } from '../../components/NodeLayout/types';
 import styles from './styles.module.less';
 
 type HandlerProps = DataType & {
@@ -11,39 +12,40 @@ type HandlerProps = DataType & {
 
 const Handler: FC<HandlerProps> = (props) => {
   const { conditions = [] } = props;
-
   return (
     <Fragment>
       {!props.isFirstNode && (
-        <div className={styles.handle_left}>
+        <div className="flow_handle_left">
           <Handle
             type="target"
             position={Position.Left}
-            className={styles.handle}
+            className="flow_handle"
             isConnectable={props.isConnectable}
           />
         </div>
       )}
-      {conditions.map(item => {
-        return (
-          <div
-            key={item.condition}
-            className={styles.branch_node_condition}
-          >
-            <span>{item.label}</span>
-            <div className={styles.handle_right} >
-              <Handle
-                type="source"
-                id={item.condition}
-                position={Position.Right}
-                className={styles.handle}
-                isConnectable={props.isConnectable}
-              />
-              <PlusOutlined />
+      <div className={styles.conditions}>
+        {conditions.map(item => {
+          return (
+            <div
+              key={item.condition}
+              className={styles.condition_handle}
+            >
+              <span>{item.label}</span>
+              <div className="flow_handle_right">
+                <Handle
+                  type="source"
+                  id={item.condition}
+                  position={Position.Right}
+                  className="flow_handle"
+                  isConnectable={props.isConnectable}
+                />
+                <PlusOutlined />
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </Fragment>
   );
 }
