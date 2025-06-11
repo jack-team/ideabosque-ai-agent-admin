@@ -21,9 +21,9 @@ import { AiWorkFlowContext } from './context';
 import './styles.less';
 
 const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
-  const { initialNodes = [] } = props;
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const { initialNodes = [], initialEdges = [] } = props;
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
   // 插入多个节点
   const insertNodes = useMemoizedFn((newNodes: NodeType[]) => {
@@ -78,6 +78,8 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
       return { ...edge, ...CONNECT_LINE_STYLE };
     }));
   });
+
+  console.log(nodes, edges)
 
   return (
     <AiWorkFlowContext.Provider

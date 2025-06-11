@@ -1,11 +1,9 @@
 import { Button, Card } from 'antd';
 import { PageContainer } from '@ant-design/pro-components';
 import { EditFilled } from '@ant-design/icons';
-
 import AiWorkFlow from '@/components/AiWorkFlow';
-
 import styles from './styles.module.less';
-
+import { nodes, edges } from './mock';
 
 function WorkflowDetail() {
   return (
@@ -26,7 +24,10 @@ function WorkflowDetail() {
     >
       <Card className="shopify">
         <div className={styles.container}>
-          <AiWorkFlow /> 
+          <AiWorkFlow
+            initialNodes={nodes}
+            initialEdges={edges}
+          />
         </div>
       </Card>
     </PageContainer>
