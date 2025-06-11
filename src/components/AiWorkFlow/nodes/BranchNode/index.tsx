@@ -10,7 +10,7 @@ const BranchNode: NodeComponent<DataType> = (props) => {
       {...props}
       handler={formData => (
         <Handler
-          {...props.data}
+          {...props}
           conditions={formData.conditions}
         />
       )}

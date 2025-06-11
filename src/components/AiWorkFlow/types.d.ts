@@ -11,6 +11,7 @@ export type AiWorkFlowProps = {
 }
 
 export type AiWorkFlowContextTypes = {
+  deleteNode: (id: string) => void;
   insertNodes: (nodes: NodeType[]) => void;
   updateNodeData: (id: string, data: DataType) => void;
 }

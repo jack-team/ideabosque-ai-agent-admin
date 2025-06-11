@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import classNames from 'classnames';
 import { Space, Dropdown } from 'antd';
 import { useMemoizedFn, useSafeState } from 'ahooks';
-import { EditFilled, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditFilled, EllipsisOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { DynamicFormProps, DynamicFormResult } from '../DynamicForm/types';
 import { TriggerModal } from '@/components';
 import DynamicForm from '../DynamicForm';
@@ -19,7 +19,7 @@ type CustomNodeToolbarProps = DynamicFormProps & {
 
 const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
   const { data } = props;
-  const { updateNodeData } = useAiWorkFlowContext();
+  const { updateNodeData, deleteNode } = useAiWorkFlowContext();
   const [dropdownShow, setDropdownShow] = useSafeState(false);
   const [settingShow, setSettingShow] = useSafeState(false);
 
@@ -32,6 +32,8 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
     updateNodeData(props.id, Object.assign(data, values));
   });
 
+  const onDelete = useMemoizedFn(() => deleteNode(props.id));
+
   const containerCls = classNames(
     'ai-node-tool-bar',
     styles.tool_bar_container,
@@ -41,6 +43,12 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
   return (
     <div className={containerCls}>
       <Space size={8}>
+        <div
+          onClick={onDelete}
+          className={styles.tool_bar_action}
+        >
+          <DeleteOutlined />
+        </div>
         <TriggerModal
           title="Edit"
           okText="Save"

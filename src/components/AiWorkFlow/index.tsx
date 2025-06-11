@@ -37,7 +37,7 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
           const keys = Object.keys(ConnectionTypes);
           data.connectionTypes = keys;
         }
-        
+
         const index = data.connectionTypes.
           findIndex(e => e === 'target');
 
@@ -63,6 +63,15 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
     }
   });
 
+  // 删除单个节点
+  const deleteNode = useMemoizedFn((id: string) => {
+    const index = nodes.findIndex(node => node.id === id);
+    if (index > -1) {
+      nodes.splice(index, 1);
+      setNodes([...nodes]);
+    }
+  });
+
   // 处理连线
   const onConnect = useMemoizedFn((params: Connection) => {
     setEdges(eds => addEdge(params, eds).map(edge => {
@@ -74,6 +83,7 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
     <AiWorkFlowContext.Provider
       value={{
         insertNodes,
+        deleteNode,
         updateNodeData
       }}
     >
