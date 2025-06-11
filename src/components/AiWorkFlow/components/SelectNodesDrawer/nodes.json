@@ -122,18 +122,128 @@
     "type": "branch",
     "icon": "BranchesOutlined",
     "title": "Branch",
-    "desc": "Execute the corresponding process according to the different branches created."
+    "desc": "Execute the corresponding process according to the different branches created.",
+    "formSchema": [
+      {
+        "title": "Branch Name",
+        "name": "branchName",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Text",
+        "name": "text",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "conditions",
+        "valueType": "formList",
+        "initialValue": [
+          {}
+        ],
+        "columns": [
+          {
+            "valueType": "group",
+            "columns": [
+              {
+                "title": "Condition Label",
+                "name": "label",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              },
+              {
+                "title": "Condition Code",
+                "name": "condition",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "action",
     "icon": "FunctionOutlined",
     "title": "Action",
-    "desc": "Obtain or process data by calling backend interfaces or methods."
+    "desc": "Obtain or process data by calling backend interfaces or methods.",
+    "formSchema": [
+      {
+        "title": "Action Name",
+        "name": "actionName",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Action Type",
+        "name": "type",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Action Text",
+        "name": "text",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "transform",
     "icon": "BlockOutlined",
     "title": "Transform",
-    "desc": "Convert the input data"
+    "desc": "Convert the input data",
+    "formSchema": [
+      {
+        "title": "Transform Name",
+        "name": "transformName",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Transform Type",
+        "name": "type",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Transform Text",
+        "name": "text",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      }
+    ]
   }
 ]

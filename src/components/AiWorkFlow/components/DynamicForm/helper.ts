@@ -1,4 +1,11 @@
-import type { Schema, ProFormColumnType, FormItemType } from './types';
+import cloneDeep from 'clone-deep';
+import type {
+  Schema,
+  FormData,
+  FormDataItem,
+  FormItemType,
+  ProFormColumnType
+} from './types';
 
 export const getFormColumn = (schema: Schema) => {
   const valueType = schema.valueType;
@@ -11,7 +18,12 @@ export const getFormColumn = (schema: Schema) => {
     tooltip: schema.tooltip,
     dataIndex: schema.name,
     valueEnum: schema.valueEnum,
+    initialValue: schema.initialValue,
     formItemProps: { rules: schema.rules }
+  }
+
+  if (schema.columns) {
+    column.columns = schema.columns.map(getFormColumn);
   }
 
   // 关联
@@ -68,4 +80,37 @@ export const getFormItems = (schemas: Schema[], items: FormItemType[] = []) => {
     }
   });
   return items;
+}
+
+export const transformInputFormData = (formData: FormData = {}) => {
+  formData = cloneDeep(formData);
+  return Object.keys(formData).reduce((pre, key) => {
+    return { ...pre, [key]: formData[key].value };
+  }, {} as Record<string, any>);
+}
+
+export const transformOutputFormData = (
+  formData: Record<string, any>,
+  formItems: FormItemType[],
+  valueEnum: Record<string, any>
+) => {
+  Object.keys(formData).map(key => {
+    const result = formItems.find(item => {
+      return item.name === key;
+    });
+
+    const value = formData[key];
+    const itemType = result?.type || 'text';
+
+    const objValue: FormDataItem = {
+      _type_: itemType,
+      value
+    }
+
+    if (itemType === 'select') {
+      objValue.label = valueEnum[value];
+    }
+    formData[key] = objValue;
+  });
+  return formData;
 }

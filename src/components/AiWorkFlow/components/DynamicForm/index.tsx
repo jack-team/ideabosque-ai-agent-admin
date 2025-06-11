@@ -1,13 +1,19 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
+import type { DynamicFormProps } from './types';
 import { BetaSchemaForm, ProForm } from '@ant-design/pro-components';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import type { DynamicFormProps } from './types';
-import { getFormColumn, getValueEnum, getFormItems } from './helper';
+import {
+  getFormColumn,
+  getValueEnum,
+  getFormItems,
+  transformOutputFormData
+} from './helper';
+
 import styles from './styles.module.less';
 
 const DynamicForm: FC<DynamicFormProps> = (props) => {
-  const { schemas = [] } = props;
+  const { schemas = [], formData } = props;
   const [form] = ProForm.useForm();
   const [closeModal] = useModalClose();
 
@@ -24,23 +30,13 @@ const DynamicForm: FC<DynamicFormProps> = (props) => {
   }, [schemas]);
 
   useListenModalOk(async () => {
-    const formData = await form.validateFields();
-    Object.keys(formData).map(key => {
-      const value = formData[key];
-
-      const result = formItems.find(item => {
-        return item.name === key;
-      });
-
-      if (result?.type === 'select') {
-        formData[key] = {
-          _type_: 'select',
-          value: formData[key],
-          label: valueEnum[value]
-        }
-      }
-    });
-    await props.onSubmit?.(formData);
+    let formData = await form.validateFields();
+    formData = transformOutputFormData(
+      formData, 
+      formItems, 
+      valueEnum
+    );
+    await props.onSubmit?.({ formData, schemas });
     closeModal();
   });
 
@@ -50,6 +46,7 @@ const DynamicForm: FC<DynamicFormProps> = (props) => {
         form={form}
         submitter={false}
         columns={columns}
+        initialValues={formData}
       />
     </div>
   );

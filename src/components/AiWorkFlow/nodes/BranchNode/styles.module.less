@@ -1,0 +1,83 @@
+.branch_node {
+  min-width: 160px;
+  max-width: 262px;
+  border-radius: 8px;
+  background: #fff;
+  border: 2px solid #E8E9EC;
+  padding: 12px 0;
+
+  .branch_node_header {
+    color: #2AB2D9;
+    font-size: 13px;
+    font-weight: 550;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .branch_node_header,
+  .branch_node_body {
+    padding: 0 20px;
+  }
+
+  .branch_node_body {
+    margin-bottom: 12px;
+  }
+
+  .branch_node_text {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--theme-color);
+  }
+
+  .branch_node_condition {
+    position: relative;
+    padding: 0 20px;
+    text-align: right;
+    font-size: 14px;
+    color: #9CA3AF;
+
+    &+.branch_node_condition {
+      margin-top: 8px;
+    }
+  }
+
+
+  .handle_left {
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .handle_right {
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+
+  .handle_left,
+  .handle_right {
+    position: absolute;
+    top: 50%;
+    background: #0143EC;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 10px;
+  }
+
+  .handle {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    transform: translate(0, 0);
+
+    span {
+      position: relative;
+      z-index: 0;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import {
   useNodesState,
   useEdgesState,
 } from '@xyflow/react';
+import cloneDeep from 'clone-deep';
 import { useMemoizedFn } from 'ahooks';
 import type { Node, Edge, Connection } from '@xyflow/react';
 import type { AiWorkFlowProps } from './types';
@@ -15,6 +16,7 @@ import { nodeTypes } from './config';
 import ConnLine from './components/ConnLine';
 import AddButton from './components/AddButton';
 import { AiWorkFlowContext } from './context';
+import './styles.less';
 
 const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
   const { initialNodes = [] } = props;
@@ -24,19 +26,26 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
   // 插入多个节点
   const insertNodes = useMemoizedFn((newNodes: Node[]) => {
     for (const node of newNodes) {
-      node.data.isFirstNode = !nodes.length;
+      const isFirstNode = !nodes.length;
+      node.data.isFirstNode = isFirstNode;
+
+      if (!isFirstNode) {
+        const points = nodes.map(e => e.position.x);
+        node.position.x = Math.max(...points) + 280;
+      }
+
       nodes.push(node);
     }
     setNodes([...nodes]);
   });
 
-  // 更新多个节点
-  const updateNodes = useMemoizedFn((newNodes: Node[]) => {
-    for (const newNode of newNodes) {
-      const index = nodes.findIndex(e => e.id === newNode.id);
-      if (index > -1) nodes[index] = newNode;
+  // 更单个节点
+  const updateNodeData = useMemoizedFn((id: string, data: Record<string, any>) => {
+    const index = nodes.findIndex(node => node.id === id);
+    if (index > -1) {
+      nodes[index].data = data;
+      setNodes(cloneDeep(nodes));
     }
-    setNodes([...nodes]);
   });
 
   // 处理连线
@@ -50,22 +59,24 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
     <AiWorkFlowContext.Provider
       value={{
         insertNodes,
-        updateNodes
+        updateNodeData
       }}
     >
-      <ReactFlow<Node>
-        fitView
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        onConnect={onConnect}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        connectionLineComponent={ConnLine}
-      >
-        <Background />
-        <AddButton />
-      </ReactFlow>
+      <div className="ai_work_flow">
+        <ReactFlow<Node>
+          fitView
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          onConnect={onConnect}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          connectionLineComponent={ConnLine}
+        >
+          <Background />
+          <AddButton />
+        </ReactFlow>
+      </div>
     </AiWorkFlowContext.Provider>
   );
 }

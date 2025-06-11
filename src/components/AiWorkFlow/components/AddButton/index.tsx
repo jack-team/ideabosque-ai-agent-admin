@@ -11,13 +11,14 @@ const AddButton: FC = () => {
   const { insertNodes } = useAiWorkFlowContext();
 
   const handleChange = useMemoizedFn((result: ResultType) => {
-    const { nodeType, ...values } = result;
+    const { nodeType } = result;
     const id = `${nodeType}_${uuid.v4()}`;
+
     insertNodes([
       {
         id,
         type: nodeType,
-        data: { values },
+        data: { values: result },
         position: { x: 0, y: 0 }
       }
     ]);

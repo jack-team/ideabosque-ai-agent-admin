@@ -9,5 +9,5 @@ export type AiWorkFlowProps = {
 
 export type AiWorkFlowContextTypes = {
   insertNodes: (nodes: Node[]) => void;
-  updateNodes: (nodes: Node[]) => void;
+  updateNodeData: (id: string, data: Record<string, any>) => void;
 }

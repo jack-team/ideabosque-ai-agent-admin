@@ -5,7 +5,7 @@ import type { DataType } from '../../components/NodeLayout/types';
 import { transformInputFormData } from '../../components/DynamicForm/helper';
 import styles from './styles.module.less';
 
-const UiNode: NodeComponent<DataType> = (props) => {
+const TransformNode: NodeComponent<DataType> = (props) => {
   const { data } = props;
   const values = data.values;
 
@@ -15,12 +15,15 @@ const UiNode: NodeComponent<DataType> = (props) => {
 
   return (
     <NodeLayout {...props}>
-      <div className={styles.ui_node}>
-        <div className={styles.ui_node_header}>
-          {formData.name}
+      <div className={styles.transform_node}>
+        <div className={styles.transform_node_header}>
+          {formData.transformName}
         </div>
-        <div className={styles.ui_node_body}>
-          <div className={styles.ui_node_text}>
+        <div className={styles.transform_node_body}>
+          <div className={styles.transform_node_text}>
+            {formData.type}
+          </div>
+          <div className={styles.transform_node_text}>
             {formData.text}
           </div>
         </div>
@@ -29,4 +32,4 @@ const UiNode: NodeComponent<DataType> = (props) => {
   );
 }
 
-export default UiNode;
+export default TransformNode;
