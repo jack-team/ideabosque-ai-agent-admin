@@ -1,0 +1,139 @@
+[
+  {
+    "type": "ui",
+    "title": "UI",
+    "icon": "KubernetesOutlined",
+    "desc": "The UI components within the AI assistant can be used as a data source to obtain data.",
+    "modalWidth": 500,
+    "formSchema": [
+      {
+        "valueType": "select",
+        "title": "Component",
+        "name": "name",
+        "rules": [
+          {
+            "required": true,
+            "message": "Please select Component"
+          }
+        ],
+        "valueEnum": {
+          "UploadFile": "Upload File",
+          "GooglePlace": "Google Place",
+          "QuestionGroup": "Question Group"
+        }
+      },
+      {
+        "dependencys": [
+          {
+            "name": "name",
+            "values": [
+              "UploadFile",
+              "GooglePlace",
+              "QuestionGroup"
+            ],
+            "renders": [
+              {
+                "title": "Text",
+                "name": "text",
+                "tooltip": "Description information of the selection component."
+              },
+              {
+                "title": "Wait For",
+                "name": "waitFor",
+                "tooltip": "Wait for the data output by the UI component.",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "values": [
+              "UploadFile"
+            ],
+            "renders": [
+              {
+                "title": "Question",
+                "name": "question"
+              },
+              {
+                "title": "Contact uuid",
+                "name": "contactUuid",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "values": [
+              "GooglePlace"
+            ],
+            "renders": [
+              {
+                "title": "Keyword",
+                "name": "keyword",
+                "tooltip": "The default search keywords for Google Place.",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              },
+              {
+                "title": "Google Api Key",
+                "name": "googleApiKey",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "values": [
+              "QuestionGroup"
+            ],
+            "renders": [
+              {
+                "title": "Question Group uuid",
+                "name": "questionGroupUuid",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "branch",
+    "icon": "BranchesOutlined",
+    "title": "Branch",
+    "desc": "Execute the corresponding process according to the different branches created."
+  },
+  {
+    "type": "action",
+    "icon": "FunctionOutlined",
+    "title": "Action",
+    "desc": "Obtain or process data by calling backend interfaces or methods."
+  },
+  {
+    "type": "transform",
+    "icon": "BlockOutlined",
+    "title": "Transform",
+    "desc": "Convert the input data"
+  }
+]

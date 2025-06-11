@@ -1,8 +1,6 @@
 import type { NodeTypes } from '@xyflow/react';
-import FirstAdd from './nodes/FirstAdd';
-import UiComponent from './nodes/UiComponent';
+import UiNode from './nodes/UiNode';
 
 export const nodeTypes: NodeTypes = {
-  firstAdd: FirstAdd,
-  uiComponent: UiComponent
+  ui: UiNode
 } 

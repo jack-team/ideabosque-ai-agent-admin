@@ -1,17 +1,32 @@
+import * as uuid from 'uuid';
 import type { FC } from 'react';
+import { useMemoizedFn } from 'ahooks';
 import { PlusOutlined } from '@ant-design/icons';
 import SelectNodesDrawer from '../SelectNodesDrawer';
+import type { ResultType } from '../SelectNodesDrawer/types';
+import { useAiWorkFlowContext } from '../../hooks';
 import styles from './styles.module.less';
 
-type AddButtonPros = {
-  onAdd?: (type: string, formData: Record<string, any>) => void;
-}
+const AddButton: FC = () => {
+  const { insertNodes } = useAiWorkFlowContext();
 
-const AddButton: FC<AddButtonPros> = (props) => {
+  const handleChange = useMemoizedFn((result: ResultType) => {
+    const { nodeType, ...values } = result;
+    const id = `${nodeType}_${uuid.v4()}`;
+    insertNodes([
+      {
+        id,
+        type: nodeType,
+        data: { values },
+        position: { x: 0, y: 0 }
+      }
+    ]);
+  });
+
   return (
     <SelectNodesDrawer
-      onChange={props.onAdd}
       title="What triggers this workflow?"
+      onChange={handleChange}
       trigger={
         <div className={styles.add_btn}>
           <PlusOutlined />

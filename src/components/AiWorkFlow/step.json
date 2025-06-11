@@ -15,7 +15,24 @@
             "keyword": "{keyword}"
           },
           "waitFor": "place_uuid"
-        }
+        },
+        "components": [
+          {
+            "action": {
+              "type": "call_function",
+              "text": "get_google_place_setting"
+            }
+          },
+          {
+            "uiComponent": {
+              "GooglePlace": {
+                "googleApiKey": "{google_api_key}",
+                "keyword": "{keyword}"
+              },
+              "waitFor": "place_uuid"
+            }
+          }
+        ]
       },
       {
         "id": "1",
@@ -79,6 +96,7 @@
           {
             "condition": "onboarding_skipped",
             "text": "Please provide your email. Also, your first name and last name.",
+            "nextStep": "4",
             "action": {
               "type": "call_function",
               "text": "get_contact"
@@ -86,6 +104,7 @@
           },
           {
             "condition": "has_request",
+            "nextStep": "4",
             "transform": [
               {
                 "type": "summarize",

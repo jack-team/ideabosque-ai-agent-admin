@@ -1,16 +1,15 @@
 import { Drawer } from 'antd';
 import { Fragment } from 'react';
+import { useMemoizedFn } from 'ahooks';
 import type { FC, ReactElement } from 'react';
 import { useTriggerState } from '@/hooks/useTriggerState';
 import SelectNodes from './nodes';
+import type { ResultType } from './types';
 
 type SelectNodesDrawerProps = {
-  trigger: ReactElement;
   title?: string;
-  onChange?: (
-    nodeType: string,
-    formData: Record<string, any>
-  ) => void;
+  trigger: ReactElement;
+  onChange?: (result: ResultType) => void;
 }
 
 const SelectNodesDrawer: FC<SelectNodesDrawerProps> = (props) => {
@@ -20,20 +19,22 @@ const SelectNodesDrawer: FC<SelectNodesDrawerProps> = (props) => {
     onClose
   } = useTriggerState(props.trigger);
 
+  const handleChange = useMemoizedFn((result: ResultType) => {
+    onClose();
+    props.onChange?.(result);
+  });
+
   return (
     <Fragment>
       <Drawer
         open={open}
         width={400}
-        mask={false}
         destroyOnHidden
         title={props.title}
         onClose={onClose}
         rootClassName="shopify"
       >
-        <SelectNodes
-          onNodeClick={props.onChange}
-        />
+        <SelectNodes onNodeClick={handleChange} />
       </Drawer>
       {trigger}
     </Fragment>

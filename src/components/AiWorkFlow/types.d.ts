@@ -6,3 +6,8 @@ export type NodeComponent<D = any> = FC<NodeProps<Node<D>>>;
 export type AiWorkFlowProps = {
   initialNodes?: Node[];
 }
+
+export type AiWorkFlowContextTypes = {
+  insertNodes: (nodes: Node[]) => void;
+  updateNodes: (nodes: Node[]) => void;
+}

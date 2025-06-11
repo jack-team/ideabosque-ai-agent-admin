@@ -1,3 +1,4 @@
+import type { Key } from 'react';
 import { FormItemProps } from 'antd';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 
@@ -15,7 +16,8 @@ type DataItem = {
 export type Schema = {
   valueType?: string;
   title?: string;
-  name?: string | string[];
+  tooltip?: string;
+  name?: Key | Key[];
   rules?: FormItemProps['rules'];
   valueEnum?: Record<string, any>;
   dependencys?: DependencyType[];
@@ -27,3 +29,8 @@ export type DynamicFormProps = {
 }
 
 export type ProFormColumnType = ProFormColumnsType<DataItem>;
+
+export type FormItemType = {
+  type: string;
+  name?: Key | Key[];
+}

@@ -1,21 +1,21 @@
-import * as Icons from '@ant-design/icons';
 import type { FC } from 'react';
+import * as Icons from '@ant-design/icons';
 import TriggerModal from '@/components/TriggerModal';
 import DynamicForm from '../DynamicForm';
-import components from '../../components.json';
+import nodes from './nodes.json';
+import type { ResultType } from './types';
 import styles from './styles.module.less';
 
 type SelectNodesProps = {
-  onNodeClick?: (
-    nodeType: string,
-    formData: Record<string, any>
-  ) => void;
+  onNodeClick?: (result: ResultType) => void;
 }
 
 const SelectNodes: FC<SelectNodesProps> = (props) => {
+  const { onNodeClick } = props;
+
   return (
     <div className={styles.nodes}>
-      {components.map(item => {
+      {nodes.map(item => {
         //@ts-ignore
         const Icon = Icons[item.icon];
         return (
@@ -24,17 +24,17 @@ const SelectNodes: FC<SelectNodesProps> = (props) => {
             title={item.title}
             width={item.modalWidth}
             destroyOnHidden
-            okText="Confirm"
+            okText="Add Node"
             trigger={
               <div className={styles.node_item}>
-                <div className={styles.icon}>
+                <div className={styles.node_icon}>
                   <Icon />
                 </div>
-                <div className={styles.content}>
-                  <div className={styles.title}>
+                <div className={styles.node_item_body}>
+                  <div className={styles.node_title}>
                     {item.title}
                   </div>
-                  <div className={styles.desc}>
+                  <div className={styles.node_desc}>
                     {item.desc}
                   </div>
                 </div>
@@ -45,7 +45,10 @@ const SelectNodes: FC<SelectNodesProps> = (props) => {
               //@ts-ignore
               schemas={item.formSchema}
               onSubmit={async values => {
-                props.onNodeClick?.(item.type, values);
+                onNodeClick?.({
+                  ...values,
+                  nodeType: item.type
+                });
               }}
             />
           </TriggerModal>
