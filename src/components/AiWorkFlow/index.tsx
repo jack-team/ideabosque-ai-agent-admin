@@ -13,8 +13,8 @@ import { useMemoizedFn } from 'ahooks';
 import type { Edge, Connection } from '@xyflow/react';
 import type { AiWorkFlowProps, NodeType } from './types';
 import type { DataType } from './components/NodeLayout/types';
-import { CONNECT_LINE_STYLE, ConnectionTypes } from './const';
 import { nodeTypes } from './config';
+import { CONNECT_LINE_STYLE } from './const';
 import ConnLine from './components/ConnLine';
 import AddButton from './components/AddButton';
 import { AiWorkFlowContext } from './context';
@@ -28,27 +28,16 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
   // 插入多个节点
   const insertNodes = useMemoizedFn((newNodes: NodeType[]) => {
     for (const node of newNodes) {
-      const data = node.data;
-      const isFirstNode = !nodes.length;
-
       // 如果是第一个节点
-      if (isFirstNode) {
+      if (!nodes.length) {
+        const data = node.data;
         if (!data.connectionTypes) {
-          const keys = Object.keys(ConnectionTypes);
-          data.connectionTypes = keys;
+          data.connectionTypes = ['source'];
         }
-
-        const index = data.connectionTypes.
-          findIndex(e => e === 'target');
-
-        if (index > -1) {
-          data.connectionTypes.splice(index, 1);
-        };
       } else {
         const points = nodes.map(e => e.position.x);
         node.position.x = Math.max(...points) + 280;
       }
-
       nodes.push(node);
     }
     setNodes([...nodes]);
@@ -80,6 +69,22 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
   });
 
   console.log(nodes, edges)
+
+  const a = () => {
+
+    const map: any = {};
+    edges.map(item=> {
+      if (!map[item.source]) {
+        map[item.source] = [];
+      }
+       map[item.source].push(item)
+    });
+
+    console.log(map)
+
+  }
+
+  a();
 
   return (
     <AiWorkFlowContext.Provider

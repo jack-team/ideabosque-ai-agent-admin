@@ -39,13 +39,13 @@ const Handler: FC<HandlerProps> = (props) => {
       )}
       {connectionEnable && showSource && (
         <div className={styles.conditions}>
-          {conditions.map(item => {
+          {conditions.map((item, i) => {
             return (
               <div
-                key={item.condition}
+                key={`key_${item.condition}_${i}`}
                 className={styles.condition_handle}
               >
-                <span>{item.label}</span>
+                <span>{item.condition}</span>
                 <div className="flow_handle_right">
                   <Handle
                     type="source"

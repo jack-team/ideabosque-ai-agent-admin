@@ -9,7 +9,7 @@ const TransformNode: NodeComponent<DataType> = (props) => {
       {formData => (
         <div className={styles.transform_node}>
           <div className={styles.transform_node_header}>
-            {formData.transformName}
+            {formData.nodeName}
           </div>
           <div className={styles.transform_node_body}>
             <div className={styles.transform_node_text}>

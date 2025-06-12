@@ -13,15 +13,12 @@ const AddButton: FC = () => {
   const handleChange = useMemoizedFn((result: ResultType) => {
     const { nodeType } = result;
     const id = `${nodeType}_${uuid.v4()}`;
-
-    insertNodes([
-      {
-        id,
-        type: nodeType,
-        data: { values: result },
-        position: { x: 0, y: 0 }
-      }
-    ]);
+    insertNodes([{
+      id,
+      type: nodeType,
+      data: { values: result },
+      position: { x: 0, y: 0 }
+    }]);
   });
 
   return (

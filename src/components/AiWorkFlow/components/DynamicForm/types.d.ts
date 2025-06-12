@@ -1,6 +1,6 @@
 import type { Key } from 'react';
 import { FormItemProps } from 'antd';
-import type { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType, FieldPropsTypeBase } from '@ant-design/pro-components';
 
 type DependencyType = {
   name: string;
@@ -18,11 +18,13 @@ export type Schema = {
   title?: string;
   tooltip?: string;
   name?: Key | Key[];
+  width?: string;
   rules?: FormItemProps['rules'];
   valueEnum?: Record<string, any>;
   dependencys?: DependencyType[];
   initialValue?: any;
   columns?: Schema[];
+  fieldProps?: FieldPropsTypeBase;
 }
 
 export type FormDataItem = {
@@ -34,7 +36,6 @@ export type FormDataItem = {
 export type FormData = Record<string, FormDataItem>;
 
 export type DynamicFormResult = {
-  schemas: Schema[];
   formData: FormData;
 }
 

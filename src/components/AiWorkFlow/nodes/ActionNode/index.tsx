@@ -9,7 +9,7 @@ const ActionNode: NodeComponent<DataType> = (props) => {
       {formData => (
         <div className={styles.action_node}>
           <div className={styles.action_node_header}>
-            {formData.actionName}
+            {formData.nodeName}
           </div>
           <div className={styles.action_node_body}>
             <div className={styles.action_node_text}>

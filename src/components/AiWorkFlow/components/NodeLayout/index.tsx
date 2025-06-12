@@ -3,6 +3,7 @@ import type { RenderHandle, NodeProps } from './types';
 import CustomNodeToolbar from '../../components/CustomNodeToolbar';
 import { transformInputFormData } from '../../components/DynamicForm/helper';
 import Handler from './handler';
+import nodes from '../../nodes.json';
 import styles from './styles.module.less';
 
 type NodeLayoutProps = NodeProps & {
@@ -18,10 +19,17 @@ const NodeLayout = (props: NodeLayoutProps) => {
   } = props;
 
   const values = data.values;
+  const nodeType = values.nodeType;
 
   const formData = useMemo(() => {
     return transformInputFormData(values.formData);
   }, [values.formData]);
+
+  const schemas = useMemo(() => {
+    return nodes.find(node => {
+      return node.type === nodeType;
+    })?.formSchema || [];
+  }, [nodeType]);
 
   const renderHandler = () => {
     if (handler === true) {
@@ -39,7 +47,7 @@ const NodeLayout = (props: NodeLayoutProps) => {
           id={props.id}
           data={data}
           formData={formData}
-          schemas={values.schemas}
+          schemas={schemas}
         />
       </div>
       <div className={styles.node_layout}>

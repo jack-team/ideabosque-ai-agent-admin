@@ -36,7 +36,7 @@ const DynamicForm: FC<DynamicFormProps> = (props) => {
       formItems, 
       valueEnum
     );
-    await props.onSubmit?.({ formData, schemas });
+    await props.onSubmit?.({ formData });
     closeModal();
   });
 

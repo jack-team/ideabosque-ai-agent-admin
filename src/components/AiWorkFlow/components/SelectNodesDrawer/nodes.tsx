@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import * as Icons from '@ant-design/icons';
 import TriggerModal from '@/components/TriggerModal';
 import DynamicForm from '../DynamicForm';
-import nodes from './nodes.json';
 import type { ResultType } from './types';
+import nodes from '../../nodes.json';
 import styles from './styles.module.less';
 
 type SelectNodesProps = {

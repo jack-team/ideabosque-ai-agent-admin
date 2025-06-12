@@ -50,7 +50,7 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
           <DeleteOutlined />
         </div>
         <TriggerModal
-          title="Edit"
+          title="Edit Node"
           okText="Save"
           trigger={
             <div className={styles.tool_bar_action}>

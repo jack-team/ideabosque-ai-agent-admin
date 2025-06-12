@@ -18,7 +18,7 @@ const BranchNode: NodeComponent<DataType> = (props) => {
       {formData => (
         <div className={styles.branch_node}>
           <div className={styles.branch_node_header}>
-            {formData.branchName}
+            {formData.nodeName}
           </div>
           <div className={styles.branch_node_body}>
             <div className={styles.branch_node_text}>

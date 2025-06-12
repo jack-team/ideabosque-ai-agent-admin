@@ -14,10 +14,12 @@ export const getFormColumn = (schema: Schema) => {
   const column: ProFormColumnType = {
     //@ts-ignore
     valueType,
+    width: schema.width,
     title: schema.title,
     tooltip: schema.tooltip,
     dataIndex: schema.name,
     valueEnum: schema.valueEnum,
+    fieldProps: schema.fieldProps,
     initialValue: schema.initialValue,
     formItemProps: { rules: schema.rules }
   }

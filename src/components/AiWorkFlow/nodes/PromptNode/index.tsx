@@ -1,0 +1,25 @@
+import type { NodeComponent } from '../../types';
+import NodeLayout from '../../components/NodeLayout';
+import type { DataType } from '../../components/NodeLayout/types';
+import styles from './styles.module.less';
+
+const PromptNode: NodeComponent<DataType> = (props) => {
+  return (
+    <NodeLayout {...props}>
+      {(formData) => (
+        <div className={styles.prompt_node}>
+          <div className={styles.prompt_node_header}>
+            {formData.name}
+          </div>
+          <div className={styles.prompt_node_body}>
+            <div className={styles.prompt_node_text}>
+              {formData.text || formData.prompt}
+            </div>
+          </div>
+        </div>
+      )}
+    </NodeLayout>
+  );
+}
+
+export default PromptNode;
