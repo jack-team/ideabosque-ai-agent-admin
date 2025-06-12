@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Card, Col } from 'antd';
+import { Card } from 'antd';
 import type { EChartsOption } from 'echarts';
 import ReactECharts from 'echarts-for-react';
 import styles from './styles.module.less';

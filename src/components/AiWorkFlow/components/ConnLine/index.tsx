@@ -1,10 +1,8 @@
-import { useConnection } from '@xyflow/react';
 import type { ConnectionLineComponent, Node } from '@xyflow/react';
 import type { DataType } from '../NodeLayout/types';
 
 const ConnLine: ConnectionLineComponent<Node<DataType>> = (props) => {
   const { fromX, fromY, toX, toY } = props;
-  const { fromHandle } = useConnection();
   return (
     <g>
       <path

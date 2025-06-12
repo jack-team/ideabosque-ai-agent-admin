@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
 import { TriggerModal } from '@/components';
 import styles from './styles.module.less';
 import headerImg from './header@2x.png';
