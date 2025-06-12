@@ -1,12 +1,14 @@
 import { Button, Card } from 'antd';
-import { useRef } from 'react';
+import { useRef, lazy, Suspense } from 'react';
 import { useMemoizedFn } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
 import { EditFilled } from '@ant-design/icons';
-import AiWorkFlow from '@/components/AiWorkFlow';
+import { Spinner } from '@/components';
 import type { AiWorkFlowInstance } from '@/components/AiWorkFlow/types';
 import styles from './styles.module.less';
 import { nodes, edges } from './mock';
+
+const AiWorkFlow = lazy(() => import('@/components/AiWorkFlow'));
 
 function WorkflowDetail() {
   const flowInstance = useRef<AiWorkFlowInstance>(null);
@@ -21,7 +23,7 @@ function WorkflowDetail() {
       title="New business buyer onboarding"
       className="shopify"
       extra={[
-         <Button
+        <Button
           className="shopify gray"
           icon={<EditFilled />}
           onClick={getDataHandler}
@@ -41,11 +43,18 @@ function WorkflowDetail() {
     >
       <Card className="shopify">
         <div className={styles.container}>
-          <AiWorkFlow
-            initialNodes={nodes}
-            initialEdges={edges}
-            ref={flowInstance}
-          />
+          <Suspense fallback={
+            <div className={styles.loading}>
+              <Spinner size={32} color="#2AB2D9" />
+            </div>
+          }
+          >
+            <AiWorkFlow
+              initialNodes={nodes}
+              initialEdges={edges}
+              ref={flowInstance}
+            />
+          </Suspense>
         </div>
       </Card>
     </PageContainer>

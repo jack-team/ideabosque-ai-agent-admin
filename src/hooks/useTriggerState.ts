@@ -5,7 +5,7 @@ import { useSafeState, useMemoizedFn } from 'ahooks';
 export const useTriggerState = (trigger: ReactElement) => {
   const [open, setOpen] = useSafeState(false);
 
-  const handleClick = useMemoizedFn(() => {
+  const onOpen = useMemoizedFn(() => {
     setOpen(true);
   });
 
@@ -15,12 +15,13 @@ export const useTriggerState = (trigger: ReactElement) => {
 
   trigger = cloneElement(trigger, {
     //@ts-ignore
-    onClick: handleClick
+    onClick: onOpen
   });
 
   return {
     open,
     trigger,
-    onClose
+    onClose,
+    onOpen
   };
 }

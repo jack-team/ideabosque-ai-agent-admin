@@ -9,7 +9,8 @@ export const useModalContext = () => {
 
 export const useModal = () => {
   const ref = useRef<ModalInstance>({
-    closeModal: () => null
+    closeModal: () => null,
+    openModal: () => null
   });
   return [ref.current];
 }

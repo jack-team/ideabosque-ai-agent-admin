@@ -4,6 +4,7 @@ import EventEmitter from 'eventemitter3';
 
 export type ModalInstance = {
   closeModal: () => void;
+  openModal: () => void;
 }
 
 export type TriggerModalProps = {

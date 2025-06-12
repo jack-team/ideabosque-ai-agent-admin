@@ -28,6 +28,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
   const {
     open: modalOpen,
     onClose: closeModal,
+    onOpen: openModal,
     trigger: triggerNode
   } = useTriggerState(trigger);
 
@@ -52,6 +53,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
   useEffect(() => {
     if (modal) {
       modal.closeModal = closeModal;
+      modal.openModal = openModal;
     }
   }, [modal]);
 
