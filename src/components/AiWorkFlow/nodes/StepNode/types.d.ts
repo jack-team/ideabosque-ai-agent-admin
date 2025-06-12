@@ -1,5 +1,3 @@
-import type { FlowSaveResult } from '../../types';
-
 export type Conditions = Array<{
   condition: string;
 }>;
@@ -11,7 +9,3 @@ export type FormDataType = {
   description: string;
   conditions: Conditions;
 }
-
-export type EditStepProps = {
-  onSave?: (result: FlowSaveResult) => void;
-} & Partial<FlowSaveResult>;

@@ -23,7 +23,7 @@ import './styles.less';
 
 const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>((props, ref) => {
   const {
-    isStep = true,
+    role = 'parent',
     initialNodes = [],
     initialEdges = []
   } = props;
@@ -83,7 +83,7 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>((props, ref) 
   return (
     <AiWorkFlowContext.Provider
       value={{
-        isStep,
+        role,
         insertNodes,
         deleteNode,
         updateNodeData

@@ -4,5 +4,8 @@ import { nodeTypes } from '../../config';
 
 export type ResultType = DynamicFormResult & {
   nodeType: keyof typeof nodeTypes;
-  stepRealData?: FlowSaveResult; 
+  // 步骤画布存储的信息
+  stepRealData?: FlowSaveResult;
+  // 自动打开
+  autoOpenStepCanvas?: boolean;
 }

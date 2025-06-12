@@ -9,7 +9,7 @@ export type NodeType = Node<DataType>;
 export type AiWorkFlowProps = {
   initialNodes?: NodeType[];
   initialEdges?: Edge[];
-  isStep?: boolean;
+  role?: "parent" | 'child';
 }
 
 export type FlowSaveResult = {
@@ -22,7 +22,7 @@ export type AiWorkFlowInstance = {
 }
 
 export type AiWorkFlowContextTypes = {
-  isStep: boolean;
+  role: AiWorkFlowProps['role'];
   deleteNode: (id: string) => void;
   insertNodes: (nodes: NodeType[]) => void;
   updateNodeData: (id: string, data: DataType) => void;

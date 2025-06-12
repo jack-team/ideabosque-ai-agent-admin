@@ -7,10 +7,10 @@ import { ShopifyButton } from '@/components';
 import { useEditModalClose } from './hooks';
 import { useModalClose } from '@/components/TriggerModal';
 import type { AiWorkFlowInstance } from '../../types';
-import type { EditStepProps } from './types';
+import type { EditStepCanvasProps } from './types';
 import styles from './styles.module.less';
 
-const EditStep: FC<EditStepProps> = (props) => {
+const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
   const flowInstance = useRef<AiWorkFlowInstance>(null);
@@ -53,4 +53,4 @@ const EditStep: FC<EditStepProps> = (props) => {
   );
 }
 
-export default EditStep;
+export default EditStepCanvas;

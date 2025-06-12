@@ -1,59 +1,111 @@
-import type { FC, Key } from 'react';
+import type { FC } from 'react';
 import classNames from 'classnames';
-import { Space, Dropdown } from 'antd';
-import { useMemoizedFn, useSafeState } from 'ahooks';
-import { EditFilled, EllipsisOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Space } from 'antd';
+import { useMemoizedFn, useMount } from 'ahooks';
+import { EditFilled, SettingOutlined, DeleteOutlined, FullscreenOutlined } from '@ant-design/icons';
 import type { DynamicFormProps, DynamicFormResult } from '../DynamicForm/types';
-import { TriggerModal } from '@/components';
-import DynamicForm from '../DynamicForm';
 import { useAiWorkFlowContext } from '../../hooks';
 import type { DataType } from '../NodeLayout/types';
-import SettingModal from '../SettingModal';
+import type { FlowSaveResult } from '../../types';
+import EditStepCanvasModal from '../EditStepCanvasModal';
+import TriggerModal, { useModal } from '@/components/TriggerModal';
+import SettingForm from '../SettingForm';
+import DynamicForm from '../DynamicForm';
 
 import styles from './styles.module.less';
 
 type CustomNodeToolbarProps = DynamicFormProps & {
   id: string;
   data: DataType;
-  editModalWidth?: any; 
+  editModalWidth?: any;
 }
 
 const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
-  const { data, editModalWidth } = props;
-  const { updateNodeData, deleteNode } = useAiWorkFlowContext();
-  const [dropdownShow, setDropdownShow] = useSafeState(false);
-  const [settingShow, setSettingShow] = useSafeState(false);
+  const { data } = props;
+  const values = data.values;
+  const { nodeType, autoOpenStepCanvas = true } = values;
 
-  const onUpdate = useMemoizedFn(async (result: DynamicFormResult) => {
-    data.values = Object.assign(data.values, result);
-    updateNodeData(props.id, data);
+  const {
+    role,
+    deleteNode,
+    updateNodeData
+  } = useAiWorkFlowContext();
+  const [modal] = useModal();
+
+  const onUpdateNodeData = useMemoizedFn(
+    async (updated: Partial<DataType>) => {
+      updateNodeData(props.id, Object.assign(data, updated));
+    }
+  );
+
+  // 修改节点信息
+  const onEditNode = useMemoizedFn(
+    async (result: DynamicFormResult) => {
+      data.values = Object.assign(data.values, result);
+      onUpdateNodeData(data);
+    }
+  );
+
+  // 保存设置
+  const onSettingSave = useMemoizedFn(
+    async (values: Record<string, any>) => {
+      onUpdateNodeData(values);
+    }
+  );
+
+  // 保存 step data
+  const onUpdateStepData = useMemoizedFn(
+    (result: FlowSaveResult) => {
+      data.values.stepRealData = result;
+      onUpdateNodeData(data);
+    }
+  );
+
+  const onLaunchStepCanvas = useMemoizedFn(() => {
+    const isParent = role === 'parent';
+    const isSetp = nodeType === 'step';
+
+    if (isParent && isSetp && autoOpenStepCanvas) {
+      values.autoOpenStepCanvas = false;
+      requestAnimationFrame(() => {
+        modal.openModal();
+        onUpdateNodeData(data);
+      });
+    }
   });
-
-  const onSettingSave = useMemoizedFn(async (values: Record<string, any>) => {
-    updateNodeData(props.id, Object.assign(data, values));
-  });
-
-  const onDelete = useMemoizedFn(() => deleteNode(props.id));
 
   const containerCls = classNames(
     'ai-node-tool-bar',
-    styles.tool_bar_container,
-    dropdownShow && 'tool-bar-force-show'
+    styles.tool_bar_container
   );
+
+  useMount(onLaunchStepCanvas);
 
   return (
     <div className={containerCls}>
-      <Space size={8}>
+      <Space size={12}>
         <div
-          onClick={onDelete}
           className={styles.tool_bar_action}
+          onClick={() => deleteNode(props.id)}
         >
           <DeleteOutlined />
         </div>
+        {role === 'parent' && (
+          <EditStepCanvasModal
+            {...data.values.stepRealData}
+            modal={modal}
+            onSave={onUpdateStepData}
+            trigger={
+              <div className={styles.tool_bar_action}>
+                <FullscreenOutlined />
+              </div>
+            }
+          />
+        )}
         <TriggerModal
           title="Edit Node"
           okText="Save"
-          width={editModalWidth}
+          width={props.editModalWidth}
           trigger={
             <div className={styles.tool_bar_action}>
               <EditFilled />
@@ -62,35 +114,24 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
         >
           <DynamicForm
             {...props}
-            onSubmit={onUpdate}
+            onSubmit={onEditNode}
           />
         </TriggerModal>
-        <Dropdown
-          arrow
-          open={dropdownShow}
-          openClassName={styles.open_state}
-          onOpenChange={setDropdownShow}
-          menu={{
-            items: [
-              {
-                key: 'setting',
-                label: 'Settings',
-                icon: <SettingOutlined />,
-                onClick: () => setSettingShow(true)
-              }
-            ]
-          }}>
-          <div className={styles.tool_bar_action}>
-            <EllipsisOutlined />
-          </div>
-        </Dropdown>
+        <TriggerModal
+          title="Settings"
+          okText="Save"
+          trigger={
+            <div className={styles.tool_bar_action}>
+              <SettingOutlined />
+            </div>
+          }
+        >
+          <SettingForm
+            formData={props.data}
+            onSave={onSettingSave}
+          />
+        </TriggerModal>
       </Space>
-      <SettingModal
-        open={settingShow}
-        onSave={onSettingSave}
-        formData={props.data}
-        onOpenChange={setSettingShow}
-      />
     </div>
   );
 }

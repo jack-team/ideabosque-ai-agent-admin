@@ -14,15 +14,15 @@ type SelectNodesProps = {
 
 const SelectNodes: FC<SelectNodesProps> = (props) => {
   const { onNodeClick } = props;
-  const { isStep } = useAiWorkFlowContext();
+  const { role } = useAiWorkFlowContext();
 
   const nodesFilters = useMemo(() => {
     return nodes.filter(n => {
-      return isStep ?
+      return role === 'parent' ?
         n.type === 'step' :
         n.type !== 'step';
     });
-  }, [isStep]);
+  }, [role]);
 
   return (
     <div className={styles.nodes}>
@@ -56,10 +56,8 @@ const SelectNodes: FC<SelectNodesProps> = (props) => {
               //@ts-ignore
               schemas={item.formSchema}
               onSubmit={async values => {
-                onNodeClick?.({
-                  ...values,
-                  nodeType: item.type
-                });
+                const nodeType = item.type as any;
+                onNodeClick?.({ ...values, nodeType });
               }}
             />
           </TriggerModal>
