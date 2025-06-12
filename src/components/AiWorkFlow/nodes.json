@@ -1,20 +1,67 @@
 [
   {
-    "type": "prompt",
-    "title": "Prompt",
-    "icon": "SendOutlined",
-    "modalWidth": "420px",
-    "desc": "Prompt the AI what to do or say.",
+    "type": "step",
+    "icon": "StepForwardOutlined",
+    "title": "Step",
+    "modalWidth": 420,
+    "desc": "Execute the corresponding process according to the different branches created.",
     "formSchema": [
       {
-        "title": "Node Name",
-        "name": "nodeName",
+        "title": "Name",
+        "name": "name",
         "rules": [
           {
             "required": true
           }
         ]
       },
+      {
+        "title": "Description",
+        "name": "description",
+        "rules": [
+          {
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "conditions",
+        "valueType": "formList",
+        "fieldProps": {
+          "creatorButtonProps": {
+            "creatorButtonText": "Add condition"
+          }
+        },
+        "columns": [
+          {
+            "valueType": "group",
+            "columns": [
+              {
+                "title": "Condition",
+                "name": "condition",
+                "fieldProps": {
+                  "placeholder": "Please enter a condition"
+                },
+                "width": "md",
+                "rules": [
+                  {
+                    "required": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "prompt",
+    "title": "Prompt",
+    "icon": "SendOutlined",
+    "modalWidth": "420px",
+    "desc": "Prompt the AI what to do or say.",
+    "formSchema": [
       {
         "title": "Type",
         "name": "type",
@@ -77,15 +124,6 @@
     "desc": "The UI components within the AI assistant can be used as a data source to obtain data.",
     "modalWidth": 500,
     "formSchema": [
-      {
-        "title": "Node Name",
-        "name": "nodeName",
-        "rules": [
-          {
-            "required": true
-          }
-        ]
-      },
       {
         "valueType": "select",
         "title": "Component",
@@ -202,12 +240,12 @@
     "type": "branch",
     "icon": "BranchesOutlined",
     "title": "Branch",
-    "modalWidth": 450,
+    "modalWidth": 420,
     "desc": "Execute the corresponding process according to the different branches created.",
     "formSchema": [
       {
-        "title": "Node Name",
-        "name": "nodeName",
+        "title": "Name",
+        "name": "name",
         "rules": [
           {
             "required": true
@@ -231,9 +269,6 @@
             "creatorButtonText": "Add condition"
           }
         },
-        "initialValue": [
-          {}
-        ],
         "columns": [
           {
             "valueType": "group",
@@ -264,16 +299,7 @@
     "desc": "Obtain or process data by calling backend interfaces or methods.",
     "formSchema": [
       {
-        "title": "Node Name",
-        "name": "nodeName",
-        "rules": [
-          {
-            "required": true
-          }
-        ]
-      },
-      {
-        "title": "Action Type",
+        "title": "Type",
         "name": "type",
         "rules": [
           {
@@ -282,7 +308,7 @@
         ]
       },
       {
-        "title": "Action Text",
+        "title": "Text",
         "name": "text",
         "rules": [
           {
@@ -299,16 +325,7 @@
     "desc": "Convert the input data",
     "formSchema": [
       {
-        "title": "Node Name",
-        "name": "nodeName",
-        "rules": [
-          {
-            "required": true
-          }
-        ]
-      },
-      {
-        "title": "Transform Type",
+        "title": "Type",
         "name": "type",
         "rules": [
           {
@@ -317,7 +334,7 @@
         ]
       },
       {
-        "title": "Transform Text",
+        "title": "Text",
         "name": "text",
         "rules": [
           {

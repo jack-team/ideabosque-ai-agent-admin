@@ -10,4 +10,4 @@ export type DataType = {
 
 export type NodeProps = Parameters<NodeComponent<DataType>>[0];
 
-export type RenderHandle = (formData: Record<string, any>) => ReactElement;
+export type RenderHandle<D = any> = (formData: D) => ReactElement;

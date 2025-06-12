@@ -1,9 +1,10 @@
 import '@xyflow/react/dist/style.css';
-import type { FC } from 'react';
+import { forwardRef, useImperativeHandle } from 'react';
 import {
   ReactFlow,
   addEdge,
   Background,
+  Controls,
   useNodesState,
   useEdgesState,
   ReactFlowProvider
@@ -11,8 +12,8 @@ import {
 import cloneDeep from 'clone-deep';
 import { useMemoizedFn } from 'ahooks';
 import type { Edge, Connection } from '@xyflow/react';
-import type { AiWorkFlowProps, NodeType } from './types';
 import type { DataType } from './components/NodeLayout/types';
+import type { AiWorkFlowProps, NodeType, AiWorkFlowInstance } from './types';
 import { nodeTypes } from './config';
 import { CONNECT_LINE_STYLE } from './const';
 import ConnLine from './components/ConnLine';
@@ -20,8 +21,13 @@ import AddButton from './components/AddButton';
 import { AiWorkFlowContext } from './context';
 import './styles.less';
 
-const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
-  const { initialNodes = [], initialEdges = [] } = props;
+const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>((props, ref) => {
+  const {
+    isStep = true,
+    initialNodes = [],
+    initialEdges = []
+  } = props;
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
@@ -68,27 +74,16 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
     }));
   });
 
-  console.log(nodes, edges)
-
-  const a = () => {
-
-    const map: any = {};
-    edges.map(item=> {
-      if (!map[item.source]) {
-        map[item.source] = [];
-      }
-       map[item.source].push(item)
-    });
-
-    console.log(map)
-
-  }
-
-  a();
+  useImperativeHandle(ref, () => {
+    return {
+      getData: () => cloneDeep({ nodes, edges })
+    }
+  });
 
   return (
     <AiWorkFlowContext.Provider
       value={{
+        isStep,
         insertNodes,
         deleteNode,
         updateNodeData
@@ -106,13 +101,18 @@ const AiWorkFlow: FC<AiWorkFlowProps> = (props) => {
             onEdgesChange={onEdgesChange}
             connectionLineComponent={ConnLine}
           >
-            <Background />
+            <Background
+              size={2}
+              color="#ccc"
+              bgColor="#f6f6f6"
+            />
             <AddButton />
+            <Controls />
           </ReactFlow>
         </ReactFlowProvider>
       </div>
     </AiWorkFlowContext.Provider>
   );
-}
+})
 
 export default AiWorkFlow;

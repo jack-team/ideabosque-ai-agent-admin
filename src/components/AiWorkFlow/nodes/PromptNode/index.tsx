@@ -1,15 +1,21 @@
 import type { NodeComponent } from '../../types';
 import NodeLayout from '../../components/NodeLayout';
 import type { DataType } from '../../components/NodeLayout/types';
+import type { FormDataType } from './types';
 import styles from './styles.module.less';
+
+const Types: Record<FormDataType['type'], string> = {
+  text: 'Text',
+  prompt: 'Prompt'
+}
 
 const PromptNode: NodeComponent<DataType> = (props) => {
   return (
-    <NodeLayout {...props}>
+    <NodeLayout<FormDataType> {...props}>
       {(formData) => (
         <div className={styles.prompt_node}>
           <div className={styles.prompt_node_header}>
-            {formData.name}
+            {Types[formData.type]} Node
           </div>
           <div className={styles.prompt_node_body}>
             <div className={styles.prompt_node_text}>

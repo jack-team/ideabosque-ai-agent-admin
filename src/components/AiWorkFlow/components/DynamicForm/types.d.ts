@@ -40,7 +40,7 @@ export type DynamicFormResult = {
 }
 
 export type DynamicFormProps = {
-  schemas: Schema[];
+  schemas?: Schema[];
   formData?: Record<string, any>;
   onSubmit?: (result: DynamicFormResult) => Promise<void>;
 }

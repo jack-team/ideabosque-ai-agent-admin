@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, Key } from 'react';
 import classNames from 'classnames';
 import { Space, Dropdown } from 'antd';
 import { useMemoizedFn, useSafeState } from 'ahooks';
@@ -15,10 +15,11 @@ import styles from './styles.module.less';
 type CustomNodeToolbarProps = DynamicFormProps & {
   id: string;
   data: DataType;
+  editModalWidth?: any; 
 }
 
 const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
-  const { data } = props;
+  const { data, editModalWidth } = props;
   const { updateNodeData, deleteNode } = useAiWorkFlowContext();
   const [dropdownShow, setDropdownShow] = useSafeState(false);
   const [settingShow, setSettingShow] = useSafeState(false);
@@ -52,6 +53,7 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
         <TriggerModal
           title="Edit Node"
           okText="Save"
+          width={editModalWidth}
           trigger={
             <div className={styles.tool_bar_action}>
               <EditFilled />

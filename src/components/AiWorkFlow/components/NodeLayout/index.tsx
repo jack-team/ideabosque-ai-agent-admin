@@ -6,12 +6,12 @@ import Handler from './handler';
 import nodes from '../../nodes.json';
 import styles from './styles.module.less';
 
-type NodeLayoutProps = NodeProps & {
-  children?: RenderHandle;
-  handler?: boolean | RenderHandle;
+type NodeLayoutProps<D = any> = NodeProps & {
+  children?: RenderHandle<D>;
+  handler?: boolean | RenderHandle<D>;
 }
 
-const NodeLayout = (props: NodeLayoutProps) => {
+function NodeLayout<D extends {} = {}>(props: NodeLayoutProps<D>) {
   const {
     data,
     children,
@@ -22,21 +22,24 @@ const NodeLayout = (props: NodeLayoutProps) => {
   const nodeType = values.nodeType;
 
   const formData = useMemo(() => {
-    return transformInputFormData(values.formData);
+    return transformInputFormData(values.formData) as D;
   }, [values.formData]);
 
-  const schemas = useMemo(() => {
+  const nodeDetail = useMemo(() => {
     return nodes.find(node => {
       return node.type === nodeType;
-    })?.formSchema || [];
+    });
   }, [nodeType]);
 
   const renderHandler = () => {
+    const defaultHandle = (
+      <Handler {...props} />
+    );
     if (handler === true) {
-      return <Handler {...props} />;
+      return defaultHandle;
     }
     if (typeof handler === 'function') {
-      return handler?.(formData);
+      return handler?.(formData) ?? defaultHandle;
     }
   }
 
@@ -47,7 +50,8 @@ const NodeLayout = (props: NodeLayoutProps) => {
           id={props.id}
           data={data}
           formData={formData}
-          schemas={schemas}
+          schemas={nodeDetail?.formSchema}
+          editModalWidth={nodeDetail?.modalWidth}
         />
       </div>
       <div className={styles.node_layout}>

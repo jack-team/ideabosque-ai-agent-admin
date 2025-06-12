@@ -1,15 +1,16 @@
 import type { NodeComponent } from '../../types';
 import NodeLayout from '../../components/NodeLayout';
 import type { DataType } from '../../components/NodeLayout/types';
+import type {  FormDataType } from './types';
 import styles from './styles.module.less';
 
 const ActionNode: NodeComponent<DataType> = (props) => {
   return (
-    <NodeLayout {...props}>
+    <NodeLayout<FormDataType> {...props}>
       {formData => (
         <div className={styles.action_node}>
           <div className={styles.action_node_header}>
-            {formData.nodeName}
+            Action Node
           </div>
           <div className={styles.action_node_body}>
             <div className={styles.action_node_text}>
