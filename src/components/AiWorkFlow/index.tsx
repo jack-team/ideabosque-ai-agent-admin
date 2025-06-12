@@ -95,6 +95,7 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>((props, ref) 
             fitView
             nodes={nodes}
             edges={edges}
+            minZoom={.5}
             nodeTypes={nodeTypes}
             onConnect={onConnect}
             onNodesChange={onNodesChange}

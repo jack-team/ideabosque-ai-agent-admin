@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { BetaSchemaForm, ProForm } from '@ant-design/pro-components';
-import { useListenModalOk } from '@/components/TriggerModal';
+import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { columns } from './configs';
 
 type SettingFormProps = {
@@ -10,10 +10,12 @@ type SettingFormProps = {
 
 const SettingForm: FC<SettingFormProps> = (props) => {
   const [form] = ProForm.useForm();
+  const [closeModal] = useModalClose();
 
   useListenModalOk(async () => {
     const values = await form.validateFields();
     props.onSave?.(values);
+    closeModal();
   });
 
   return (

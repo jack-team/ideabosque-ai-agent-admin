@@ -45,8 +45,10 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
       </div>
       <div className={styles.edit_step_content}>
         <AiWorkFlow
-          isStep={false}
+          role="child"
           ref={flowInstance}
+          initialEdges={props.edges}
+          initialNodes={props.nodes}
         />
       </div>
     </div>
