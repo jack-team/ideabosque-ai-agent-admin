@@ -18,7 +18,7 @@ const Dashboard: FC = () => {
   return (
     <PageContainer
       title="Dashboard"
-      className="shopify full-screen"
+      className="shopify"
       extra={[
         <Button
           key="1"
