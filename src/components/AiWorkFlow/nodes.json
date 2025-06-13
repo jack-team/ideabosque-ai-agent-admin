@@ -59,7 +59,7 @@
     "type": "prompt",
     "title": "Prompt",
     "icon": "SendOutlined",
-    "modalWidth": "420px",
+    "modalWidth": 420,
     "desc": "Prompt the AI what to do or say.",
     "formSchema": [
       {
@@ -122,7 +122,7 @@
     "title": "UI",
     "icon": "KubernetesOutlined",
     "desc": "The UI components within the AI assistant can be used as a data source to obtain data.",
-    "modalWidth": 500,
+    "modalWidth": 420,
     "formSchema": [
       {
         "valueType": "select",
@@ -296,6 +296,7 @@
     "type": "action",
     "icon": "FunctionOutlined",
     "title": "Action",
+    "modalWidth": 420,
     "desc": "Obtain or process data by calling backend interfaces or methods.",
     "formSchema": [
       {
@@ -322,6 +323,7 @@
     "type": "transform",
     "icon": "BlockOutlined",
     "title": "Transform",
+    "modalWidth": 420,
     "desc": "Convert the input data",
     "formSchema": [
       {
