@@ -46,7 +46,7 @@ function WorkflowDetail() {
           <Suspense
             fallback={
               <div className="lazy-loading">
-                <Spinner size={32} color="#2AB2D9" />
+                <Spinner size={48} />
               </div>
             }
           >
