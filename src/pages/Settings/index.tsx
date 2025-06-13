@@ -1,11 +1,12 @@
 import type { FC } from 'react';
+import { PageContainer } from '@ant-design/pro-components';
 
-const AgentWorkflows: FC = () => {
+const Settings: FC = () => {
   return (
-    <div>
-      111
-    </div>
+    <PageContainer title="Settings">
+       Settings
+    </PageContainer>
   )
 }
 
-export default AgentWorkflows;
+export default Settings;

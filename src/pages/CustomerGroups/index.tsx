@@ -1,11 +1,12 @@
 import type { FC } from 'react';
+import { PageContainer } from '@ant-design/pro-components';
 
-const AgentWorkflows: FC = () => {
+const CustomerGroups: FC = () => {
   return (
-    <div>
-      111
-    </div>
-  )
+    <PageContainer title="Customer Groups">
+       Customer Groups
+    </PageContainer>
+  );
 }
 
-export default AgentWorkflows;
+export default CustomerGroups;
