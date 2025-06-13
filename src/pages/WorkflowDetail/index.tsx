@@ -21,7 +21,7 @@ function WorkflowDetail() {
   return (
     <PageContainer
       title="New business buyer onboarding"
-      className="shopify"
+      className="shopify full-screen"
       extra={[
         <Button
           className="shopify gray"
@@ -41,7 +41,7 @@ function WorkflowDetail() {
         </Button>
       ]}
     >
-      <Card className="shopify">
+      <Card className="shopify full-content">
         <div className={styles.container}>
           <Suspense
             fallback={

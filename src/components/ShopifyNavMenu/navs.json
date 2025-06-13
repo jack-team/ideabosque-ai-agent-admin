@@ -1,0 +1,19 @@
+[
+  {
+    "path": "/",
+    "rel": "home",
+    "title": "Dashboard"
+  },
+  {
+    "path": "/customer-groups",
+    "title": "Customer Groups"
+  },
+  {
+    "path": "/agent-workflows",
+    "title": "Agent Workflows"
+  },
+  {
+    "path": "/settings",
+    "title": "Settings"
+  }
+]

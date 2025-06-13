@@ -44,6 +44,8 @@ const Statistic: FC = () => {
           <Col
             xl={6}
             sm={12}
+            xs={24}
+            lg={6}
             key={i}
             className={styles.item}
           >

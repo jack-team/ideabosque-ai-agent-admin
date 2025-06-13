@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { NavMenu } from '@shopify/app-bridge-react';
 import { ConfigProvider, App as AntApp } from 'antd';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { themeConfigs } from './theme/config';
@@ -16,15 +15,6 @@ const App: FC = () => {
     >
       <AntApp>
         <div className="app-container">
-          <div style={{ display: 'none' }}>
-            <NavMenu>
-              <a href="/" rel="home">Home</a>
-              <a href="/dashboard">Dashboard</a>
-              <a href="/customer-groups">Customer Groups</a>
-              <a href="/agent-workflows">Agent Workflows</a>
-              <a href="/settings">Settings</a>
-            </NavMenu>
-          </div>
           <RouterProvider router={router} />
         </div>
       </AntApp>

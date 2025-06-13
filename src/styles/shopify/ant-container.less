@@ -1,15 +1,34 @@
 &.ant-pro-page-container {
   .ant-page-header {
+    padding-inline: 24px;
+
     .ant-page-header-heading-title {
       color: var(--theme-color);
     }
   }
-}
 
-@media (max-width: 420px) {
-  &.ant-pro-page-container {
+  .ant-pro-page-container-children-container {
+    padding-inline: 24px;
+    padding-block-end: 24px;
+  }
+
+  &.full-screen {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .ant-pro-grid-content {
+      flex: 1;
+    }
+
+    .ant-pro-grid-content-children,
     .ant-pro-page-container-children-container {
-      padding-inline: 16px;
+      height: 100%;
     }
   }
 }

@@ -50,6 +50,7 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
     <PageContainer
       title={props.title}
       onBack={onBack}
+      className="shopify full-screen"
       extra={[
         <ShopifyButton
           type="primary"
@@ -59,18 +60,16 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
         </ShopifyButton>
       ]}
     >
-      <div className={styles.edit_step}>
-        <Card className="shopify">
-          <div className={styles.flow_work}>
-            <AiWorkFlow
-              role="child"
-              ref={flowInstance}
-              initialEdges={props.edges}
-              initialNodes={props.nodes}
-            />
-          </div>
-        </Card>
-      </div>
+      <Card className="shopify full-content">
+        <div className={styles.flow_work}>
+          <AiWorkFlow
+            role="child"
+            ref={flowInstance}
+            initialEdges={props.edges}
+            initialNodes={props.nodes}
+          />
+        </div>
+      </Card>
     </PageContainer>
   );
 }

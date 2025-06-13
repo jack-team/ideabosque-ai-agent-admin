@@ -1,24 +1,26 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import { Spinner } from '@/components';
 
 type LoadFn = Parameters<typeof lazy>[0];
 
 export const lazyLoad = (load: LoadFn) => {
-  const LazyComponent = lazy(load);
+  return (props: Record<string, any>) => {
+    const Component = useMemo(() => lazy(load), []);
 
-  const renderloading = () => {
+    const renderloading = () => {
+      return (
+        <div className="lazy-loading">
+          <Spinner size={48} />
+        </div>
+      );
+    }
+
     return (
-      <div className="lazy-loading">
-        <Spinner size={48}/>
-      </div>
+      <Suspense fallback={renderloading()}>
+        <Component {...props}/>
+      </Suspense>
     );
   }
-
-  return (
-    <Suspense fallback={renderloading()}>
-      <LazyComponent />
-    </Suspense>
-  );
 }
 
 export default lazyLoad;

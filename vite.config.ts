@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import svgr from "vite-plugin-svgr";
+import autoprefixer from "autoprefixer";
 import { fileURLToPath, URL } from "node:url";
 import react from '@vitejs/plugin-react';
 import { dependencies } from './package.json';
@@ -25,4 +26,9 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  css: {
+    postcss: {
+      plugins: [autoprefixer(["Last 5 versions"])],
+    }
+  }
 })

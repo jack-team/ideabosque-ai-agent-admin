@@ -18,7 +18,7 @@ const Dashboard: FC = () => {
   return (
     <PageContainer
       title="Dashboard"
-      className="shopify"
+      className="shopify full-screen"
       extra={[
         <Button
           key="1"
@@ -37,18 +37,18 @@ const Dashboard: FC = () => {
     >
       <Statistic />
       <Row gutter={24}>
-        <Col xl={14} sm={24} lg={12} xs={12}>
+        <Col xl={14} sm={24} lg={12} xs={24}>
           <AgentSales />
         </Col>
-        <Col xl={10} sm={24} lg={12} xs={12}>
+        <Col xl={10} sm={24} lg={12} xs={24}>
           <Newleads />
         </Col>
       </Row>
       <Row gutter={24}>
-        <Col xl={18} sm={24} lg={12} xs={12}>
+        <Col xl={18} sm={24} lg={12} xs={24}>
           <AgentBookedMeetings />
         </Col>
-        <Col xl={6} sm={24} lg={12} xs={12}>
+        <Col xl={6} sm={24} lg={12} xs={24}>
           <CalendarFilter />
         </Col>
       </Row>
