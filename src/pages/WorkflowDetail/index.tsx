@@ -43,11 +43,12 @@ function WorkflowDetail() {
     >
       <Card className="shopify">
         <div className={styles.container}>
-          <Suspense fallback={
-            <div className={styles.loading}>
-              <Spinner size={32} color="#2AB2D9" />
-            </div>
-          }
+          <Suspense
+            fallback={
+              <div className="lazy-loading">
+                <Spinner size={32} color="#2AB2D9" />
+              </div>
+            }
           >
             <AiWorkFlow
               initialNodes={nodes}

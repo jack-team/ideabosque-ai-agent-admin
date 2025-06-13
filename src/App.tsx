@@ -16,19 +16,20 @@ const App: FC = () => {
     >
       <AntApp>
         <div className="app-container">
-          <NavMenu>
-            <a href="/" rel="home">Home</a>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/customer-groups">Customer Groups</a>
-            <a href="/agent-workflows">Agent Workflows</a>
-            <a href="/settings">Settings</a>
-          </NavMenu>
+          <div style={{ display: 'none' }}>
+            <NavMenu>
+              <a href="/" rel="home">Home</a>
+              <a href="/dashboard">Dashboard</a>
+              <a href="/customer-groups">Customer Groups</a>
+              <a href="/agent-workflows">Agent Workflows</a>
+              <a href="/settings">Settings</a>
+            </NavMenu>
+          </div>
           <RouterProvider router={router} />
         </div>
       </AntApp>
     </ConfigProvider>
   );
 }
-
 
 export default App;

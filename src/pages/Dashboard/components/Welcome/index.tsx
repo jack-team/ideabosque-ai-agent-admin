@@ -20,7 +20,7 @@ const Welcome: FC<WelcomeProps> = (props) => {
       centered
       open={props.open}
       onCancel={handleClose}
-      className="shopify"
+      rootClassName="shopify"
       okText="Get started"
       title="Welcome to your AI Chat Agent Setup!"
       okButtonProps={{ className: 'shopify' }}

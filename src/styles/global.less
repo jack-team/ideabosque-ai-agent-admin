@@ -1,11 +1,20 @@
 .shopify-app {
-  @import (less, multiple) './shopify-theme.less';
+  .shopify {
+    @import (less, multiple) './shopify/ant-modal.less';
+    @import (less, multiple) './shopify/ant-container.less';
+    @import (less, multiple) './shopify/ant-btn.less';
+    @import (less, multiple) './shopify/ant-table.less';
+    @import (less, multiple) './shopify/ant-card.less';
+    @import (less, multiple) './shopify/ant-input.less';
+    @import (less, multiple) './shopify/ant-tag.less';
+    @import (less, multiple) './shopify/ant-drawer.less';
+  }
 }
 
 .app-container {
   min-height: 100vh;
   position: relative;
-  background: #f2f2f2;
+  background: #f1f1f1;
 }
 
 .lazy-loading {

@@ -23,7 +23,12 @@ type CustomNodeToolbarProps = DynamicFormProps & {
 const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
   const { data } = props;
   const values = data.values;
-  const { nodeType, autoOpenStepCanvas = true } = values;
+
+  const { 
+    nodeType,
+    formData, 
+    autoOpenStepCanvas = true 
+  } = values;
 
   const {
     role,
@@ -92,8 +97,9 @@ const CustomNodeToolbar: FC<CustomNodeToolbarProps> = (props) => {
         </div>
         {role === 'parent' && (
           <EditStepCanvasModal
-            {...data.values.stepRealData}
+            {...values.stepRealData}
             modal={modal}
+            title={formData.name?.value as string}
             onSave={onUpdateStepData}
             trigger={
               <div className={styles.tool_bar_action}>

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Card, Input, Table } from 'antd';
+import { Card, Input } from 'antd';
+import {ProTable } from '@ant-design/pro-components';
 import styles from './styles.module.less';
 
 const rows = Array.from({ length: 20 }).map((_, i) => {
@@ -22,11 +23,13 @@ const Newleads: FC = () => {
             className="shopify"
           />
           <div className={styles.contet}>
-            <Table
+            <ProTable
               dataSource={rows}
-              scroll={{ y: 211 }}
+              scroll={{ y: 195 }}
+              search={false}
+              toolBarRender={false}
               pagination={false}
-              className="shopify-no-header"
+              className="shopify simple-table"
               columns={[
                 {
                   title: 'Company',

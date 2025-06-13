@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { Space, App } from 'antd';
+import { App, Card } from 'antd';
 import { useMemoizedFn } from 'ahooks';
+import { PageContainer } from '@ant-design/pro-components';
 import AiWorkFlow from '../..';
 import { ShopifyButton } from '@/components';
-import { useEditModalClose } from './hooks';
-import { useModalClose } from '@/components/TriggerModal';
+import { useModalClose, useListenModalCancel } from '@/components/TriggerModal';
 import type { AiWorkFlowInstance } from '../../types';
 import type { EditStepCanvasProps } from './types';
 import styles from './styles.module.less';
@@ -13,6 +13,7 @@ import styles from './styles.module.less';
 const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
+  const { modal } = App.useApp();
   const flowInstance = useRef<AiWorkFlowInstance>(null);
 
   const getResult = useMemoizedFn(() => {
@@ -29,29 +30,48 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
     closeModal();
   });
 
-  useEditModalClose();
+  const onBack = useMemoizedFn(() => {
+    modal.confirm({
+      rootClassName: 'shopify',
+      title: 'Are you sure you want to leave?',
+      content: 'The data on this page will be lost after leaving.',
+      okButtonProps: { className: 'shopify' },
+      cancelButtonProps: { className: 'shopify' },
+      okText: 'Yes',
+      onOk: () => closeModal()
+    })
+  });
+
+  useListenModalCancel(async () => {
+    return Promise.reject();
+  });
 
   return (
-    <div className={styles.edit_step}>
-      <div className={styles.edit_step_header}>
-        <Space>
-          <ShopifyButton
-            type="primary"
-            onClick={onSave}
-          >
-            Save
-          </ShopifyButton>
-        </Space>
+    <PageContainer
+      title={props.title}
+      onBack={onBack}
+      extra={[
+        <ShopifyButton
+          type="primary"
+          onClick={onSave}
+        >
+          Save
+        </ShopifyButton>
+      ]}
+    >
+      <div className={styles.edit_step}>
+        <Card className="shopify">
+          <div className={styles.flow_work}>
+            <AiWorkFlow
+              role="child"
+              ref={flowInstance}
+              initialEdges={props.edges}
+              initialNodes={props.nodes}
+            />
+          </div>
+        </Card>
       </div>
-      <div className={styles.edit_step_content}>
-        <AiWorkFlow
-          role="child"
-          ref={flowInstance}
-          initialEdges={props.edges}
-          initialNodes={props.nodes}
-        />
-      </div>
-    </div>
+    </PageContainer>
   );
 }
 

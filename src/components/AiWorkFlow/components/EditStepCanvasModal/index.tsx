@@ -11,8 +11,8 @@ const EditStepCanvasModal: FC<EditStepCanvasModalProps> = (props) => {
       centered
       modal={modal}
       width="100vw"
+      closable={false}
       hasFooter={false}
-      title="Edit Step"
       trigger={trigger}
       className={styles.edit_step_modal}
     >

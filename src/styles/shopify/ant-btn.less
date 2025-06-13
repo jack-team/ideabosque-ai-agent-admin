@@ -1,0 +1,69 @@
+&.ant-btn {
+  transition: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding-inline: 12px;
+
+  &:active:not(.ant-btn-loading, [disabled], .ant-btn-text) {
+    >span {
+      transform: translateY(1px);
+    }
+  }
+
+  &.ant-btn-default {
+    box-shadow: 0 -1px 0 0 #b5b5b5 inset,
+      0 0 0 1px rgba(0, 0, 0, .1) inset,
+      0 0.5px 0 1.5px #fff inset;
+
+    &.gray {
+      box-shadow: none;
+      background: #E3E3E3;
+    }
+
+    &:active {
+      box-shadow: 0 2px 1px 0 rgba(26, 26, 26, .2) inset,
+        1px 0 1px 0 rgba(26, 26, 26, .12) inset,
+        -1px 0 1px 0 rgba(26, 26, 26, .12) inset;
+    }
+  }
+
+  &.ant-btn-color-primary {
+    box-shadow: 0 -1px 0 1px rgba(0, 0, 0, .8) inset,
+      0 0 0 1px var(--theme-color) inset,
+      0 0.5px 0 1.5px hsla(0, 0%, 100%, .25) inset;
+
+    &:active:not(.ant-btn-loading, [disabled]) {
+      box-shadow: none;
+      background: var(--theme-color);
+    }
+  }
+
+  &.ant-btn-loading {
+    min-width: 80px;
+    background: #ececec;
+    box-shadow: none;
+
+    .ant-btn-children {
+      opacity: 0;
+    }
+
+    .ant-btn-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+
+  &[disabled] {
+    background: rgba(0, 0, 0, .17);
+    box-shadow: none;
+    color: #fff;
+
+    &:active {
+      background: rgba(0, 0, 0, .17);
+    }
+  }
+}

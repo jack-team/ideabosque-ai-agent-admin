@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Card, Table } from 'antd';
+import { Card } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
 import styles from './styles.module.less';
 
 const rows = Array.from({ length: 20 }).map((_, i) => {
@@ -16,12 +17,14 @@ const AgentBookedMeetings: FC = () => {
     <div className={styles.wrapper}>
       <Card title="Agent booked meetings" className="shopify">
         <div className={styles.container}>
-          <Table
+          <ProTable
             showHeader={false}
             dataSource={rows}
-            scroll={{ y: 283 }}
+            scroll={{ y: 264 }}
             pagination={false}
-            className="shopify-no-header"
+            search={false}
+            toolBarRender={false}
+            className="shopify simple-table"
             columns={[
               {
                 dataIndex: 'userName',

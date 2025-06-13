@@ -18,7 +18,7 @@ const Dashboard: FC = () => {
   return (
     <PageContainer
       title="Dashboard"
-      className="shopfy"
+      className="shopify"
       extra={[
         <Button
           key="1"

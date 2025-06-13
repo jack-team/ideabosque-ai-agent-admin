@@ -14,6 +14,7 @@ export type FormDataType = {
 }
 
 export type EditStepCanvasProps = {
+  title: string;
   onSave?: (result: FlowSaveResult) => void;
 } & Partial<FlowSaveResult>;
 

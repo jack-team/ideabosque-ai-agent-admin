@@ -28,7 +28,7 @@ const SelectNodesDrawer: FC<SelectNodesDrawerProps> = (props) => {
     <Fragment>
       <Drawer
         open={open}
-        width={400}
+        width={320}
         destroyOnHidden
         title={props.title}
         onClose={onClose}

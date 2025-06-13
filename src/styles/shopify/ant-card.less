@@ -1,0 +1,43 @@
+.card-shadow {
+  box-shadow: 0px 1px 0px 0px #E3E3E3 inset,
+    1px 0px 0px 0px #E3E3E3 inset,
+    -1px 0px 0px 0px #E3E3E3 inset,
+    0px -1px 0px 0px #D4D4D4 inset,
+    0px 1px 0px 0px #00000012;
+}
+
+.ant-pro-card {
+  .card-shadow;
+  border: none;
+  border-radius: 12px;
+  padding: 1px 1px 2px 1px;
+
+  .ant-pro-card-body {
+    overflow: hidden;
+    border-radius: 12px;
+  }
+}
+
+//ant-card
+&.ant-card {
+  .card-shadow;
+  border: none;
+  border-radius: 12px;
+  padding: 1px 1px 2px 1px;
+
+  .ant-card-head {
+    border: none;
+    min-height: auto;
+    border-radius: 0;
+    padding: 16px 16px 0 16px;
+  }
+
+  .ant-card-head-title {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .ant-card-body {
+    padding: 1px 16px 16px 16px;
+  }
+}

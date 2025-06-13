@@ -19,6 +19,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     onClose,
     trigger,
     className,
+    rootClassName,
     hasFooter = true,
     cancelText = 'Back',
     showCancel = true,
@@ -74,9 +75,10 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
         {...rest}
         open={modalOpen}
         onCancel={handleCancel}
-        className={classNames(
-          'shopify', className
+        rootClassName={classNames(
+          'shopify', rootClassName
         )}
+        className={className}
         footer={hasFooter ?
           <Fragment>
             <ShopifyButton
