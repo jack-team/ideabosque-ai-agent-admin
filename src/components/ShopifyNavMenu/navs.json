@@ -2,6 +2,10 @@
   {
     "path": "/",
     "rel": "home",
+    "title": "Home"
+  },
+  {
+    "path": "/",
     "title": "Dashboard"
   },
   {
