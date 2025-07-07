@@ -1,13 +1,30 @@
 import type { FC } from 'react';
+import * as uuid from 'uuid'
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { useListenModalOk } from '@/components/TriggerModal/hooks';
+import { insertUpdateWorkflowApi } from '@/services/workflow';
 import styles from './styles.module.less';
 
-const CreateForm: FC = () => {
+type CreateFormProps = {
+  onSuccess?: (result: API.Workflow.FlowSnippet) => void;
+}
+
+const CreateForm: FC<CreateFormProps> = (props) => {
   const [form] = ProForm.useForm();
 
   useListenModalOk(async () => {
-    const formData = form.validateFields();
+    const formData = await form.validateFields();
+    const {
+      insertUpdateFlowSnippet: result
+    } = await insertUpdateWorkflowApi({
+      ...formData,
+      updatedBy: 'admin',
+      flowContext: JSON.stringify({}),
+      flowRelationship: JSON.stringify({}),
+      promptUuid: `prompt-${uuid.v4()}`,
+      promptVersionUuid: `prompt-version-${uuid.v4()}`
+    });
+    props.onSuccess?.(result.flowSnippet);
   });
 
   return (
@@ -18,7 +35,7 @@ const CreateForm: FC = () => {
     >
       <ProFormText
         label="Workflow name"
-        name="name"
+        name="flowName"
         rules={[
           { required: true }
         ]}

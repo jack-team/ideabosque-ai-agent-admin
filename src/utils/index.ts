@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function getUrlParams(name: string) {
   const search = location.search.substring(1);
   const pairs = search.split('&');
@@ -7,4 +9,8 @@ export function getUrlParams(name: string) {
     if (value) value = decodeURIComponent(value);
     if (key === name) return value;
   }
+}
+
+export function formatDate(date: string, format = 'YYYY-MM-DD HH:mm:ss') {
+  return dayjs(date).format(format);
 }

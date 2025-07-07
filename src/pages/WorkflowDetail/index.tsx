@@ -1,9 +1,14 @@
-import { Button } from 'antd';
+import { useRef } from 'react';
+import { App } from 'antd';
 import { useParams } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemoizedFn, useSafeState, useMount } from 'ahooks';
-import { queryAgentWorkflow } from '@/services/agent-workflow';
+import { queryAgentWorkflowApi } from '@/services/workflow';
+import { insertUpdateWorkflowApi } from '@/services/workflow';
+import { ShopifyButton } from '@/components';
+import type { DetailRefs } from './types';
 import { Spinner } from '@/components';
+import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
 import styles from './styles.module.less';
 
@@ -13,15 +18,30 @@ type UrlParams = {
 }
 
 function WorkflowDetail() {
+  const { message } = App.useApp();
   const params = useParams<UrlParams>();
+  const ref = useRef<DetailRefs>(null);
+  const [loading, setLoading] = useSafeState(false);
   const [detail, setDetail] = useSafeState<API.Workflow.FlowSnippet>();
 
   const fetchData = useMemoizedFn(async () => {
-    const result = await queryAgentWorkflow({
+    const result = await queryAgentWorkflowApi({
       flowSnippetUuid: params.uid,
       flowSnippetVersionUuid: params.vid
     });
     setDetail(result.flowSnippet);
+  });
+
+  const onSave = useMemoizedFn(async () => {
+    const data = ref.current?.getData()!;
+    setLoading(true);
+    await insertUpdateWorkflowApi({
+      ...detail!,
+      flowContext: JSON.stringify(data.flowContext),
+      flowRelationship: JSON.stringify(data.flowRelationship)
+    });
+    message.success('Workflow saved successfully');
+    setLoading(false);
   });
 
   useMount(fetchData);
@@ -36,15 +56,18 @@ function WorkflowDetail() {
         </div>
       )}
       extra={detail ? (
-        <Button
+        <ShopifyButton
           type="primary"
           className="shopify"
+          onClick={onSave}
         >
           Save
-        </Button>
+        </ShopifyButton>
       ) : null}
     >
-      {detail ? <DetailContent /> : null}
+      <SpinBox loading={loading}>
+        {detail ? <DetailContent ref={ref} detail={detail}/> : null}
+      </SpinBox>
     </PageContainer>
   )
 }

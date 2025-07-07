@@ -1,10 +1,18 @@
 import type { FC } from 'react';
+import { useMemoizedFn } from 'ahooks';
+import { useNavigate } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
 import { TriggerModal, ShopifyButton } from '@/components';
 import Workflows from './components/Workflows';
 import CreateWorkflowForm from './components/CreateForm';
 
 const AgentWorkflows: FC = () => {
+  const navigate = useNavigate();
+
+  const toDetailPage = useMemoizedFn((record: API.Workflow.FlowSnippet) => {
+    const { flowSnippetUuid: uid, flowSnippetVersionUuid: vid } = record;
+    navigate(`/agent-workflows/detail/${uid}/${vid}`);
+  });
 
   return (
     <PageContainer
@@ -23,11 +31,11 @@ const AgentWorkflows: FC = () => {
             </ShopifyButton>
           }
         >
-          <CreateWorkflowForm />
+          <CreateWorkflowForm onSuccess={toDetailPage}/>
         </TriggerModal>
       ]}
     >
-      <Workflows />
+      <Workflows onEdit={toDetailPage} />
     </PageContainer>
   );
 }

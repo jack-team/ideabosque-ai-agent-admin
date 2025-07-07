@@ -21,5 +21,11 @@ declare namespace API {
     type QueryWorkflowResult = {
       flowSnippet: FlowSnippet;
     }
+
+    type InsertUpdateWorkflowResult = {
+      insertUpdateFlowSnippet: {
+        flowSnippet: FlowSnippet
+      }
+    }
   }
 }

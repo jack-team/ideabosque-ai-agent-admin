@@ -38,6 +38,16 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     trigger: triggerNode
   } = useTriggerState(trigger);
 
+  const restProps = useMemo(() => {
+    if (runing) {
+      return {
+        ...rest,
+        closable: false,
+      }
+    }
+    return rest;
+  }, [rest, runing])
+
   const event = useMemo(() => {
     return new EventEmitter<EventType>();
   }, []);
@@ -84,9 +94,8 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     >
       {triggerNode}
       <Modal
-        {...rest}
+        {...restProps}
         open={modalOpen}
-        closable={!runing}
         onCancel={handleCancel}
         rootClassName={classNames(
           'shopify', rootClassName

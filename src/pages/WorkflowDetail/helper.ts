@@ -22,9 +22,13 @@ export const processNodeData = (node: NodeType, edges: Edge[], parent?: ProcessN
 
   if (conditions.length) {
     result.conditions = (conditions as ConditionType[]).map(item => {
-      let nextStep = connects.find(e => e.sourceHandle === item.condition)?.target;
+      let nextStep = connects.find(e => {
+        return e.sourceHandle === item.condition;
+      })?.target;
       if (!nextStep && parent?.conditions) {
-        nextStep = parent.conditions.find(e => e.condition === item.condition)?.nextStep;
+        nextStep = parent.conditions.find(e => {
+          return e.condition === item.condition;
+        })?.nextStep;
       }
       return { ...item, nextStep };
     });

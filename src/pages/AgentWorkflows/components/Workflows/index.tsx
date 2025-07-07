@@ -1,25 +1,27 @@
 import type { FC } from 'react';
+import dayjs from 'dayjs';
 import { Space, Tag } from 'antd';
-import { useNavigate } from 'react-router';
 import { ShopifyButton } from '@/components';
 import { ProTable } from '@ant-design/pro-components';
-import { queryAgentWorkflows } from '@/services/agent-workflow';
+import { queryAgentWorkflowsApi } from '@/services/workflow';
+import { formatDate } from '@/utils';
 
-const Workflows: FC = () => {
-  const navigate = useNavigate();
+type WorkflowsProps = {
+  onEdit?: (record: API.Workflow.FlowSnippet) => void;
+};
 
+const Workflows: FC<WorkflowsProps> = (props) => {
   return (
     <ProTable<API.Workflow.FlowSnippet>
       className="shopify"
       options={false}
       search={false}
-      pagination={{
-        pageSize: 10
-      }}
+      rowKey="flowSnippetUuid"
+      pagination={{ pageSize: 10 }}
       request={async () => {
         const {
           flowSnippetList: result
-        } = await queryAgentWorkflows({
+        } = await queryAgentWorkflowsApi({
           pageNumber: 1,
           limit: 100
         })
@@ -43,26 +45,25 @@ const Workflows: FC = () => {
         },
         {
           title: 'Create at',
-          dataIndex: 'createdAt'
+          dataIndex: 'createdAt',
+          render: (_, record) => formatDate(record.createdAt)
         },
         {
           title: 'Update at',
-          dataIndex: 'updatedAt'
+          dataIndex: 'updatedAt',
+          render: (_, record) => formatDate(record.updatedAt)
         },
         {
           key: 'action',
           title: 'Action',
-          width: '120px',
+          width: '100px',
           render: (_, record) => {
             return (
               <Space>
                 <ShopifyButton
                   size="small"
                   type="primary"
-                  onClick={() => {
-                    const { flowSnippetUuid: uid, flowSnippetVersionUuid: vid } = record;
-                    navigate(`/agent-workflows/detail/${uid}/${vid}`);
-                  }}
+                  onClick={() => props.onEdit?.(record)}
                 >
                   Edit
                 </ShopifyButton>

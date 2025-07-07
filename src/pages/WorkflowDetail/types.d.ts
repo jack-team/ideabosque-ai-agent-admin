@@ -13,3 +13,10 @@ export type ProcessNodeDataResult = {
   conditions?: Array<ConditionType>;
   formData?: Record<string, any>;
 }
+
+export type DetailRefs = {
+  getData: () => {
+    flowRelationship: FlowSaveResult;
+    flowContext: ProcessNodeDataResult[];
+  };
+}
