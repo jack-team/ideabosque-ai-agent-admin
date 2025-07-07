@@ -1,85 +1,72 @@
-import type { FC, Key } from 'react';
-import { useSafeState } from 'ahooks';
-import { Tag } from 'antd';
+import type { FC } from 'react';
+import { Space, Tag } from 'antd';
+import { useNavigate } from 'react-router';
+import { ShopifyButton } from '@/components';
 import { ProTable } from '@ant-design/pro-components';
-
-const datas = Array.from({ length: 20 }).map((_, i) => {
-  return {
-    id: `id_${i}`,
-    name: 'New business buyer onboarding',
-    groups: 'Customer group all',
-    lastRun: '5/15/2025',
-    status: 'Active'
-  }
-})
+import { queryAgentWorkflows } from '@/services/agent-workflow';
 
 const Workflows: FC = () => {
-  const [
-    activeKey,
-    setActiveKey
-  ] = useSafeState<Key>('tab1');
+  const navigate = useNavigate();
 
   return (
-    <ProTable
-      search={false}
+    <ProTable<API.Workflow.FlowSnippet>
       className="shopify"
-      options={{
-        density: false,
-        setting: false,
-        search: true
-      }}
-      dataSource={datas}
+      options={false}
+      search={false}
       pagination={{
-        pageSize: 6
+        pageSize: 10
       }}
-      toolbar={{
-        menu: {
-          type: 'tab',
-          activeKey: activeKey,
-          onChange: (val) => setActiveKey(val!),
-          items: [
-            {
-              key: 'tab1',
-              label: 'All',
-            },
-            {
-              key: 'tab2',
-              label: 'Active',
-            },
-            {
-              key: 'tab3',
-              label: 'Inactive'
-            }
-          ],
+      request={async () => {
+        const {
+          flowSnippetList: result
+        } = await queryAgentWorkflows({
+          pageNumber: 1,
+          limit: 100
+        })
+        return {
+          total: result.total,
+          data: result.flowSnippetList
         }
       }}
       columns={[
         {
           title: 'Workflow',
-          dataIndex: 'name',
+          dataIndex: 'flowName',
           sorter: true
         },
         {
-          title: 'Customer groups',
-          dataIndex: 'groups'
-        },
-        {
-          title: 'Last run',
-          dataIndex: 'lastRun'
-        },
-        {
-          width: '100px',
           title: 'Status',
           dataIndex: 'status',
-          render: (text) => {
+          render: (_, record) => {
+            return <Tag color="">{record.status}</Tag>;
+          }
+        },
+        {
+          title: 'Create at',
+          dataIndex: 'createdAt'
+        },
+        {
+          title: 'Update at',
+          dataIndex: 'updatedAt'
+        },
+        {
+          key: 'action',
+          title: 'Action',
+          width: '120px',
+          render: (_, record) => {
             return (
-              <Tag
-                className="shopify"
-                color="#CDFEE1"
-                style={{ color: '#0C5132' }}
-              >
-                {text}
-              </Tag>
+              <Space>
+                <ShopifyButton
+                  size="small"
+                  type="primary"
+                  onClick={() => {
+                    const { flowSnippetUuid: uid, flowSnippetVersionUuid: vid } = record;
+                    navigate(`/agent-workflows/detail/${uid}/${vid}`);
+                  }}
+                >
+                  Edit
+                </ShopifyButton>
+              </Space>
             )
           }
         }

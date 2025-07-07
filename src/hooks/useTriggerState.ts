@@ -1,27 +1,30 @@
 import type { ReactElement } from 'react';
 import { cloneElement } from 'react';
 import { useSafeState, useMemoizedFn } from 'ahooks';
+import type { TriggerProps, EventHandler } from '@/components/TriggerModal/types';
 
-export const useTriggerState = (trigger: ReactElement) => {
+export const useTriggerState = (trigger: ReactElement<TriggerProps>) => {
   const [open, setOpen] = useSafeState(false);
 
-  const onOpen = useMemoizedFn(() => {
-    setOpen(true);
+  const onOpen = useMemoizedFn(() => setOpen(true));
+
+  const handleClick = useMemoizedFn<EventHandler>((evt) => {
+    onOpen();
+    trigger.props.onClick?.(evt);
   });
 
   const onClose = useMemoizedFn(() => {
     setOpen(false);
   });
 
-  trigger = cloneElement(trigger, {
-    //@ts-ignore
-    onClick: onOpen
+  const node = cloneElement(trigger, {
+    onClick: handleClick
   });
 
   return {
     open,
-    trigger,
+    onOpen,
     onClose,
-    onOpen
+    trigger: node
   };
 }

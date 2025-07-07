@@ -25,7 +25,7 @@ export const routes: RouteObject[] = [
         Component: lazyLoad(() => import('@/pages/AgentWorkflows'))
       },
       {
-        path: '/agent-workflows/detail/:id',
+        path: '/agent-workflows/detail/:uid/:vid',
         Component: lazyLoad(() => import('@/pages/WorkflowDetail'))
       },
       {

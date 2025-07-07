@@ -1,12 +1,12 @@
 import type { FC, MouseEvent } from 'react';
 import { Fragment, useMemo, useEffect } from 'react';
+import { useMemoizedFn, useUpdateEffect, useSafeState } from 'ahooks';
 import { Modal } from 'antd';
 import classNames from 'classnames';
 import EventEmitter from 'eventemitter3';
-import { ShopifyButton } from '@/components';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { useTriggerState } from '@/hooks/useTriggerState';
+import { ShopifyButton } from '@/components';
 import { TriggerModalContext } from './context';
 import type { TriggerModalProps, EventType } from './types';
 export * from './hooks';
@@ -26,6 +26,11 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     ...rest
   } = props;
 
+  const [
+    runing,
+    setRuning
+  ] = useSafeState(false);
+
   const {
     open: modalOpen,
     onClose: closeModal,
@@ -43,10 +48,17 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
   );
 
   const handleOk = useMemoizedFn(async (e: MouseEvent) => {
-    await Promise.all(getEventTasks('ok', e));
+    setRuning(true);
+    try {
+      await Promise.all(getEventTasks('ok', e));
+    } catch (err) {
+      console.error(err);
+    }
+    setRuning(false);
   });
 
   const handleCancel = useMemoizedFn(async (e: MouseEvent) => {
+    if (runing) return;
     await Promise.all(getEventTasks('cancel', e));
     closeModal();
   });
@@ -74,6 +86,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
       <Modal
         {...rest}
         open={modalOpen}
+        closable={!runing}
         onCancel={handleCancel}
         rootClassName={classNames(
           'shopify', rootClassName
@@ -86,7 +99,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
               children={cancelText}
               onClick={handleCancel}
               icon={<ArrowLeftOutlined />}
-              className={!showCancel ? 'visb-hide' : ''}
+              className={(!showCancel || runing) ? 'visb-hide' : ''}
             />
             <ShopifyButton
               type="primary"

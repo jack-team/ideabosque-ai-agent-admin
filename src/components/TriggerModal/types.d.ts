@@ -1,14 +1,20 @@
-import type { ReactElement, MouseEvent } from 'react';
+import type { ReactElement, MouseEvent, MouseEventHandler } from 'react';
 import type { ModalProps } from 'antd';
 import EventEmitter from 'eventemitter3';
+
+export type EventHandler = MouseEventHandler<HTMLElement>;
 
 export type ModalInstance = {
   closeModal: () => void;
   openModal: () => void;
 }
 
+export type TriggerProps = {
+  onClick?: EventHandler;
+}
+
 export type TriggerModalProps = {
-  trigger: ReactElement;
+  trigger: ReactElement<TriggerProps>;
   showCancel?: boolean;
   modal?: ModalInstance;
   onOpen?: () => void;

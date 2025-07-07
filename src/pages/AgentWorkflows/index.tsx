@@ -1,26 +1,30 @@
 import type { FC } from 'react';
-import { Button } from 'antd';
-import { useNavigate } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
+import { TriggerModal, ShopifyButton } from '@/components';
 import Workflows from './components/Workflows';
+import CreateWorkflowForm from './components/CreateForm';
 
 const AgentWorkflows: FC = () => {
-  const navigate = useNavigate();
+
   return (
     <PageContainer
       title="Agent workflows"
       className="shopify"
       extra={[
-        <Button
-          key="1"
-          type="primary"
-          className="shopify"
-          onClick={async () => {
-            navigate('/agent-workflows/detail/11223')
-          }}
+        <TriggerModal
+          key="add"
+          width={400}
+          destroyOnHidden
+          title="Create workflow"
+          okText="Create"
+          trigger={
+            <ShopifyButton type="primary">
+              Create workflow
+            </ShopifyButton>
+          }
         >
-          Create workflow
-        </Button>
+          <CreateWorkflowForm />
+        </TriggerModal>
       ]}
     >
       <Workflows />
