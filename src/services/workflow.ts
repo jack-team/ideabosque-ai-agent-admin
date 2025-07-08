@@ -1,20 +1,27 @@
 import { agentCore } from '@/helper/request';
-import { generateQuery } from './generate';
+import {
+  deleteFlowSnippetQl,
+  queryFlowSnippetListQl,
+  queryFlowSnippetQl,
+  insertUpdateFlowSnippetQl
+} from '@/qls/workflow';
 
 // 获取workflow 列表
-export const queryAgentWorkflowsApi = async (variables: SplitPageParams) => {
-  const query = await generateQuery({ name: 'flowSnippetList', type: 'Query' });
-  return agentCore.graphql<API.Workflow.QueryWorkflowsResult>({ query, variables });
+export const queryAgentWorkflowsApi = (variables: SplitPageParams) => {
+  return agentCore.graphql({ query: queryFlowSnippetListQl, variables });
 }
 
 // 获取单个Workflow 详情
-export const queryAgentWorkflowApi = async (variables: Record<string, any>) => {
-  const query = await generateQuery({ name: 'flowSnippet', type: 'Query' });
-  return agentCore.graphql<API.Workflow.QueryWorkflowResult>({ query, variables });
+export const queryAgentWorkflowApi = (variables: Record<string, any>) => {
+  return agentCore.graphql({ query: queryFlowSnippetQl, variables });
 }
 
 // 新建或者更新
-export const insertUpdateWorkflowApi = async (variables: Partial<API.Workflow.FlowSnippet>) => {
-  const query = await generateQuery({ name: 'insertUpdateFlowSnippet', type: 'Mutation' });
-  return agentCore.graphql<API.Workflow.InsertUpdateWorkflowResult>({ query, variables });
+export const insertUpdateWorkflowApi = (variables: Partial<API.Workflow.FlowSnippet>) => {
+  return agentCore.graphql({ query: insertUpdateFlowSnippetQl, variables });
+}
+
+// 删除
+export const deleteFlowSnippetApi = (variables: Pick<API.Workflow.FlowSnippet, 'flowSnippetVersionUuid'>) => {
+  return agentCore.graphql({ query: deleteFlowSnippetQl, variables });
 }

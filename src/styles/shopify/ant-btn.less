@@ -41,7 +41,6 @@
   }
 
   &.ant-btn-loading {
-    min-width: 80px;
     background: #ececec;
     box-shadow: none;
 
@@ -53,7 +52,12 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate3d(-50%, -50%, 0);
+      color: #666;
+      transform: translate3d(-50%, -50%, 0) !important;
+
+      &+span {
+        opacity: 0;
+      }
     }
   }
 

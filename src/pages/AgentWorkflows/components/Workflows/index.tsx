@@ -1,9 +1,9 @@
-import type { FC } from 'react';
-import dayjs from 'dayjs';
-import { Space, Tag } from 'antd';
+import { type FC, useRef } from 'react';
+import { Space, Tag, App } from 'antd';
+import { useMemoizedFn } from 'ahooks';
 import { ShopifyButton } from '@/components';
-import { ProTable } from '@ant-design/pro-components';
-import { queryAgentWorkflowsApi } from '@/services/workflow';
+import { ProTable, type ActionType } from '@ant-design/pro-components';
+import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
 import { formatDate } from '@/utils';
 
 type WorkflowsProps = {
@@ -11,11 +11,28 @@ type WorkflowsProps = {
 };
 
 const Workflows: FC<WorkflowsProps> = (props) => {
+  const { modal } = App.useApp();
+  const actionRef = useRef<ActionType>(null);
+
+  const deleteRow = useMemoizedFn(async (record: API.Workflow.FlowSnippet) => {
+    modal.confirm({
+      rootClassName: 'shopify',
+      okButtonProps: { className: 'shopify' },
+      cancelButtonProps: { className: 'shopify' },
+      title: 'Are you sure you want to delete this record?',
+      onOk: async () => {
+        await deleteFlowSnippetApi(record);
+        actionRef.current?.reload();
+      }
+    });
+  });
+
   return (
     <ProTable<API.Workflow.FlowSnippet>
       className="shopify"
       options={false}
       search={false}
+      actionRef={actionRef}
       rowKey="flowSnippetUuid"
       pagination={{ pageSize: 10 }}
       request={async () => {
@@ -33,15 +50,12 @@ const Workflows: FC<WorkflowsProps> = (props) => {
       columns={[
         {
           title: 'Workflow',
-          dataIndex: 'flowName',
-          sorter: true
+          dataIndex: 'flowName'
         },
         {
           title: 'Status',
           dataIndex: 'status',
-          render: (_, record) => {
-            return <Tag color="">{record.status}</Tag>;
-          }
+          render: (_, record) => <Tag>{record.status}</Tag>
         },
         {
           title: 'Create at',
@@ -56,7 +70,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
         {
           key: 'action',
           title: 'Action',
-          width: '100px',
+          width: '160px',
           render: (_, record) => {
             return (
               <Space>
@@ -67,13 +81,19 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                 >
                   Edit
                 </ShopifyButton>
+                <ShopifyButton
+                  danger
+                  size="small"
+                  children="Delete"
+                  onClick={() => deleteRow(record)}
+                />
               </Space>
             )
           }
         }
       ]}
     />
-  )
+  );
 }
 
 export default Workflows;
