@@ -17,7 +17,7 @@ const SelectNodesDrawer: FC<SelectNodesDrawerProps> = (props) => {
     open,
     trigger,
     onClose
-  } = useTriggerState(props.trigger);
+  } = useTriggerState(props.trigger as any);
 
   const handleChange = useMemoizedFn((result: ResultType) => {
     onClose();
