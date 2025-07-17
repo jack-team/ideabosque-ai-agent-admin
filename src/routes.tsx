@@ -14,23 +14,35 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/dashboard',
-        Component: lazyLoad(() => import('@/pages/Dashboard'))
+        Component: lazyLoad(() => import('@/pages/dashboard'))
       },
       {
         path: '/customer-groups',
-        Component: lazyLoad(() => import('@/pages/CustomerGroups'))
+        Component: lazyLoad(() => import('@/pages/customerGroups'))
       },
       {
         path: '/agent-workflows',
-        Component: lazyLoad(() => import('@/pages/AgentWorkflows'))
+        Component: lazyLoad(() => import('@/pages/agentWorkflows'))
       },
       {
         path: '/agent-workflows/detail/:uid/:vid',
-        Component: lazyLoad(() => import('@/pages/WorkflowDetail'))
+        Component: lazyLoad(() => import('@/pages/workflowDetail'))
+      },
+      {
+        path: '/ai-core-engine',
+        Component: lazyLoad(() => import('@/pages/aiCoreEngine'))
+      },
+      {
+        path: '/ai-core-engine/llm',
+        Component: lazyLoad(() => import('@/pages/aiCoreEngine/llm'))
+      },
+      {
+        path: '/ai-core-engine/agent',
+        Component: lazyLoad(() => import('@/pages/aiCoreEngine/agent'))
       },
       {
         path: '/settings',
-        Component: lazyLoad(() => import('@/pages/Settings'))
+        Component: lazyLoad(() => import('@/pages/settings'))
       }
     ]
   }

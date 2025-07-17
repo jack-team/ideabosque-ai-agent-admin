@@ -14,3 +14,11 @@ export function getUrlParams(name: string) {
 export function formatDate(date: string, format = 'YYYY-MM-DD HH:mm:ss') {
   return dayjs(date).format(format);
 }
+
+export const parseJson = (json: string) => {
+  try {
+    return JSON.parse(json);
+  } catch (err) {
+    return null;
+  }
+}

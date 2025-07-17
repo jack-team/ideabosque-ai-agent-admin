@@ -17,6 +17,10 @@
     "title": "Agent Workflows"
   },
   {
+    "path": "/ai-core-engine",
+    "title": "Ai Core Engine"
+  },
+  {
     "path": "/settings",
     "title": "Settings"
   }
