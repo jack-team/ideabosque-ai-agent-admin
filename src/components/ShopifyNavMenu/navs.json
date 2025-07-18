@@ -13,6 +13,10 @@
     "title": "Customer Groups"
   },
   {
+    "path": "/workflow-templates",
+    "title": "Workflow Templates"
+  },
+  {
     "path": "/agent-workflows",
     "title": "Agent Workflows"
   },

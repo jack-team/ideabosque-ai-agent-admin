@@ -18,7 +18,7 @@ const ShopifyButton: FC<ShopifyButtonProps> = (props) => {
   const [
     asyncLoading,
     setAsyncLoading
-  ] = useSafeState(loading);
+  ] = useSafeState(false);
 
   const btnLoading = loading || asyncLoading;
 

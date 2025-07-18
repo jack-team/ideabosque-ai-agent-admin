@@ -14,12 +14,12 @@ export * from './hooks';
 const TriggerModal: FC<TriggerModalProps> = (props) => {
   const {
     modal,
-    okText,
     onOpen,
     onClose,
     trigger,
     className,
     rootClassName,
+    okText = 'Save',
     hasFooter = true,
     cancelText = 'Back',
     showCancel = true,

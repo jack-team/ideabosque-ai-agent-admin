@@ -20,6 +20,16 @@ export const routes: RouteObject[] = [
         path: '/customer-groups',
         Component: lazyLoad(() => import('@/pages/customerGroups'))
       },
+      // workflow-templates
+      {
+        path: '/workflow-templates',
+        Component: lazyLoad(() => import('@/pages/workflowTemplates'))
+      },
+      {
+        path: '/workflow-templates/detail/:uid/:vid',
+        Component: lazyLoad(() => import('@/pages/workflowTemplateDetail'))
+      },
+      // agent-workflows
       {
         path: '/agent-workflows',
         Component: lazyLoad(() => import('@/pages/agentWorkflows'))
