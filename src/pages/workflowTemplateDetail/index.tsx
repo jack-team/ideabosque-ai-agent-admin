@@ -1,9 +1,7 @@
-import { cache, type FC } from 'react';
-import { Card, Row, Col, Space } from 'antd';
-import { useParams } from 'react-router-dom';
-import SpinBox from '@/components/SpinBox';
-import { ShopifyButton } from '@/components';
-import { useMount, useMemoizedFn, useSafeState, useUpdateEffect } from 'ahooks';
+import { type FC, useEffect } from "react";
+import { Card, Row, Col, Space, App } from "antd";
+import { useParams, useLocation } from "react-router-dom";
+import { useMount, useMemoizedFn, useSafeState } from "ahooks";
 
 import {
   ProForm,
@@ -11,107 +9,94 @@ import {
   ProFormText,
   ProFormTextArea,
   ProFormSelect,
-  ProFormList
-} from '@ant-design/pro-components';
+  ProFormList,
+} from "@ant-design/pro-components";
 
 import {
   fetchMcpServersApi,
   fetchuiComponentsApi,
   fetchWorkflowTemplateDetailApi,
-  insertUpdatePromptTemplateApi
-} from '@/services/workflow';
+  insertUpdatePromptTemplateApi,
+} from "@/services/workflow";
 
-import { TemplateTypeMap } from '../workflowTemplates/const';
-
-import styles from './styles.module.less';
+import SpinBox from "@/components/SpinBox";
+import { ShopifyButton } from "@/components";
+import {
+  splitTag,
+  dateTransformFormData,
+  formDataTransformRequestParams,
+} from "./helper";
+import { TemplateTypeMap } from "../workflowTemplates/const";
+import styles from "./styles.module.less";
 
 type UrlParams = {
   uid: string;
   vid: string;
-}
+};
 
 const WorkflowTemplateDetail: FC = () => {
   const [form] = ProForm.useForm();
+  const { message } = App.useApp();
+  const { state } = useLocation();
   const { uid, vid } = useParams<UrlParams>();
-  const [loading, setLoading] = useSafeState(true);
-  const [detail, setDetail] = useSafeState<API.Workflow.PromptTemplateItem>();
+  const [loading, setLoading] = useSafeState(false);
+  const [detail, setDetail] =
+    useSafeState<API.Workflow.PromptTemplateItem>(state);
 
   const fetchDetail = useMemoizedFn(async () => {
-    const {
-      promptTemplate: formData
-    } = await fetchWorkflowTemplateDetailApi({
+    const { promptTemplate: formData } = await fetchWorkflowTemplateDetailApi({
       promptUuid: uid,
-      promptVersionUuid: vid
+      promptVersionUuid: vid,
     });
-    setLoading(false);
     setDetail(formData);
   });
 
   const setFormData = useMemoizedFn(() => {
-    const { mcpServers, uiComponents } = detail!;
-    form.setFieldsValue({
-      ...detail,
-      mcpServers: mcpServers.map(e => e.mcp_server_uuid),
-      uiComponents: uiComponents.map(e => e.ui_component_uuid)
-    });
+    const formData = dateTransformFormData(detail);
+    form.setFieldsValue(formData);
   });
-
 
   const handleSubmit = useMemoizedFn(async () => {
     const formData = await form.validateFields();
-    const mcpServers = (formData.mcpServers || []) as string[];
-    const uiComponents = (formData.uiComponents || []) as string[];
-
     try {
       setLoading(true);
-      await insertUpdatePromptTemplateApi({
-        ...formData,
-        promptUuid: uid,
-        promptVersionUuid: vid,
-        uiComponents: uiComponents.map(id => {
-          return {
-            ui_component_uuid: id,
-            ui_component_type: ''
-          }
-        }),
-        mcpServers: mcpServers.map(id => {
-          return {
-            mcp_server_uuid: id
-          }
-        }),
-        updatedBy: 'admin',
-      });
-    } catch (err) {
-
+      const params = formDataTransformRequestParams(formData);
+      await insertUpdatePromptTemplateApi(params);
+      message.success("Template saved successfully.");
+    } catch (err: any) {
+      message.error(err.message);
     } finally {
       setLoading(false);
     }
   });
 
-  useMount(fetchDetail);
-
-  useUpdateEffect(() => {
-    detail && setFormData();
+  useEffect(() => {
+    if (detail) {
+      setFormData();
+    } else {
+      fetchDetail();
+    }
   }, [detail]);
 
   return (
-    <PageContainer
-      title={detail?.promptName}
-      className="shopify full-screen"
-      extra={
-        <Space>
-          <ShopifyButton
-            type="primary"
-            loading={loading}
-            onClick={handleSubmit}
-          >
-            Save
-          </ShopifyButton>
-        </Space>
-      }
-    >
-      <div className={styles.wrapper}>
-        <SpinBox loading={loading}>
+    <SpinBox loading={!detail}>
+      <PageContainer
+        title={detail?.promptName}
+        className="shopify full-screen"
+        extra={
+          <Space>
+            <ShopifyButton
+              type="primary"
+              loading={loading}
+              disabled={!detail}
+              onClick={handleSubmit}
+            >
+              Save
+            </ShopifyButton>
+          </Space>
+        }
+      >
+        <div className={styles.wrapper}>
           <Card className="shopify">
             <ProForm
               form={form}
@@ -119,16 +104,16 @@ const WorkflowTemplateDetail: FC = () => {
               layout="horizontal"
               labelAlign="left"
               className={styles.form}
-              labelCol={{ flex: '180px' }}
+              labelCol={{ flex: "180px" }}
             >
+              <ProFormText hidden name="promptUuid" />
+              <ProFormText hidden name="promptVersionUuid" />
               <Row gutter={16}>
                 <Col span={24}>
                   <ProFormText
                     label="Template Name"
                     name="promptName"
-                    rules={[
-                      { required: true }
-                    ]}
+                    rules={[{ required: true }]}
                   />
                 </Col>
                 <Col span={24}>
@@ -136,9 +121,7 @@ const WorkflowTemplateDetail: FC = () => {
                     label="Type"
                     name="promptType"
                     valueEnum={TemplateTypeMap}
-                    rules={[
-                      { required: true }
-                    ]}
+                    rules={[{ required: true }]}
                   />
                 </Col>
                 <Col span={24}>
@@ -146,22 +129,19 @@ const WorkflowTemplateDetail: FC = () => {
                     label="Mcp Servers"
                     name="mcpServers"
                     mode="multiple"
-                    rules={[
-                      { required: true }
-                    ]}
+                    rules={[{ required: true }]}
                     request={async () => {
-                      const {
-                        mcpServerList: result
-                      } = await fetchMcpServersApi({
-                        pageNumber: 1,
-                        limit: 1000
-                      });
-                      return result.mcpServerList.map(item => {
+                      const { mcpServerList: result } =
+                        await fetchMcpServersApi({
+                          pageNumber: 1,
+                          limit: 1000,
+                        });
+                      return result.mcpServerList.map((item) => {
                         return {
                           label: item.mcpLabel,
-                          value: item.mcpServerUuid
-                        }
-                      })
+                          value: item.mcpServerUuid,
+                        };
+                      });
                     }}
                   />
                 </Col>
@@ -170,21 +150,22 @@ const WorkflowTemplateDetail: FC = () => {
                     label="Ui Components"
                     name="uiComponents"
                     mode="multiple"
-                    rules={[
-                      { required: true }
-                    ]}
+                    rules={[{ required: true }]}
                     request={async () => {
-                      const {
-                        uiComponentList: result
-                      } = await fetchuiComponentsApi({
-                        pageNumber: 1,
-                        limit: 1000
-                      });
-                      return result.uiComponentList.map(item => {
+                      const { uiComponentList: result } =
+                        await fetchuiComponentsApi({
+                          pageNumber: 1,
+                          limit: 1000,
+                        });
+                      return result.uiComponentList.map((item) => {
+                        const val = [
+                          item.uiComponentUuid,
+                          item.uiComponentType,
+                        ].join(splitTag);
                         return {
                           label: item.tagName,
-                          value: item.uiComponentUuid
-                        }
+                          value: val,
+                        };
                       });
                     }}
                   />
@@ -194,17 +175,13 @@ const WorkflowTemplateDetail: FC = () => {
                 label="Template Description"
                 name="promptDescription"
                 fieldProps={{ rows: 12 }}
-                rules={[
-                  { required: true }
-                ]}
+                rules={[{ required: true }]}
               />
               <ProFormTextArea
                 label="Template Context"
                 name="templateContext"
                 fieldProps={{ rows: 12 }}
-                rules={[
-                  { required: true }
-                ]}
+                rules={[{ required: true }]}
               />
               <ProFormList
                 required
@@ -231,10 +208,10 @@ const WorkflowTemplateDetail: FC = () => {
               </ProFormList>
             </ProForm>
           </Card>
-        </SpinBox>
-      </div>
-    </PageContainer>
+        </div>
+      </PageContainer>
+    </SpinBox>
   );
-}
+};
 
 export default WorkflowTemplateDetail;

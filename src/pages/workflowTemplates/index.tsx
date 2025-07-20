@@ -1,20 +1,25 @@
-import dayjs from 'dayjs';
-import { Space } from 'antd';
-import { useMemoizedFn } from 'ahooks';
-import { useNavigate } from 'react-router-dom';
-import { type FC, cloneElement, useRef } from 'react';
-import { ShopifyButton, TriggerModal } from '@/components';
-import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
-import { queryAgentWorkflowTemplatesApi } from '@/services/workflow';
-import { TemplateTypeMap } from './const';
-import CreateForm from './components/CreateForm';
+import dayjs from "dayjs";
+import { Space } from "antd";
+import { useMemoizedFn } from "ahooks";
+import { useNavigate } from "react-router-dom";
+import { type FC, cloneElement, useRef } from "react";
+import { ShopifyButton, TriggerModal } from "@/components";
+import {
+  PageContainer,
+  ProTable,
+  type ActionType,
+} from "@ant-design/pro-components";
+import { queryAgentWorkflowTemplatesApi } from "@/services/workflow";
+import { TemplateTypeMap } from "./const";
+import CreateForm from "./components/CreateForm";
 
 const AgentTemplates: FC = () => {
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
 
-  const handleSuccess = useMemoizedFn(() => {
-    actionRef.current?.reload();
+  const toDetail = useMemoizedFn((record: API.Workflow.PromptTemplateItem) => {
+    const { promptUuid: uid, promptVersionUuid: vid } = record;
+    navigate(`/workflow-templates/detail/${uid}/${vid}`, { state: record });
   });
 
   return (
@@ -27,12 +32,10 @@ const AgentTemplates: FC = () => {
           destroyOnHidden
           title="Create template"
           trigger={
-            <ShopifyButton type="primary">
-              Create Template
-            </ShopifyButton>
+            <ShopifyButton type="primary">Create Template</ShopifyButton>
           }
         >
-          <CreateForm onSuccess={handleSuccess} />
+          <CreateForm onSuccess={toDetail} />
         </TriggerModal>
       }
     >
@@ -41,93 +44,83 @@ const AgentTemplates: FC = () => {
         actionRef={actionRef}
         options={false}
         search={{
-          layout: 'vertical',
+          layout: "vertical",
           optionRender: (_, __, btns) => {
-            return btns.map(btn => (
+            return btns.map((btn) =>
               // @ts-ignore
-              cloneElement(btn, { className: 'shopify' })
-            ))
-          }
+              cloneElement(btn, { className: "shopify" })
+            );
+          },
         }}
         columns={[
           {
-            dataIndex: 'promptName',
-            title: 'Template',
-            fixed: 'left'
+            dataIndex: "promptName",
+            title: "Template",
+            fixed: "left",
           },
           {
-            dataIndex: 'promptType',
-            title: 'Type',
-            valueEnum: TemplateTypeMap
-
+            dataIndex: "promptType",
+            title: "Type",
+            valueEnum: TemplateTypeMap,
           },
           {
-            dataIndex: 'promptDescription',
-            title: 'Description',
-            hideInSearch: true
+            dataIndex: "promptDescription",
+            title: "Description",
+            hideInSearch: true,
           },
           {
-            dataIndex: 'updatedAt',
-            title: 'Updated at',
+            dataIndex: "updatedAt",
+            title: "Updated at",
             hideInSearch: true,
             render: (_, record) => {
-              return dayjs(record.updatedAt).format('YYYY/MM/DD HH:mm:ss')
-            }
+              return dayjs(record.updatedAt).format("YYYY/MM/DD HH:mm:ss");
+            },
           },
           {
-            dataIndex: 'updatedBy',
-            title: 'Updated by',
-            hideInSearch: true
-          },
-          {
-
-            key: 'action',
-            title: 'Action',
-            width: '100px',
-            align: 'center',
+            dataIndex: "updatedBy",
+            title: "Updated by",
             hideInSearch: true,
-            fixed: 'right',
+          },
+          {
+            key: "action",
+            title: "Action",
+            width: "100px",
+            align: "center",
+            hideInSearch: true,
+            fixed: "right",
             render: (_, record) => {
               return (
                 <Space>
                   <ShopifyButton
                     type="primary"
                     size="small"
-                    onClick={() => {
-                      const { promptUuid: uid, promptVersionUuid: vid } = record;
-                      navigate(`/workflow-templates/detail/${uid}/${vid}`);
-                    }}
+                    onClick={() => toDetail(record)}
                   >
                     Edit
                   </ShopifyButton>
                 </Space>
-              )
-            }
-          }
+              );
+            },
+          },
         ]}
-        scroll={{ x: 'max-content' }}
+        scroll={{ x: "max-content" }}
         request={async (params) => {
-          const {
-            current = 1,
-            pageSize = 10,
-            ...reset
-          } = params;
+          const { current = 1, pageSize = 10, ...reset } = params;
 
-          const {
-            promptTemplateList: result
-          } = await queryAgentWorkflowTemplatesApi({
-            pageNumber: current,
-            limit: pageSize,
-            ...reset
-          })
+          const { promptTemplateList: result } =
+            await queryAgentWorkflowTemplatesApi({
+              pageNumber: current,
+              limit: pageSize,
+              ...reset,
+            });
           return {
             total: result.total,
             data: result.promptTemplateList,
-          }
+          };
         }}
       />
     </PageContainer>
-  )
-}
+  );
+};
 
 export default AgentTemplates;

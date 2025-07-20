@@ -20,4 +20,7 @@ export type ErrorType = {
 export type GraphqlResultType<T = any> = {
   error: string | ErrorType;
   data?: T;
+  errors?: Array<{
+    message: string;
+  }>
 } & Partial<GenerateQueryResult>; 

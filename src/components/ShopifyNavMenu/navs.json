@@ -13,6 +13,14 @@
     "title": "Customer Groups"
   },
   {
+    "path": "/workflow-mcp-servers",
+    "title": "Mcp Servers"
+  },
+  {
+    "path": "/workflow-ui-components",
+    "title": "Ui Components"
+  },
+  {
     "path": "/workflow-templates",
     "title": "Workflow Templates"
   },

@@ -1,6 +1,5 @@
 declare namespace API {
   namespace Workflow {
-
     type FlowSnippet = {
       flowName: string;
       flowSnippetUuid: string;
@@ -11,13 +10,13 @@ declare namespace API {
       flowRelationship: string;
       flowContext: string;
       createdAt: string;
-    }
+    };
 
     type McpServerTool = {
       name: string;
       description: string;
       input_schema: Record<string, any>;
-    }
+    };
 
     type UiComponentType = {
       ui_component_uuid: string;
@@ -27,7 +26,7 @@ declare namespace API {
       parameters: Array<{
         name: string;
         parameter: string;
-      }>
+      }>;
       createdAt: string;
       updatedAt: string;
       tagName: string;
@@ -35,7 +34,7 @@ declare namespace API {
       uiComponentUuid: string;
       updatedBy: string;
       waitFor: string;
-    }
+    };
 
     type McpServerItem = {
       mcp_server_uuid: string;
@@ -50,7 +49,7 @@ declare namespace API {
       mcpLabel: string;
       mcpServerUrl: string;
       mcpServerUuid: string;
-    }
+    };
 
     type PromptTemplateItem = {
       createdAt: string;
@@ -67,46 +66,49 @@ declare namespace API {
       variables: any[];
       mcpServers: McpServerItem[];
       uiComponents: UiComponentType[];
-    }
+    };
 
-    type QueryWorkflowsResult = SplitPageResult<
-      'flowSnippetList',
-      FlowSnippet
-    >;
+    type QueryWorkflowsResult = SplitPageResult<"flowSnippetList", FlowSnippet>;
 
     type QueryWorkflowResult = {
       flowSnippet: FlowSnippet;
-    }
+    };
 
     type InsertUpdateWorkflowResult = {
       insertUpdateFlowSnippet: {
-        flowSnippet: FlowSnippet
-      }
-    }
+        flowSnippet: FlowSnippet;
+      };
+    };
 
     type QueryAgentWorkflowTemplatesResult = SplitPageResult<
-      'promptTemplateList',
+      "promptTemplateList",
       PromptTemplateItem
-    >
+    >;
 
     type InsertUpdatePromptTemplateResult = {
       insertUpdatePromptTemplate: {
         promptTemplate: PromptTemplateItem;
-      }
-    }
+      };
+    };
 
     type FetchWorkflowTemplateDetailResult = {
       promptTemplate: PromptTemplateItem;
-    }
+    };
 
     type FetchMcpServersResult = SplitPageResult<
-      'mcpServerList',
+      "mcpServerList",
       McpServerItem
     >;
 
     type FetchuiComponentsResult = SplitPageResult<
-      'uiComponentList',
+      "uiComponentList",
       UiComponentType
     >;
+
+    type InsetUpdateUiComponentResult = {
+      insertUpdateUiComponent: {
+        uiComponent: UiComponentType;
+      };
+    };
   }
 }
