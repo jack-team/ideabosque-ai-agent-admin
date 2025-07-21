@@ -184,7 +184,6 @@ const WorkflowTemplateDetail: FC = () => {
                 rules={[{ required: true }]}
               />
               <ProFormList
-                required
                 label="Variables"
                 name="variables"
                 className={styles.form_list}

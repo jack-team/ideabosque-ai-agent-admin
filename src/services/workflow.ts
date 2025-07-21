@@ -82,6 +82,20 @@ export const fetchMcpServersApi = async (variables: SplitPageParams) => {
   });
 };
 
+// 新建编辑 mcpServer
+export const insertUpdateMcpServerApi = async (
+  variables: Record<string, any>
+) => {
+  const query = await generateQuery({
+    type: "Mutation",
+    name: "insertUpdateMcpServer",
+  });
+  return agentCore.graphql<API.Workflow.InsertUpdateMcpServerResult>({
+    query,
+    variables,
+  });
+};
+
 // 获取 uiComponents
 export const fetchuiComponentsApi = async (variables: SplitPageParams) => {
   const query = await generateQuery({ type: "Query", name: "uiComponentList" });

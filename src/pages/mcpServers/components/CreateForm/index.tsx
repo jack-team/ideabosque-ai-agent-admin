@@ -1,18 +1,17 @@
-import type { FC } from "react";
+import { type FC, useMemo } from "react";
 import { App, Row, Col } from "antd";
 import {
   ProForm,
   ProFormText,
   ProFormList,
-  ProFormSelect,
 } from "@ant-design/pro-components";
 import { useListenModalOk, useModalClose } from "@/components/TriggerModal";
-import { insetUpdateUiComponentApi } from "@/services/workflow";
-import { ComponentTypeMap } from "../../const";
+import { dataTransformFormData, formDataTransformRequestParams } from './helper';
+import { insertUpdateMcpServerApi } from "@/services/workflow";
 import styles from "./styles.module.less";
 
 type CreateFormProps = {
-  formData?: API.Workflow.UiComponentType;
+  formData?: API.Workflow.McpServerItem;
   onSuccess?: () => void;
 };
 
@@ -22,17 +21,20 @@ const CreateForm: FC<CreateFormProps> = (props) => {
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
 
+  const initialValues = useMemo(() => {
+    if (!formData) return;
+    return dataTransformFormData(formData);
+  }, [formData]);
+
   useListenModalOk(async () => {
     const values = await form.validateFields();
+    const params = formDataTransformRequestParams(values);
     try {
-      await insetUpdateUiComponentApi({
-        ...values,
-        updatedBy: "Admin",
-      });
+      await insertUpdateMcpServerApi(params);
       closeModal();
       onSuccess?.();
       message.success(
-        `Successfully ${formData ? "updated" : "created"} UI component.`
+        `Successfully ${formData ? "updated" : "created"} Mcp server.`
       );
     } catch (err: any) {
       message.error(err.message);
@@ -44,37 +46,36 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
-      initialValues={formData}
+      scrollToFirstError
+      initialValues={initialValues}
       className={styles.edit_form}
     >
-      <ProFormText hidden name="uiComponentUuid" />
+      <ProFormText hidden name="mcpServerUuid" />
       <ProFormText
-        label="Tag name"
-        name="tagName"
+        label="Mcp label"
+        name="mcpLabel"
         rules={[{ required: true }]}
       />
-      <ProFormSelect
-        name="uiComponentType"
-        label="Component type"
-        rules={[{ required: true }]}
-        valueEnum={ComponentTypeMap}
-      />
       <ProFormText
-        name="waitFor"
-        label="Wait for"
-        rules={[{ required: true }]}
+        name="mcpServerUrl"
+        label="Mcp server url"
+        rules={[{ required: true, type: "url" }]}
       />
       <ProFormList
-        label="Parameters"
-        name="parameters"
+        required
+        label="Headers"
+        name="headers"
+        initialValue={[{}]}
         alwaysShowItemLabel
         className="custom_form_list"
-        required
+        creatorButtonProps={{
+          creatorButtonText: "Add Header"
+        }}
         rules={[
           {
             validator: (_, value = [], callback) => {
               if (!value.length) {
-                callback("Please add parameter");
+                callback("Please add Header");
                 return;
               }
               callback();
@@ -85,15 +86,17 @@ const CreateForm: FC<CreateFormProps> = (props) => {
         <Row gutter={16}>
           <Col span={12}>
             <ProFormText
-              name="name"
-              label="Name"
+              required
+              label="Key"
+              name="key"
               rules={[{ required: true }]}
             />
           </Col>
           <Col span={12}>
             <ProFormText
-              name="parameter"
-              label="Parameter"
+              required
+              label="Value"
+              name="value"
               rules={[{ required: true }]}
             />
           </Col>

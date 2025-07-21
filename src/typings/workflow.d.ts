@@ -15,7 +15,13 @@ declare namespace API {
     type McpServerTool = {
       name: string;
       description: string;
-      input_schema: Record<string, any>;
+      input_schema: {
+        required: string;
+        type: string;
+        properties: Record<string, {
+          type: string;
+        }>
+      };
     };
 
     type UiComponentType = {
@@ -110,5 +116,11 @@ declare namespace API {
         uiComponent: UiComponentType;
       };
     };
+
+    type InsertUpdateMcpServerResult = {
+      insertUpdateMcpServer: {
+        mcpServer: McpServerItem;
+      }
+    }
   }
 }

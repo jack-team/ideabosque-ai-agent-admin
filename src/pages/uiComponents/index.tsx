@@ -29,7 +29,7 @@ const UiComponents: FC = () => {
   ) => {
     return (
       <TriggerModal
-        width={550}
+        width={600}
         destroyOnHidden
         trigger={trigger}
         title={`${record ? "Edit" : "Create"} Component`}
