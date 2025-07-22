@@ -1,20 +1,22 @@
-import type { FC } from 'react';
-import { useRef } from 'react';
-import { App, Card } from 'antd';
-import { useMemoizedFn } from 'ahooks';
-import { PageContainer } from '@ant-design/pro-components';
-import AiWorkFlow from '../..';
-import { ShopifyButton } from '@/components';
-import { useModalClose, useListenModalCancel } from '@/components/TriggerModal';
-import type { AiWorkFlowInstance } from '../../types';
-import type { EditStepCanvasProps } from './types';
-import styles from './styles.module.less';
+import type { FC } from "react";
+import { useRef } from "react";
+import { App, Card } from "antd";
+import { useMemoizedFn } from "ahooks";
+import { PageContainer } from "@ant-design/pro-components";
+import AiWorkFlow from "../..";
+import { useAiWorkFlowContext } from "../../hooks";
+import { ShopifyButton } from "@/components";
+import { useModalClose, useListenModalCancel } from "@/components/TriggerModal";
+import type { AiWorkFlowInstance } from "../../types";
+import type { EditStepCanvasProps } from "./types";
+import styles from "./styles.module.less";
 
 const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
   const { modal } = App.useApp();
   const flowInstance = useRef<AiWorkFlowInstance>(null);
+  const { uiComponents = [], mcpServers = [] } = useAiWorkFlowContext();
 
   const getResult = useMemoizedFn(() => {
     return flowInstance.current!.getData();
@@ -23,7 +25,7 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
   const onSave = useMemoizedFn(() => {
     const result = getResult();
     if (!result.edges.length) {
-      message.error('The current flowchart is not completed.');
+      message.error("The current flowchart is not completed.");
       return;
     }
     props.onSave?.(result);
@@ -32,14 +34,14 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
 
   const onBack = useMemoizedFn(() => {
     modal.confirm({
-      rootClassName: 'shopify',
-      title: 'Are you sure you want to leave?',
-      content: 'The data on this page will be lost after leaving.',
-      okButtonProps: { className: 'shopify' },
-      cancelButtonProps: { className: 'shopify' },
-      okText: 'Yes',
-      onOk: () => closeModal()
-    })
+      rootClassName: "shopify",
+      title: "Are you sure you want to leave?",
+      content: "The data on this page will be lost after leaving.",
+      okButtonProps: { className: "shopify" },
+      cancelButtonProps: { className: "shopify" },
+      okText: "Yes",
+      onOk: () => closeModal(),
+    });
   });
 
   useListenModalCancel(async () => {
@@ -52,12 +54,9 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
       onBack={onBack}
       className="shopify full-screen"
       extra={[
-        <ShopifyButton
-          type="primary"
-          onClick={onSave}
-        >
+        <ShopifyButton type="primary" onClick={onSave}>
           Save
-        </ShopifyButton>
+        </ShopifyButton>,
       ]}
     >
       <Card className="shopify full-content">
@@ -67,11 +66,13 @@ const EditStepCanvas: FC<EditStepCanvasProps> = (props) => {
             ref={flowInstance}
             initialEdges={props.edges}
             initialNodes={props.nodes}
+            uiComponents={uiComponents}
+            mcpServers={mcpServers}
           />
         </div>
       </Card>
     </PageContainer>
   );
-}
+};
 
 export default EditStepCanvas;

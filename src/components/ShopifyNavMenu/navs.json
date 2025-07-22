@@ -13,24 +13,8 @@
     "title": "Customer Groups"
   },
   {
-    "path": "/workflow-mcp-servers",
-    "title": "Mcp Servers"
-  },
-  {
-    "path": "/workflow-ui-components",
-    "title": "Ui Components"
-  },
-  {
-    "path": "/workflow-templates",
-    "title": "Workflow Templates"
-  },
-  {
     "path": "/agent-workflows",
     "title": "Agent Workflows"
-  },
-  {
-    "path": "/ai-core-engine",
-    "title": "Ai Core Engine"
   },
   {
     "path": "/settings",

@@ -23,6 +23,7 @@ function WorkflowDetail() {
   const ref = useRef<DetailRefs>(null);
   const [loading, setLoading] = useSafeState(false);
   const [detail, setDetail] = useSafeState<API.Workflow.FlowSnippet>();
+  const promptUuid = detail?.promptTemplate?.prompt_uuid
 
   const fetchData = useMemoizedFn(async () => {
     const result = await queryAgentWorkflowApi({
@@ -37,6 +38,7 @@ function WorkflowDetail() {
     setLoading(true);
     await insertUpdateWorkflowApi({
       ...detail!,
+      promptUuid,
       flowContext: JSON.stringify(data.flowContext),
       flowRelationship: JSON.stringify(data.flowRelationship)
     });
@@ -66,7 +68,7 @@ function WorkflowDetail() {
       ) : null}
     >
       <SpinBox loading={loading}>
-        {detail ? <DetailContent ref={ref} detail={detail}/> : null}
+        {detail ? <DetailContent ref={ref} detail={detail} /> : null}
       </SpinBox>
     </PageContainer>
   )

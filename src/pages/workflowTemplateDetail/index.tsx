@@ -1,8 +1,7 @@
 import { type FC, useEffect } from "react";
 import { Card, Row, Col, Space, App } from "antd";
+import { useMemoizedFn, useSafeState } from "ahooks";
 import { useParams, useLocation } from "react-router-dom";
-import { useMount, useMemoizedFn, useSafeState } from "ahooks";
-
 import {
   ProForm,
   PageContainer,
@@ -11,21 +10,20 @@ import {
   ProFormSelect,
   ProFormList,
 } from "@ant-design/pro-components";
-
 import {
-  fetchMcpServersApi,
-  fetchuiComponentsApi,
-  fetchWorkflowTemplateDetailApi,
-  insertUpdatePromptTemplateApi,
-} from "@/services/workflow";
-
-import SpinBox from "@/components/SpinBox";
-import { ShopifyButton } from "@/components";
-import {
-  splitTag,
   dateTransformFormData,
   formDataTransformRequestParams,
 } from "./helper";
+import {
+  fetchWorkflowTemplateDetailApi,
+  insertUpdatePromptTemplateApi,
+} from "@/services/workflow";
+import {
+  useMcpServers,
+  useUiComponents
+} from '@/hooks/useFetchData';
+import SpinBox from "@/components/SpinBox";
+import { ShopifyButton } from "@/components";
 import { TemplateTypeMap } from "../workflowTemplates/const";
 import styles from "./styles.module.less";
 
@@ -40,6 +38,9 @@ const WorkflowTemplateDetail: FC = () => {
   const { state } = useLocation();
   const { uid, vid } = useParams<UrlParams>();
   const [loading, setLoading] = useSafeState(false);
+  const { options: uiOptions, loading: uiLoading } = useUiComponents();
+  const { options: mcpOptions, loading: mcpLoading } = useMcpServers();
+
   const [detail, setDetail] =
     useSafeState<API.Workflow.PromptTemplateItem>(state);
 
@@ -129,20 +130,9 @@ const WorkflowTemplateDetail: FC = () => {
                     label="Mcp Servers"
                     name="mcpServers"
                     mode="multiple"
+                    options={mcpOptions}
                     rules={[{ required: true }]}
-                    request={async () => {
-                      const { mcpServerList: result } =
-                        await fetchMcpServersApi({
-                          pageNumber: 1,
-                          limit: 1000,
-                        });
-                      return result.mcpServerList.map((item) => {
-                        return {
-                          label: item.mcpLabel,
-                          value: item.mcpServerUuid,
-                        };
-                      });
-                    }}
+                    fieldProps={{ loading: mcpLoading }}
                   />
                 </Col>
                 <Col span={24}>
@@ -150,24 +140,9 @@ const WorkflowTemplateDetail: FC = () => {
                     label="Ui Components"
                     name="uiComponents"
                     mode="multiple"
+                    options={uiOptions}
                     rules={[{ required: true }]}
-                    request={async () => {
-                      const { uiComponentList: result } =
-                        await fetchuiComponentsApi({
-                          pageNumber: 1,
-                          limit: 1000,
-                        });
-                      return result.uiComponentList.map((item) => {
-                        const val = [
-                          item.uiComponentUuid,
-                          item.uiComponentType,
-                        ].join(splitTag);
-                        return {
-                          label: item.tagName,
-                          value: val,
-                        };
-                      });
-                    }}
+                    fieldProps={{ loading: uiLoading }}
                   />
                 </Col>
               </Row>

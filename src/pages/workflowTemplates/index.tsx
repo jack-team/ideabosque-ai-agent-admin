@@ -27,16 +27,24 @@ const AgentTemplates: FC = () => {
       className="shopify"
       title="Workflow Templates"
       extra={
-        <TriggerModal
-          width={400}
-          destroyOnHidden
-          title="Create template"
-          trigger={
-            <ShopifyButton type="primary">Create Template</ShopifyButton>
-          }
-        >
-          <CreateForm onSuccess={toDetail} />
-        </TriggerModal>
+        <Space size={16}>
+          <ShopifyButton onClick={() => navigate('/workflow-mcp-servers')}>
+            Mcp Server Management
+          </ShopifyButton>
+          <ShopifyButton onClick={() => navigate('/workflow-ui-components')}>
+            Component Management
+          </ShopifyButton>
+          <TriggerModal
+            width={400}
+            destroyOnHidden
+            title="Create template"
+            trigger={
+              <ShopifyButton type="primary">Create Template</ShopifyButton>
+            }
+          >
+            <CreateForm onSuccess={toDetail} />
+          </TriggerModal>
+        </Space>
       }
     >
       <ProTable<API.Workflow.PromptTemplateItem>

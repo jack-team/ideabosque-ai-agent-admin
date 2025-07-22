@@ -10,6 +10,8 @@ declare namespace API {
       flowRelationship: string;
       flowContext: string;
       createdAt: string;
+      promptTemplate: PromptTemplateItem;
+      promptUuid?: string;
     };
 
     type McpServerTool = {
@@ -25,10 +27,6 @@ declare namespace API {
     };
 
     type UiComponentType = {
-      ui_component_uuid: string;
-      ui_component_type: string;
-      tag_name: string;
-      wait_for: string;
       parameters: Array<{
         name: string;
         parameter: string;
@@ -40,12 +38,14 @@ declare namespace API {
       uiComponentUuid: string;
       updatedBy: string;
       waitFor: string;
+      // 下划线
+      ui_component_uuid: string;
+      ui_component_type: string;
+      tag_name: string;
+      wait_for: string;
     };
 
     type McpServerItem = {
-      mcp_server_uuid: string;
-      mcp_label: string;
-      mcp_server_url: string;
       tools: McpServerTool[];
       updatedAt: string;
       createdAt: string;
@@ -55,6 +55,11 @@ declare namespace API {
       mcpLabel: string;
       mcpServerUrl: string;
       mcpServerUuid: string;
+
+      // 下划线
+      mcp_server_uuid: string;
+      mcp_label: string;
+      mcp_server_url: string;
     };
 
     type PromptTemplateItem = {
@@ -72,6 +77,10 @@ declare namespace API {
       variables: any[];
       mcpServers: McpServerItem[];
       uiComponents: UiComponentType[];
+      // 下划线
+      mcp_servers: McpServerItem[];
+      ui_components: UiComponentType[];
+      prompt_uuid: string;
     };
 
     type QueryWorkflowsResult = SplitPageResult<"flowSnippetList", FlowSnippet>;

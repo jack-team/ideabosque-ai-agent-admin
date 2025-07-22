@@ -5,7 +5,6 @@ import TriggerModal from '@/components/TriggerModal';
 import { useAiWorkFlowContext } from '../../hooks';
 import DynamicForm from '../DynamicForm';
 import type { ResultType } from './types';
-import nodes from '../../nodes.json';
 import styles from './styles.module.less';
 
 type SelectNodesProps = {
@@ -14,19 +13,19 @@ type SelectNodesProps = {
 
 const SelectNodes: FC<SelectNodesProps> = (props) => {
   const { onNodeClick } = props;
-  const { role } = useAiWorkFlowContext();
+  const { role, schemas = [] } = useAiWorkFlowContext();
 
-  const nodesFilters = useMemo(() => {
-    return nodes.filter(n => {
+  const schemasFilters = useMemo(() => {
+    return schemas.filter(n => {
       return role === 'parent' ?
         n.type === 'step' :
         n.type !== 'step';
     });
-  }, [role]);
+  }, [role, schemas]);
 
   return (
     <div className={styles.nodes}>
-      {nodesFilters.map(item => {
+      {schemasFilters.map(item => {
         //@ts-ignore
         const Icon = Icons[item.icon];
         return (

@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import type { RenderHandle, NodeProps } from './types';
 import CustomNodeToolbar from '../../components/CustomNodeToolbar';
 import { transformInputFormData } from '../../components/DynamicForm/helper';
+import { useAiWorkFlowContext } from '../../hooks';
 import Handler from './handler';
-import nodes from '../../nodes.json';
 import styles from './styles.module.less';
 
 type NodeLayoutProps<D = any> = NodeProps & {
@@ -20,16 +20,17 @@ function NodeLayout<D extends {} = {}>(props: NodeLayoutProps<D>) {
 
   const values = data.values;
   const nodeType = values.nodeType;
+  const { schemas = [] } = useAiWorkFlowContext();
 
   const formData = useMemo(() => {
     return transformInputFormData(values.formData) as D;
   }, [values.formData]);
 
   const nodeDetail = useMemo(() => {
-    return nodes.find(node => {
+    return schemas.find(node => {
       return node.type === nodeType;
     });
-  }, [nodeType]);
+  }, [schemas]);
 
   const renderHandler = () => {
     const defaultHandle = (

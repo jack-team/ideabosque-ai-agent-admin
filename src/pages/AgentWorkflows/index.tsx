@@ -19,6 +19,12 @@ const AgentWorkflows: FC = () => {
       title="Agent workflows"
       className="shopify"
       extra={[
+        <ShopifyButton
+          key="mange"
+          onClick={() => navigate('/workflow-templates')}
+        >
+          Template Management
+        </ShopifyButton>,
         <TriggerModal
           key="add"
           width={400}
@@ -31,7 +37,7 @@ const AgentWorkflows: FC = () => {
             </ShopifyButton>
           }
         >
-          <CreateWorkflowForm onSuccess={toDetailPage}/>
+          <CreateWorkflowForm onSuccess={toDetailPage} />
         </TriggerModal>
       ]}
     >
