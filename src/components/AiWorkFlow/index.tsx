@@ -33,15 +33,16 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>(
       uiComponents: _uiComponents = [],
     } = props;
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
     const { uiComponents = _uiComponents, mcpServers = _mcpServers } =
       useAiWorkFlowContext();
-      
+
     const schemas = useMemo(
       () => getShemas({ uiComponents, mcpServers }),
       [uiComponents, mcpServers]
     );
+
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
     // 插入多个节点
     const insertNodes = useMemoizedFn((newNodes: NodeType[]) => {

@@ -3,6 +3,7 @@ import type { Edge } from '@xyflow/react';
 
 // 连接线的样式
 export const CONNECT_LINE_STYLE: Partial<Edge> = {
+  type: 'step',
   style: {
     stroke: '#0143EC',
     strokeWidth: 2
