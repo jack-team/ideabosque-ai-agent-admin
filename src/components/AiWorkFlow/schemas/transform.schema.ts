@@ -1,6 +1,13 @@
 import type { NodeShemaType } from '../types';
 
 export const transformSchema = () => {
+
+  const valueEnum = {
+    summarize: 'summarize',
+    full_content: 'full_content',
+    structure_input: 'structure_input'
+  }
+
   return <NodeShemaType>{
     type: "transform",
     icon: "BlockOutlined",
@@ -11,6 +18,8 @@ export const transformSchema = () => {
       {
         title: "Type",
         name: "type",
+        valueType: 'select',
+        valueEnum,
         rules: [
           {
             required: true,
@@ -18,7 +27,7 @@ export const transformSchema = () => {
         ],
       },
       {
-        title: "Text",
+        title: "Value",
         name: "text",
         rules: [
           {
