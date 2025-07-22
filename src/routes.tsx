@@ -62,6 +62,10 @@ export const routes: RouteObject[] = [
         path: "/settings",
         Component: lazyLoad(() => import("@/pages/settings")),
       },
+      {
+        path: '/test',
+        Component: lazyLoad(() => import("@/pages/test")),
+      }
     ],
   },
 ];

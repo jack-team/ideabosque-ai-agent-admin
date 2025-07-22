@@ -29,7 +29,9 @@
     "uuid": "9.0.1",
     "clone-deep": "4.0.1",
     "react-custom-scrollbars-2": "4.5.0",
-    "axios": "1.10.0"
+    "axios": "1.10.0",
+    "@logicflow/core":  "2.0.16",
+    "@logicflow/extension": "2.0.21"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
