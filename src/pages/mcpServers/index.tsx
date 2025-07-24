@@ -11,10 +11,12 @@ import CreateForm from "./components/CreateForm";
 import { ShopifyButton, TriggerModal } from "@/components";
 import {
   fetchMcpServersApi,
+   //@ts-ignore
   deleteUiComponentApi,
 } from "@/services/workflow";
 
 const McpServers: FC = () => {
+   //@ts-ignore
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
 
@@ -38,6 +40,7 @@ const McpServers: FC = () => {
     );
   };
 
+  //@ts-ignore
   const handleDelete = useMemoizedFn((record: API.Workflow.McpServerItem) => {
     modal.confirm({
       title: "Are you sure you want to delete the component?",

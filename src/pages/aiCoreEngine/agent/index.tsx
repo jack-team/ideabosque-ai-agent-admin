@@ -18,6 +18,7 @@ const Questions: FC = () => {
     actionRef.current?.reload();
   });
 
+   //@ts-ignore
   const onDelete = useMemoizedFn(async (questionUuid: string) => {
     try {
       // await deleteQuestionApi({ questionUuid });

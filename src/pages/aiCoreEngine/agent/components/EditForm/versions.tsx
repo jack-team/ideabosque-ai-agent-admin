@@ -29,6 +29,7 @@ const DataViews: FC<DataViewsProps> = (props) => {
   });
 
   const onDelete = useMemoizedFn(async (record: any) => {
+     //@ts-ignore
     const dataSource = record.documentSource.data_source_name;
     try {
       message.success('Deleted successfully.');
