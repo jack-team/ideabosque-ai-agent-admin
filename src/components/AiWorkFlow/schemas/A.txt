@@ -1,0 +1,69 @@
+<FlowSnippet>
+  <Step id="0" name="Initial Conversation">
+    <Text>Hello, I am a B2B customer onboarding assistant, please confirm your location or any relevant details that can help us identify where you are purchasing from</Text>
+    <Action type="call_function">get_google_place_setting</Action>
+    <UIComponent>
+      <GooglePlace googleApiKey="AIzaSyCEzar2BdK88E9m1MEo5GIyYbIh6fGVCxI", keyword="supplement, ingredient, ecommerce"/>
+      <WaitFor>place_uuid</WaitFor>
+    </UIComponent>
+  </Step>
+  <Step id="1" name="First time purchasing and wholesale validation">
+    <Text>Are you purchasing from us for the first time?</Text>
+    <Branch condition="yes">
+      <Text>Would you like to become a wholesale buyer?</Text>
+      <Branch condition="yes" next_step="2"/>
+      <Branch condition="no_or_unsure" next_step="4"/>
+    </Branch>
+    <Branch condition="off_topic">
+      <Text>I can only help with onboarding and request submission right now. Let's continue the current process.</Text>
+      <NextStep>4</NextStep>
+    </Branch>
+  </Step>
+  <Step id="2" name="Onboarding – Profile-Based Question Intake">
+    <Action type="call_function">get_question_group</Action>
+    <UIComponent>
+      <QuestionGroup questionGroupUuid="{question_group_uuid}"/>
+      <WaitFor>all_required_responses</WaitFor>
+    </UIComponent>
+    <NextStep>3</NextStep>
+  </Step>
+  
+  <Step id="3" name="Compile & Submit Responses">
+  <Transform type="structure_input">
+            <Attribute>first_name</Attribute>
+            <Attribute>last_name</Attribute>
+            <Attribute>email</Attribute>
+            <Attribute>phone</Attribute>
+            <Attribute>company_size</Attribute>
+            <Attribute>reseller_certificate</Attribute>
+            <Attribute>selected_products</Attribute>
+        </Transform>
+    <Action type="call_function" value="data_collect">
+        
+    </Action>
+    <NextStep>4</NextStep>
+  </Step>
+  <Step id="4" name="Handle Request Submission">
+    <Text>Do you have any requests to submit to our team? Please say 'no' if not, or describe your request in detail.</Text>
+    <Branch condition="onboarding_skipped">
+      <Text>Please provide your email. Also, your first name and last name.</Text>
+      <Action type="call_function">get_contact</Action>
+    </Branch>
+    <Branch condition="has_request">
+      <Action type="call_function" value="submit_request">
+        <Transform type="summarize">request_title</Transform>
+        <Transform type="full_content">request_detail</Transform>
+      </Action>
+      <Text>We've recorded your request and a member of our team will follow up shortly.</Text>
+    </Branch>
+  </Step>
+  <Step id="5" name="Final Step – Offer and Wrap-Up">
+    <Branch condition="onboarding_completed">
+      <Prompt>Display assigned sales representative's name and contact info</Prompt>
+    </Branch>
+    <Branch condition="not_new_customer">
+      <Text>Would you like to schedule a meeting with your assigned sales rep?</Text>
+    </Branch>
+    <Text>Thanks for your time! Let us know if you need anything else.</Text>
+  </Step>
+</FlowSnippet>

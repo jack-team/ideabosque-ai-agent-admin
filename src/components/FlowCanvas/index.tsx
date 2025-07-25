@@ -13,9 +13,8 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useMemoizedFn } from "ahooks";
+import { customNodes } from "./customNodes";
 import { ConnectLineStyle } from "./constants";
-
-import { customNodes } from "./nodes";
 
 const FlowCanvas: FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([

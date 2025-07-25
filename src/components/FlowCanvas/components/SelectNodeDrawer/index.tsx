@@ -1,6 +1,5 @@
-import type { FC, ReactElement } from 'react';
 import { Drawer } from 'antd';
-import { useReactFlow } from '@xyflow/react';
+import type { FC, ReactElement } from 'react';
 import { useTriggerState } from '@/hooks/useTriggerState';
 import Nodes from './nodes';
 
@@ -10,7 +9,6 @@ type SelectNodeDrawerProps = {
 
 const SelectNodeDrawer: FC<SelectNodeDrawerProps> = (props) => {
   const { children } = props;
-  const { addNodes } = useReactFlow();
   const { open, trigger, onClose } = useTriggerState(children);
 
   return (
