@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { FlowCanvasContext } from './context';
 import type { FlowInstance } from './types';
 
 export const useFlow = () => {
@@ -6,4 +7,8 @@ export const useFlow = () => {
     getData: () => null
   });
   return [ref.current];
+}
+
+export const useCanvasContext = () => {
+  return useContext(FlowCanvasContext);
 }

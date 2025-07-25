@@ -21,7 +21,7 @@ const SelectNodeDrawer: FC<SelectNodeDrawerProps> = (props) => {
         rootClassName="shopify"
         title="What triggers this workflow?"
       >
-        <Nodes />
+        <Nodes closeDrawer={onClose} />
       </Drawer>
     </>
   )

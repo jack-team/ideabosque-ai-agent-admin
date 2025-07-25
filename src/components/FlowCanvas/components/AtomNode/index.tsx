@@ -1,30 +1,29 @@
-import type { FC, ReactElement } from 'react';
+import type { FC } from 'react';
 import styles from './styles.module.less';
 
 type AtomNodeProps = {
-  icon: ReactElement;
+  icon: FC<any>;
   title: string;
   desc: string;
-  role: string;
   onClick?: () => void;
 }
 
 const AtomNode: FC<AtomNodeProps> = (props) => {
+  const { icon: Icon, ...rest } = props;
   return (
     <div
-      data-role={props.role}
       onClick={props.onClick}
       className={styles.atom_node}
     >
       <div className={styles.atom_icon}>
-        {props.icon}
+        <Icon />
       </div>
       <div className={styles.atom_content}>
         <div className={styles.atom_title}>
-          {props.title}
+          {rest.title}
         </div>
         <div className={styles.atom_desc}>
-          {props.desc}
+          {rest.desc}
         </div>
       </div>
     </div>
