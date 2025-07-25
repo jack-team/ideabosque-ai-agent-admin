@@ -1,5 +1,3 @@
-import { type FC, useMemo } from "react";
-
 import {
   ReactFlow,
   Background,
@@ -11,47 +9,46 @@ import {
   type Edge,
   type Connection,
 } from "@xyflow/react";
+import { type FC, useMemo } from "react";
 import "@xyflow/react/dist/style.css";
 import { useMemoizedFn } from "ahooks";
-import { customNodes } from "./customNodes";
-import { ConnectLineStyle } from "./constants";
+import { customNodes } from "./nodes";
+import { edgeTypes } from "./customEdge";
+import { DefaultStartNode } from "./constants";
+import type { NormalNodeType, CanvasProps } from './types';
 
-const Canvas: FC = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([
-    {
-      id: 'xxx',
-      type: 'ui-node',
-      data: { a: 1 },
-      position: {
-        x: 0,
-        y: 0
-      }
-    }
-  ]);
+const Canvas: FC<CanvasProps> = (props) => {
+  const { defaultNodes = [] } = props;
+
+  const initNodes = useMemo(() => {
+    return defaultNodes.length ?
+      defaultNodes :
+      [DefaultStartNode];
+  }, [defaultNodes]);
 
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-
-  const computedEdges = useMemo(
-    () => edges.map((edge) => ({ ...edge, ...ConnectLineStyle })),
-    [edges]
-  );
+  const [nodes, _, onNodesChange] = useNodesState<NormalNodeType>(initNodes);
+  const compEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
 
   // 连线逻辑
-  const handleLineConnect = useMemoizedFn((connect: Connection) => {
-    setEdges((eds) => addEdge(connect, eds));
-  });
+  const handleLineConnect = useMemoizedFn(
+    (connect: Connection) => setEdges((eds) => addEdge(connect, eds))
+  );
 
   return (
     <ReactFlowProvider>
-      <ReactFlow
-        fitView
+      <ReactFlow<NormalNodeType>
         minZoom={0.5}
         nodes={nodes}
-        edges={computedEdges}
+        edges={compEdages}
+        edgeTypes={edgeTypes}
         nodeTypes={customNodes}
+        // 禁用键盘删除
+        deleteKeyCode={null}
         onConnect={handleLineConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        fitView
       >
         <Background
           size={2}

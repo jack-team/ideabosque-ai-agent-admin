@@ -1,85 +1,126 @@
-import type { FC, ReactElement } from 'react';
-import { Handle, Position } from '@xyflow/react';
-import SelectNodeDrawer from '../SelectNodeDrawer';
-import styles from './styles.module.less';
-
-type NodeBranchType = {
-  id: string;
-  label: string;
-}
-
-type NodeWrapperProps = {
-  // 是否显示来源句柄
-  source?: boolean;
-  // 是否显示目标句柄
-  target?: boolean;
-  // 分支
-  branch?: NodeBranchType[];
-  children?: ReactElement | ReactElement[];
-}
+import * as uuid from 'uuid';
+import type { FC } from "react";
+import { useMemoizedFn } from 'ahooks';
+import { Handle, Position, useReactFlow } from "@xyflow/react";
+import SelectNodeDrawer from "../SelectNodeDrawer";
+import type { NodeWrapperProps } from "./types";
+import type { SelectResult } from "../SelectNodeDrawer/types";
+import { DefaultSourceId, DefaultTargetId } from '../../constants';
+import Tools from './tools';
+import styles from "./styles.module.less";
 
 const NodeWrapper: FC<NodeWrapperProps> = (props) => {
   const {
+    Form,
+    nodeId,
     branch = [],
-    source = true,
-    target = true
+    enableHandle,
+    editFormData,
+    editFormTitle,
+    showTool = true,
   } = props;
+
+  const enableSource = enableHandle?.source ?? true;
+  const enableTarget = enableHandle?.target ?? true;
+  const { addEdges, addNodes, getNodes } = useReactFlow();
+
+  // 获取下一个坐标
+  const getNextPos = useMemoizedFn(() => {
+    const nodes = getNodes();
+    const node = nodes.find(e => e.id === nodeId);
+
+    let x = node?.position.x || 0;
+    const y = node?.position.y || 0;
+    x = x + (node?.measured?.width || 0) + 80;
+
+    return { x, y }
+  });
+
+  const onSelelctNode = useMemoizedFn((result: SelectResult) => {
+    const newNodeId = uuid.v4();
+    const sourceHandle = result.triggerId;
+
+    // 添加节点
+    addNodes({
+      id: newNodeId,
+      data: result,
+      type: result.nodeType,
+      position: getNextPos()
+    });
+
+    // 自动连线
+    addEdges({
+      id: uuid.v4(),
+      // 连接的起点 id
+      source: nodeId,
+      // 连接的终点 id
+      target: newNodeId,
+      sourceHandle,
+      targetHandle: DefaultTargetId
+    });
+  });
+
+  const getSourceHandle = (id: string) => {
+    return (
+      <SelectNodeDrawer
+        triggerId={id}
+        onChange={onSelelctNode}
+      >
+        <Handle
+          id={id}
+          type="source"
+          position={Position.Right}
+          className={styles.handle_source}
+        />
+      </SelectNodeDrawer>
+    );
+  };
 
   const renderSource = () => {
     if (!branch.length) {
-      return (
-        <SelectNodeDrawer>
-          <Handle
-            type="source"
-            id="left_handle"
-            position={Position.Right}
-            className={styles.handle_source}
-          />
-        </SelectNodeDrawer>
-      )
+      return getSourceHandle(DefaultSourceId);
     }
-
     return (
       <div className={styles.branch}>
-        {branch.map(item => {
-          return (
-            <div
-              key={item.id}
-              className={styles.branch_item}
-            >
-              <div className={styles.branch_label}>
-                {item.label}
-              </div>
-              <Handle
-                type="source"
-                id={item.id}
-                position={Position.Right}
-                className={styles.handle_source}
-              />
-            </div>
-          );
-        })}
+        {branch.map((item) => (
+          <div key={item.id} className={styles.branch_item}>
+            <div className={styles.branch_label}>{item.label}</div>
+            {getSourceHandle(item.id)}
+          </div>
+        ))}
       </div>
     );
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
-      {target && (
-        <Handle
-          type="target"
-          id="right_handle"
-          isConnectableStart={false}
-          position={Position.Left}
-          className={styles.handle}
-        />
-      )}
-      <div className={styles.content}>
-        {props.children}
+      <div className={styles.tools}>
+        {showTool && (
+          <Tools
+            Form={Form}
+            nodeId={nodeId}
+            editFormData={editFormData}
+            editFormTitle={editFormTitle}
+          />
+        )}
       </div>
-      {source && renderSource()}
+      <div className={styles.inner}>
+        {enableTarget && (
+          <Handle
+            type="target"
+            id={DefaultTargetId}
+            position={Position.Left}
+            className={styles.handle}
+            isConnectableStart={false}
+          />
+        )}
+        <div className={styles.content}>
+          {props.children}
+        </div>
+        {enableSource && renderSource()}
+      </div>
     </div>
   );
-}
+};
 
 export default NodeWrapper;

@@ -1,15 +1,17 @@
 import { Drawer } from 'antd';
-import type { FC, ReactElement } from 'react';
+import type { FC } from 'react';
 import { useTriggerState } from '@/hooks/useTriggerState';
 import Nodes from './nodes';
-
-type SelectNodeDrawerProps = {
-  children: ReactElement<any>;
-}
+import type { SelectNodeDrawerProps } from './types'
 
 const SelectNodeDrawer: FC<SelectNodeDrawerProps> = (props) => {
-  const { children } = props;
-  const { open, trigger, onClose } = useTriggerState(children);
+  const { children, ...reset } = props;
+
+  const {
+    open,
+    trigger,
+    onClose
+  } = useTriggerState(children);
 
   return (
     <>
@@ -21,7 +23,10 @@ const SelectNodeDrawer: FC<SelectNodeDrawerProps> = (props) => {
         rootClassName="shopify"
         title="What triggers this workflow?"
       >
-        <Nodes closeDrawer={onClose} />
+        <Nodes
+          {...reset}
+          closeDrawer={onClose}
+        />
       </Drawer>
     </>
   )

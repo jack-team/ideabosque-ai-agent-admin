@@ -20,6 +20,7 @@ const Form: FC<FormProps> = (props) => {
       form={form}
       submitter={false}
       className={styles.form}
+      initialValues={props.formData}
     >
       {props.children?.(form)}
     </ProForm>

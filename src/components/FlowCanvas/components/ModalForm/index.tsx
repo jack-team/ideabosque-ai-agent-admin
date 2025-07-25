@@ -1,18 +1,20 @@
 import type { FC } from 'react';
 import TriggerModal from '@/components/TriggerModal';
 import type { ModalFormProps } from './types';
-import AtomForm from './form';
+import Form from './form';
 
 const ModalForm: FC<ModalFormProps> = (props) => {
   const {
     children,
     onSubmit,
+    formData,
     ...rest
   } = props;
 
   return (
     <TriggerModal {...rest}>
-      <AtomForm
+      <Form
+        formData={formData}
         onSubmit={onSubmit}
         children={children}
       />

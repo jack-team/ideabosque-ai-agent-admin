@@ -1,7 +1,7 @@
 
 import { KubernetesOutlined } from '@ant-design/icons';
-import type { NodeConfigType } from './type';
-import UiForm from '../../forms/uiForm';
+import type { NodeConfigType } from './types';
+import UiForm from '../../nodes/uiNode/form';
 
 export const nodeList: NodeConfigType[] = [
   {

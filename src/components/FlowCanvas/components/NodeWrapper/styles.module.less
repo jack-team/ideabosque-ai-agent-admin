@@ -1,13 +1,41 @@
 :root {
-    --handle-size: 16px;
+  --handle-size: 16px;
 }
 
-.wrapper {
+.wrapper:hover {
+  .tools {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.tools {
+  height: 24px;
+  text-align: right;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .2s linear;
+}
+
+.tool_item {
+  font-size: 12px;
+  color: #777;
+  line-height: 12px;
+  border-radius: 4px;
+  padding: 3px;
+
+  &:hover {
+    color: var(--theme-color);
+    background: rgba(0, 0, 0, .08);
+  }
+}
+
+.inner {
   background: #fff;
   border-radius: 8px;
   background: #fff;
   border: 2px solid #E8E9EC;
-  min-width: 160px;
+  min-width: 90px;
   max-width: 260px;
   position: relative;
 }

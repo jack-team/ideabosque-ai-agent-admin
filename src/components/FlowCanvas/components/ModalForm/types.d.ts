@@ -3,7 +3,8 @@ import { type FormInstance } from '@ant-design/pro-components';
 import type { TriggerModalProps } from '@/components/TriggerModal/types';
 
 type FormProps = {
-  children?: (form: FormInstance) => ReactElement;
+  formData?: Record<string, any>;
+  children?: (form: FormInstance) => ReactElement | null;
   onSubmit: (formData: Record<string, any>) => Promise<void>;
 }
 

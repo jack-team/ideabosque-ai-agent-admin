@@ -1,20 +1,11 @@
-import { MarkerType } from '@xyflow/react';
-import type { Edge } from '@xyflow/react';
+import type { NormalNodeType } from './types';
 
-// 连接线的样式
-export const ConnectLineStyle: Partial<Edge> = {
-  type: 'step',
-  style: {
-    stroke: '#0143EC',
-    strokeWidth: 2
-  },
-  markerEnd: {
-    color: '#0143EC',
-    type: MarkerType.ArrowClosed
-  }
-}
+export const DefaultSourceId = "default_source_handle";
+export const DefaultTargetId = "default_target_handle";
 
-export const ConnectionTypes = {
-  target: 'Target',
-  source: 'Source'
+export const DefaultStartNode: NormalNodeType = {
+  id: 'start-id',
+  type: 'start-node',
+  data: { formData: {} },
+  position: { x: 0, y: 0 }
 }
