@@ -27,11 +27,31 @@ export const transformSchema = () => {
         ],
       },
       {
-        title: "Value",
-        name: "text",
-        rules: [
+        name: "attrs",
+        valueType: "formList",
+        fieldProps: {
+          creatorButtonProps: {
+            creatorButtonText: "Add attr",
+          },
+        },
+        columns: [
           {
-            required: true,
+            valueType: "group",
+            columns: [
+              {
+                title: "Attribute",
+                name: "attr",
+                fieldProps: {
+                  placeholder: "Please enter a Attribute",
+                },
+                width: "md",
+                rules: [
+                  {
+                    required: true,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
