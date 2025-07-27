@@ -11,15 +11,13 @@ import styles from "./styles.module.less";
 
 const NodeWrapper: FC<NodeWrapperProps> = (props) => {
   const {
-    Form,
-    nodeId,
+    tools,
+    nodeProps,
     branch = [],
     enableHandle,
-    editFormData,
-    editFormTitle,
-    showTool = true,
   } = props;
 
+  const nodeId = nodeProps.id;
   const enableSource = enableHandle?.source ?? true;
   const enableTarget = enableHandle?.target ?? true;
   const { addEdges, addNodes, getNodes } = useReactFlow();
@@ -36,15 +34,15 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
     return { x, y }
   });
 
-  const onSelelctNode = useMemoizedFn((result: SelectResult) => {
+  const onSelelctNode = useMemoizedFn((r: SelectResult) => {
+    const tgId = r.triggerId;
     const newNodeId = uuid.v4();
-    const sourceHandle = result.triggerId;
 
     // 添加节点
     addNodes({
       id: newNodeId,
-      data: result,
-      type: result.nodeType,
+      data: r,
+      type: r.nodeType,
       position: getNextPos()
     });
 
@@ -55,7 +53,7 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
       source: nodeId,
       // 连接的终点 id
       target: newNodeId,
-      sourceHandle,
+      sourceHandle: tgId,
       targetHandle: DefaultTargetId
     });
   });
@@ -95,12 +93,10 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.tools}>
-        {showTool && (
+        {!!tools && (
           <Tools
-            Form={Form}
             nodeId={nodeId}
-            editFormData={editFormData}
-            editFormTitle={editFormTitle}
+            tools={tools}
           />
         )}
       </div>

@@ -35,7 +35,7 @@ export type NormalNodeType<D = any> = Node<{
 export type CustomNodeProps<T = any> = NodeProps<NormalNodeType<T>>;
 
 export type CanvasProps = {
-  defaultNodes: NormalNodeType[];
+  defaultNodes?: NormalNodeType[];
 }
 
 export type FlowCanvasProps = FlowCanvasContextTypes & CanvasProps & {

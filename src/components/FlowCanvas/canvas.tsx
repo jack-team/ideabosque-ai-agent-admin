@@ -7,8 +7,10 @@ import {
   useEdgesState,
   ReactFlowProvider,
   type Edge,
+  type NodeTypes,
   type Connection,
 } from "@xyflow/react";
+import cloneDeep from "clone-deep";
 import { type FC, useMemo } from "react";
 import "@xyflow/react/dist/style.css";
 import { useMemoizedFn } from "ahooks";
@@ -17,13 +19,18 @@ import { edgeTypes } from "./customEdge";
 import { DefaultStartNode } from "./constants";
 import type { NormalNodeType, CanvasProps } from './types';
 
+export const nodeTypes = customNodes.reduce((o, c) => (
+  { ...o, [c.type]: c.Component }
+), {} as NodeTypes);
+
 const Canvas: FC<CanvasProps> = (props) => {
   const { defaultNodes = [] } = props;
 
+  // 如果没有数据，默认一开始接点
   const initNodes = useMemo(() => {
     return defaultNodes.length ?
       defaultNodes :
-      [DefaultStartNode];
+      [cloneDeep(DefaultStartNode)];
   }, [defaultNodes]);
 
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -42,7 +49,7 @@ const Canvas: FC<CanvasProps> = (props) => {
         nodes={nodes}
         edges={compEdages}
         edgeTypes={edgeTypes}
-        nodeTypes={customNodes}
+        nodeTypes={nodeTypes}
         // 禁用键盘删除
         deleteKeyCode={null}
         onConnect={handleLineConnect}

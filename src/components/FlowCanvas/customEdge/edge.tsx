@@ -5,13 +5,13 @@ import {
   getSmoothStepPath,
   type EdgeProps
 } from '@xyflow/react';
-import { useMemo, Fragment } from 'react';
 import { useMemoizedFn } from 'ahooks';
+import { useMemo, Fragment, type FC } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
 import Marker from './marker';
 import styles from './styles.module.less';
 
-const CustomStepEdge = (props: EdgeProps) => {
+const CustomStepEdge: FC<EdgeProps> = (props) => {
   const {
     id,
     selected,

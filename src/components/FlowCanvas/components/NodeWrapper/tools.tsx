@@ -13,7 +13,10 @@ import type { ToolsProps } from './types';
 import styles from "./styles.module.less";
 
 const Tools: FC<ToolsProps> = (props) => {
-  const { nodeId, Form } = props;
+  const { nodeId, tools } = props;
+
+  const { editForm } = tools;
+
   const { setNodes } = useReactFlow();
 
   const handleDeleteNode = useMemoizedFn(() => {
@@ -22,30 +25,30 @@ const Tools: FC<ToolsProps> = (props) => {
 
   return (
     <Space>
-      <div
-        className={styles.tool_item}
-        onClick={handleDeleteNode}
-      >
-        <DeleteOutlined />
-      </div>
-      <ModalForm
-        destroyOnHidden
-        title={props.editFormTitle}
-        formData={props.editFormData}
-        okText="Save"
-        trigger={
-          <div className={styles.tool_item}>
-            <EditFilled />
-          </div>
-        }
-        onSubmit={async () => { }}
-        children={form => Form ? <Form form={form} /> : null}
-      />
-      <div className={styles.tool_item}>
-        <SettingOutlined />
-      </div>
       <div className={styles.tool_item}>
         <FullscreenOutlined />
+      </div>
+      {!!editForm && (
+        <ModalForm
+          okText="Save"
+          destroyOnHidden
+          width={editForm.width}
+          formData={editForm.formData}
+          title={editForm.title || 'Edit Node'}
+          trigger={
+            <div className={styles.tool_item}>
+              <EditFilled />
+            </div>
+          }
+          onSubmit={async () => { }}
+          children={form => <editForm.Component form={form} />}
+        />
+      )}
+      <div
+        onClick={handleDeleteNode}
+        className={styles.tool_item}
+      >
+        <DeleteOutlined />
       </div>
     </Space>
   );

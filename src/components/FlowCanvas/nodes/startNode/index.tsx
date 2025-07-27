@@ -1,18 +1,13 @@
-import type { FC } from 'react';
 import { CaretRightOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
-import type { CustomNodeProps } from '../../types';
+import type { CustomNodeFC } from '../types';
 import styles from './styles.module.less';
 
-const StartNode: FC<CustomNodeProps> = (props) => {
+const StartNode: CustomNodeFC = (props) => {
   return (
     <NodeWrapper
-      enableHandle={{
-        target: false
-      }}
-      showTool={false}
       nodeProps={props}
-      nodeId={props.id}
+      enableHandle={{ target: false }}
     >
       <div className={styles.container}>
         <div className={styles.icon}>
@@ -27,3 +22,5 @@ const StartNode: FC<CustomNodeProps> = (props) => {
 }
 
 export default StartNode;
+
+StartNode.Icon = CaretRightOutlined;

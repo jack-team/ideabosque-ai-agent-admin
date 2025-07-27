@@ -2,14 +2,14 @@ import type { FC } from 'react';
 import styles from './styles.module.less';
 
 type AtomNodeProps = {
-  icon: FC<any>;
+  Icon: FC<any>;
   title: string;
   desc: string;
   onClick?: () => void;
 }
 
 const AtomNode: FC<AtomNodeProps> = (props) => {
-  const { icon: Icon, ...rest } = props;
+  const { Icon, ...rest } = props;
   return (
     <div
       onClick={props.onClick}

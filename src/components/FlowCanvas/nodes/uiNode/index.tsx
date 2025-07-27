@@ -1,20 +1,25 @@
-import type { FC } from 'react';
-import type { UiFormData } from './types';
-import type { CustomNodeProps } from '../../types';
+import { KubernetesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
+import type { UiFormData } from './types';
+import type { CustomNodeFC } from '../types';
 import Form from './form';
 import styles from './styles.module.less';
 
-const UiNode: FC<CustomNodeProps<UiFormData>> = (props) => {
+
+const UiNode: CustomNodeFC<UiFormData> = (props) => {
   const { formData } = props.data;
-  
+
   return (
     <NodeWrapper
-      Form={Form}
-      nodeId={props.id}
       nodeProps={props}
-      editFormData={formData}
-      editFormTitle="Edit Ui node"
+      tools={{
+        editForm: {
+          formData,
+          width: 400,
+          title: 'Edit Ui node',
+          Component: Form
+        }
+      }}
     >
       <div>{formData.description}</div>
     </NodeWrapper>
@@ -22,3 +27,6 @@ const UiNode: FC<CustomNodeProps<UiFormData>> = (props) => {
 }
 
 export default UiNode;
+
+UiNode.Form = Form;
+UiNode.Icon = KubernetesOutlined;
