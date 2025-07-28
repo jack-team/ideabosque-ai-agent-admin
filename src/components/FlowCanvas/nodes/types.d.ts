@@ -1,4 +1,5 @@
 import type { FC, ReactElement } from 'react';
+import type { FormProps } from 'antd';
 import type { FormInstance } from '@ant-design/pro-components';
 import type { CustomNodeProps } from '../types';
 import { EditFormType } from '../components/NodeWrapper/types';

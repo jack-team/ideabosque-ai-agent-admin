@@ -9,10 +9,11 @@ export type ElementResultOptionType = {
   value: string;
   label: string;
   required?: boolean;
+  // 枚举值
   options?: Array<{
     value: string;
     label: string;
-  }>
+  }>;
 }
 
 // 普通元素都包含输入输出

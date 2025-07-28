@@ -1,7 +1,7 @@
 import { useRef, useContext } from 'react';
-import { useNodeConnections, useNodeId } from '@xyflow/react';
+import { useNodeConnections, useNodeId, useReactFlow } from '@xyflow/react';
 import { FlowCanvasContext } from './context';
-import { useObjNoEqualEffect } from '@/hooks/useObjNoEqualEffect';
+import { useUpdateEffect } from '@/hooks/useUpdateEffect';
 import type { FlowInstance, NodeCollect } from './types';
 
 export const useFlow = () => {
@@ -25,11 +25,11 @@ export const usePrevNodesData = () => {
 type GetDataType = () => NodeCollect | undefined;
 
 export const useCacheHandle = (getData: GetDataType) => {
+  const { updateNodeData } = useReactFlow();
   const id = useNodeId();
   const data = getData();
-  const { saveCacheNodeDatas } = useCanvasContext();
-  
-  useObjNoEqualEffect(() => {
-    if (data) saveCacheNodeDatas(id!, { data });
-  }, [data]);
+
+  useUpdateEffect(() => {
+    updateNodeData(id!, { });
+  }, data);
 }

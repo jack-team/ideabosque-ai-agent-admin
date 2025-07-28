@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { type FormInstance } from '@ant-design/pro-components';
+import { type FormInstance, type ProFormProps } from '@ant-design/pro-components';
 import type { TriggerModalProps } from '@/components/TriggerModal/types';
 
 type FormProps = {

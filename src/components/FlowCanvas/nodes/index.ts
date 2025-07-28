@@ -2,6 +2,7 @@ import type { CustomNodeConfig } from './types';
 import UiNode from './uiNode';
 import StartNode from './startNode';
 import BranchNode from './branchNode';
+import PromptNode from './promptNode';
 
 export const customNodes: CustomNodeConfig[] = [
   {
@@ -22,5 +23,11 @@ export const customNodes: CustomNodeConfig[] = [
     title: 'Branch',
     desc: 'Execute the corresponding process according to the different branches created.',
     Component: BranchNode
+  },
+  {
+    type: 'prompt-node',
+    title: 'Prompt',
+    desc: 'Prompt the AI what to do or say.',
+    Component: PromptNode
   }
 ];
