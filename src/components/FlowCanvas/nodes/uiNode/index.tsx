@@ -18,7 +18,6 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
 
   return (
     <NodeWrapper
-      prevNode={component}
       nodeProps={props}
       tools={{
         editForm: {

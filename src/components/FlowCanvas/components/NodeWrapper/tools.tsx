@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { Space } from "antd";
 import {
   EditFilled,
-  SettingOutlined,
   DeleteOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons";

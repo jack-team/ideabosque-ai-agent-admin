@@ -4,7 +4,7 @@ import { usePrevNodesData } from '../../hooks';
 import type { BranchFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-import styles from './styles.module.less';
+// import styles from './styles.module.less';
 
 const BranchNode: CustomNodeFC<BranchFormData> = (props) => {
   const { formData } = props.data;

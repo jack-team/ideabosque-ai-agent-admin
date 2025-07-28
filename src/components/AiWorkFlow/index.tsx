@@ -16,7 +16,7 @@ import type { DataType } from "./components/NodeLayout/types";
 import type { AiWorkFlowProps, NodeType, AiWorkFlowInstance } from "./types";
 import { getShemas } from "./schemas";
 import { nodeTypes } from "./config";
-import { CONNECT_LINE_STYLE } from "./const";
+import { edgeTypes } from "./customEdge";
 import ConnLine from "./components/ConnLine";
 import AddButton from "./components/AddButton";
 import { AiWorkFlowContext } from "./context";
@@ -43,6 +43,7 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>(
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
+    const compEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
 
     // 插入多个节点
     const insertNodes = useMemoizedFn((newNodes: NodeType[]) => {
@@ -82,17 +83,11 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>(
 
     // 处理连线
     const onConnect = useMemoizedFn((params: Connection) => {
-      setEdges((eds) =>
-        addEdge(params, eds).map((edge) => {
-          return { ...edge, ...CONNECT_LINE_STYLE };
-        })
-      );
+      setEdges((eds) => addEdge(params, eds).map((edge) => edge));
     });
 
     useImperativeHandle(ref, () => {
-      return {
-        getData: () => cloneDeep({ nodes, edges }),
-      };
+      return { getData: () => cloneDeep({ nodes, edges }) };
     });
 
     return (
@@ -112,8 +107,10 @@ const AiWorkFlow = forwardRef<AiWorkFlowInstance, AiWorkFlowProps>(
             <ReactFlow<NodeType>
               fitView
               nodes={nodes}
-              edges={edges}
+              edges={compEdages}
               minZoom={0.5}
+              deleteKeyCode={null}
+              edgeTypes={edgeTypes}
               nodeTypes={nodeTypes}
               onConnect={onConnect}
               onNodesChange={onNodesChange}
