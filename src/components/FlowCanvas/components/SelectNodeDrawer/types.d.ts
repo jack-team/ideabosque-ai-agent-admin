@@ -1,4 +1,5 @@
 import type { FC, ReactElement } from 'react';
+import type { NodeCollect } from '../../types';
 
 export type NodeConfigType = {
   nodeType: string;

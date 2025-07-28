@@ -11,11 +11,13 @@ const uiComponents: UiComponentType[] = [
     input: [
       {
         label: 'Google ApiKey',
-        value: 'googleApiKey'
+        value: 'googleApiKey',
+        required: true
       },
       {
         label: 'Keyword',
-        value: 'keyword'
+        value: 'keyword',
+        required: true
       }
     ],
     output: [
@@ -33,11 +35,13 @@ const uiComponents: UiComponentType[] = [
     input: [
       {
         label: 'Wizard GroupUuid',
-        value: 'wizard_group_uuid'
+        value: 'wizard_group_uuid',
+        required: true
       },
       {
         label: 'Keyword',
-        value: 'keyword'
+        value: 'keyword',
+        required: true
       }
     ],
     output: [

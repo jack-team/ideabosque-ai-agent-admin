@@ -1,6 +1,7 @@
 import type { CustomNodeConfig } from './types';
 import UiNode from './uiNode';
 import StartNode from './startNode';
+import BranchNode from './branchNode';
 
 export const customNodes: CustomNodeConfig[] = [
   {
@@ -15,5 +16,11 @@ export const customNodes: CustomNodeConfig[] = [
     title: 'UI',
     desc: 'The UI components within the AI assistant can be used as a data source to obtain data.',
     Component: UiNode
+  },
+  {
+    type: 'brach-node',
+    title: 'Branch',
+    desc: 'Execute the corresponding process according to the different branches created.',
+    Component: BranchNode
   }
 ];

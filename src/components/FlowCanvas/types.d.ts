@@ -8,6 +8,11 @@ export type FlowInstance = {
 export type ElementResultOptionType = {
   value: string;
   label: string;
+  required?: boolean;
+  options?: Array<{
+    value: string;
+    label: string;
+  }>
 }
 
 // 普通元素都包含输入输出
@@ -24,8 +29,16 @@ export type UiComponentType = ElementNormalType<{
   componentType: string;
 }>;
 
+export type NodeCollect = UiComponentType;
+
+export type NodeDataType = {
+  data: NodeCollect;
+}
+
 export type FlowCanvasContextTypes = {
   uiComponents?: UiComponentType[];
+  cacheNodeDatas: Record<string, NodeDataType>;
+  saveCacheNodeDatas: (id: string, data: NodeDataType) => void
 }
 
 export type NormalNodeType<D = any> = Node<{
@@ -38,7 +51,7 @@ export type CanvasProps = {
   defaultNodes?: NormalNodeType[];
 }
 
-export type FlowCanvasProps = FlowCanvasContextTypes & CanvasProps & {
+export type FlowCanvasProps = Exclude<FlowCanvasContextTypes, 'cacheNodeDatas', 'saveCacheNodeDatas'> & CanvasProps & {
 
 }
 

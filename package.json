@@ -29,7 +29,8 @@
     "uuid": "9.0.1",
     "clone-deep": "4.0.1",
     "react-custom-scrollbars-2": "4.5.0",
-    "axios": "1.10.0"
+    "axios": "1.10.0",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -38,6 +39,7 @@
     "@types/node": "18.11.18",
     "@types/clone-deep": "4.0.4",
     "@types/uuid": "9.0.7",
+    "@types/lodash": "4.17.20",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",

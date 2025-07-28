@@ -7,6 +7,7 @@ export interface CustomNodeFC<P = any> {
   (props: CustomNodeProps<P>): ReactElement;
   Form?: FC<FormProps>;
   Icon: FC<any>;
+  modalWdith?: number;
 }
 
 export type FormProps = {

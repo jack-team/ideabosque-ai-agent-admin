@@ -1,5 +1,5 @@
 import type { FC, ReactElement } from 'react';
-import type { SelectFormData } from '../SelectNodeDrawer/types';
+import type { SelectFormData, SelectNodeDrawerProps } from '../SelectNodeDrawer/types';
 import type { CustomNodeProps } from '../../types';
 import type { FormProps } from '../../nodes/types';
 

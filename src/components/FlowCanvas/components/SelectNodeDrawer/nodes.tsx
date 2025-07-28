@@ -40,7 +40,8 @@ const Nodes: FC<NodesProps> = (props) => {
               key={nodeType}
               okText="Add Node"
               onSubmit={handleChange}
-              title={`Add ${reset.title}`}
+              width={Component.modalWdith}
+              title={`Add ${reset.title} Node`}
               children={form => <Form form={form} />}
               trigger={<AtomNode {...reset} Icon={Icon} />}
             />

@@ -1,4 +1,4 @@
 export type UiFormData = {
-  component: string;
+  componentId: string;
   description?: string;
 }
