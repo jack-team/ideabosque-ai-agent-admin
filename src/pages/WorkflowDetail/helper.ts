@@ -20,6 +20,8 @@ export const processNodeData = (node: NodeType, edges: Edge[], parent?: ProcessN
     result.detail = values.stepRealData;
   }
 
+  result.formData = rest;
+
   if (conditions.length) {
     result.conditions = (conditions as ConditionType[]).map(item => {
       let nextStep = connects.find(e => {
@@ -33,7 +35,6 @@ export const processNodeData = (node: NodeType, edges: Edge[], parent?: ProcessN
       return { ...item, nextStep };
     });
   } else {
-    result.formData = rest;
     result.nextStep = connects[0]?.target || parent?.nextStep;
   }
 
