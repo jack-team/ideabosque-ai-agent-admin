@@ -1,0 +1,85 @@
+:root {
+  --handle-size: 16px;
+}
+
+.wrapper:hover {
+  .tools {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.tools {
+  height: 24px;
+  text-align: right;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .2s linear;
+}
+
+.tool_item {
+  font-size: 12px;
+  color: #777;
+  line-height: 12px;
+  border-radius: 4px;
+  padding: 3px;
+
+  &:hover {
+    color: var(--theme-color);
+    background: rgba(0, 0, 0, .08);
+  }
+}
+
+.inner {
+  background: #fff;
+  border-radius: 8px;
+  background: #fff;
+  border: 2px solid #E8E9EC;
+  min-width: 90px;
+  max-width: 260px;
+  position: relative;
+}
+
+.content {
+  width: 100%;
+  padding: 12px 20px;
+}
+
+.handle,
+.handle_source {
+  width: var(--handle-size);
+  height: var(--handle-size);
+  background: #0143EC;
+  color: #fff;
+}
+
+.handle_source {
+
+  &::before,
+  &::after {
+    content: "";
+    width: 60%;
+    height: 1px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  &::after {
+    transform: translate3d(-50%, -50%, 0) rotate(90deg);
+  }
+}
+
+.branch {
+  .branch_item {
+    padding-right: var(--handle-size);
+    position: relative;
+    min-height: var(--handle-size);
+
+    &+.branch_item {
+      margin-top: 4px;
+    }
+  }
+}
