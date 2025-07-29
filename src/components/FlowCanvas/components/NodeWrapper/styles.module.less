@@ -42,7 +42,7 @@
 
 .content {
   width: 100%;
-  padding: 12px 20px;
+  padding: 10px 16px;
 }
 
 .handle,
@@ -73,10 +73,20 @@
 }
 
 .branch {
+  min-width: 150px;
+  padding-bottom: 6px;
+
   .branch_item {
-    padding-right: var(--handle-size);
     position: relative;
     min-height: var(--handle-size);
+    padding-right: calc(var(--handle-size) / 2);
+
+    .branch_label {
+      font-size: 10px;
+      text-align: right;
+      color: var(--theme-color);
+      padding: 0 6px;
+    }
 
     &+.branch_item {
       margin-top: 4px;

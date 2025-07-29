@@ -1,6 +1,6 @@
 import { PageContainer } from '@ant-design/pro-components';
 import FlowCanvas from '@/components/FlowCanvas';
-import type { UiComponentType } from '@/components/FlowCanvas/types';
+import type { UiComponentType, ActionFunctionType, OptionType } from '@/components/FlowCanvas/types';
 
 const uiComponents: UiComponentType[] = [
   {
@@ -53,11 +53,216 @@ const uiComponents: UiComponentType[] = [
   }
 ];
 
+const actionFunctions: ActionFunctionType[] = [
+  {
+    name: 'data_collect',
+    description: 'Collect data from the assistant',
+    input: [
+      {
+        label: 'Data collect dataset',
+        value: 'data_collect_dataset',
+        required: true
+      },
+      {
+        label: 'Place uuid',
+        value: 'place_uuid',
+        required: true
+      }
+    ]
+  },
+  {
+    name: 'get_contact_profile',
+    description: 'Retrieve Contact Profile',
+    input: [
+      {
+        label: 'Contact',
+        value: 'contact',
+        required: true,
+        children: [
+          {
+            label: 'Email',
+            value: 'email',
+            required: true
+          },
+          {
+            label: 'First name',
+            value: 'first_name',
+            required: true
+          },
+          {
+            label: 'Last name',
+            value: 'last_name',
+            required: true
+          }
+        ]
+      },
+      {
+        label: 'Place',
+        value: 'place',
+        children: [
+          {
+            label: 'Place uuid',
+            value: 'place_uuid',
+            required: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: 'get_google_place_setting',
+    description: 'Get google place setting'
+  },
+  {
+    name: 'get_products',
+    description: 'Get Products',
+    input: [
+      {
+        label: 'Email',
+        value: 'email',
+        required: true
+      }
+    ]
+  },
+  {
+    name: 'get_question_group',
+    description: 'Retrieve a question group',
+    input: [
+      {
+        label: 'Place uuid',
+        value: 'place_uuid',
+        required: true
+      }
+    ]
+  },
+  {
+    name: 'place_shopify_draft_order',
+    description: 'Create Draft Order',
+    input: [
+      {
+        label: 'Email',
+        value: 'email',
+        required: true
+      },
+      {
+        label: 'Shipping address',
+        value: 'shipping_address',
+        required: true,
+        children: [
+          {
+            label: 'Address1',
+            value: 'address1',
+            required: true
+          },
+          {
+            label: 'Address2',
+            value: 'address2',
+            required: true
+          },
+          {
+            label: 'City',
+            value: 'city',
+            required: true
+          },
+          {
+            label: 'Company',
+            value: 'company',
+            required: true
+          },
+          {
+            label: 'Country',
+            value: 'country',
+            required: true
+          },
+          {
+            label: 'Country code',
+            value: 'country_code',
+            required: true
+          },
+          {
+            label: 'First name',
+            value: 'first_name',
+            required: true
+          },
+          {
+            label: 'Last name',
+            value: 'last_name',
+            required: true
+          },
+          {
+            label: 'Phone',
+            value: 'phone',
+            required: true
+          },
+          {
+            label: 'Province',
+            value: 'province',
+            required: true
+          },
+          {
+            label: 'Province code',
+            value: 'province_code',
+            required: true
+          },
+          {
+            label: 'Zip',
+            value: 'zip',
+            required: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: 'submit_request',
+    description: 'Submit a request',
+    input: [
+      {
+        label: 'UUID for the contact',
+        value: 'contact_uuid',
+        required: true
+      },
+      {
+        label: 'UUID for the place',
+        value: 'place_uuid',
+        required: true
+      },
+      {
+        label: 'The request detail',
+        value: 'request_detail',
+        required: true
+      },
+      {
+        label: 'The request title',
+        value: 'request_title',
+        required: true
+      }
+    ]
+  }
+];
+
+const transformTools: OptionType[] = [
+  {
+    label: 'Summarize',
+    value: 'summarize'
+  },
+  {
+    label: 'Full content',
+    value: 'full_content'
+  },
+  {
+    label: 'Structure input',
+    value: 'structure_input'
+  }
+];
+
 const Test = () => {
   return (
     <PageContainer className="shopify full-screen">
       <FlowCanvas
+        actions={actionFunctions}
         uiComponents={uiComponents}
+        transformTools={transformTools}
       />
     </PageContainer>
   )

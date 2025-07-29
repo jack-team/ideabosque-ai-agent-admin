@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Space } from "antd";
 import {
   EditFilled,
@@ -13,35 +13,47 @@ import styles from "./styles.module.less";
 
 const Tools: FC<ToolsProps> = (props) => {
   const { nodeId, tools } = props;
-
   const { editForm } = tools;
 
-  const { setNodes } = useReactFlow();
+  const { setNodes, updateNodeData } = useReactFlow();
 
   const handleDeleteNode = useMemoizedFn(() => {
     setNodes(ns => ns.filter(n => n.id !== nodeId));
   });
+
+  const onSaveNodeData = useMemoizedFn(
+    async (formData: Record<string, any>) => {
+      updateNodeData(nodeId, { formData })
+    }
+  );
+
+  const renderEditForm = (trigger: ReactElement<any>) => {
+    if (!editForm) {
+      return null;
+    }
+    return (
+      <ModalForm
+        okText="Save"
+        destroyOnHidden
+        trigger={trigger}
+        width={editForm.width}
+        onSubmit={onSaveNodeData}
+        formData={editForm.formData}
+        title={editForm.title || 'Edit Node'}
+        children={form => <editForm.Component form={form} />}
+      />
+    )
+  }
 
   return (
     <Space>
       <div className={styles.tool_item}>
         <FullscreenOutlined />
       </div>
-      {!!editForm && (
-        <ModalForm
-          okText="Save"
-          destroyOnHidden
-          width={editForm.width}
-          formData={editForm.formData}
-          title={editForm.title || 'Edit Node'}
-          trigger={
-            <div className={styles.tool_item}>
-              <EditFilled />
-            </div>
-          }
-          onSubmit={async () => { }}
-          children={form => <editForm.Component form={form} />}
-        />
+      {renderEditForm(
+        <div className={styles.tool_item}>
+          <EditFilled />
+        </div>
       )}
       <div
         onClick={handleDeleteNode}

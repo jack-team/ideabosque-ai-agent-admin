@@ -1,7 +1,7 @@
 import * as uuid from 'uuid';
 import type { FC } from "react";
 import { useMemoizedFn } from 'ahooks';
-import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { Handle, Position, useReactFlow, useNodeId } from "@xyflow/react";
 import SelectNodeDrawer from "../SelectNodeDrawer";
 import type { NodeWrapperProps } from "./types";
 import type { SelectResult } from "../SelectNodeDrawer/types";
@@ -12,14 +12,14 @@ import styles from "./styles.module.less";
 const NodeWrapper: FC<NodeWrapperProps> = (props) => {
   const {
     tools,
-    nodeProps,
     branch = [],
     enableHandle,
   } = props;
 
-  const nodeId = nodeProps.id;
   const enableSource = enableHandle?.source ?? true;
   const enableTarget = enableHandle?.target ?? true;
+
+  const nodeId = useNodeId()!;
   const { addEdges, addNodes, getNodes } = useReactFlow();
 
   // 获取下一个坐标
@@ -81,9 +81,9 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
     return (
       <div className={styles.branch}>
         {branch.map((item) => (
-          <div key={item.id} className={styles.branch_item}>
+          <div key={item.value} className={styles.branch_item}>
             <div className={styles.branch_label}>{item.label}</div>
-            {getSourceHandle(item.id)}
+            {getSourceHandle(item.value)}
           </div>
         ))}
       </div>

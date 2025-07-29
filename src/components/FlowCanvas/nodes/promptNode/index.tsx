@@ -1,26 +1,30 @@
 import { SendOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
-import type { BranchFormData } from './types';
+import NodeDesc from '../../components/NodeDesc';
+import type { PromptNodeFormData } from './types';
+import { PromptTypesMap } from './enum';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-// import styles from './styles.module.less';
 
-const PromptNode: CustomNodeFC<BranchFormData> = (props) => {
+const PromptNode: CustomNodeFC<PromptNodeFormData> = (props) => {
   const { formData } = props.data;
+  const promptType = formData.type;
 
   return (
     <NodeWrapper
-      nodeProps={props}
       tools={{
         editForm: {
           formData,
           width: PromptNode.modalWdith,
-          title: 'Prompt node',
+          title: 'Edit Prompt node',
           Component: Form
         }
       }}
     >
-      <div>prompt</div>
+      <NodeDesc 
+        title={PromptTypesMap[promptType]}
+        desc={formData.text}
+      />
     </NodeWrapper>
   );
 }

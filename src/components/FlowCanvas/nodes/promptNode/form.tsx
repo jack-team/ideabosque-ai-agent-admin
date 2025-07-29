@@ -23,7 +23,6 @@ const Form: FC<FormProps> = () => {
           if (!type) {
             return null;
           }
-
           return (
             <ProFormText
               label={PromptTypesMap[type as Types]}

@@ -4,7 +4,7 @@ import type { CustomNodeProps } from '../../types';
 import type { FormProps } from '../../nodes/types';
 
 export type NodeBranchType = {
-  id: string;
+  value: string;
   label?: string;
 }
 
@@ -23,7 +23,6 @@ export type ToolsType = {
 export type NodeWrapperProps = {
   // 分支
   branch?: NodeBranchType[];
-  nodeProps: CustomNodeProps;
   enableHandle?: EnableHandleType;
   children?: ReactElement | ReactElement[];
   onAddNode?: (formData: SelectFormData) => Promise<void>;

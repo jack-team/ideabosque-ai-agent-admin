@@ -1,20 +1,16 @@
 import { BranchesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
-import { usePrevNodesData } from '../../hooks';
+import NodeDesc from '../../components/NodeDesc';
 import type { BranchFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-// import styles from './styles.module.less';
 
 const BranchNode: CustomNodeFC<BranchFormData> = (props) => {
   const { formData } = props.data;
-  const datas = usePrevNodesData();
-
-  console.log(datas);
 
   return (
     <NodeWrapper
-      nodeProps={props}
+      branch={formData.branch}
       tools={{
         editForm: {
           formData,
@@ -24,7 +20,10 @@ const BranchNode: CustomNodeFC<BranchFormData> = (props) => {
         }
       }}
     >
-      <div>Branch</div>
+      <NodeDesc 
+        title={formData.name}
+        desc={formData.text}
+      />
     </NodeWrapper>
   );
 }

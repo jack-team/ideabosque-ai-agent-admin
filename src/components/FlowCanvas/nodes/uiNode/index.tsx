@@ -1,10 +1,10 @@
 import { KubernetesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
+import NodeDesc from '../../components/NodeDesc';
 import { useCanvasContext, useCacheHandle } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-import styles from './styles.module.less';
 
 const UiNode: CustomNodeFC<UiFormData> = (props) => {
   const { formData } = props.data;
@@ -18,24 +18,19 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
 
   return (
     <NodeWrapper
-      nodeProps={props}
       tools={{
         editForm: {
           formData,
-          width: UiNode.modalWdith,
+          Component: Form,
           title: 'Edit Ui node',
-          Component: Form
+          width: UiNode.modalWdith
         }
       }}
     >
-      <div className={styles.node}>
-        <div className={styles.component}>
-          {component?.componentName}
-        </div>
-        <div className={styles.description}>
-          {formData.description}
-        </div>
-      </div>
+      <NodeDesc
+        title={component?.componentName}
+        desc={formData.description}
+      />
     </NodeWrapper>
   );
 }

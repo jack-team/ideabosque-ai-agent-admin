@@ -1,20 +1,28 @@
 import { type FC, Fragment } from 'react';
+import { SwapRightOutlined } from '@ant-design/icons';
 import { Row, Col } from 'antd';
-import { ProFormText, ProFormTextArea, ProFormList } from '@ant-design/pro-components';
+import {
+  ProFormSelect,
+  ProFormList,
+  ProFormText
+} from '@ant-design/pro-components';
+import { useCanvasContext } from '../../hooks';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
+  const { transformTools = [] } = useCanvasContext();
   return (
     <Fragment>
-      <ProFormText
-        name="name"
-        label="Name"
+      <ProFormSelect
+        options={transformTools}
+        label="Type"
+        name="type"
         rules={[
           { required: true }
         ]}
       />
-      <ProFormTextArea
+      <ProFormText
         label="Text"
         name="text"
         rules={[
@@ -22,14 +30,17 @@ const Form: FC<FormProps> = () => {
         ]}
       />
       <ProFormList
-        label="Condition"
-        name="branch"
+        name="attrs"
+        label="Attributes"
+        creatorButtonProps={{
+          creatorButtonText: 'Add Attribute'
+        }}
       >
         <Row gutter={16}>
           <Col span={12}>
             <ProFormText
-              label="Label"
-              name="label"
+              label="From"
+              name="from"
               rules={[
                 { required: true }
               ]}
@@ -37,8 +48,8 @@ const Form: FC<FormProps> = () => {
           </Col>
           <Col span={12}>
             <ProFormText
-              label="Value"
-              name="value"
+              label="To"
+              name="to"
               rules={[
                 { required: true }
               ]}

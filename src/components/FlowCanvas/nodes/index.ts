@@ -3,8 +3,17 @@ import UiNode from './uiNode';
 import StartNode from './startNode';
 import BranchNode from './branchNode';
 import PromptNode from './promptNode';
+import ActionNode from './actionNode';
+import TransformNode from './transformNode';
+import StepNode from './stepNode';
 
 export const customNodes: CustomNodeConfig[] = [
+  {
+    type: 'step-node',
+    title: 'Step',
+    desc: 'Execute the corresponding process according to the different branches created.',
+    Component: StepNode
+  },
   {
     limit: 1,
     type: 'start-node',
@@ -29,5 +38,17 @@ export const customNodes: CustomNodeConfig[] = [
     title: 'Prompt',
     desc: 'Prompt the AI what to do or say.',
     Component: PromptNode
+  },
+  {
+    type: 'action-node',
+    title: 'Action',
+    desc: 'Execute the corresponding process according to the different branches created.',
+    Component: ActionNode
+  },
+  {
+    type: 'transform-node',
+    title: 'Transform',
+    desc: 'Convert the input data.',
+    Component: TransformNode
   }
 ];
