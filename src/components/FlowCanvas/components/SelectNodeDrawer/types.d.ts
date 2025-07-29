@@ -1,8 +1,17 @@
 import type { FC, ReactElement } from 'react';
 import type { NodeCollect } from '../../types';
 
+export type NodeType =
+  'step-node' |
+  'start-node' |
+  'ui-node' |
+  'brach-node'
+  'prompt-node'
+  'action-node'
+  'transform-node'
+
 export type NodeConfigType = {
-  nodeType: string;
+  nodeType: NodeType;
   title: string;
   icon: FC<any>;
   desc: string;

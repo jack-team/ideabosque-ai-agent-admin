@@ -20,13 +20,16 @@ export type ToolsType = {
   editForm?: EditFormType;
 }
 
-export type NodeWrapperProps = {
-  // 分支
-  branch?: NodeBranchType[];
+export type NodeWrapperProps = BranchProps & {
   enableHandle?: EnableHandleType;
   children?: ReactElement | ReactElement[];
   onAddNode?: (formData: SelectFormData) => Promise<void>;
 } & Partial<Omit<ToolsProps, 'nodeId'>>;
+
+export type BranchProps = {
+  // 分支
+  branch?: NodeBranchType[];
+} & Pick<SelectNodeDrawerProps, 'onChange'>;
 
 export type EditFormType = {
   title?: string;

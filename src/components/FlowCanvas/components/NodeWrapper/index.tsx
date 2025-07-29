@@ -2,11 +2,12 @@ import * as uuid from 'uuid';
 import type { FC } from "react";
 import { useMemoizedFn } from 'ahooks';
 import { Handle, Position, useReactFlow, useNodeId } from "@xyflow/react";
-import SelectNodeDrawer from "../SelectNodeDrawer";
+import Tools from './tools';
+import Branch from './branch';
+import { useCanvasDetail } from '../../hooks';
+import { DefaultTargetId } from '../../constants';
 import type { NodeWrapperProps } from "./types";
 import type { SelectResult } from "../SelectNodeDrawer/types";
-import { DefaultSourceId, DefaultTargetId } from '../../constants';
-import Tools from './tools';
 import styles from "./styles.module.less";
 
 const NodeWrapper: FC<NodeWrapperProps> = (props) => {
@@ -16,10 +17,13 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
     enableHandle,
   } = props;
 
-  const enableSource = enableHandle?.source ?? true;
-  const enableTarget = enableHandle?.target ?? true;
+  const {
+    source: enableSource = true,
+    target: enableTarget = true
+  } = enableHandle || {};
 
   const nodeId = useNodeId()!;
+  const { openDetail } = useCanvasDetail();
   const { addEdges, addNodes, getNodes } = useReactFlow();
 
   // 获取下一个坐标
@@ -34,13 +38,13 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
     return { x, y }
   });
 
-  const onSelelctNode = useMemoizedFn((r: SelectResult) => {
+  const onAddNode = useMemoizedFn((r: SelectResult) => {
     const tgId = r.triggerId;
-    const newNodeId = uuid.v4();
+    const newId = uuid.v4();
 
     // 添加节点
     addNodes({
-      id: newNodeId,
+      id: newId,
       data: r,
       type: r.nodeType,
       position: getNextPos()
@@ -52,43 +56,15 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
       // 连接的起点 id
       source: nodeId,
       // 连接的终点 id
-      target: newNodeId,
+      target: newId,
       sourceHandle: tgId,
       targetHandle: DefaultTargetId
     });
-  });
 
-  const getSourceHandle = (id: string) => {
-    return (
-      <SelectNodeDrawer
-        triggerId={id}
-        onChange={onSelelctNode}
-      >
-        <Handle
-          id={id}
-          type="source"
-          position={Position.Right}
-          className={styles.handle_source}
-        />
-      </SelectNodeDrawer>
-    );
-  };
-
-  const renderSource = () => {
-    if (!branch.length) {
-      return getSourceHandle(DefaultSourceId);
+    if (r.nodeType === 'step-node') {
+      openDetail(newId);
     }
-    return (
-      <div className={styles.branch}>
-        {branch.map((item) => (
-          <div key={item.value} className={styles.branch_item}>
-            <div className={styles.branch_label}>{item.label}</div>
-            {getSourceHandle(item.value)}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -113,7 +89,12 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
         <div className={styles.content}>
           {props.children}
         </div>
-        {enableSource && renderSource()}
+        {enableSource && (
+          <Branch
+            branch={branch}
+            onChange={onAddNode}
+          />
+        )}
       </div>
     </div>
   );

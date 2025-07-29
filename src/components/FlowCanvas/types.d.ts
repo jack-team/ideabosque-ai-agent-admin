@@ -1,8 +1,4 @@
-import type { NodeProps, Node } from '@xyflow/react';
-
-export type FlowInstance = {
-  getData: () => any;
-}
+import type { NodeProps, Node, Edge } from '@xyflow/react';
 
 export type OptionType = {
   value: string;
@@ -47,19 +43,46 @@ export type FlowCanvasContextTypes = {
   actions?: ActionFunctionType[];
   transformTools?: OptionType[];
   uiComponents?: UiComponentType[];
+  detailId?: string;
+  openDetail: (id: string) => void;
+  closeDetail: () => void;
+}
+
+export type FlowCanvasInnerContextTypes = {
+  // 是否最顶层
+  top?: boolean;
 }
 
 export type NormalNodeType<D = any> = Node<{
   formData: D;
+  details?: GetDataResult<D>;
 }>;
 
 export type CustomNodeProps<T = any> = NodeProps<NormalNodeType<T>>;
 
 export type CanvasProps = {
+  // 是否为顶层
+  top?: boolean;
   defaultNodes?: NormalNodeType[];
+  defaultEdges?: Edge[];
+  canvas?: CanvasInstance;
 }
 
 export type FlowCanvasProps = FlowCanvasContextTypes & CanvasProps & {
 
 }
+
+export type GetDataResult<D = any> = {
+  nodes: NormalNodeType<D>[];
+  edges: Edge[];
+}
+
+export type FlowInstance = {
+  getData: () => GetDataResult | null;
+}
+
+export type CanvasInstance = {
+  getData: () => GetDataResult | null;
+}
+
 

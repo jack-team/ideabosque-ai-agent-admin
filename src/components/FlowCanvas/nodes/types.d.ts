@@ -16,6 +16,7 @@ export type FormProps = {
 }
 
 export type CustomNodeConfig = {
+  top?: boolean;
   type: string;
   title: string;
   desc: string;

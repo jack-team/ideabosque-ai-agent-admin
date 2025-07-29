@@ -9,6 +9,7 @@ import StepNode from './stepNode';
 
 export const customNodes: CustomNodeConfig[] = [
   {
+    top: true,
     type: 'step-node',
     title: 'Step',
     desc: 'Execute the corresponding process according to the different branches created.',

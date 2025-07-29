@@ -1,7 +1,7 @@
 import { KubernetesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
-import { useCanvasContext, useCacheHandle } from '../../hooks';
+import { useCanvasContext } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
@@ -13,8 +13,6 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
   const component = uiComponents.find(e => {
     return e.componentId === formData.componentId;
   });
-
-  useCacheHandle(() => component);
 
   return (
     <NodeWrapper

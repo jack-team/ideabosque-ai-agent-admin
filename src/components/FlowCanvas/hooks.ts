@@ -1,11 +1,19 @@
 import { useRef, useContext } from 'react';
-import { useNodeConnections, useNodeId, useReactFlow } from '@xyflow/react';
-import { FlowCanvasContext } from './context';
-import { useUpdateEffect } from '@/hooks/useUpdateEffect';
-import type { FlowInstance, NodeCollect } from './types';
+import { useNodes } from '@xyflow/react';
+import { FlowCanvasContext, FlowCanvasInnerContext } from './context';
+import type { FlowInstance, CanvasInstance } from './types';
+import type { NormalNodeType } from './types';
+import type { StepNodeFormData } from './nodes/stepNode/types';
 
 export const useFlow = () => {
   const ref = useRef<FlowInstance>({
+    getData: () => null
+  });
+  return [ref.current];
+}
+
+export const useCanvas = () => {
+  const ref = useRef<CanvasInstance>({
     getData: () => null
   });
   return [ref.current];
@@ -15,21 +23,31 @@ export const useCanvasContext = () => {
   return useContext(FlowCanvasContext);
 }
 
-export const usePrevNodesData = () => {
-  const conns = useNodeConnections();
-  console.log(conns)
-  const { cacheNodeDatas } = useCanvasContext();
-  return conns.map(e => cacheNodeDatas[e.source]).filter(Boolean);
+export const useCanvasInnerContext = () => {
+  return useContext(FlowCanvasInnerContext);
 }
 
-type GetDataType = () => NodeCollect | undefined;
+export const useCanvasDetail = () => {
+  const {
+    detailId,
+    openDetail,
+    closeDetail
+  } = useCanvasContext();
 
-export const useCacheHandle = (getData: GetDataType) => {
-  const { updateNodeData } = useReactFlow();
-  const id = useNodeId();
-  const data = getData();
+  return {
+    detailId,
+    openDetail,
+    closeDetail
+  }
+}
 
-  useUpdateEffect(() => {
-    updateNodeData(id!, { });
-  }, data);
+export const useDetailNode = () => {
+  const { detailId } = useCanvasDetail();
+  const nodes = useNodes<NormalNodeType<StepNodeFormData>>();
+  return nodes.find(n => n.id === detailId);
+}
+
+export const useDetailData = () => {
+  const node = useDetailNode();
+  return node?.data;
 }

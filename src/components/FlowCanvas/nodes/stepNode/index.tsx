@@ -6,7 +6,10 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const StepNode: CustomNodeFC<StepNodeFormData> = (props) => {
-  const { formData } = props.data;
+  const { formData, details } = props.data;
+
+  console.log(details);
+  
   return (
     <NodeWrapper
       tools={{
