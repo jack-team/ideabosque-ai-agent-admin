@@ -1,13 +1,13 @@
 import { KubernetesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
-import { useFlowContext } from '../../hooks';
+import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
 
-const UiNode: CustomNodeFC<UiFormData> = (props) => {
-  const { formData } = props.data;
+const UiNode: CustomNodeFC = () => {
+  const formData = useNodeFormData<UiFormData>();
   const { uiComponents = [] } = useFlowContext();
 
   const component = uiComponents.find(e => {
@@ -18,7 +18,6 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
     <NodeWrapper
       tools={{
         editForm: {
-          formData,
           Component: Form,
           title: 'Edit Ui node',
           width: UiNode.modalWdith
@@ -35,7 +34,6 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
 
 export default UiNode;
 
-
 UiNode.Form = Form;
-UiNode.modalWdith = 350;
+UiNode.modalWdith = 400;
 UiNode.Icon = KubernetesOutlined;

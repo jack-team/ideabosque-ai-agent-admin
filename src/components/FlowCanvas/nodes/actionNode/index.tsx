@@ -2,25 +2,23 @@ import { useMemo } from 'react';
 import { FunctionOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
-import { useCanvasContext } from '../../hooks';
+import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { ActionFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
 
-const ActionNode: CustomNodeFC<ActionFormData> = (props) => {
-  const { formData } = props.data;
-  const actionType = formData.type;
-  const { actions = [] } = useCanvasContext();
+const ActionNode: CustomNodeFC = () => {
+  const { actions = [] } = useFlowContext();
+  const formData = useNodeFormData<ActionFormData>();
 
   const action = useMemo(() => {
-    return actions.find(e => actionType === e.name);
-  }, [actions, actionType]);
+    return actions.find(e => formData.type === e.name);
+  }, [actions, formData.type]);
 
   return (
     <NodeWrapper
       tools={{
         editForm: {
-          formData,
           Component: Form,
           title: 'Edit Action node',
           width: ActionNode.modalWdith

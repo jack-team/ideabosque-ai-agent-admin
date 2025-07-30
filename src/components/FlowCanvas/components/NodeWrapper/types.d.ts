@@ -35,7 +35,6 @@ export type EditFormType = {
   title?: string;
   width?: number;
   Component: FC<FormProps>;
-  formData?: Record<string, any>;
 }
 
 export type ToolsProps = {

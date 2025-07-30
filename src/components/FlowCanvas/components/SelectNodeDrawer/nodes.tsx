@@ -7,8 +7,13 @@ import { customNodes } from '../../nodes'
 import type { NodesProps } from './types';
 
 const Nodes: FC<NodesProps> = (props) => {
+  const {
+    triggerId,
+    onChange,
+    closeDrawer
+  } = props;
+
   const nodes = useNodes();
-  const { closeDrawer, onChange, triggerId } = props;
   const { top } = useCanvasContext();
 
   return (

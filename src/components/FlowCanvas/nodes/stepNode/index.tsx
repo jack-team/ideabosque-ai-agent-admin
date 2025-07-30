@@ -1,18 +1,18 @@
 import { StepForwardFilled } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
+import { useNodeFormData } from '../../hooks';
 import type { StepNodeFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
 
-const StepNode: CustomNodeFC<StepNodeFormData> = (props) => {
-  const { formData, details } = props.data;
+const StepNode: CustomNodeFC = () => {
+  const formData = useNodeFormData<StepNodeFormData>();
   
   return (
     <NodeWrapper
       tools={{
         editForm: {
-          formData,
           Component: Form,
           title: 'Edit Step node',
           width: StepNode.modalWdith
