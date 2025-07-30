@@ -17,10 +17,10 @@ const Form: FC<FormProps> = () => {
         ]}
       />
       <ProFormTextArea
-        label="Description"
+        label="Text"
         name="text"
         rules={[
-          { required: true }
+          { required: false }
         ]}
       />
     </Fragment>

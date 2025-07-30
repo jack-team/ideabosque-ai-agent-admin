@@ -41,7 +41,7 @@ const Canvas: FC<CanvasProps> = (props) => {
 
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(defaultEdges);
   const [nodes, _, onNodesChange] = useNodesState<NormalNodeType>(initNodes);
-  const compEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
+  const computedEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
 
   // 连线逻辑
   const handleLineConnect = useMemoizedFn(
@@ -61,7 +61,7 @@ const Canvas: FC<CanvasProps> = (props) => {
       <ReactFlow<NormalNodeType>
         minZoom={0.5}
         nodes={nodes}
-        edges={compEdages}
+        edges={computedEdages}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         // 禁用键盘删除
