@@ -1,53 +1,44 @@
-import { useRef, useContext } from 'react';
+import { useContext } from 'react';
 import { useNodes } from '@xyflow/react';
-import { FlowCanvasContext, FlowCanvasInnerContext } from './context';
-import type { FlowInstance, CanvasInstance } from './types';
+import { useInstance } from '@/hooks/useInstance'
 import type { NormalNodeType } from './types';
+import { FlowContext, CanvasContext } from './context';
+import type { FlowInstance, CanvasInstance } from './types';
 import type { StepNodeFormData } from './nodes/stepNode/types';
 
-export const useFlow = () => {
-  const ref = useRef<FlowInstance>({
+// 获取 flow 的实例
+export const useFlowInstance = () => {
+  return useInstance<FlowInstance>({
     getData: () => null
   });
-  return [ref.current];
 }
 
-export const useCanvas = () => {
-  const ref = useRef<CanvasInstance>({
+// 获取 canvas 的实例
+export const useCanvasInctance = () => {
+  return useInstance<CanvasInstance>({
     getData: () => null
   });
-  return [ref.current];
 }
 
+// 获取 Flow的上下文
+export const useFlowContext = () => {
+  return useContext(FlowContext);
+}
+
+// 获取 canvas 内部上下文
 export const useCanvasContext = () => {
-  return useContext(FlowCanvasContext);
+  return useContext(CanvasContext);
 }
 
-export const useCanvasInnerContext = () => {
-  return useContext(FlowCanvasInnerContext);
-}
-
-export const useCanvasDetail = () => {
-  const {
-    detailId,
-    openDetail,
-    closeDetail
-  } = useCanvasContext();
-
-  return {
-    detailId,
-    openDetail,
-    closeDetail
-  }
-}
-
-export const useDetailNode = () => {
-  const { detailId } = useCanvasDetail();
+// 获取步骤Node详情
+export const useStepDetail = () => {
+  const { detailId: nodeId } = useFlowContext();
   const nodes = useNodes<NormalNodeType<StepNodeFormData>>();
-  return nodes.find(n => n.id === detailId);
+  return nodes.find(n => n.id === nodeId);
 }
 
-export const useDetailData = () => {
-  const node = useDetailNode();
+// 获取步骤Node 中的 data 数据
+export const useStepData = () => {
+  const node = useStepDetail();
   return node?.data;
 }

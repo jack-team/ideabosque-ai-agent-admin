@@ -4,11 +4,11 @@ import {
   ProFormTextArea
 } from '@ant-design/pro-components';
 import type { FormProps } from '../types';
-import { useCanvasContext } from '../../hooks';
+import { useFlowContext } from '../../hooks';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
-  const { actions = [] } = useCanvasContext();
+  const { actions = [] } = useFlowContext();
 
   const options = useMemo(() => {
     return actions.map(item => ({
@@ -28,7 +28,7 @@ const Form: FC<FormProps> = () => {
         ]}
       />
       <ProFormTextArea
-        label="Text"
+        label="Description"
         name="text"
         rules={[
           { required: true }

@@ -10,13 +10,14 @@ import {
   type Connection,
 } from "@xyflow/react";
 import cloneDeep from "clone-deep";
-import { type FC, useMemo, useEffect } from "react";
+import { type FC, useMemo } from "react";
 import "@xyflow/react/dist/style.css";
 import { useMemoizedFn } from "ahooks";
 import { customNodes } from "./nodes";
 import { edgeTypes } from "./customEdge";
-import { FlowCanvasInnerContext } from './context';
+import { CanvasContext } from './context';
 import { DefaultStartNode } from "./constants";
+import { useInstanceHandler } from '@/hooks/useInstance';
 import type { NormalNodeType, CanvasProps } from './types';
 
 export const nodeTypes = customNodes.reduce((o, c) => (
@@ -51,14 +52,12 @@ const Canvas: FC<CanvasProps> = (props) => {
     return cloneDeep({ edges, nodes });
   });
 
-  useEffect(() => {
-    if (canvas) {
-      canvas.getData = getCanvasData;
-    }
-  }, [canvas, getCanvasData]);
+  useInstanceHandler(canvas, () => {
+    return { getData: getCanvasData }
+  });
 
   return (
-    <FlowCanvasInnerContext value={{ top }}>
+    <CanvasContext value={{ top }}>
       <ReactFlow<NormalNodeType>
         minZoom={0.5}
         nodes={nodes}
@@ -79,7 +78,7 @@ const Canvas: FC<CanvasProps> = (props) => {
         />
         <Controls />
       </ReactFlow>
-    </FlowCanvasInnerContext>
+    </CanvasContext>
   );
 };
 

@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import classNames from 'classnames';
 import Layer from './layer';
-import { useCanvasDetail } from '../hooks';
+import { useFlowContext } from '../hooks';
 import styles from './styles.module.less';
 
 const Detail: FC = () => {
   const {
     detailId
-  } = useCanvasDetail();
+  } = useFlowContext();
 
   const cls = classNames(
     styles.detail,

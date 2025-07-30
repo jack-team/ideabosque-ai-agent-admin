@@ -4,7 +4,7 @@ import { useMemoizedFn } from 'ahooks';
 import { Handle, Position, useReactFlow, useNodeId } from "@xyflow/react";
 import Tools from './tools';
 import Branch from './branch';
-import { useCanvasDetail } from '../../hooks';
+import { useFlowContext } from '../../hooks';
 import { DefaultTargetId } from '../../constants';
 import type { NodeWrapperProps } from "./types";
 import type { SelectResult } from "../SelectNodeDrawer/types";
@@ -23,7 +23,7 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
   } = enableHandle || {};
 
   const nodeId = useNodeId()!;
-  const { openDetail } = useCanvasDetail();
+  const { openDetail } = useFlowContext();
   const { addEdges, addNodes, getNodes } = useReactFlow();
 
   // 获取下一个坐标

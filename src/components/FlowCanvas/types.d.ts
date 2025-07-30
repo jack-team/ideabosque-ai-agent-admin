@@ -39,7 +39,7 @@ export type NodeDataType = {
   data: NodeCollect;
 }
 
-export type FlowCanvasContextTypes = {
+export type FlowContextTypes = {
   actions?: ActionFunctionType[];
   transformTools?: OptionType[];
   uiComponents?: UiComponentType[];
@@ -48,7 +48,7 @@ export type FlowCanvasContextTypes = {
   closeDetail: () => void;
 }
 
-export type FlowCanvasInnerContextTypes = {
+export type CanvasContextTypes = {
   // 是否最顶层
   top?: boolean;
 }
@@ -68,7 +68,7 @@ export type CanvasProps = {
   canvas?: CanvasInstance;
 }
 
-export type FlowCanvasProps = FlowCanvasContextTypes & CanvasProps & {
+export type FlowCanvasProps = FlowContextTypes & CanvasProps & {
 
 }
 
@@ -81,8 +81,7 @@ export type FlowInstance = {
   getData: () => GetDataResult | null;
 }
 
-export type CanvasInstance = {
-  getData: () => GetDataResult | null;
+export type CanvasInstance = FlowInstance & {
+  
 }
-
 

@@ -1,14 +1,14 @@
 import { KubernetesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
-import { useCanvasContext } from '../../hooks';
+import { useFlowContext } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const UiNode: CustomNodeFC<UiFormData> = (props) => {
   const { formData } = props.data;
-  const { uiComponents = [] } = useCanvasContext();
+  const { uiComponents = [] } = useFlowContext();
 
   const component = uiComponents.find(e => {
     return e.componentId === formData.componentId;
@@ -27,7 +27,7 @@ const UiNode: CustomNodeFC<UiFormData> = (props) => {
     >
       <NodeDesc
         title={component?.componentName}
-        desc={formData.description}
+        desc={formData.text}
       />
     </NodeWrapper>
   );
@@ -37,5 +37,5 @@ export default UiNode;
 
 
 UiNode.Form = Form;
-UiNode.modalWdith = 450;
+UiNode.modalWdith = 350;
 UiNode.Icon = KubernetesOutlined;

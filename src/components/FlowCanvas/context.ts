@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import type { FlowCanvasContextTypes, FlowCanvasInnerContextTypes } from './types';
+import type { FlowContextTypes, CanvasContextTypes } from './types';
 
-export const FlowCanvasContext = createContext({} as FlowCanvasContextTypes);
-export const FlowCanvasInnerContext = createContext({} as FlowCanvasInnerContextTypes);
+export const FlowContext = createContext({} as FlowContextTypes);
+export const CanvasContext = createContext({} as CanvasContextTypes);

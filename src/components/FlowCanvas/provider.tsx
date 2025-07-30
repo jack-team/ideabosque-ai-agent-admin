@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 import { useSafeState, useMemoizedFn } from 'ahooks';
-import { FlowCanvasContext } from './context';
-import type { FlowCanvasContextTypes } from './types';
+import { FlowContext } from './context';
+import type { FlowCanvasProps } from './types';
 
 type ProviderProps = PropsWithChildren<
-  Omit<FlowCanvasContextTypes,
+  Omit<FlowCanvasProps,
     'openDetail' |
     'closeDetail'
   >
@@ -23,7 +23,7 @@ const Provider: FC<ProviderProps> = (props) => {
   });
 
   return (
-    <FlowCanvasContext.Provider
+    <FlowContext.Provider
       value={{
         ...rest,
         detailId,
@@ -32,7 +32,7 @@ const Provider: FC<ProviderProps> = (props) => {
       }}
     >
       {children}
-    </FlowCanvasContext.Provider>
+    </FlowContext.Provider>
   );
 }
 

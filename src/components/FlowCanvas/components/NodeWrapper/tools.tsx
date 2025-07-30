@@ -8,16 +8,15 @@ import {
 import { useMemoizedFn } from 'ahooks';
 import { useReactFlow } from '@xyflow/react';
 import ModalForm from "../ModalForm";
-import { useCanvasInnerContext, useCanvasDetail } from '../../hooks';
+import { useCanvasContext, useFlowContext } from '../../hooks';
 import type { ToolsProps } from './types';
 import styles from "./styles.module.less";
 
 const Tools: FC<ToolsProps> = (props) => {
   const { nodeId, tools } = props;
   const { editForm } = tools;
-
-  const { top } = useCanvasInnerContext();
-  const { openDetail } = useCanvasDetail();
+  const { top } = useCanvasContext();
+  const { openDetail } = useFlowContext();
   const { setNodes, updateNodeData } = useReactFlow();
 
   const handleDeleteNode = useMemoizedFn(() => {

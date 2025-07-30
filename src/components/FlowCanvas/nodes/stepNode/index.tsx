@@ -7,8 +7,6 @@ import Form from './form';
 
 const StepNode: CustomNodeFC<StepNodeFormData> = (props) => {
   const { formData, details } = props.data;
-
-  console.log(details);
   
   return (
     <NodeWrapper
@@ -32,5 +30,5 @@ const StepNode: CustomNodeFC<StepNodeFormData> = (props) => {
 export default StepNode;
 
 StepNode.Form = Form;
-StepNode.modalWdith = 400;
+StepNode.modalWdith = 380;
 StepNode.Icon = StepForwardFilled;

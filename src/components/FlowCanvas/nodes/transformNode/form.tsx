@@ -1,17 +1,16 @@
 import { type FC, Fragment } from 'react';
-import { SwapRightOutlined } from '@ant-design/icons';
 import { Row, Col } from 'antd';
 import {
   ProFormSelect,
   ProFormList,
   ProFormText
 } from '@ant-design/pro-components';
-import { useCanvasContext } from '../../hooks';
+import { useFlowContext } from '../../hooks';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
-  const { transformTools = [] } = useCanvasContext();
+  const { transformTools = [] } = useFlowContext();
   return (
     <Fragment>
       <ProFormSelect

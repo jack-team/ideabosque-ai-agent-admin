@@ -1,20 +1,19 @@
 import type { FC } from 'react';
 import { Modal } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
 import { CloseOutlined } from '@ant-design/icons';
+import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
+import { useFlowContext, useStepData, useFlowInstance } from '../hooks';
 import { ShopifyButton } from '@/components';
-import { useCanvasDetail, useDetailData, useCanvas } from '../hooks';
 import Canvas from '../canvas';
 import styles from './styles.module.less';
 
-
 const Layer: FC = () => {
-  const [canvas] = useCanvas();
-  const data = useDetailData();
-  const [modal, contextHandler] = Modal.useModal();
+  const data = useStepData();
+  const [canvas] = useFlowInstance();
   const { updateNodeData } = useReactFlow();
-  const { closeDetail, detailId } = useCanvasDetail();
+  const [modal, contextHandler] = Modal.useModal();
+  const { closeDetail, detailId } = useFlowContext();
 
   const details = data?.details;
   const defaultNodes = details?.nodes;
@@ -27,7 +26,7 @@ const Layer: FC = () => {
     setTimeout(closeDetail);
   });
 
-  const closePage = useMemoizedFn(() => {
+  const closeLayer = useMemoizedFn(() => {
     modal.confirm({
       title: 'Are you sure you want to leave?',
       content: 'The data on this page will be lost after leaving.',
@@ -46,7 +45,7 @@ const Layer: FC = () => {
     <div className={styles.layer}>
       <div className={styles.layer_header}>
         <div
-          onClick={closePage}
+          onClick={closeLayer}
           className={styles.close_btn}
         >
           <CloseOutlined />
