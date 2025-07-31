@@ -6,7 +6,7 @@ export const formDataTransform = (formData: Record<string, any> = {}) => {
 
 export const dataTransform = (data: Record<string, any>) => {
   // 存在版本直接返回版本数据
-  if (data?.version) return data;
+  if (data?._v_) return data;
   let nodes = (data?.nodes || []) as any[];
 
   nodes = nodes.map(node => {

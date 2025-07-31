@@ -26,8 +26,6 @@ const DetailContent: FC<DetailContentProps> = props => {
     return dataTransform(result) as GetDataResult;
   }, [frp]);
 
-  console.log(relationship)
-
   return (
     <Card className="shopify full-content">
       <div className={styles.container}>

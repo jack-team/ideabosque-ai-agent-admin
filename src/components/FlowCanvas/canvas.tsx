@@ -49,7 +49,7 @@ const Canvas: FC<CanvasProps> = (props) => {
   );
 
   const getCanvasData = useMemoizedFn(() => {
-    return cloneDeep({ edges, nodes, vesion: 1 });
+    return cloneDeep({ edges, nodes, _v_: 1 });
   });
 
   useInstanceHandler(canvas, () => {
