@@ -22,7 +22,7 @@ const StepNode: CustomNodeFC = () => {
     >
       <NodeDesc
         title={formData?.name}
-        desc={formData?.text}
+        desc={formData?.description}
       />
     </NodeWrapper>
   );

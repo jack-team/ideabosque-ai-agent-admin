@@ -15,7 +15,7 @@ const Form: FC<FormProps> = () => {
   const options = uiComponents.map(e => {
     return {
       label: e.componentName,
-      value: e.componentId
+      value: e.componentTag
     }
   });
 
@@ -23,7 +23,7 @@ const Form: FC<FormProps> = () => {
     <Fragment>
       <ProFormSelect
         label="Component"
-        name="componentId"
+        name="name"
         options={options}
         rules={[
           { required: true }
@@ -36,10 +36,10 @@ const Form: FC<FormProps> = () => {
           { required: true }
         ]}
       />
-      <ProFormDependency name={['componentId']}>
-        {({ componentId }) => {
+      <ProFormDependency name={['name']}>
+        {({ name }) => {
           const component = uiComponents.find(e => {
-            return e.componentId === componentId;
+            return e.componentTag === name;
           });
           return (
             <InputPramsFormItems

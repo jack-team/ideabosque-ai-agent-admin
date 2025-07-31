@@ -11,7 +11,7 @@ const UiNode: CustomNodeFC = () => {
   const { uiComponents = [] } = useFlowContext();
 
   const component = uiComponents.find(e => {
-    return e.componentId === formData?.componentId;
+    return e.componentTag === formData?.name;
   });
 
   return (

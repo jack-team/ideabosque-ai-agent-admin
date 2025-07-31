@@ -19,8 +19,8 @@ const Form: FC<FormProps> = () => {
         ]}
       />
       <ProFormTextArea
-        label="Text"
-        name="text"
+        label="Description"
+        name="description"
         rules={[
           { required: false }
         ]}

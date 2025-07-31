@@ -60,6 +60,7 @@ export type CanvasContextTypes = {
 export type FlowInstanceGetDataResult = {
   realDetails: GetDataResult;
   assembleData: AssembleDataResult[];
+  _v_?: number;
 }
 
 export type FlowInstance = {

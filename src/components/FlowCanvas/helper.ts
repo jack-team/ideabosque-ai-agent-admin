@@ -131,16 +131,19 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
     const node = findNode(item.id);
     const data = node?.data;
 
+    // 去掉 branch 字段
+    const { branch, ...formData } = { ...data?.formData };
+
     const result: AssembleDataResult = {
       ...item,
       type: node?.type,
-      formData: data?.formData,
+      formData,
     }
 
     if (data?.details) {
       result.details = assembleData(data?.details);
     }
-    
+
     return result;
   });
 }
