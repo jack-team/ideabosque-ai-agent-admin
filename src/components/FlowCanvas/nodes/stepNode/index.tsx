@@ -11,6 +11,7 @@ const StepNode: CustomNodeFC = () => {
   
   return (
     <NodeWrapper
+      branch={formData?.branch}
       tools={{
         editForm: {
           Component: Form,

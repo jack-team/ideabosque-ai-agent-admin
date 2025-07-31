@@ -24,7 +24,7 @@ const DetailContent: FC<DetailContentProps> = props => {
   const relationship = useMemo(() => {
     const result = frp ? JSON.parse(frp) : {};
     return dataTransform(result) as GetDataResult;
-  }, [frp]);
+  }, [frp, uiComponents]);
 
   return (
     <Card className="shopify full-content">

@@ -1,7 +1,9 @@
 import { type FC, Fragment } from 'react';
+import { Row, Col } from 'antd';
 import {
   ProFormText,
-  ProFormTextArea
+  ProFormTextArea,
+  ProFormList
 } from '@ant-design/pro-components';
 import type { FormProps } from '../types';
 
@@ -23,6 +25,31 @@ const Form: FC<FormProps> = () => {
           { required: false }
         ]}
       />
+       <ProFormList
+        label="Condition"
+        name="branch"
+      >
+        <Row gutter={16}>
+          <Col span={12}>
+            <ProFormText
+              label="Label"
+              name="label"
+              rules={[
+                { required: true }
+              ]}
+            />
+          </Col>
+          <Col span={12}>
+            <ProFormText
+              label="Value"
+              name="value"
+              rules={[
+                { required: true }
+              ]}
+            />
+          </Col>
+        </Row>
+      </ProFormList>
     </Fragment>
   );
 }

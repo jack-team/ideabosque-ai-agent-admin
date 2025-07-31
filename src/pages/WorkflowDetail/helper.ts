@@ -1,7 +1,18 @@
 export const formDataTransform = (formData: Record<string, any> = {}) => {
   return Object.keys(formData).reduce((obj, key) => {
-    return { ...obj, [key]: formData[key]?.value };
-  }, { } as Record<string, any>);
+    let value = formData[key]?.value;
+    if (key === 'conditions') {
+      key = 'branch';
+      const list = value as any[];
+      value = list?.map?.(item => (
+        {
+          label: item.condition,
+          value: item.condition
+        }
+      ));
+    }
+    return { ...obj, [key]: value };
+  }, {} as Record<string, any>);
 }
 
 export const dataTransform = (data: Record<string, any>) => {

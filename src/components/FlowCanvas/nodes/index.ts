@@ -29,7 +29,7 @@ export const customNodes: CustomNodeConfig[] = [
     Component: UiNode
   },
   {
-    type: 'brach',
+    type: 'branch',
     title: 'Branch',
     desc: 'Execute the corresponding process according to the different branches created.',
     Component: BranchNode
