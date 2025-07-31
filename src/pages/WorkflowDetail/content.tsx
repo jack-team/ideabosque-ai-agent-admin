@@ -1,93 +1,43 @@
-import { Card } from "antd";
-import cloneDeep from "clone-deep";
-import { useMemoizedFn } from "ahooks";
-import {
-  useRef,
-  lazy,
-  Suspense,
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-} from "react";
-import type {
-  AiWorkFlowInstance,
-  FlowSaveResult,
-} from "@/components/AiWorkFlow/types";
-import { Spinner } from "@/components";
-import { processNodeData } from "./helper";
-import type { DetailRefs } from "./types";
+import { Card } from 'antd';
+import { type FC, useMemo } from 'react';
+import FlowCanvas from '@/components/FlowCanvas';
+import { useUiComponents, useActions, useTransformTools } from './hooks';
+import type { FlowInstance, GetDataResult } from '@/components/FlowCanvas/types';
 import styles from "./styles.module.less";
 
-const AiWorkFlow = lazy(() => import("@/components/AiWorkFlow"));
-
 type DetailContentProps = {
+  flow?: FlowInstance;
   detail: API.Workflow.FlowSnippet;
 };
 
-const DetailContent = forwardRef<DetailRefs, DetailContentProps>(
-  (props, ref) => {
-    const { detail } = props;
-    const flowInstance = useRef<AiWorkFlowInstance>(null);
-    const template = detail.promptTemplate;
+const DetailContent: FC<DetailContentProps> = props => {
+  const {
+    flowRelationship,
+    promptTemplate: tpl
+  } = props.detail;
 
-    // Parse the flow relationship from the detail
-    const relationship = useMemo<FlowSaveResult>(() => {
-      return JSON.parse(detail.flowRelationship ?? "{}");
-    }, [detail.flowRelationship]);
+  const actions = useActions(tpl.mcp_servers);
+  const transformTools = useTransformTools();
+  const uiComponents = useUiComponents(tpl.ui_components);
 
-    const getDataHandler = useMemoizedFn(() => {
-      const result = flowInstance.current?.getData()!;
+  const relationship = useMemo<GetDataResult>(() => {
+    return flowRelationship ? JSON.parse(flowRelationship) : {};
+  }, [flowRelationship]);
 
-      const { nodes: stepNodes = [], edges: stepEdges = [] } =
-        cloneDeep(result);
-
-      const stpes = stepNodes.map((node) => {
-        return processNodeData(node, stepEdges);
-      });
-
-      const datas = stpes.map((step) => {
-        const { detail, ...rest } = step;
-        const nodes = detail?.nodes || [];
-        const edges = detail?.edges || [];
-
-        const details = nodes.map((node) => {
-          return processNodeData(node, edges, step);
-        });
-        return { ...rest, details };
-      });
-
-      return {
-        flowContext: datas,
-        flowRelationship: result,
-      };
-    });
-
-    useImperativeHandle(ref, () => {
-      return { getData: getDataHandler };
-    });
-
-    return (
-      <Card className="shopify full-content">
-        <div className={styles.container}>
-          <Suspense
-            fallback={
-              <div className="lazy-loading">
-                <Spinner size={48} />
-              </div>
-            }
-          >
-            <AiWorkFlow
-              ref={flowInstance}
-              initialNodes={relationship.nodes}
-              initialEdges={relationship.edges}
-              mcpServers={template.mcp_servers}
-              uiComponents={template.ui_components}
-            />
-          </Suspense>
-        </div>
-      </Card>
-    );
-  }
-);
+  return (
+    <Card className="shopify full-content">
+      <div className={styles.container}>
+        <FlowCanvas
+          flow={props.flow}
+          actions={actions}
+          uiComponents={uiComponents}
+          transformTools={transformTools}
+          defaultEdges={relationship.edges}
+          defaultNodes={relationship.nodes}
+        />
+      </div>
+    </Card>
+  );
+}
 
 export default DetailContent;

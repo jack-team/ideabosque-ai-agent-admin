@@ -11,7 +11,7 @@ const UiNode: CustomNodeFC = () => {
   const { uiComponents = [] } = useFlowContext();
 
   const component = uiComponents.find(e => {
-    return e.componentId === formData.componentId;
+    return e.componentId === formData?.componentId;
   });
 
   return (
@@ -26,7 +26,7 @@ const UiNode: CustomNodeFC = () => {
     >
       <NodeDesc
         title={component?.componentName}
-        desc={formData.text}
+        desc={formData?.text}
       />
     </NodeWrapper>
   );

@@ -11,7 +11,7 @@ const BranchNode: CustomNodeFC = () => {
 
   return (
     <NodeWrapper
-      branch={formData.branch}
+      branch={formData?.branch}
       tools={{
         editForm: {
           width: BranchNode.modalWdith,
@@ -21,8 +21,8 @@ const BranchNode: CustomNodeFC = () => {
       }}
     >
       <NodeDesc 
-        title={formData.name}
-        desc={formData.text}
+        title={formData?.name}
+        desc={formData?.text}
       />
     </NodeWrapper>
   );

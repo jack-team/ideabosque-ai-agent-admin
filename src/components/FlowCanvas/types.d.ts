@@ -6,7 +6,12 @@ export type OptionType = {
 }
 
 // 输入输出的 key 和 label
-export type ElementResultOptionType = OptionType & {
+export type ElementResultOptionType = {
+  label: string;
+  name: string;
+  initialValue?: string;
+  disabled?: boolean;
+  readonly?: boolean;
   required?: boolean;
   options?: OptionType[]; // 枚举值
   children?: ElementResultOptionType[];
@@ -39,12 +44,12 @@ export type NodeDataType = {
 }
 
 export type FlowContextTypes = {
+  detailId?: string;
   actions?: ActionFunctionType[];
   transformTools?: OptionType[];
   uiComponents?: UiComponentType[];
-  detailId?: string;
-  openDetail: (id: string) => void;
   closeDetail: () => void;
+  openDetail: (id: string) => void;
 }
 
 export type CanvasContextTypes = {
@@ -66,7 +71,7 @@ export type CanvasInstance = {
 }
 
 export type NormalNodeType<D extends {} = {}> = Node<{
-  formData: D & {
+  formData?: D & {
     branch?: OptionType[]
   };
   details?: GetDataResult<D>;

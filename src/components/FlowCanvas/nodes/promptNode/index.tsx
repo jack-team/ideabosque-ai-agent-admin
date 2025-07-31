@@ -7,9 +7,9 @@ import { PromptTypesMap } from './enum';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
 
-const PromptNode: CustomNodeFC= () => {
+const PromptNode: CustomNodeFC = () => {
   const formData = useNodeFormData<PromptNodeFormData>();
-  const promptType = formData.type;
+  const promptType = formData?.type;
 
   return (
     <NodeWrapper
@@ -21,9 +21,9 @@ const PromptNode: CustomNodeFC= () => {
         }
       }}
     >
-      <NodeDesc 
-        title={PromptTypesMap[promptType]}
-        desc={formData.text}
+      <NodeDesc
+        title={promptType && PromptTypesMap[promptType]}
+        desc={formData?.text}
       />
     </NodeWrapper>
   );

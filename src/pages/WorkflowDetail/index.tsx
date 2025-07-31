@@ -1,12 +1,11 @@
-import { useRef } from 'react';
 import { App } from 'antd';
 import { useParams } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemoizedFn, useSafeState, useMount } from 'ahooks';
 import { queryAgentWorkflowApi } from '@/services/workflow';
 import { insertUpdateWorkflowApi } from '@/services/workflow';
+import { useFlowInstance } from '@/components/FlowCanvas';
 import { ShopifyButton } from '@/components';
-import type { DetailRefs } from './types';
 import { Spinner } from '@/components';
 import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
@@ -19,8 +18,8 @@ type UrlParams = {
 
 function WorkflowDetail() {
   const { message } = App.useApp();
+  const [flow] = useFlowInstance();
   const params = useParams<UrlParams>();
-  const ref = useRef<DetailRefs>(null);
   const [loading, setLoading] = useSafeState(false);
   const [detail, setDetail] = useSafeState<API.Workflow.FlowSnippet>();
   const promptUuid = detail?.promptTemplate?.prompt_uuid
@@ -34,13 +33,13 @@ function WorkflowDetail() {
   });
 
   const onSave = useMemoizedFn(async () => {
-    const data = ref.current?.getData()!;
+    const data = flow.getData()!;
     setLoading(true);
     await insertUpdateWorkflowApi({
       ...detail!,
       promptUuid,
-      flowContext: JSON.stringify(data.flowContext),
-      flowRelationship: JSON.stringify(data.flowRelationship)
+      flowContext: JSON.stringify(data.assembleData),
+      flowRelationship: JSON.stringify(data.realDetails)
     });
     message.success('Workflow saved successfully');
     setLoading(false);
@@ -68,7 +67,7 @@ function WorkflowDetail() {
       ) : null}
     >
       <SpinBox loading={loading}>
-        {detail ? <DetailContent ref={ref} detail={detail} /> : null}
+        {detail ? <DetailContent detail={detail} flow={flow} /> : null}
       </SpinBox>
     </PageContainer>
   )

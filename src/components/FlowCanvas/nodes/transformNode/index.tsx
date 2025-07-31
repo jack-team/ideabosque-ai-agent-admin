@@ -12,8 +12,8 @@ const TransformNode: CustomNodeFC = () => {
   const formData = useNodeFormData<TransformNodeFormData>();
 
   const tool = useMemo(() => {
-    return transformTools.find(e => e.value === formData.type);
-  }, [transformTools, formData.type]);
+    return transformTools.find(e => e.value === formData?.type);
+  }, [transformTools, formData?.type]);
 
   return (
     <NodeWrapper
@@ -27,7 +27,7 @@ const TransformNode: CustomNodeFC = () => {
     >
       <NodeDesc 
         title={tool?.label}
-        desc={formData.text}
+        desc={formData?.text}
       />
     </NodeWrapper>
   );

@@ -242,20 +242,7 @@ const actionFunctions: ActionFunctionType[] = [
   }
 ];
 
-const transformTools: OptionType[] = [
-  {
-    label: 'Summarize',
-    value: 'summarize'
-  },
-  {
-    label: 'Full content',
-    value: 'full_content'
-  },
-  {
-    label: 'Structure input',
-    value: 'structure_input'
-  }
-];
+
 
 const Test = () => {
   const [flow] = useFlowInstance();

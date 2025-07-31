@@ -43,8 +43,8 @@ export const useStepData = () => {
   return node?.data;
 }
 
-export function useNodeFormData<T extends {} = {}>() {
+export function useNodeFormData<T extends {} = {} >() {
   const nodeId = useNodeId();
   const result = useNodesData<NormalNodeType<T>>(nodeId!);
-  return result?.data?.formData as T;
+  return result?.data?.formData;
 }

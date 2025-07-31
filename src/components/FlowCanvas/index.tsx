@@ -7,8 +7,8 @@ import Provider from './provider';
 import { assembleData } from './helper';
 import type { FlowCanvasProps } from './types';
 import { useCanvasInctance } from './hooks';
-
 import { useInstanceHandler } from '@/hooks/useInstance';
+
 export * from './hooks';
 
 const FlowCanvas: FC<FlowCanvasProps> = (props) => {
@@ -29,7 +29,10 @@ const FlowCanvas: FC<FlowCanvasProps> = (props) => {
   return (
     <ReactFlowProvider>
       <Provider {...props}>
-        <Canvas canvas={canvas} />
+        <Canvas
+          {...props}
+          canvas={canvas}
+        />
         <Detail />
       </Provider>
     </ReactFlowProvider>

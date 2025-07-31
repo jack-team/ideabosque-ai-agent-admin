@@ -39,6 +39,8 @@ const Canvas: FC<CanvasProps> = (props) => {
       [cloneDeep(DefaultStartNode)];
   }, [defaultNodes]);
 
+  console.log(initNodes, defaultEdges, 'defaultEdges')
+
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(defaultEdges);
   const [nodes, _, onNodesChange] = useNodesState<NormalNodeType>(initNodes);
   const computedEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
