@@ -39,8 +39,6 @@ const Canvas: FC<CanvasProps> = (props) => {
       [cloneDeep(DefaultStartNode)];
   }, [defaultNodes]);
 
-  console.log(initNodes, defaultEdges, 'defaultEdges')
-
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(defaultEdges);
   const [nodes, _, onNodesChange] = useNodesState<NormalNodeType>(initNodes);
   const computedEdages = edges.map(edge => ({ ...edge, type: 'step-edge' }));
@@ -51,7 +49,7 @@ const Canvas: FC<CanvasProps> = (props) => {
   );
 
   const getCanvasData = useMemoizedFn(() => {
-    return cloneDeep({ edges, nodes });
+    return cloneDeep({ edges, nodes, vesion: 1 });
   });
 
   useInstanceHandler(canvas, () => {

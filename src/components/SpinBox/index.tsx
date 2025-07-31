@@ -1,10 +1,10 @@
-import type { FC, ReactElement } from 'react';
+import type { FC } from 'react';
 import Spinner from '../Spinner';
 import './styles.less';
 
 type SpinBoxProps = {
   loading?: boolean;
-  children?: ReactElement | ReactElement[] | null;
+  children?: any;
 }
 
 const SpinBox: FC<SpinBoxProps> = (props) => {

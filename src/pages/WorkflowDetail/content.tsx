@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 import { type FC, useMemo } from 'react';
 import FlowCanvas from '@/components/FlowCanvas';
+import { dataTransform } from './helper';
 import { useUiComponents, useActions, useTransformTools } from './hooks';
 import type { FlowInstance, GetDataResult } from '@/components/FlowCanvas/types';
 import styles from "./styles.module.less";
@@ -12,17 +13,20 @@ type DetailContentProps = {
 
 const DetailContent: FC<DetailContentProps> = props => {
   const {
-    flowRelationship,
-    promptTemplate: tpl
+    promptTemplate: tpl,
+    flowRelationship: frp,
   } = props.detail;
 
   const actions = useActions(tpl.mcp_servers);
   const transformTools = useTransformTools();
   const uiComponents = useUiComponents(tpl.ui_components);
 
-  const relationship = useMemo<GetDataResult>(() => {
-    return flowRelationship ? JSON.parse(flowRelationship) : {};
-  }, [flowRelationship]);
+  const relationship = useMemo(() => {
+    const result = frp ? JSON.parse(frp) : {};
+    return dataTransform(result) as GetDataResult;
+  }, [frp]);
+
+  console.log(relationship)
 
   return (
     <Card className="shopify full-content">

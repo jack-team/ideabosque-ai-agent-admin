@@ -1,7 +1,7 @@
 import { App } from 'antd';
 import { useParams } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
-import { useMemoizedFn, useSafeState, useMount } from 'ahooks';
+import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
 import { queryAgentWorkflowApi } from '@/services/workflow';
 import { insertUpdateWorkflowApi } from '@/services/workflow';
 import { useFlowInstance } from '@/components/FlowCanvas';
@@ -20,21 +20,21 @@ function WorkflowDetail() {
   const { message } = App.useApp();
   const [flow] = useFlowInstance();
   const params = useParams<UrlParams>();
-  const [loading, setLoading] = useSafeState(false);
-  const [detail, setDetail] = useSafeState<API.Workflow.FlowSnippet>();
-  const promptUuid = detail?.promptTemplate?.prompt_uuid
+  const [submitLoading, setSubmitLoading] = useSafeState(false);
 
-  const fetchData = useMemoizedFn(async () => {
+  const { data: detail } = useRequest(async () => {
     const result = await queryAgentWorkflowApi({
       flowSnippetUuid: params.uid,
       flowSnippetVersionUuid: params.vid
     });
-    setDetail(result.flowSnippet);
+    return result.flowSnippet;
   });
+
+  const promptUuid = detail?.promptTemplate?.prompt_uuid;
 
   const onSave = useMemoizedFn(async () => {
     const data = flow.getData()!;
-    setLoading(true);
+    setSubmitLoading(true);
     await insertUpdateWorkflowApi({
       ...detail!,
       promptUuid,
@@ -42,10 +42,8 @@ function WorkflowDetail() {
       flowRelationship: JSON.stringify(data.realDetails)
     });
     message.success('Workflow saved successfully');
-    setLoading(false);
+    setSubmitLoading(false);
   });
-
-  useMount(fetchData);
 
   return (
     <PageContainer
@@ -66,11 +64,16 @@ function WorkflowDetail() {
         </ShopifyButton>
       ) : null}
     >
-      <SpinBox loading={loading}>
-        {detail ? <DetailContent detail={detail} flow={flow} /> : null}
+      <SpinBox loading={submitLoading}>
+        {!!detail && (
+          <DetailContent
+            flow={flow}
+            detail={detail}
+          />
+        )}
       </SpinBox>
     </PageContainer>
-  )
+  );
 }
 
 export default WorkflowDetail;

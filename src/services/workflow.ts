@@ -33,9 +33,9 @@ export const insertUpdatePromptTemplateApi = async (
 export const fetchWorkflowTemplateDetailApi = async (
   variables: Record<string, any>
 ) => {
-  const query = await generateQuery({ 
-    type: "Query", 
-    name: "promptTemplate" 
+  const query = await generateQuery({
+    type: "Query",
+    name: "promptTemplate",
   });
   return agentCore.graphql<API.Workflow.FetchWorkflowTemplateDetailResult>({
     query,
@@ -45,9 +45,9 @@ export const fetchWorkflowTemplateDetailApi = async (
 
 // 获取workflow 列表
 export const queryAgentWorkflowsApi = async (variables: SplitPageParams) => {
-  const query = await generateQuery({ 
-    type: "Query", 
-    name: "flowSnippetList" 
+  const query = await generateQuery({
+    type: "Query",
+    name: "flowSnippetList",
   });
   return agentCore.graphql<API.Workflow.QueryWorkflowsResult>({
     query,
@@ -57,20 +57,23 @@ export const queryAgentWorkflowsApi = async (variables: SplitPageParams) => {
 
 // 获取单个Workflow 详情
 export const queryAgentWorkflowApi = async (variables: Record<string, any>) => {
-  const query = await generateQuery({ 
-    type: "Query", 
-    name: "flowSnippet" 
+  const query = await generateQuery({
+    type: "Query",
+    name: "flowSnippet",
   });
-  return agentCore.graphql({ query, variables });
+  return agentCore.graphql<{ flowSnippet: API.Workflow.FlowSnippet }>({
+    query,
+    variables,
+  });
 };
 
 // 新建或者更新
 export const insertUpdateWorkflowApi = async (
   variables: Partial<API.Workflow.FlowSnippet>
 ) => {
-  const query = await generateQuery({ 
-    type: "Mutation", 
-    name: "insertUpdateFlowSnippet" 
+  const query = await generateQuery({
+    type: "Mutation",
+    name: "insertUpdateFlowSnippet",
   });
   return agentCore.graphql({ query, variables });
 };
@@ -79,18 +82,18 @@ export const insertUpdateWorkflowApi = async (
 export const deleteFlowSnippetApi = async (
   variables: Pick<API.Workflow.FlowSnippet, "flowSnippetVersionUuid">
 ) => {
-  const query = await generateQuery({ 
-    type: "Mutation", 
-    name: "deleteFlowSnippet" 
+  const query = await generateQuery({
+    type: "Mutation",
+    name: "deleteFlowSnippet",
   });
   return agentCore.graphql({ query, variables });
 };
 
 // 获取 mcp servers
 export const fetchMcpServersApi = async (variables: SplitPageParams) => {
-  const query = await generateQuery({ 
-    type: "Query", 
-    name: "mcpServerList" 
+  const query = await generateQuery({
+    type: "Query",
+    name: "mcpServerList",
   });
   return agentCore.graphql<API.Workflow.FetchMcpServersResult>({
     query,
@@ -114,9 +117,9 @@ export const insertUpdateMcpServerApi = async (
 
 // 获取 uiComponents
 export const fetchuiComponentsApi = async (variables: SplitPageParams) => {
-  const query = await generateQuery({ 
-    type: "Query", 
-    name: "uiComponentList" 
+  const query = await generateQuery({
+    type: "Query",
+    name: "uiComponentList",
   });
   return agentCore.graphql<API.Workflow.FetchuiComponentsResult>({
     query,
