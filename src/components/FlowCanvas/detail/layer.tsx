@@ -3,14 +3,14 @@ import { Modal } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { CloseOutlined } from '@ant-design/icons';
 import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
-import { useFlowContext, useStepData, useFlowInstance } from '../hooks';
+import { useFlowContext, useStepData, useCanvasInctance } from '../hooks';
 import { ShopifyButton } from '@/components';
 import Canvas from '../canvas';
 import styles from './styles.module.less';
 
 const Layer: FC = () => {
   const data = useStepData();
-  const [canvas] = useFlowInstance();
+  const [canvas] = useCanvasInctance();
   const { updateNodeData } = useReactFlow();
   const [modal, contextHandler] = Modal.useModal();
   const { closeDetail, detailId } = useFlowContext();
