@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useNodes, useNodeId, useNodesData, useInternalNode } from '@xyflow/react';
+import { useNodes, useNodeId, useNodesData } from '@xyflow/react';
 import { useInstance } from '@/hooks/useInstance';
 import type { NormalNodeType } from './types';
 import { FlowContext, CanvasContext } from './context';
@@ -43,7 +43,7 @@ export const useStepData = () => {
   return node?.data;
 }
 
-export function useNodeFormData<T = any>() {
+export function useNodeFormData<T extends {} = {}>() {
   const nodeId = useNodeId();
   const result = useNodesData<NormalNodeType<T>>(nodeId!);
   return result?.data?.formData as T;

@@ -32,7 +32,6 @@ export type ActionFunctionType = ElementNormalType<{
   description: string;
 }>;
 
-
 export type NodeCollect = UiComponentType | ActionFunctionType;
 
 export type NodeDataType = {
@@ -53,8 +52,23 @@ export type CanvasContextTypes = {
   top?: boolean;
 }
 
-export type NormalNodeType<D = any> = Node<{
-  formData: D;
+export type FlowInstanceGetDataResult = {
+  realDetails: GetDataResult;
+  assembleData: AssembleDataResult[];
+}
+
+export type FlowInstance = {
+  getData: () => FlowInstanceGetDataResult | null;
+}
+
+export type CanvasInstance = {
+  getData: () => GetDataResult | null;
+}
+
+export type NormalNodeType<D extends {} = {}> = Node<{
+  formData: D & {
+    branch?: OptionType[]
+  };
   details?: GetDataResult<D>;
 }>;
 
@@ -66,22 +80,34 @@ export type CanvasProps = {
   defaultNodes?: NormalNodeType[];
   defaultEdges?: Edge[];
   canvas?: CanvasInstance;
+  flow?: FlowInstance;
 }
 
-export type FlowCanvasProps = FlowContextTypes & CanvasProps & {
+export type FlowCanvasProps = CanvasProps & Omit<
+  FlowContextTypes,
+  'detailId' |
+  'openDetail' |
+  'closeDetail'
+>
 
-}
-
-export type GetDataResult<D = any> = {
+export type GetDataResult<D extends {} = {}> = {
   nodes: NormalNodeType<D>[];
   edges: Edge[];
 }
 
-export type FlowInstance = {
-  getData: () => GetDataResult | null;
+export type ConditionType = {
+  condition?: string | null;
+  nextStep?: string;
 }
 
-export type CanvasInstance = FlowInstance & {
-  
+export type EdgeLinkType = {
+  id: string;
+  type?: string;
+  formData?: Record<string, any>;
+  conditions?: ConditionType[];
+  nextStep?: string;
 }
 
+export type AssembleDataResult = EdgeLinkType & {
+  details?: AssembleDataResult[];
+}

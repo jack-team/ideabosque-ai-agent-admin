@@ -20,10 +20,9 @@ const Layer: FC = () => {
   const defaultEdges = details?.edges;
 
   const handleSave = useMemoizedFn(() => {
-    updateNodeData(detailId!, {
-      details: canvas.getData()
-    });
-    setTimeout(closeDetail);
+    const details = canvas.getData();
+    updateNodeData(detailId!, { details });
+    closeDetail();
   });
 
   const closeLayer = useMemoizedFn(() => {

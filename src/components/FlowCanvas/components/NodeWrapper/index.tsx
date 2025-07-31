@@ -61,7 +61,7 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
       targetHandle: DefaultTargetId
     });
 
-    if (r.nodeType === 'step-node') {
+    if (r.nodeType === 'step') {
       openDetail(newId);
     }
   });

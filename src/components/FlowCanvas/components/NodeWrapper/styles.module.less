@@ -81,11 +81,16 @@
     min-height: var(--handle-size);
     padding-right: calc(var(--handle-size) / 2);
 
+    &+.branch_item {
+      margin-top: 4px;
+    }
+
     .branch_label {
       font-size: 10px;
       text-align: right;
       color: var(--theme-color);
       padding: 0 6px;
+      font-weight: bold;
     }
 
     &+.branch_item {

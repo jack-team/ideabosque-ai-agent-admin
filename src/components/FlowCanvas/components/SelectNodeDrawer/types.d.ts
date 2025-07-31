@@ -2,13 +2,13 @@ import type { FC, ReactElement } from 'react';
 import type { NodeCollect } from '../../types';
 
 export type NodeType =
-  'step-node' |
-  'start-node' |
-  'ui-node' |
-  'brach-node'
-  'prompt-node'
-  'action-node'
-  'transform-node'
+  'step' |
+  'start' |
+  'ui' |
+  'brach' |
+  'prompt' |
+  'action' |
+  'transform';
 
 export type NodeConfigType = {
   nodeType: NodeType;

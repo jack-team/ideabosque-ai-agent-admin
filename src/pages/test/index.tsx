@@ -1,5 +1,6 @@
+import { Button } from 'antd';
 import { PageContainer } from '@ant-design/pro-components';
-import FlowCanvas from '@/components/FlowCanvas';
+import FlowCanvas, { useFlowInstance } from '@/components/FlowCanvas';
 import type { UiComponentType, ActionFunctionType, OptionType } from '@/components/FlowCanvas/types';
 
 const uiComponents: UiComponentType[] = [
@@ -257,9 +258,22 @@ const transformTools: OptionType[] = [
 ];
 
 const Test = () => {
+  const [flow] = useFlowInstance();
+
   return (
-    <PageContainer className="shopify full-screen">
+    <PageContainer
+      title="Flow Canvas"
+      className="shopify full-screen"
+      extra={
+        <Button onClick={() => {
+          console.log(flow.getData())
+        }}>
+          Save
+        </Button>
+      }
+    >
       <FlowCanvas
+        flow={flow}
         actions={actionFunctions}
         uiComponents={uiComponents}
         transformTools={transformTools}
