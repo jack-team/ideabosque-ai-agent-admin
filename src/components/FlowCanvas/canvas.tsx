@@ -7,7 +7,7 @@ import {
   useEdgesState,
   type Edge,
   type NodeTypes,
-  type Connection,
+  type Connection
 } from "@xyflow/react";
 import cloneDeep from "clone-deep";
 import { type FC, useMemo } from "react";
@@ -15,6 +15,8 @@ import "@xyflow/react/dist/style.css";
 import { useMemoizedFn } from "ahooks";
 import { customNodes } from "./nodes";
 import { edgeTypes } from "./customEdge";
+import AddNodeButton from "./components/AddNodeButton";
+import CustomConnectLine from './components/CustomConnectLine';
 import { CanvasContext } from './context';
 import { DefaultStartNode } from "./constants";
 import { useInstanceHandler } from '@/hooks/useInstance';
@@ -69,6 +71,7 @@ const Canvas: FC<CanvasProps> = (props) => {
         onConnect={handleLineConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        connectionLineComponent={CustomConnectLine}
         fitView
       >
         <Background
@@ -77,6 +80,7 @@ const Canvas: FC<CanvasProps> = (props) => {
           bgColor="#f6f6f6"
         />
         <Controls />
+        <AddNodeButton />
       </ReactFlow>
     </CanvasContext>
   );

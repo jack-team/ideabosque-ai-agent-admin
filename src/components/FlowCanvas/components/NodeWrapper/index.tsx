@@ -1,13 +1,10 @@
-import * as uuid from 'uuid';
 import type { FC } from "react";
-import { useMemoizedFn } from 'ahooks';
-import { Handle, Position, useReactFlow, useNodeId } from "@xyflow/react";
+import { Handle, Position, useNodeId } from "@xyflow/react";
 import Tools from './tools';
 import Branch from './branch';
-import { useFlowContext } from '../../hooks';
+import { useAddNode } from '../../hooks';
 import { DefaultTargetId } from '../../constants';
 import type { NodeWrapperProps } from "./types";
-import type { SelectResult } from "../SelectNodeDrawer/types";
 import styles from "./styles.module.less";
 
 const NodeWrapper: FC<NodeWrapperProps> = (props) => {
@@ -22,54 +19,13 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
     target: enableTarget = true
   } = enableHandle || {};
 
-  const nodeId = useNodeId()!;
-  const { openDetail } = useFlowContext();
-  const { addEdges, addNodes, getNodes } = useReactFlow();
-
-  // 获取下一个坐标
-  const getNextPos = useMemoizedFn(() => {
-    const nodes = getNodes();
-    const node = nodes.find(e => e.id === nodeId);
-
-    let x = node?.position.x || 0;
-    const y = node?.position.y || 0;
-    x = x + (node?.measured?.width || 0) + 80;
-
-    return { x, y }
-  });
-
-  const onAddNode = useMemoizedFn((r: SelectResult) => {
-    const tgId = r.triggerId;
-    const newId = uuid.v4();
-
-    // 添加节点
-    addNodes({
-      id: newId,
-      data: r,
-      type: r.nodeType,
-      position: getNextPos()
-    });
-
-    // 自动连线
-    addEdges({
-      id: uuid.v4(),
-      // 连接的起点 id
-      source: nodeId,
-      // 连接的终点 id
-      target: newId,
-      sourceHandle: tgId,
-      targetHandle: DefaultTargetId
-    });
-
-    if (r.nodeType === 'step') {
-      openDetail(newId);
-    }
-  });
+  const nodeId = useNodeId();
+  const [addNode] = useAddNode();
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.tools}>
-        {!!tools && (
+        {!!tools&& nodeId && (
           <Tools
             nodeId={nodeId}
             tools={tools}
@@ -92,7 +48,7 @@ const NodeWrapper: FC<NodeWrapperProps> = (props) => {
         {enableSource && (
           <Branch
             branch={branch}
-            onChange={onAddNode}
+            onChange={addNode}
           />
         )}
       </div>

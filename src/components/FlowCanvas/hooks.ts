@@ -1,10 +1,14 @@
+import * as uuid from 'uuid';
 import { useContext } from 'react';
-import { useNodes, useNodeId, useNodesData } from '@xyflow/react';
+import { useMemoizedFn } from 'ahooks';
+import { useNodes, useNodeId, useNodesData, useReactFlow } from '@xyflow/react';
 import { useInstance } from '@/hooks/useInstance';
+import { DefaultTargetId } from './constants';
 import type { NormalNodeType } from './types';
 import { FlowContext, CanvasContext } from './context';
 import type { FlowInstance, CanvasInstance } from './types';
 import type { StepNodeFormData } from './nodes/stepNode/types';
+import type { SelectResult } from "./components/SelectNodeDrawer/types";
 
 // 获取 flow 的实例
 export const useFlowInstance = () => {
@@ -30,6 +34,57 @@ export const useCanvasContext = () => {
   return useContext(CanvasContext);
 }
 
+export const useAddNode = () => {
+  const nodeId = useNodeId();
+  const { openDetail } = useFlowContext();
+  const { addEdges, addNodes, getNodes } = useReactFlow();
+
+  // 获取下一个坐标
+  const getPosition = useMemoizedFn(() => {
+    const nodes = getNodes();
+    const node = nodes.find(e => e.id === nodeId);
+
+    let x = node?.position.x || 0;
+    const y = node?.position.y || 0;
+    x = x + (node?.measured?.width || 0) + 80;
+
+    return { x, y };
+  });
+
+  const addNodeHandle = useMemoizedFn((input: SelectResult) => {
+    const newId = uuid.v4();
+    const tgId = input.triggerId;
+    const nodeType = input.nodeType;
+
+    // 添加节点
+    addNodes({
+      id: newId,
+      data: input,
+      type: nodeType,
+      position: getPosition()
+    });
+
+    // 自动连线
+    if (nodeId) {
+      addEdges({
+        id: uuid.v4(),
+        // 连接的起点 id
+        source: nodeId,
+        // 连接的终点 id
+        target: newId,
+        sourceHandle: tgId,
+        targetHandle: DefaultTargetId
+      });
+    }
+
+    if (nodeType === 'step') {
+      openDetail(newId);
+    }
+  })
+
+  return [addNodeHandle];
+}
+
 // 获取步骤Node详情
 export const useStepDetail = () => {
   const { detailId: nodeId } = useFlowContext();
@@ -43,7 +98,7 @@ export const useStepData = () => {
   return node?.data;
 }
 
-export function useNodeFormData<T extends {} = {} >() {
+export function useNodeFormData<T extends {} = {}>() {
   const nodeId = useNodeId();
   const result = useNodesData<NormalNodeType<T>>(nodeId!);
   return result?.data?.formData;

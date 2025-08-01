@@ -25,7 +25,7 @@ export type SelectResult = {
 }
 
 export type NodesProps = {
-  triggerId: string;
+  triggerId?: string;
   closeDrawer: () => void;
   onChange?: (result: SelectResult) => void;
 }
