@@ -1,14 +1,18 @@
 import { type FC, Fragment, useMemo } from 'react';
+import { Divider } from 'antd';
 import {
   ProFormSelect,
-  ProFormTextArea
+  ProFormTextArea,
+  ProFormList,
+  ProFormText,
+  ProFormDependency
 } from '@ant-design/pro-components';
 import type { FormProps } from '../types';
 import { useFlowContext } from '../../hooks';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
-  const { actions = [] } = useFlowContext();
+  const { actions = [], transformTools } = useFlowContext();
 
   const options = useMemo(() => {
     return actions.map(item => ({
@@ -34,6 +38,41 @@ const Form: FC<FormProps> = () => {
           { required: false }
         ]}
       />
+      <ProFormDependency name={['type']}>
+        {({ type }) => {
+          if (!type) return null;
+
+          return (
+            <Fragment >
+              <Divider>Transform</Divider>
+              <ProFormSelect
+                label="Type"
+                name={['transform', 'type']}
+                options={transformTools}
+                rules={[
+                  { required: true }
+                ]}
+              />
+              <ProFormList
+                name="attrs"
+                required
+                label="Attributes"
+                creatorButtonProps={{
+                  creatorButtonText: 'Add Attribute'
+                }}
+              >
+                <ProFormText
+                  name="attr"
+                  width="md"
+                  rules={[
+                    { required: true }
+                  ]}
+                />
+              </ProFormList>
+            </Fragment>
+          );
+        }}
+      </ProFormDependency>
     </Fragment>
   );
 }

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Space, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
@@ -9,6 +10,7 @@ import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
 
 const Agents: FC = () => {
+  const navigate = useNavigate();
   return (
     <PageContainer
       title="Agents"
@@ -16,6 +18,7 @@ const Agents: FC = () => {
         <Space size={16}>
           <Button
             className="shopify"
+            onClick={() => navigate('/coordinations')}
           >
             Coordinations
           </Button>
@@ -86,7 +89,7 @@ const Agents: FC = () => {
             key: 'action',
             title: 'Action',
             hideInSearch: true,
-            render: () => {
+            render: (_, record) => {
               return (
                 <Space>
                   <TriggerModal
@@ -103,7 +106,9 @@ const Agents: FC = () => {
                       </Button>
                     }
                   >
-                    <EditFrom />
+                    <EditFrom 
+                      formData={record}
+                    />
                   </TriggerModal>
                   <Button
                     size="small"

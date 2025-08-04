@@ -13,16 +13,33 @@ import {
   useWorkflows,
   // useAgentVersions
 } from '@/hooks/useFetchData';
+import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 
+import { recordToFormData } from './helper';
 import { ToolCallMap } from '@/constants/map';
+import { insertUpdateAgentApi } from '@/services/agent';
 
 type EditFromProps = {
   formData?: Record<string, any>;
 }
 
-const EditFrom: FC<EditFromProps> = () => {
-  // const { formData } = props;
+const EditFrom: FC<EditFromProps> = (props) => {
+  const { formData } = props;
   const [form] = ProForm.useForm();
+  const [closeModal] = useModalClose();
+
+
+  useListenModalOk(async () => {
+    const values = await form.validateFields();
+    const { flowSnippet, ...reset } = values;
+    const [, flowSnippetVersionUuid] = flowSnippet.split('__');
+
+    await insertUpdateAgentApi({
+      ...reset,
+      flowSnippetVersionUuid,
+      updatedBy: 'Admin'
+    });
+  });
 
   const {
     options: flowOptions,
@@ -44,6 +61,7 @@ const EditFrom: FC<EditFromProps> = () => {
   return (
     <ProForm
       form={form}
+      initialValues={recordToFormData(formData)}
       submitter={false}
       style={{
         padding: '24px 0 0 0'
@@ -108,7 +126,7 @@ const EditFrom: FC<EditFromProps> = () => {
       </ProFormDependency>
       <ProFormSelect
         label="Flow snippet"
-        name="flowSnippetVersionUuid"
+        name="flowSnippet"
         options={flowOptions}
         fieldProps={{
           loading: flowLoading

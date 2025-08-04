@@ -61,18 +61,17 @@ const Canvas: FC<CanvasProps> = (props) => {
   return (
     <CanvasContext value={{ top }}>
       <ReactFlow<NormalNodeType>
+        fitView
         minZoom={0.5}
         nodes={nodes}
         edges={computedEdages}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
-        // 禁用键盘删除
-        deleteKeyCode={null}
         onConnect={handleLineConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onBeforeDelete={async e => !e.nodes.length}
         connectionLineComponent={CustomConnectLine}
-        fitView
       >
         <Background
           size={2}

@@ -101,6 +101,10 @@ export const useLlms = () => {
   return { options, loading };
 }
 
+export const useAgents = () => {
+  
+}
+
 // 获取
 export const useAgentVersions = (agentUuid: string) => {
   return useRequest(async () => {
