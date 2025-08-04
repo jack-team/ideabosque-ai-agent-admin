@@ -1,87 +1,93 @@
-import { useLoadMore } from './useLoadMore';
-import { queryAgentWorkflowTemplatesApi, fetchuiComponentsApi, fetchMcpServersApi } from '@/services/workflow';
+import { useRequest } from 'ahooks';
+import { requestWrapper } from '@/utils';
+import {
+  queryAgentWorkflowTemplatesApi,
+  queryAgentWorkflowsApi,
+  fetchuiComponentsApi,
+  fetchMcpServersApi
+} from '@/services/workflow';
 
+import { getLlmListApi } from '@/services/llm';
+
+// 获取模板数据
 export const useWorkFlowTemplates = () => {
-  const {
-    records,
-    loading
-  } = useLoadMore<API.Workflow.PromptTemplateItem>(async () => {
-    const {
-      promptTemplateList: result
-    } = await queryAgentWorkflowTemplatesApi({
-      pageNumber: 1,
-      limit: 1000
-    });
-
-    return {
-      data: result.promptTemplateList
-    }
+  const { data, loading } = useRequest(async () => {
+    const result = await requestWrapper(queryAgentWorkflowTemplatesApi);
+    return result.promptTemplateList.promptTemplateList;
   });
 
-  const options = records.map(item => (
-    {
-      label: item.promptName,
-      value: item.promptUuid,
-      realData: item,
-    }
-  ));
+  const options = data?.map(item => ({
+    realData: item,
+    label: item.promptName,
+    value: item.promptUuid
+  }));
 
-  return { loading, options }
+  return { loading, options };
 }
 
+// 获取组件列表
 export const useUiComponents = () => {
-  const {
-    records,
-    loading
-  } = useLoadMore<API.Workflow.UiComponentType>(async () => {
-    const {
-      uiComponentList: result
-    } = await fetchuiComponentsApi({
-      pageNumber: 1,
-      limit: 1000
-    });
-    return {
-      data: result.uiComponentList
-    };
+  const { data, loading } = useRequest(async () => {
+    const result = await requestWrapper(fetchuiComponentsApi);
+    return result.uiComponentList.uiComponentList;
   });
 
-  const options = records.map(item => {
-    return {
-      label: item.tagName,
-      value: [
-        item.uiComponentUuid,
-        item.uiComponentType
-      ].join('__'),
-      realData: item,
-    }
-  });
+  const options = data?.map(item => ({
+    realData: item,
+    label: item.tagName,
+    value: [
+      item.uiComponentUuid,
+      item.uiComponentType
+    ].join('__')
+  }));
 
   return { loading, options };
 }
 
 export const useMcpServers = () => {
-  const {
-    records,
-    loading
-  } = useLoadMore<API.Workflow.McpServerItem>(async () => {
-    const {
-      mcpServerList: result
-    } = await fetchMcpServersApi({
-      pageNumber: 1,
-      limit: 1000
-    });
-    return {
-      data: result.mcpServerList
-    }
+  const { data, loading } = useRequest(async () => {
+    const result = await requestWrapper(fetchMcpServersApi);
+    return result.mcpServerList.mcpServerList;
   });
 
-  const options = records.map(item => (
-    {
-      realData: item,
-      label: item.mcpLabel,
-      value: item.mcpServerUuid,
-    }
-  ));
+  const options = data?.map(item => ({
+    realData: item,
+    label: item.mcpLabel,
+    value: item.mcpServerUuid,
+  }));
+
+  return { options, loading };
+}
+
+export const useWorkflows = () => {
+  const { data, loading } = useRequest(async () => {
+    const result = await requestWrapper(queryAgentWorkflowsApi);
+    return result.flowSnippetList.flowSnippetList;
+  });
+
+  const options = data?.map(item => ({
+    realData: item,
+    label: item.flowName,
+    value: [
+      item.flowSnippetUuid,
+      item.flowSnippetVersionUuid
+    ].join('__'),
+  }));
+
+  return { options, loading };
+}
+
+export const useLlms = () => {
+  const { data, loading } = useRequest(async () => {
+    const result = await requestWrapper(getLlmListApi);
+    return result.llmList.llmList as any[];
+  });
+
+  const options = data?.map(item => ({
+    realData: item,
+    label: item.llmProvider,
+    value: item.llmProvider
+  }));
 
   return { options, loading };
 }

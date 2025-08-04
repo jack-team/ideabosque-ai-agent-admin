@@ -1,7 +1,7 @@
 import { BranchesOutlined } from '@ant-design/icons';
 import NodeWrapper from '../../components/NodeWrapper';
-import NodeDesc from '../../components/NodeDesc';
 import { useNodeFormData } from '../../hooks';
+import NodeDesc from '../../components/NodeDesc';
 import type { BranchFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';

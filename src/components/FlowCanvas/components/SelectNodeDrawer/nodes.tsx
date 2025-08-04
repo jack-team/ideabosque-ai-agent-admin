@@ -19,15 +19,18 @@ const Nodes: FC<NodesProps> = (props) => {
   return (
     <Fragment>
       {customNodes.filter(n => {
-        if (top) return n.top;
-        if (n.top) return false;
-
+        // limit 的优先级最高 
         if (n.limit !== undefined) {
-          const result = nodes.filter(node =>
-            node.type === n.type
-          );
+          const result = nodes.filter(e => e.type === n.type);
           return result.length < n.limit;
         }
+
+        if (top) {
+          return n.top;
+        } else if (n.top) {
+          return false;
+        }
+
         return true;
       }).map(config => {
         const {

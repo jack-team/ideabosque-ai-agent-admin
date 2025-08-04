@@ -5,6 +5,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
 import { useFlowContext, useStepData, useCanvasInctance } from '../hooks';
 import { ShopifyButton } from '@/components';
+import { getNodeBranchByDetails } from '../helper';
 import Canvas from '../canvas';
 import styles from './styles.module.less';
 
@@ -21,7 +22,10 @@ const Layer: FC = () => {
 
   const handleSave = useMemoizedFn(() => {
     const details = canvas.getData();
-    updateNodeData(detailId!, { details });
+    // 自动生成分支
+    const branch = getNodeBranchByDetails(details!);
+    const formData = { ...data?.formData, branch };
+    updateNodeData(detailId!, { details, formData });
     closeDetail();
   });
 

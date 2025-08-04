@@ -46,6 +46,7 @@ export const routes: RouteObject[] = [
         path: "/agent-workflows/detail/:uid/:vid",
         Component: lazyLoad(() => import("@/pages/workflowDetail")),
       },
+      // ai-core-engine
       {
         path: "/ai-core-engine",
         Component: lazyLoad(() => import("@/pages/aiCoreEngine")),
@@ -61,6 +62,11 @@ export const routes: RouteObject[] = [
       {
         path: "/settings",
         Component: lazyLoad(() => import("@/pages/settings")),
+      },
+      // agents
+      {
+        path: '/agents',
+        Component: lazyLoad(() => import("@/pages/agents"))
       }
     ],
   },

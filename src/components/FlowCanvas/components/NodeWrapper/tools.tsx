@@ -54,7 +54,7 @@ const Tools: FC<ToolsProps> = (props) => {
   }
 
   return (
-    <Space>
+    <Space size={16}>
       {top && (
         <div
           onClick={openCanvasDetail}

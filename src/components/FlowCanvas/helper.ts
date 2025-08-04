@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 import type { Edge } from '@xyflow/react';
-import type { EdgeLinkType, GetDataResult, AssembleDataResult, NormalNodeType } from './types';
+import type { EdgeLinkType, GetDataResult, AssembleDataResult, NormalNodeType, OptionType } from './types';
 import { StartNodeId, DefaultSourceId, DefaultTargetId } from './constants';
 
 // 以起点为维度，获取边
@@ -140,10 +140,44 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
       formData,
     }
 
+    // 获取分支
+    if (branch?.length) {
+      result.conditions = branch.map(b => (
+        {
+          condition: b.value,
+          nextStep: ''
+        }
+      ));
+    }
+
     if (data?.details) {
       result.details = assembleData(data?.details);
     }
 
     return result;
   });
+}
+
+export const getNodeBranchByDetails = (details: GetDataResult) => {
+  const set = new Set<string>();
+  let result = assembleData(details);
+  result = result.filter(v => !v.nextStep);
+
+  result.forEach(item => {
+    const conditions = item.conditions;
+    if (!conditions?.length) {
+      set.add('off topic');
+    } else {
+      for (const con of conditions) {
+        set.add(con.condition!);
+      }
+    }
+  });
+
+  return [...set].map<OptionType>(val => (
+    {
+      label: val,
+      value: val
+    }
+  ));
 }

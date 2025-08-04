@@ -4,11 +4,11 @@ import { useMemoizedFn } from 'ahooks';
 import { useNodes, useNodeId, useNodesData, useReactFlow } from '@xyflow/react';
 import { useInstance } from '@/hooks/useInstance';
 import { DefaultTargetId } from './constants';
-import type { NormalNodeType } from './types';
+import { assembleData } from './helper';
 import { FlowContext, CanvasContext } from './context';
-import type { FlowInstance, CanvasInstance } from './types';
 import type { StepNodeFormData } from './nodes/stepNode/types';
 import type { SelectResult } from "./components/SelectNodeDrawer/types";
+import type { FlowInstance, CanvasInstance, NormalNodeType, OptionType } from './types';
 
 // 获取 flow 的实例
 export const useFlowInstance = () => {
@@ -98,8 +98,47 @@ export const useStepData = () => {
   return node?.data;
 }
 
-export function useNodeFormData<T extends {} = {}>() {
+// 获取单个 node 下面的 node
+export function useNodeData<T extends {} = {}>() {
   const nodeId = useNodeId();
   const result = useNodesData<NormalNodeType<T>>(nodeId!);
-  return result?.data?.formData;
+  return result?.data;
+}
+
+// 获取单个 node 下面的 formData
+export function useNodeFormData<T extends {} = {}>() {
+  const data = useNodeData<T>();
+  return data?.formData;
+}
+
+// 根据 details 获取node 下面的分支
+export function useNodeBranchForDetails() {
+  const data = useNodeData();
+  const details = data?.details;
+
+  if (!details) {
+    return [];
+  }
+
+  const set = new Set<string>();
+  let result = assembleData(details);
+  result = result.filter(v => !v.nextStep);
+
+  result.forEach(item => {
+    const conditions = item.conditions;
+    if (!conditions?.length) {
+      set.add('off topic');
+    } else {
+      for (const con of conditions) {
+        set.add(con.condition!);
+      }
+    }
+  });
+
+  return [...set].map<OptionType>(val => (
+    {
+      label: val,
+      value: val
+    }
+  ));
 }

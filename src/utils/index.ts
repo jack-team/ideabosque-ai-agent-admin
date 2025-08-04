@@ -22,3 +22,7 @@ export const parseJson = (json: string) => {
     return null;
   }
 }
+
+export function requestWrapper<T extends GlobalNoop>(fn: T): ReturnType<T> {
+  return fn({ limit: 1000, pageNumber: 1 });
+}

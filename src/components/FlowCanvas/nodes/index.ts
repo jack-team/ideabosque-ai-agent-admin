@@ -9,18 +9,19 @@ import StepNode from './stepNode';
 
 export const customNodes: CustomNodeConfig[] = [
   {
+    limit: 1,
+    top: true,
+    type: 'start',
+    title: 'Start',
+    desc: 'The starting node of a workflow.',
+    Component: StartNode
+  },
+  {
     top: true,
     type: 'step',
     title: 'Step',
     desc: 'Execute the corresponding process according to the different branches created.',
     Component: StepNode
-  },
-  {
-    limit: 1,
-    type: 'start',
-    title: 'Start',
-    desc: 'The starting node of a workflow.',
-    Component: StartNode
   },
   {
     type: 'ui',

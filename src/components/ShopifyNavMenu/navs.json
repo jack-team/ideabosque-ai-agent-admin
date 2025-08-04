@@ -13,6 +13,10 @@
     "title": "Customer Groups"
   },
   {
+    "path": "/agents",
+    "title": "Agents"
+  },
+  {
     "path": "/agent-workflows",
     "title": "Agent Workflows"
   },

@@ -3,7 +3,8 @@ import { Row, Col } from 'antd';
 import {
   ProFormSelect,
   ProFormList,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from '@ant-design/pro-components';
 import { useFlowContext } from '../../hooks';
 import type { FormProps } from '../types';
@@ -21,7 +22,7 @@ const Form: FC<FormProps> = () => {
           { required: true }
         ]}
       />
-      <ProFormText
+      <ProFormTextArea
         label="Text"
         name="text"
         rules={[

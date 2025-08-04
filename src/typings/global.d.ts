@@ -24,3 +24,5 @@ declare type GenerateQueryResult = {
   function_name: string;
   operation_name: string;
 }
+
+declare type GlobalNoop = (this: any, ...args: any[]) => any;

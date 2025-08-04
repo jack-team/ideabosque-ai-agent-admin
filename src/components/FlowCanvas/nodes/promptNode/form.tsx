@@ -1,5 +1,5 @@
 import { type FC, Fragment } from 'react';
-import { ProFormRadio, ProFormDependency, ProFormText } from '@ant-design/pro-components';
+import { ProFormRadio, ProFormDependency, ProFormTextArea } from '@ant-design/pro-components';
 import { PromptTypesMap, PromptTypes } from './enum';
 import type { FormProps } from '../types';
 
@@ -24,7 +24,7 @@ const Form: FC<FormProps> = () => {
             return null;
           }
           return (
-            <ProFormText
+            <ProFormTextArea
               label={PromptTypesMap[type as Types]}
               name="text"
               rules={[
