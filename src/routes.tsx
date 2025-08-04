@@ -71,6 +71,14 @@ export const routes: RouteObject[] = [
       {
         path: '/coordinations',
         Component: lazyLoad(() => import("@/pages/coordinations"))
+      },
+      {
+        path: 'contact-profiles',
+        Component: lazyLoad(() => import("@/pages/contactProfiles"))
+      },
+       {
+        path: 'places',
+        Component: lazyLoad(() => import("@/pages/places"))
       }
     ],
   },

@@ -8,3 +8,6 @@ export const agentCore = new GraphqlRequest({
   namespace: 'ai_agent_core_graphql'
 });
 
+export const aiMarketing = new GraphqlRequest({
+  namespace: 'ai_marketing_graphql'
+});

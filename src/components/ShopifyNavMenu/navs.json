@@ -13,6 +13,10 @@
     "title": "Customer Groups"
   },
   {
+    "path": "/contact-profiles",
+    "title": "Contact Profiles"
+  },
+  {
     "path": "/agents",
     "title": "Agents"
   },
