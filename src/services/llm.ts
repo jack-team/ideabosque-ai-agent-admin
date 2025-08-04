@@ -1,6 +1,12 @@
 import { agentCore } from '@/helper/request';
-import { getLlmListQl, insertUpdateLlmQl, deleteLlmQl, queryLlmQl } from '@/qls/llm';
+import {
+  deleteLlmQl,
+  queryLlmQl,
+  getLlmListQl,
+  insertUpdateLlmQl
+} from '@/qls/llm';
 
+// 获取 llm 列表
 export const getLlmListApi = (params: Record<string, any>) => {
   return agentCore.graphql({
     query: getLlmListQl,
@@ -8,6 +14,7 @@ export const getLlmListApi = (params: Record<string, any>) => {
   });
 }
 
+// 更新或者新增 llm
 export const insertUpdateLlmApi = (params: Record<string, any>) => {
   return agentCore.graphql({
     query: insertUpdateLlmQl,
@@ -15,6 +22,7 @@ export const insertUpdateLlmApi = (params: Record<string, any>) => {
   });
 }
 
+// 删除 llm
 export const deleteLlmApi = (params: Record<string, any>) => {
   return agentCore.graphql({
     query: deleteLlmQl,
@@ -22,6 +30,7 @@ export const deleteLlmApi = (params: Record<string, any>) => {
   });
 }
 
+// 获取 llm 列表
 export const queryLlmApi = (params: Record<string, any>) => {
   return agentCore.graphql({
     query: queryLlmQl,

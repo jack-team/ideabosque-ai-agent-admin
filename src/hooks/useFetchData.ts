@@ -7,7 +7,13 @@ import {
   fetchMcpServersApi
 } from '@/services/workflow';
 
-import { getLlmListApi } from '@/services/llm';
+import {
+  getLlmListApi
+} from '@/services/llm';
+
+import {
+  getAgentListApi
+} from '@/services/agent';
 
 // 获取模板数据
 export const useWorkFlowTemplates = () => {
@@ -59,6 +65,7 @@ export const useMcpServers = () => {
   return { options, loading };
 }
 
+// 获取Workflows
 export const useWorkflows = () => {
   const { data, loading } = useRequest(async () => {
     const result = await requestWrapper(queryAgentWorkflowsApi);
@@ -77,6 +84,8 @@ export const useWorkflows = () => {
   return { options, loading };
 }
 
+
+// 获取 llm
 export const useLlms = () => {
   const { data, loading } = useRequest(async () => {
     const result = await requestWrapper(getLlmListApi);
@@ -90,4 +99,16 @@ export const useLlms = () => {
   }));
 
   return { options, loading };
+}
+
+// 获取
+export const useAgentVersions = (agentUuid: string) => {
+  return useRequest(async () => {
+    const result = await requestWrapper(getAgentListApi, {
+      agentUuid
+    });
+    return result.llmList.llmList as any[];
+  }, {
+    refreshDeps: [agentUuid]
+  });
 }

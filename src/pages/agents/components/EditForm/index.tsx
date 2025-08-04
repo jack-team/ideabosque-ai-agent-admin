@@ -4,12 +4,24 @@ import {
   ProFormText,
   ProFormTextArea,
   ProFormSelect,
-  ProFormDependency,
-  ProFormList
+  ProFormDependency
 } from '@ant-design/pro-components';
-import { useWorkflows, useLlms } from '@/hooks/useFetchData';
 
-const EditFrom: FC = () => {
+import {
+  useLlms,
+  useMcpServers,
+  useWorkflows,
+  // useAgentVersions
+} from '@/hooks/useFetchData';
+
+import { ToolCallMap } from '@/constants/map';
+
+type EditFromProps = {
+  formData?: Record<string, any>;
+}
+
+const EditFrom: FC<EditFromProps> = () => {
+  // const { formData } = props;
   const [form] = ProForm.useForm();
 
   const {
@@ -22,16 +34,20 @@ const EditFrom: FC = () => {
     loading: llmLoading
   } = useLlms();
 
+  const {
+    options: mcpServerOptions,
+    loading: mcpServerLoading
+  } = useMcpServers();
+
+  // useAgentVersions();
+
   return (
     <ProForm
       form={form}
       submitter={false}
-      layout="horizontal"
       style={{
         padding: '24px 0 0 0'
       }}
-      labelAlign="left"
-      labelCol={{ flex: '160px' }}
     >
       <ProFormText
         label="Agent Name"
@@ -42,7 +58,7 @@ const EditFrom: FC = () => {
       />
       <ProFormTextArea
         label="Agent Description"
-        name="description"
+        name="agentDescription"
         rules={[
           { required: true }
         ]}
@@ -63,15 +79,20 @@ const EditFrom: FC = () => {
       />
       <ProFormDependency name={['llmProvider']}>
         {({ llmProvider }) => {
-          if (!llmProvider) return null;
-          const item = llmOptions?.find(item => {
-            return item.value === llmProvider;
-          });
+          if (!llmProvider) {
+            return null;
+          }
+          const item = llmOptions?.find(item =>
+            item.value === llmProvider
+          );
           const llmName = item?.realData?.llmName;
           return (
             <ProFormSelect
-              label="LLM Name"
+              key={llmName}
               name="llmName"
+              label="LLM Name"
+              initialValue={llmName}
+              disabled
               options={[
                 {
                   label: llmName,
@@ -87,7 +108,7 @@ const EditFrom: FC = () => {
       </ProFormDependency>
       <ProFormSelect
         label="Flow snippet"
-        name="flowSnippet"
+        name="flowSnippetVersionUuid"
         options={flowOptions}
         fieldProps={{
           loading: flowLoading
@@ -96,24 +117,37 @@ const EditFrom: FC = () => {
           { required: true }
         ]}
       />
-      <ProFormList
-        required
+      <ProFormText
         label="Num of Messages"
-        name="messages"
-        alwaysShowItemLabel
-        creatorButtonProps={{
-          creatorButtonText: 'Add text'
+        name="numOfMessages"
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormSelect
+        label="Tool Call Role"
+        name="toolCallRole"
+        valueEnum={ToolCallMap}
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormTextArea
+        label="Instructions"
+        name="instructions"
+      />
+      <ProFormSelect
+        label="MCP Servers"
+        name="mcpServerUuids"
+        mode="multiple"
+        options={mcpServerOptions}
+        fieldProps={{
+          loading: mcpServerLoading
         }}
-      >
-        <ProFormText
-          name="text"
-          label={` `}
-          colon={false}
-          rules={[
-            { required: true }
-          ]}
-        />
-      </ProFormList>
+        rules={[
+          { required: true }
+        ]}
+      />
     </ProForm>
   );
 }

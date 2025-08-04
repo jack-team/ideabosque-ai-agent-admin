@@ -1,11 +1,12 @@
-
 import type { FC } from 'react';
 import { Space, Button } from 'antd';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
+import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
 import { getAgentListApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
+import { StatusEnum } from '@/constants/enum';
 
 const Agents: FC = () => {
   return (
@@ -19,6 +20,7 @@ const Agents: FC = () => {
             Coordinations
           </Button>
           <TriggerModal
+            width={600}
             className="shopify"
             title="Create agent"
             trigger={
@@ -46,7 +48,8 @@ const Agents: FC = () => {
             agentList: result
           } = await getAgentListApi({
             pageNumber: params.current,
-            limit: params.pageSize
+            limit: params.pageSize,
+            statuses: [StatusEnum.Active]
           });
           return {
             total: result.total,
@@ -70,12 +73,14 @@ const Agents: FC = () => {
           {
             title: 'Create at',
             dataIndex: 'createdAt',
-            hideInSearch: true
+            hideInSearch: true,
+            render: (_, record) => formatDate(record.createdAt)
           },
           {
             title: 'Update at',
             dataIndex: 'updatedAt',
-            hideInSearch: true
+            hideInSearch: true,
+            render: (_, record) => formatDate(record.updatedAt)
           },
           {
             key: 'action',
@@ -84,13 +89,22 @@ const Agents: FC = () => {
             render: () => {
               return (
                 <Space>
-                  <Button
-                    size="small"
-                    type="primary"
+                  <TriggerModal
+                    width={600}
                     className="shopify"
+                    title="Create agent"
+                    trigger={
+                      <Button
+                        size="small"
+                        type="primary"
+                        className="shopify"
+                      >
+                        Edit
+                      </Button>
+                    }
                   >
-                    Edit
-                  </Button>
+                    <EditFrom />
+                  </TriggerModal>
                   <Button
                     size="small"
                     className="shopify"

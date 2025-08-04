@@ -23,6 +23,6 @@ export const parseJson = (json: string) => {
   }
 }
 
-export function requestWrapper<T extends GlobalNoop>(fn: T): ReturnType<T> {
-  return fn({ limit: 1000, pageNumber: 1 });
+export function requestWrapper<T extends GlobalNoop>(fn: T, params?: Record<string, any>): ReturnType<T> {
+  return fn({ limit: 1000, pageNumber: 1, ...params });
 }
