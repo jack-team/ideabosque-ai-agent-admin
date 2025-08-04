@@ -104,6 +104,7 @@ export type GetDataResult<D extends {} = {}> = {
 export type ConditionType = {
   condition?: string | null;
   nextStep?: string;
+  label?: string;
 }
 
 export type EdgeLinkType = {

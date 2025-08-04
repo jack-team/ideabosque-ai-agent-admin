@@ -1,7 +1,19 @@
 import * as uuid from 'uuid';
 import type { Edge } from '@xyflow/react';
-import type { EdgeLinkType, GetDataResult, AssembleDataResult, NormalNodeType, OptionType } from './types';
-import { StartNodeId, DefaultSourceId, DefaultTargetId } from './constants';
+import type {
+  EdgeLinkType,
+  GetDataResult,
+  AssembleDataResult,
+  NormalNodeType,
+  OptionType,
+  ConditionType
+} from './types';
+
+import {
+  StartNodeId,
+  DefaultSourceId,
+  DefaultTargetId
+} from './constants';
 
 // 以起点为维度，获取边
 const sourceToEdges = (edges: Edge[]) => {
@@ -86,24 +98,29 @@ export function sortEdgesByFlow(edges: Edge[]) {
 
 // 把 edges 转换为链
 export const transformEdagesToLinks = (edges: Edge[]) => {
-  return [...sourceToEdges(edges)].map(([id, items]) => {
-    const [edge] = items;
+  const result = [...sourceToEdges(edges)];
+  return result.map(([id, branch]) => {
+    const [edge] = branch;
     const next = edge.target;
-    const branch = items.length > 1 ? items : [];
 
     const result: EdgeLinkType = { id };
+    let conditions: ConditionType[] = [];
 
-    const conditions = branch.map(item => ({
-      condition: item.sourceHandle,
-      nextStep: item.target
-    }));
+    branch.forEach(item => {
+      const nextStep = item.target;
+      const condition = item.sourceHandle;
+      // 默认分支
+      if (condition === DefaultSourceId) {
+        result.nextStep = nextStep;
+      } else {
+        conditions.push({ condition, nextStep });
+      }
+    });
 
-    if (conditions.length) {
-      result.conditions = conditions;
-    }
-
-    if (!branch.length) {
+    if (!conditions.length) {
       result.nextStep = next;
+    } else {
+      result.conditions = conditions;
     }
 
     return result;
@@ -142,12 +159,18 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
 
     // 获取分支
     if (branch?.length) {
-      result.conditions = branch.map(b => (
-        {
+      const arr = item.conditions || [];
+      result.conditions = branch.map(b => {
+        const val = b.value;
+        const r = arr.find(e =>
+          e.condition === val
+        );
+        return {
+          label: b.label,
           condition: b.value,
-          nextStep: ''
+          nextStep: r?.nextStep
         }
-      ));
+      });
     }
 
     if (data?.details) {
@@ -159,25 +182,22 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
 }
 
 export const getNodeBranchByDetails = (details: GetDataResult) => {
-  const set = new Set<string>();
+  const branch: OptionType[] = [];
   let result = assembleData(details);
-  result = result.filter(v => !v.nextStep);
+  const items = result.filter(v => !v.nextStep);
 
-  result.forEach(item => {
-    const conditions = item.conditions;
-    if (!conditions?.length) {
-      set.add('off topic');
-    } else {
-      for (const con of conditions) {
-        set.add(con.condition!);
-      }
+  for (const item of items) {
+    if (item.conditions?.length) {
+      item.conditions.forEach(e => {
+        if (!e.nextStep) {
+          branch.push({
+            label: e.label!,
+            value: e.condition!
+          })
+        }
+      });
     }
-  });
+  }
 
-  return [...set].map<OptionType>(val => (
-    {
-      label: val,
-      value: val
-    }
-  ));
+  return branch;
 }
