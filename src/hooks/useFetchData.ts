@@ -101,18 +101,34 @@ export const useLlms = () => {
   return { options, loading };
 }
 
-export const useAgents = () => {
-  
-}
 
-// 获取
-export const useAgentVersions = (agentUuid: string) => {
-  return useRequest(async () => {
-    const result = await requestWrapper(getAgentListApi, {
-      agentUuid
-    });
-    return result.llmList.llmList as any[];
+// 获取agents 版本
+export const useAgentVersions = (agentUuid?: string) => {
+  if (!agentUuid) {
+    return {
+      loading: false,
+      options: []
+    }
+  }
+  const {
+    data,
+    loading
+  } = useRequest(async () => {
+    const result = await requestWrapper(getAgentListApi, { agentUuid });
+    return result.agentList.agentList as any[];
   }, {
     refreshDeps: [agentUuid]
   });
+
+  const options = data?.map(e => {
+    return {
+      label: `${e.agentVersionUuid}(${e.agentName})`,
+      value: e.agentVersionUuid
+    }
+  });
+
+  return {
+    loading,
+    options
+  }
 }

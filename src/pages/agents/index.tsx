@@ -1,16 +1,24 @@
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 import { Space, Button } from 'antd';
+import { useMemoizedFn } from 'ahooks';
 import { useNavigate } from 'react-router-dom';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
+import VersionForm from './components/VersionForm';
 import { getAgentListApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
 
 const Agents: FC = () => {
   const navigate = useNavigate();
+  const ref = useRef<ActionType>(null);
+
+  const onRefresh = useMemoizedFn(() => {
+    ref.current?.reload();
+  });
+
   return (
     <PageContainer
       title="Agents"
@@ -41,6 +49,7 @@ const Agents: FC = () => {
       }
     >
       <ProTable
+        actionRef={ref}
         search={{
           labelWidth: 'auto'
         }}
@@ -88,12 +97,14 @@ const Agents: FC = () => {
           {
             key: 'action',
             title: 'Action',
+            align: 'center',
             hideInSearch: true,
             render: (_, record) => {
               return (
                 <Space>
                   <TriggerModal
                     width={600}
+                    destroyOnHidden
                     className="shopify"
                     title="Create agent"
                     trigger={
@@ -106,8 +117,28 @@ const Agents: FC = () => {
                       </Button>
                     }
                   >
-                    <EditFrom 
+                    <EditFrom
                       formData={record}
+                      onSuccess={onRefresh}
+                    />
+                  </TriggerModal>
+                  <TriggerModal
+                    width={400}
+                    title="Versions"
+                    destroyOnHidden
+                    okText="Apply"
+                    trigger={
+                      <Button
+                        size="small"
+                        className="shopify"
+                      >
+                        Versions
+                      </Button>
+                    }
+                  >
+                    <VersionForm
+                      formData={record}
+                      onSuccess={onRefresh}
                     />
                   </TriggerModal>
                   <Button
@@ -123,7 +154,6 @@ const Agents: FC = () => {
           }
         ]}
       />
-
     </PageContainer>
   );
 }
