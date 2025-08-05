@@ -54,15 +54,24 @@ const Agents: FC = () => {
           labelWidth: 'auto'
         }}
         toolBarRender={false}
+        rowKey="agentUuid"
         className="shopify"
         request={async (params) => {
           const {
+            current,
+            pageSize,
+            ...rest
+          } = params;
+
+          const {
             agentList: result
           } = await getAgentListApi({
-            pageNumber: params.current,
-            limit: params.pageSize,
-            statuses: [StatusEnum.Active]
+            limit: pageSize,
+            pageNumber: current,
+            statuses: [StatusEnum.Active],
+            ...rest
           });
+          
           return {
             total: result.total,
             data: result.agentList
@@ -80,7 +89,8 @@ const Agents: FC = () => {
           {
             title: 'Status',
             dataIndex: 'status',
-            valueEnum: StatusMap
+            valueEnum: StatusMap,
+            hideInSearch: true
           },
           {
             title: 'Create at',
@@ -95,6 +105,7 @@ const Agents: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
+            width: '220px',
             key: 'action',
             title: 'Action',
             align: 'center',
