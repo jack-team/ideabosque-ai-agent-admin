@@ -1,5 +1,5 @@
 import { type FC, useRef } from 'react';
-import { Space, Button } from 'antd';
+import { Space, Button, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
@@ -7,17 +7,43 @@ import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
 import VersionForm from './components/VersionForm';
-import { getAgentListApi } from '@/services/agent';
+import { getAgentListApi, insertUpdateAgentApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
 
 const Agents: FC = () => {
+  const { modal, message } = App.useApp();
   const navigate = useNavigate();
   const ref = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
     ref.current?.reload();
   });
+
+  const handleArchive = useMemoizedFn((record: Record<string, any>) => {
+    modal.confirm({
+      title: 'Are you sure you want to archive?',
+      okText: 'Archive',
+      okButtonProps: {
+        danger: true,
+        className: 'shopify'
+      },
+      onOk: async () => {
+        try {
+          await insertUpdateAgentApi({
+            agentUuid: record.agentUuid,
+            agentVersionUuid: record.agentVersionUuid,
+            status: StatusEnum.Inactive,
+            updatedBy: 'Admin'
+          });
+          onRefresh();
+          message.success('Archiving succeeded');
+        } catch (err) {
+          message.error('Archiving failed');
+        }
+      }
+    });
+  })
 
   return (
     <PageContainer
@@ -71,7 +97,7 @@ const Agents: FC = () => {
             statuses: [StatusEnum.Active],
             ...rest
           });
-          
+
           return {
             total: result.total,
             data: result.agentList
@@ -153,9 +179,10 @@ const Agents: FC = () => {
                     />
                   </TriggerModal>
                   <Button
+                    danger
                     size="small"
                     className="shopify"
-                    danger
+                    onClick={() => handleArchive(record)}
                   >
                     Archive
                   </Button>

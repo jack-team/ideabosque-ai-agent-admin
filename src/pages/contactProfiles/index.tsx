@@ -21,29 +21,47 @@ const ContactProfiles: FC = () => {
           >
             Places
           </Button>
-          <Button className="shopify">
+          <Button
+            className="shopify"
+            onClick={() => navigate('/contact-requests')}
+          >
             Contact Requests
           </Button>
         </Space>
       }
     >
-
       <ProTable
         className="shopify"
         search={false}
-        toolBarRender={false}
+        options={false}
+        request={async (params) => {
+          const {
+            contactProfileList: result
+          } = await getContactProfileListApi({
+            limit: params.pageSize,
+            pageNumber: params.current,
+          });
+          return {
+            data: result?.contactProfileList,
+            total: result?.total
+          }
+        }}
         columns={[
           {
             title: 'Contact UUID',
-            dataIndex: 'a'
+            dataIndex: 'contactUuid'
           },
           {
             title: 'First Name',
-            dataIndex: 'b'
+            dataIndex: 'firstName'
           },
           {
             title: 'Last Name',
-            dataIndex: 'b'
+            dataIndex: 'lastName'
+          },
+          {
+            title: 'Email',
+            dataIndex: 'email'
           },
           {
             title: 'Create at',
@@ -56,8 +74,28 @@ const ContactProfiles: FC = () => {
             render: (_, e) => formatDate(e.updateAt)
           },
           {
+            align: 'center',
             title: 'Action',
-            key: 'action'
+            key: 'action',
+            width: '100px',
+            render: (_, record) => {
+              return (
+                <TriggerModal
+                  title="Contact Profile"
+                  hasFooter={false}
+                  trigger={
+                    <Button
+                      size="small"
+                      className="shopify"
+                    >
+                      View
+                    </Button>
+                  }
+                >
+                  <EditFrom formData={record}/>
+                </TriggerModal>
+              );
+            }
           }
         ]}
       />

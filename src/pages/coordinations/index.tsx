@@ -1,17 +1,54 @@
-import type { FC } from 'react';
-import { Button } from 'antd';
+import { type FC, useRef } from 'react';
+import { Button, Space, App } from 'antd';
+import { useMemoizedFn } from 'ahooks';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
+import { getCoordinationsApi, deleteCoordinationApi } from '@/services/contactProfiles';
 
 const Coordinations: FC = () => {
+  const { modal, message } = App.useApp();
+  const actionRef = useRef<ActionType>(null);
+
+  const onRefresh = useMemoizedFn(() => {
+    actionRef.current?.reload();
+  });
+
+  const handleDelete = useMemoizedFn((record: Record<string, any>) => {
+    modal.confirm({
+      title: 'Are you sure you want to delete?',
+      okText: 'Delete',
+      okButtonProps: {
+        danger: true,
+        className: 'shopify'
+      },
+      cancelButtonProps: {
+        className: 'shopify'
+      },
+      onOk: async () => {
+        try {
+          await deleteCoordinationApi({
+            coordinationUuid: record.coordinationUuid
+          });
+          onRefresh();
+          message.success('Deletion successful.');
+        } catch (err) {
+          message.success('Deletion failed.');
+          return Promise.reject(err);
+        }
+      }
+    })
+  });
+
   return (
     <PageContainer
       className="shopify"
       title="Coordinations"
       extra={
         <TriggerModal
+          width={440}
+          destroyOnHidden
           className="shopify"
           title="Create Coordination"
           trigger={
@@ -23,23 +60,25 @@ const Coordinations: FC = () => {
             </Button>
           }
         >
-          <EditFrom />
+          <EditFrom onSuccess={onRefresh} />
         </TriggerModal>
       }
     >
 
       <ProTable
+        actionRef={actionRef}
         className="shopify"
         search={false}
         toolBarRender={false}
+        rowKey="coordinationUuid"
         columns={[
           {
             title: 'Coordination UUID',
-            dataIndex: 'a'
+            dataIndex: 'coordinationUuid'
           },
           {
             title: 'Coordination Name',
-            dataIndex: 'b'
+            dataIndex: 'coordinationName'
           },
           {
             title: 'Create at',
@@ -53,9 +92,57 @@ const Coordinations: FC = () => {
           },
           {
             title: 'Action',
-            key: 'action'
+            key: 'action',
+            width: '150px',
+            align: 'center',
+            render: (_, record) => {
+              return (
+                <Space>
+                  <TriggerModal
+                    width={440}
+                    destroyOnHidden
+                    className="shopify"
+                    title="Edit Coordination"
+                    trigger={
+                      <Button
+                        className="shopify"
+                        size="small"
+                        type="primary"
+                      >
+                        Edit
+                      </Button>
+                    }
+                  >
+                    <EditFrom
+                      formData={record}
+                      onSuccess={onRefresh}
+                    />
+                  </TriggerModal>
+                  <Button
+                    danger
+                    size="small"
+                    className="shopify"
+                    onClick={() => handleDelete(record)}
+                  >
+                    Delete
+                  </Button>
+                </Space>
+              )
+            }
           }
         ]}
+        request={async (params) => {
+          const {
+            coordinationList: result
+          } = await getCoordinationsApi({
+            limit: params.pageSize,
+            pageNumber: params.current
+          });
+          return {
+            total: result.total,
+            data: result.coordinationList
+          };
+        }}
       />
     </PageContainer>
   );

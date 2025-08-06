@@ -46,19 +46,6 @@ export const routes: RouteObject[] = [
         path: "/agent-workflows/detail/:uid/:vid",
         Component: lazyLoad(() => import("@/pages/workflowDetail")),
       },
-      // ai-core-engine
-      {
-        path: "/ai-core-engine",
-        Component: lazyLoad(() => import("@/pages/aiCoreEngine")),
-      },
-      {
-        path: "/ai-core-engine/llm",
-        Component: lazyLoad(() => import("@/pages/aiCoreEngine/llm")),
-      },
-      {
-        path: "/ai-core-engine/agent",
-        Component: lazyLoad(() => import("@/pages/aiCoreEngine/agent")),
-      },
       {
         path: "/settings",
         Component: lazyLoad(() => import("@/pages/settings")),
@@ -73,12 +60,16 @@ export const routes: RouteObject[] = [
         Component: lazyLoad(() => import("@/pages/coordinations"))
       },
       {
-        path: 'contact-profiles',
+        path: '/contact-profiles',
         Component: lazyLoad(() => import("@/pages/contactProfiles"))
       },
-       {
-        path: 'places',
+      {
+        path: '/places',
         Component: lazyLoad(() => import("@/pages/places"))
+      },
+      {
+        path: '/contact-requests',
+        Component: lazyLoad(() => import("@/pages/contactRequests"))
       }
     ],
   },

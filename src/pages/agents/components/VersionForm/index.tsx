@@ -9,6 +9,7 @@ import { App } from 'antd';
 import { useAgentVersions } from '@/hooks/useFetchData';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { insertUpdateAgentApi } from '@/services/agent';
+import { StatusEnum } from '@/constants/enum';
 
 type VersionFormProps = {
   onSuccess?: () => void;
@@ -24,7 +25,11 @@ const VersionForm: FC<VersionFormProps> = (props) => {
   useListenModalOk(async () => {
     const values = await form.validateFields();
     try {
-      await insertUpdateAgentApi(values);
+      await insertUpdateAgentApi({
+        ...values,
+        status: StatusEnum.Active,
+        updatedBy: 'Admin'
+      });
       closeModal();
       props.onSuccess?.();
       message.success('Agent created successfully.');

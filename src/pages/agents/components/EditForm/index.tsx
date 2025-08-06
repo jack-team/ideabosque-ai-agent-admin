@@ -3,19 +3,17 @@ import {
   ProForm,
   ProFormText,
   ProFormTextArea,
-  ProFormSelect
+  ProFormSelect,
+  ProFormDependency
 } from '@ant-design/pro-components';
-
 import { useMemoizedFn } from 'ahooks';
-
 import { App, Row, Col } from 'antd';
-
 import {
   useLlms,
   useWorkflows,
   useMcpServers
 } from '@/hooks/useFetchData';
-
+import Configuration from '../Configuration';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { recordToFormData, formDataToParams } from './helper';
 import { insertUpdateAgentApi } from '@/services/agent';
@@ -70,6 +68,10 @@ const EditFrom: FC<EditFromProps> = (props) => {
       <ProFormText
         hidden
         name="agentUuid"
+      />
+      <ProFormText
+        hidden
+        name="configurationSchema"
       />
       <ProFormText
         label="Agent Name"
@@ -155,6 +157,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
             mode="multiple"
             options={mcpServers.options}
             fieldProps={{
+              maxTagCount: 1,
               loading: mcpServers.loading
             }}
             rules={[
@@ -163,6 +166,20 @@ const EditFrom: FC<EditFromProps> = (props) => {
           />
         </Col>
       </Row>
+      <ProFormDependency name={['configurationSchema']}>
+        {({ configurationSchema: schema }) => {
+          if (!schema) return null;
+          return (
+            <ProForm.Item
+              name="configuration"
+              label="Configuration"
+              rules={[{ required: true }]}
+            >
+              <Configuration schema={schema} />
+            </ProForm.Item>
+          );
+        }}
+      </ProFormDependency>
       <ProFormTextArea
         label="Instructions"
         name="instructions"

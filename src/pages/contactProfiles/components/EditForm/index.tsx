@@ -5,8 +5,8 @@ import {
   ProFormTextArea,
   ProFormSelect
 } from '@ant-design/pro-components';
+import { Row, Col } from 'antd';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import { recordToFormData } from './helper';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -18,36 +18,48 @@ const EditFrom: FC<EditFromProps> = (props) => {
   const [closeModal] = useModalClose();
 
   useListenModalOk(async () => {
-    
+
   });
 
   return (
     <ProForm
+      disabled
       form={form}
-      initialValues={recordToFormData(formData)}
       submitter={false}
+      initialValues={formData}
       style={{
         padding: '24px 0 0 0'
       }}
     >
-      <ProFormText
-        label="Coordination Name"
-        name="coordinationName"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormTextArea
-        label="Coordination Description"
-        name="coordinationDescription"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormSelect 
-        label="Agents"
-        name="Agents"
-      />
+      <Row gutter={16}>
+        <Col span={24}>
+          <ProFormText
+            label="Email"
+            name="email"
+            rules={[
+              { required: true }
+            ]}
+          />
+        </Col>
+        <Col span={12}>
+          <ProFormText
+            label="First Name"
+            name="firstName"
+            rules={[
+              { required: true }
+            ]}
+          />
+        </Col>
+        <Col span={12}>
+          <ProFormText
+            label="Last Name"
+            name="lastName"
+            rules={[
+              { required: true }
+            ]}
+          />
+        </Col>
+      </Row>
     </ProForm>
   );
 }

@@ -6,14 +6,15 @@ import {
   fetchuiComponentsApi,
   fetchMcpServersApi
 } from '@/services/workflow';
-
 import {
   getLlmListApi
 } from '@/services/llm';
-
 import {
   getAgentListApi
 } from '@/services/agent';
+import {
+  StatusEnum
+} from '@/constants/enum';
 
 // 获取模板数据
 export const useWorkFlowTemplates = () => {
@@ -101,24 +102,37 @@ export const useLlms = () => {
   return { options, loading };
 }
 
+// 获取 agent 列表
+export const useAgentList = (params?: Record<string, any>) => {
+  return useRequest(async () => {
+    const result = await requestWrapper(getAgentListApi, params);
+    return result?.agentList?.agentList as any[];
+  }, {
+    refreshDeps: [params ? JSON.stringify(params) : null]
+  });
+}
+
+export const useAgentOptions = () => {
+  const { data = [], loading } = useAgentList({
+    statuses: [StatusEnum.Active]
+  });
+
+  const options = data.map(item => (
+    {
+      label: item.agentName,
+      value: item.agentUuid,
+      realData: item
+    }
+  ));
+
+  return { loading, options }
+}
+
 
 // 获取agents 版本
 export const useAgentVersions = (agentUuid?: string) => {
-  if (!agentUuid) {
-    return {
-      loading: false,
-      options: []
-    }
-  }
-  const {
-    data,
-    loading
-  } = useRequest(async () => {
-    const result = await requestWrapper(getAgentListApi, { agentUuid });
-    return result.agentList.agentList as any[];
-  }, {
-    refreshDeps: [agentUuid]
-  });
+  if (!agentUuid) return { loading: false, options: [] };
+  const { data, loading } = useAgentList({ agentUuid });
 
   const options = data?.map(e => {
     return {
