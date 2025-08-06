@@ -78,9 +78,13 @@ export const routes: RouteObject[] = [
         path: '/wizard-groups',
         Component: lazyLoad(() => import("@/pages/wizardGroups"))
       },
-       {
+      {
         path: '/wizards',
         Component: lazyLoad(() => import("@/pages/wizards"))
+      },
+      {
+        path: '/elements',
+        Component: lazyLoad(() => import("@/pages/elements"))
       }
     ],
   },

@@ -7,9 +7,9 @@ import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import { WizardTypesMap } from '@/constants/map';
 import EditFrom from './components/EditForm';
-import { getWizardListApi, deleteWizardGroupApi } from '@/services/wizard';
+import { getElementsApi, deleteWizardGroupApi } from '@/services/wizard';
 
-const Wizards: FC = () => {
+const Elements: FC = () => {
   const { modal, message } = App.useApp();
   const navigate = useNavigate();
   const ref = useRef<ActionType>(null);
@@ -46,32 +46,24 @@ const Wizards: FC = () => {
 
   return (
     <PageContainer
-      title="Wizard List"
+      title="Elements"
       onBack={() => navigate(-1)}
       extra={
-        <Space size={16}>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/elements')}
-          >
-            Elements
-          </Button>
-          <TriggerModal
-            width={600}
-            className="shopify"
-            title="Create Wizard"
-            trigger={
-              <Button
-                className="shopify"
-                type="primary"
-              >
-                Create Wizard
-              </Button>
-            }
-          >
-            <EditFrom />
-          </TriggerModal>
-        </Space>
+        <TriggerModal
+          width={600}
+          className="shopify"
+          title="Create Element"
+          trigger={
+            <Button
+              className="shopify"
+              type="primary"
+            >
+              Create Element
+            </Button>
+          }
+        >
+          <EditFrom />
+        </TriggerModal>
       }
     >
       <ProTable
@@ -91,8 +83,8 @@ const Wizards: FC = () => {
           } = params;
 
           const {
-            wizardList: result
-          } = await getWizardListApi({
+            elementList: result
+          } = await getElementsApi({
             limit: pageSize,
             pageNumber: current,
             ...rest
@@ -100,29 +92,28 @@ const Wizards: FC = () => {
 
           return {
             total: result.total,
-            data: result.wizardList
+            data: result.elementList
           }
         }}
         columns={[
           {
-            title: 'Wizard UUID',
-            dataIndex: 'wizardUuid',
+            title: 'Element UUID',
+            dataIndex: 'elementUuid',
             hideInSearch: true
           },
           {
-            title: 'Wizard Title',
-            dataIndex: 'wizardTitle'
+            title: 'Element Title',
+            dataIndex: 'elementTitle'
           },
-           {
-            title: 'Wizard Type',
-            dataIndex: 'wizardType',
+          {
+            title: 'Data Type',
+            dataIndex: 'dataType',
             valueEnum: WizardTypesMap
           },
           {
-            width: '300px',
             hideInSearch: true,
-            title: 'Wizard Description',
-            dataIndex: 'wizardDescription'
+            title: 'Priority',
+            dataIndex: 'priority'
           },
           {
             title: 'Create at',
@@ -184,4 +175,4 @@ const Wizards: FC = () => {
   );
 }
 
-export default Wizards;
+export default Elements;
