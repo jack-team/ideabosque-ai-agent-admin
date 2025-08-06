@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
@@ -7,28 +8,31 @@ import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { getContactRequestsApi } from '@/services/contactProfiles';
 
 const Places: FC = () => {
+  const navigate = useNavigate()
   return (
     <PageContainer
       className="shopify"
       title="Contact Requests"
+      onBack={() => navigate(-1)}
     >
       <ProTable
         size="small"
         className="shopify"
+        rowKey="requestUuid"
         search={false}
         options={false}
         columns={[
           {
-            title: 'Place UUID',
-            dataIndex: 'placeUuid'
+            title: 'Request UUID',
+            dataIndex: 'requestUuid'
           },
           {
-            title: 'Business Name',
-            dataIndex: 'businessName'
+            title: 'Contact UUID',
+            dataIndex: 'contactUuid'
           },
           {
-            title: 'Region',
-            dataIndex: 'region'
+            title: 'Request Title',
+            dataIndex: 'requestTitle'
           },
           {
             title: 'Website',
@@ -47,15 +51,23 @@ const Places: FC = () => {
           {
             title: 'Action',
             key: 'action',
-            render: () => {
+            render: (_, record) => {
               return (
-                <Button
-                  className="shopify"
-                  size="small"
+                <TriggerModal
+                  title="Contact Request"
+                  hasFooter={false}
+                  trigger={
+                    <Button
+                      className="shopify"
+                      size="small"
+                    >
+                      View
+                    </Button>
+                  }
                 >
-                  View
-                </Button>
-              )
+                  <EditFrom formData={record} />
+                </TriggerModal>
+              );
             }
           }
         ]}

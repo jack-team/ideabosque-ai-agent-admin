@@ -1,5 +1,6 @@
 import type { FC } from 'react';
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
@@ -7,14 +8,19 @@ import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { getPlacesApi } from '@/services/contactProfiles';
 
 const Places: FC = () => {
+  const navigate = useNavigate()
+
   return (
     <PageContainer
       className="shopify"
       title="Places"
+      onBack={() => navigate(-1)}
     >
       <ProTable
         size="small"
+        rowKey="placeUuid"
         className="shopify"
+        scroll={{ x: 'max-content' }}
         search={false}
         options={false}
         columns={[
@@ -27,6 +33,7 @@ const Places: FC = () => {
             dataIndex: 'businessName'
           },
           {
+            width: '50px',
             title: 'Region',
             dataIndex: 'region'
           },
@@ -47,14 +54,25 @@ const Places: FC = () => {
           {
             title: 'Action',
             key: 'action',
-            render: () => {
+            width: '80px',
+            align: 'center',
+            fixed: 'right',
+            render: (_, record) => {
               return (
-                <Button
-                  className="shopify"
-                  size="small"
+                <TriggerModal
+                  title="Place"
+                  hasFooter={false}
+                  trigger={
+                    <Button
+                      className="shopify"
+                      size="small"
+                    >
+                      View
+                    </Button>
+                  }
                 >
-                  View
-                </Button>
+                  <EditFrom formData={record} />
+                </TriggerModal>
               )
             }
           }

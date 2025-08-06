@@ -3,10 +3,11 @@ import {
   ProForm,
   ProFormText,
   ProFormTextArea,
-  ProFormSelect
 } from '@ant-design/pro-components';
 import { Row, Col } from 'antd';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
+import { recordToFormData } from './helper';
+import styles from './styles.module.less';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -25,8 +26,13 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       disabled
       form={form}
+      layout="horizontal"
       submitter={false}
-      initialValues={formData}
+      labelCol={{
+        flex: '100px',
+      }}
+      labelAlign='left'
+      initialValues={recordToFormData(formData)}
       style={{
         padding: '24px 0 0 0'
       }}
@@ -36,27 +42,34 @@ const EditFrom: FC<EditFromProps> = (props) => {
           <ProFormText
             label="Email"
             name="email"
-            rules={[
-              { required: true }
-            ]}
           />
         </Col>
-        <Col span={12}>
+        <Col span={24}>
           <ProFormText
             label="First Name"
             name="firstName"
-            rules={[
-              { required: true }
-            ]}
           />
         </Col>
-        <Col span={12}>
+        <Col span={24}>
           <ProFormText
             label="Last Name"
             name="lastName"
-            rules={[
-              { required: true }
-            ]}
+          />
+        </Col>
+        <Col span={24} className={styles.readonly}>
+          <ProFormTextArea
+            label="Data"
+            name="data"
+            readonly
+            fieldProps={{ rows: 8 }}
+          />
+        </Col>
+        <Col span={24} className={styles.readonly}>
+          <ProFormTextArea
+            readonly
+            label="Place"
+            name="place"
+            fieldProps={{ rows: 8 }}
           />
         </Col>
       </Row>

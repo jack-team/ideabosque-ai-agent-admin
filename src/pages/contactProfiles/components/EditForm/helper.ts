@@ -3,11 +3,15 @@ export const recordToFormData = (record?: Record<string, any>) => {
     return;
   }
 
-  const { llm } = record;
+  const {
+    data,
+    place,
+    ...rest
+  } = record;
 
   return {
-    ...record,
-    llmName: llm?.llm_name,
-    llmProvider: llm?.llm_provider
+    ...rest,
+    data: data ? JSON.stringify(data, null, 4) : null,
+    place: place ? JSON.stringify(place, null, 4) : null
   }
 }

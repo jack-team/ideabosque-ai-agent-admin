@@ -34,6 +34,7 @@ const ContactProfiles: FC = () => {
         className="shopify"
         search={false}
         options={false}
+        rowKey="contactUuid"
         request={async (params) => {
           const {
             contactProfileList: result
@@ -78,9 +79,11 @@ const ContactProfiles: FC = () => {
             title: 'Action',
             key: 'action',
             width: '100px',
+            fixed: 'right',
             render: (_, record) => {
               return (
                 <TriggerModal
+                  width={600}
                   title="Contact Profile"
                   hasFooter={false}
                   trigger={

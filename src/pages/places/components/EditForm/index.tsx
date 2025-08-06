@@ -17,36 +17,61 @@ const EditFrom: FC<EditFromProps> = (props) => {
   const [form] = ProForm.useForm();
   const [closeModal] = useModalClose();
 
+  console.log(formData)
+
   useListenModalOk(async () => {
-    
+
   });
 
   return (
     <ProForm
       form={form}
+      disabled
+      layout="horizontal"
+      labelCol={{
+        flex: '140px'
+      }}
+      labelAlign="left"
       initialValues={recordToFormData(formData)}
       submitter={false}
       style={{
-        padding: '24px 0 0 0'
+        padding: '24px 0 24px 0'
       }}
     >
       <ProFormText
-        label="Coordination Name"
-        name="coordinationName"
+        label="Business Name"
+        name="businessName"
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="Coordination Description"
-        name="coordinationDescription"
+        label="address"
+        name="address"
         rules={[
           { required: true }
         ]}
       />
-      <ProFormSelect 
-        label="Agents"
-        name="Agents"
+      <ProFormText
+        label="Region"
+        name="region"
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormText
+        label="Website"
+        name="website"
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormText
+        label="Types"
+        name="types"
+        rules={[
+          { required: true }
+        ]}
       />
     </ProForm>
   );
