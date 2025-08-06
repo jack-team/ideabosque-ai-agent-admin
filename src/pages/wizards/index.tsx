@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
+import { WizardTypesMap } from '@/constants/map';
 import EditFrom from './components/EditForm';
 import { getWizardListApi, deleteWizardGroupApi } from '@/services/wizard';
 
@@ -57,7 +58,7 @@ const Wizards: FC = () => {
           <TriggerModal
             width={600}
             className="shopify"
-            title="Create Wizard Group"
+            title="Create Wizard"
             trigger={
               <Button
                 className="shopify"
@@ -79,7 +80,7 @@ const Wizards: FC = () => {
         scroll={{
           x: 'max-content'
         }}
-        rowKey="agentUuid"
+        rowKey="wizardUuid"
         className="shopify"
         request={async (params) => {
           const {
@@ -113,9 +114,11 @@ const Wizards: FC = () => {
           },
            {
             title: 'Wizard Type',
-            dataIndex: 'wizardType'
+            dataIndex: 'wizardType',
+            valueEnum: WizardTypesMap
           },
           {
+            width: '300px',
             hideInSearch: true,
             title: 'Wizard Description',
             dataIndex: 'wizardDescription'
@@ -146,7 +149,7 @@ const Wizards: FC = () => {
                     width={600}
                     destroyOnHidden
                     className="shopify"
-                    title="Create agent"
+                    title="Update Wizard"
                     trigger={
                       <Button
                         size="small"

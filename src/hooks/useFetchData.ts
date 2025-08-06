@@ -10,7 +10,8 @@ import {
   getLlmListApi
 } from '@/services/llm';
 import {
-  getWizardListApi
+  getWizardListApi,
+  getElementsApi
 } from '@/services/wizard';
 import {
   getAgentListApi
@@ -168,9 +169,31 @@ export const useWizardOptions = () => {
       realData: item
     }
   ));
-  
+
   return {
     loading,
     options
   }
+}
+
+// 获取 elements
+export const useElementsList = () => {
+  return useRequest(async () => {
+    const result = await requestWrapper(getElementsApi);
+    return result.elementList?.elementList;
+  });
+}
+
+export const useElementOptions = () => {
+  const { data = [], loading } = useElementsList();
+
+  const options = data.map((item: any) => {
+    return {
+      label: item.elementTitle,
+      value: item.elementUuid,
+      realData: item
+    }
+  });
+
+  return { options, loading };
 }

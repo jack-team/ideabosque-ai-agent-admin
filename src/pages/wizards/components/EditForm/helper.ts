@@ -1,17 +1,13 @@
 export const recordToFormData = (record?: Record<string, any>) => {
   if (!record) return;
 
-  const {
-    wizards,
-    ...rest
-  } = record;
+  const { elements, ...rest } = record;
+  
+  const elementUuids = elements.map((item: Record<string, any>) => {
+    return item.element_uuid;
+  });
 
-  return {
-    ...rest,
-    wizardUuids: wizards.map((e: any) => {
-      return e.wizard_uuid
-    })
-  }
+  return { ...rest, elementUuids };
 }
 
 export const formDataToParams = (formData: Record<string, any>) => {

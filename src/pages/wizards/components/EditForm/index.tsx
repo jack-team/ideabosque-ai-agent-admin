@@ -5,12 +5,13 @@ import {
   ProFormTextArea,
   ProFormSelect,
 } from '@ant-design/pro-components';
-import { useMemoizedFn } from 'ahooks';
 import { App } from 'antd';
+import { useMemoizedFn } from 'ahooks';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { recordToFormData, formDataToParams } from './helper';
-import { insertUpdateWizardGroupApi } from '@/services/wizard';
-import { useWizardOptions } from '@/hooks/useFetchData';
+import { insertUpdateWizardApi } from '@/services/wizard';
+import { useElementOptions } from '@/hooks/useFetchData';
+import { WizardTypesMap } from '@/constants/map';
 
 type EditFromProps = {
   onSuccess?: () => void;
@@ -22,8 +23,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
-
-  const wizards = useWizardOptions();
+  const elements = useElementOptions();
 
   const initFromData = useMemoizedFn(() => {
     form.setFieldsValue(recordToFormData(formData));
@@ -39,12 +39,12 @@ const EditFrom: FC<EditFromProps> = (props) => {
     const values = await form.validateFields();
     const params = formDataToParams(values);
     try {
-      await insertUpdateWizardGroupApi(params);
+      await insertUpdateWizardApi(params);
       closeModal();
       props.onSuccess?.();
-      message.success(`Wizard Group ${formData ? 'updated' : 'created'} successfully.`);
+      message.success(`Wizard ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.success(`Failed to ${formData ? 'update' : 'create'} Wizard Group.`);
+      message.success(`Failed to ${formData ? 'update' : 'create'} Wizard.`);
     }
   });
 
@@ -54,7 +54,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       layout="horizontal"
       submitter={false}
       labelCol={{
-        flex: '220px'
+        flex: '170px'
       }}
       labelAlign='left'
       style={{
@@ -63,42 +63,56 @@ const EditFrom: FC<EditFromProps> = (props) => {
     >
       <ProFormText
         hidden
-        name="wizardGroupUuid"
+        name="wizardUuid"
       />
       <ProFormText
-        label="Wizard Group Name"
-        name="wizardGroupName"
+        label="Wizard Title"
+        name="wizardTitle"
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormSelect
+        label="Wizard Type"
+        name="wizardType"
+        valueEnum={WizardTypesMap}
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="Wizard Group Description"
-        name="wizardGroupDescription"
+        label="Wizard Description"
+        name="wizardDescription"
+        fieldProps={{ rows: 8 }}
         rules={[
           { required: true }
         ]}
       />
       <ProFormText
-        label="Weight"
-        name="weight"
+        label="Priority"
+        name="priority"
         fieldProps={{
           type: 'number'
         }}
         rules={[
-          { 
+          {
             required: true
           }
         ]}
       />
+      <ProFormTextArea
+        label="Form Schema"
+        name="formSchema"
+        fieldProps={{ rows: 8 }}
+      />
       <ProFormSelect
-        label="Wizards"
-        name="wizardUuids"
+        label="Elements"
+        name="elementUuids"
         mode="multiple"
-        options={wizards.options}
+        options={elements.options}
         fieldProps={{
           maxTagCount: 1,
-          loading: wizards.loading
+          loading: elements.loading
         }}
       />
     </ProForm>

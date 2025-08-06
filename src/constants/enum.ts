@@ -7,3 +7,9 @@ export enum ToolCallEnum {
   Assistant = 'assistant',
   Developer = 'developer'
 }
+
+export enum WizardTypesEnum  {
+  Iframe = 'iframe',
+  Form = 'form',	
+  Page = 'page'
+}
