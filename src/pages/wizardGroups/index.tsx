@@ -36,7 +36,7 @@ const WizardGroups: FC = () => {
           onRefresh();
           message.success('Deletion successful.');
         } catch (err) {
-          message.success('Deletion failed.');
+          message.error('Deletion failed.');
           return Promise.reject(err);
         }
       }

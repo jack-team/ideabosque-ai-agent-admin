@@ -8,8 +8,7 @@ import { App, Row, Col } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { recordToFormData, formDataToParams } from './helper';
-import { insertUpdateWizardApi } from '@/services/wizard';
-import { useElementOptions } from '@/hooks/useFetchData';
+import { insertUpdateElementApi } from '@/services/wizard';
 
 type EditFromProps = {
   onSuccess?: () => void;
@@ -21,7 +20,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
-  const elements = useElementOptions();
 
   const initFromData = useMemoizedFn(() => {
     form.setFieldsValue(recordToFormData(formData));
@@ -37,12 +35,12 @@ const EditFrom: FC<EditFromProps> = (props) => {
     const values = await form.validateFields();
     const params = formDataToParams(values);
     try {
-      await insertUpdateWizardApi(params);
+      await insertUpdateElementApi(params);
       closeModal();
       props.onSuccess?.();
-      message.success(`Wizard ${formData ? 'updated' : 'created'} successfully.`);
+      message.success(`Element ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.success(`Failed to ${formData ? 'update' : 'create'} Wizard.`);
+      message.error(`Failed to ${formData ? 'update' : 'create'} Element.`);
     }
   });
 
@@ -52,7 +50,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       layout="horizontal"
       submitter={false}
       labelCol={{
-        flex: '170px'
+        flex: '140px'
       }}
       labelAlign='left'
       style={{

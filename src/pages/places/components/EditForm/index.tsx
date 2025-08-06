@@ -2,11 +2,9 @@ import type { FC } from 'react';
 import {
   ProForm,
   ProFormText,
-  ProFormTextArea,
-  ProFormSelect
+  ProFormSelect,
+  ProFormTextArea
 } from '@ant-design/pro-components';
-import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import { recordToFormData } from './helper';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -15,13 +13,6 @@ type EditFromProps = {
 const EditFrom: FC<EditFromProps> = (props) => {
   const { formData } = props;
   const [form] = ProForm.useForm();
-  const [closeModal] = useModalClose();
-
-  console.log(formData)
-
-  useListenModalOk(async () => {
-
-  });
 
   return (
     <ProForm
@@ -32,7 +23,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         flex: '140px'
       }}
       labelAlign="left"
-      initialValues={recordToFormData(formData)}
+      initialValues={formData}
       submitter={false}
       style={{
         padding: '24px 0 24px 0'
@@ -66,9 +57,10 @@ const EditFrom: FC<EditFromProps> = (props) => {
           { required: true }
         ]}
       />
-      <ProFormText
+      <ProFormSelect
         label="Types"
         name="types"
+        mode="tags"
         rules={[
           { required: true }
         ]}

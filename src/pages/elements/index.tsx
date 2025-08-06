@@ -7,7 +7,7 @@ import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import { WizardTypesMap } from '@/constants/map';
 import EditFrom from './components/EditForm';
-import { getElementsApi, deleteWizardGroupApi } from '@/services/wizard';
+import { getElementsApi, deleteElementApi } from '@/services/wizard';
 
 const Elements: FC = () => {
   const { modal, message } = App.useApp();
@@ -18,7 +18,7 @@ const Elements: FC = () => {
     ref.current?.reload();
   });
 
-  const handleArchive = useMemoizedFn((record: Record<string, any>) => {
+  const handleDel = useMemoizedFn((record: Record<string, any>) => {
     modal.confirm({
       title: 'Are you sure you want to delete?',
       okText: 'Delete',
@@ -31,13 +31,13 @@ const Elements: FC = () => {
       },
       onOk: async () => {
         try {
-          await deleteWizardGroupApi({
-            wizardGroupUuid: record.wizardGroupUuid
+          await deleteElementApi({
+            elementUuid: record.elementUuid
           });
           onRefresh();
           message.success('Deletion successful.');
         } catch (err) {
-          message.success('Deletion failed.');
+          message.error('Deletion failed.');
           return Promise.reject(err);
         }
       }
@@ -50,7 +50,7 @@ const Elements: FC = () => {
       onBack={() => navigate(-1)}
       extra={
         <TriggerModal
-          width={600}
+          width={500}
           className="shopify"
           title="Create Element"
           trigger={
@@ -73,7 +73,7 @@ const Elements: FC = () => {
         scroll={{
           x: 'max-content'
         }}
-        rowKey="wizardUuid"
+        rowKey="elementUuid"
         className="shopify"
         request={async (params) => {
           const {
@@ -138,7 +138,7 @@ const Elements: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={600}
+                    width={500}
                     destroyOnHidden
                     className="shopify"
                     title="Update Wizard"
@@ -161,7 +161,7 @@ const Elements: FC = () => {
                     danger
                     size="small"
                     className="shopify"
-                    onClick={() => handleArchive(record)}
+                    onClick={() => handleDel(record)}
                   >
                     Delete
                   </Button>

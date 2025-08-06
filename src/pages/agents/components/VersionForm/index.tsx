@@ -34,7 +34,7 @@ const VersionForm: FC<VersionFormProps> = (props) => {
       props.onSuccess?.();
       message.success('Agent created successfully.');
     } catch (err) {
-      message.success('Failed to create Agent.');
+      message.error('Failed to create Agent.');
     }
   });
 

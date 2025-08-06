@@ -44,7 +44,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       props.onSuccess?.();
       message.success(`Wizard Group ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.success(`Failed to ${formData ? 'update' : 'create'} Wizard Group.`);
+      message.error(`Failed to ${formData ? 'update' : 'create'} Wizard Group.`);
     }
   });
 

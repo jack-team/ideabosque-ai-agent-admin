@@ -83,7 +83,7 @@ const ContactProfiles: FC = () => {
             render: (_, record) => {
               return (
                 <TriggerModal
-                  width={600}
+                  width={620}
                   title="Contact Profile"
                   hasFooter={false}
                   trigger={

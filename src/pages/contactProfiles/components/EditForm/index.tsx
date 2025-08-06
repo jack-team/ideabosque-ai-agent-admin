@@ -5,7 +5,6 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { Row, Col } from 'antd';
-import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { recordToFormData } from './helper';
 import styles from './styles.module.less';
 
@@ -16,11 +15,6 @@ type EditFromProps = {
 const EditFrom: FC<EditFromProps> = (props) => {
   const { formData } = props;
   const [form] = ProForm.useForm();
-  const [closeModal] = useModalClose();
-
-  useListenModalOk(async () => {
-
-  });
 
   return (
     <ProForm

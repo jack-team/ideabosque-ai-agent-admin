@@ -7,7 +7,7 @@ import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import { WizardTypesMap } from '@/constants/map';
 import EditFrom from './components/EditForm';
-import { getWizardListApi, deleteWizardGroupApi } from '@/services/wizard';
+import { getWizardListApi, deleteWizardApi } from '@/services/wizard';
 
 const Wizards: FC = () => {
   const { modal, message } = App.useApp();
@@ -18,7 +18,7 @@ const Wizards: FC = () => {
     ref.current?.reload();
   });
 
-  const handleArchive = useMemoizedFn((record: Record<string, any>) => {
+  const handleDel = useMemoizedFn((record: Record<string, any>) => {
     modal.confirm({
       title: 'Are you sure you want to delete?',
       okText: 'Delete',
@@ -31,8 +31,8 @@ const Wizards: FC = () => {
       },
       onOk: async () => {
         try {
-          await deleteWizardGroupApi({
-            wizardGroupUuid: record.wizardGroupUuid
+          await deleteWizardApi({
+            wizardUuid: record.wizardUuid
           });
           onRefresh();
           message.success('Deletion successful.');
@@ -170,7 +170,7 @@ const Wizards: FC = () => {
                     danger
                     size="small"
                     className="shopify"
-                    onClick={() => handleArchive(record)}
+                    onClick={() => handleDel(record)}
                   >
                     Delete
                   </Button>

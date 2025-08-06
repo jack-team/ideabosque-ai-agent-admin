@@ -32,7 +32,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       closeModal();
       props.onSuccess?.();
     } catch (err) {
-      message.success('Failed to create Coordination.');
+      message.error('Failed to create Coordination.');
     }
   });
 

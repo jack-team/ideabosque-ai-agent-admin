@@ -53,7 +53,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       props.onSuccess?.();
       message.success('Agent created successfully.');
     } catch (err) {
-      message.success('Failed to create Agent.');
+      message.error('Failed to create Agent.');
     }
   });
 

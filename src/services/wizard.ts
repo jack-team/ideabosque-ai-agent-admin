@@ -30,3 +30,18 @@ export const insertUpdateWizardApi = async (params: Record<string, any>) => {
   const query = await generateQuery({ type: 'Mutation', name: 'insertUpdateWizard' });
   return agentCore.graphql({ query, variables: params });
 }
+
+export const deleteWizardApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Mutation', name: 'deleteWizard' });
+  return agentCore.graphql({ query, variables: params });
+}
+
+export const deleteElementApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Mutation', name: 'deleteElement' });
+  return agentCore.graphql({ query, variables: params });
+}
+
+export const insertUpdateElementApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Mutation', name: 'insertUpdateElement' });
+  return agentCore.graphql({ query, variables: params });
+}
