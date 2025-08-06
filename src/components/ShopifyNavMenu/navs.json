@@ -33,6 +33,10 @@
     "title": "Agent Workflows"
   },
   {
+    "path": "/messages",
+    "title": "Messages"
+  },
+  {
     "path": "/settings",
     "title": "Settings"
   }

@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import navs from '../ShopifyNavMenu/navs.json';
 import styles from './styles.module.less';
 
@@ -8,12 +8,17 @@ const NavMenu: FC = () => {
     <div className={styles.menus}>
       {navs.filter(e => !e.rel).map(nav => {
         return (
-          <Link
+          <NavLink
             key={nav.path}
             to={nav.path}
+            className={e=> {
+              if (e.isActive) {
+                return styles.nav_active
+              }
+            }}
           >
             {nav.title}
-          </Link>
+          </NavLink>
         );
       })}
     </div>
