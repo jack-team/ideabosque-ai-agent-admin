@@ -13,6 +13,10 @@
     "title": "Customer Groups"
   },
   {
+    "path": "/question-groups",
+    "title": "Question Groups"
+  },
+  {
     "path": "/contact-profiles",
     "title": "Contact Profiles"
   },
@@ -21,12 +25,12 @@
     "title": "Agents"
   },
   {
-    "path": "/agent-workflows",
-    "title": "Agent Workflows"
-  },
-   {
     "path": "/wizard-groups",
     "title": "Wizard Groups"
+  },
+  {
+    "path": "/agent-workflows",
+    "title": "Agent Workflows"
   },
   {
     "path": "/settings",

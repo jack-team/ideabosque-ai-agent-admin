@@ -13,3 +13,7 @@ export enum WizardTypesEnum  {
   Form = 'form',	
   Page = 'page'
 }
+
+export enum RegionEnmu {
+  US = 'US'
+}

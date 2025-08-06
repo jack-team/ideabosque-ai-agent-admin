@@ -51,9 +51,9 @@ const EditFrom: FC<EditFromProps> = (props) => {
       await insertUpdateAgentApi(params);
       closeModal();
       props.onSuccess?.();
-      message.success('Agent created successfully.');
+      message.success(`Agent ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.error('Failed to create Agent.');
+      message.error(`Failed to ${formData ? 'updated' : 'created'} Agent.`);
     }
   });
 
