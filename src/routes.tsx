@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { lazyLoad } from "@/utils/lazyload";
 import BaseLayout from "./layout";
 
+import '@/services/wizard'
+
 export const routes: RouteObject[] = [
   {
     path: "/",
@@ -70,6 +72,15 @@ export const routes: RouteObject[] = [
       {
         path: '/contact-requests',
         Component: lazyLoad(() => import("@/pages/contactRequests"))
+      },
+      // wizard
+      {
+        path: '/wizard-groups',
+        Component: lazyLoad(() => import("@/pages/wizardGroups"))
+      },
+       {
+        path: '/wizards',
+        Component: lazyLoad(() => import("@/pages/wizards"))
       }
     ],
   },

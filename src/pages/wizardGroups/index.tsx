@@ -6,12 +6,9 @@ import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-compon
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
-import VersionForm from './components/VersionForm';
-import { getAgentListApi, insertUpdateAgentApi } from '@/services/agent';
-import { StatusMap } from '@/constants/map';
-import { StatusEnum } from '@/constants/enum';
+import { getWizardGroupListApi, deleteWizardGroupApi } from '@/services/wizard';
 
-const Agents: FC = () => {
+const WizardGroups: FC = () => {
   const { modal, message } = App.useApp();
   const navigate = useNavigate();
   const ref = useRef<ActionType>(null);
@@ -22,50 +19,51 @@ const Agents: FC = () => {
 
   const handleArchive = useMemoizedFn((record: Record<string, any>) => {
     modal.confirm({
-      title: 'Are you sure you want to archive?',
-      okText: 'Archive',
+      title: 'Are you sure you want to delete?',
+      okText: 'Delete',
       okButtonProps: {
         danger: true,
         className: 'shopify'
       },
+      cancelButtonProps: {
+        className: 'shopify'
+      },
       onOk: async () => {
         try {
-          await insertUpdateAgentApi({
-            agentUuid: record.agentUuid,
-            agentVersionUuid: record.agentVersionUuid,
-            status: StatusEnum.Inactive,
-            updatedBy: 'Admin'
+          await deleteWizardGroupApi({
+            wizardGroupUuid: record.wizardGroupUuid
           });
           onRefresh();
-          message.success('Archiving succeeded');
+          message.success('Deletion successful.');
         } catch (err) {
-          message.error('Archiving failed');
+          message.success('Deletion failed.');
+          return Promise.reject(err);
         }
       }
-    });
+    })
   })
 
   return (
     <PageContainer
-      title="Agents"
+      title="Wizard Groups"
       extra={
         <Space size={16}>
           <Button
             className="shopify"
-            onClick={() => navigate('/coordinations')}
+            onClick={() => navigate('/wizards')}
           >
-            Coordinations
+            Wizards
           </Button>
           <TriggerModal
             width={600}
             className="shopify"
-            title="Create agent"
+            title="Create Wizard Group"
             trigger={
               <Button
                 className="shopify"
                 type="primary"
               >
-                Create agent
+                Create Wizard Group
               </Button>
             }
           >
@@ -76,10 +74,11 @@ const Agents: FC = () => {
     >
       <ProTable
         actionRef={ref}
-        search={{
-          layout: 'vertical'
-        }}
+        search={false}
         options={false}
+        scroll={{
+          x: 'max-content'
+        }}
         rowKey="agentUuid"
         className="shopify"
         request={async (params) => {
@@ -90,33 +89,37 @@ const Agents: FC = () => {
           } = params;
 
           const {
-            agentList: result
-          } = await getAgentListApi({
+            wizardGroupList: result
+          } = await getWizardGroupListApi({
             limit: pageSize,
             pageNumber: current,
-            statuses: [StatusEnum.Active],
             ...rest
           });
 
           return {
             total: result.total,
-            data: result.agentList
+            data: result.wizardGroupList
           }
         }}
         columns={[
           {
-            title: 'Agent UUID',
-            dataIndex: 'agentUuid'
-          },
-          {
-            title: 'Agent Name',
-            dataIndex: 'agentName'
-          },
-          {
-            title: 'Status',
-            dataIndex: 'status',
-            valueEnum: StatusMap,
+            title: 'Wizard Group UUID',
+            dataIndex: 'wizardGroupUuid',
             hideInSearch: true
+          },
+          {
+            title: 'Wizard Group Name',
+            dataIndex: 'wizardGroupName'
+          },
+          {
+            hideInSearch: true,
+            title: 'Wizard Group Description',
+            dataIndex: 'wizardGroupDescription'
+          },
+          {
+            title: 'Weight',
+            dataIndex: 'weight',
+            hideInSearch: true,
           },
           {
             title: 'Create at',
@@ -131,10 +134,11 @@ const Agents: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '220px',
+            width: '120px',
             key: 'action',
             title: 'Action',
             align: 'center',
+            fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
               return (
@@ -159,32 +163,13 @@ const Agents: FC = () => {
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <TriggerModal
-                    width={400}
-                    title="Versions"
-                    destroyOnHidden
-                    okText="Apply"
-                    trigger={
-                      <Button
-                        size="small"
-                        className="shopify"
-                      >
-                        Versions
-                      </Button>
-                    }
-                  >
-                    <VersionForm
-                      formData={record}
-                      onSuccess={onRefresh}
-                    />
-                  </TriggerModal>
                   <Button
                     danger
                     size="small"
                     className="shopify"
                     onClick={() => handleArchive(record)}
                   >
-                    Archive
+                    Delete
                   </Button>
                 </Space>
               );
@@ -196,4 +181,4 @@ const Agents: FC = () => {
   );
 }
 
-export default Agents;
+export default WizardGroups;

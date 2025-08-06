@@ -24,6 +24,10 @@
     "path": "/agent-workflows",
     "title": "Agent Workflows"
   },
+   {
+    "path": "/wizard-groups",
+    "title": "Wizard Groups"
+  },
   {
     "path": "/settings",
     "title": "Settings"

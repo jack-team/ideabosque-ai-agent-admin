@@ -10,6 +10,9 @@ import {
   getLlmListApi
 } from '@/services/llm';
 import {
+  getWizardListApi
+} from '@/services/wizard';
+import {
   getAgentListApi
 } from '@/services/agent';
 import {
@@ -141,6 +144,31 @@ export const useAgentVersions = (agentUuid?: string) => {
     }
   });
 
+  return {
+    loading,
+    options
+  }
+}
+
+// 获取Wizards
+export const useWizardList = () => {
+  return useRequest(async () => {
+    const result = await requestWrapper(getWizardListApi);
+    return result.wizardList?.wizardList;
+  });
+}
+
+export const useWizardOptions = () => {
+  const { loading, data = [] } = useWizardList();
+
+  const options = data.map((item: any) => (
+    {
+      label: item.wizardTitle,
+      value: item.wizardUuid,
+      realData: item
+    }
+  ));
+  
   return {
     loading,
     options
