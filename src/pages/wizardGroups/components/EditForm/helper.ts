@@ -7,7 +7,10 @@ export const recordToFormData = (record?: Record<string, any>) => {
   } = record;
 
   return {
-    ...rest
+    ...rest,
+    wizardUuids: wizards.map((e: any) => {
+      return e.wizard_uuid
+    })
   }
 }
 
