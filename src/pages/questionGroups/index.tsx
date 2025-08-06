@@ -6,7 +6,7 @@ import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-compon
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
-import { getQuestionGroupListApi } from '@/services/question';
+import { getQuestionGroupListApi, deleteQuestionGroupApi } from '@/services/question';
 
 const Agents: FC = () => {
   const { modal, message } = App.useApp();
@@ -17,8 +17,30 @@ const Agents: FC = () => {
     ref.current?.reload();
   });
 
-  const handleArchive = useMemoizedFn((record: Record<string, any>) => {
-    
+  const handleDel = useMemoizedFn((record: Record<string, any>) => {
+    modal.confirm({
+      title: 'Are you sure you want to delete?',
+      okText: 'Delete',
+      okButtonProps: {
+        danger: true,
+        className: 'shopify'
+      },
+      cancelButtonProps: {
+        className: 'shopify'
+      },
+      onOk: async () => {
+        try {
+          await deleteQuestionGroupApi({
+            questionGroupUuid: record.questionGroupUuid
+          });
+          onRefresh();
+          message.success('Deletion successful.');
+        } catch (err) {
+          message.success('Deletion failed.');
+          return Promise.reject(err);
+        }
+      }
+    })
   });
 
   return (
@@ -38,7 +60,7 @@ const Agents: FC = () => {
             </Button>
           }
         >
-          <EditFrom />
+          <EditFrom onSuccess={onRefresh}/>
         </TriggerModal>
       }
     >
@@ -122,7 +144,7 @@ const Agents: FC = () => {
                     danger
                     size="small"
                     className="shopify"
-                    onClick={() => handleArchive(record)}
+                    onClick={() => handleDel(record)}
                   >
                     Delete
                   </Button>

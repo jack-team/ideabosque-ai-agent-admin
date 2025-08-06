@@ -10,3 +10,8 @@ export const insertUpdateQuestionGroupApi = async (params: Record<string, any>) 
   const query = await generateAiMarketingQuery({ type: 'Mutation', name: 'insertUpdateQuestionGroup' });
   return aiMarketing.graphql({ query, variables: params });
 }
+
+export const deleteQuestionGroupApi = async (params: Record<string, any>) => {
+  const query = await generateAiMarketingQuery({ type: 'Mutation', name: 'deleteQuestionGroup' });
+  return aiMarketing.graphql({ query, variables: params });
+}
