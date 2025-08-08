@@ -21,19 +21,43 @@ import {
 } from '@/constants/enum';
 
 // 获取模板数据
-export const useWorkFlowTemplates = () => {
-  const { data, loading } = useRequest(async () => {
-    const result = await requestWrapper(queryAgentWorkflowTemplatesApi);
-    return result.promptTemplateList.promptTemplateList;
+export const useWorkFlowTemplates = (params?: Record<string, any>) => {
+  return useRequest(async () => {
+    const result = await requestWrapper(queryAgentWorkflowTemplatesApi, params);
+    return result?.promptTemplateList?.promptTemplateList;
+  });
+}
+
+// 获取模板数据-active状态，基于promptUuid维度
+export const useWorkFlowTemplatesActiveOptions = () => {
+  const { loading, data = [] } = useWorkFlowTemplates({
+    statuses: [StatusEnum.Active]
   });
 
-  const options = data?.map(item => ({
-    realData: item,
-    label: item.promptName,
-    value: item.promptUuid
-  }));
+  const options = data.map(item => {
+    return {
+      label: item.promptName,
+      value: item.promptUuid,
+      realData: item
+    }
+  });
 
-  return { loading, options };
+  return { options, loading };
+}
+
+// 获取模板数据-以Version为维度
+export const useWorkFlowTemplatesVersionOptions = (promptUuid: string) => {
+  const { loading, data = [] } = useWorkFlowTemplates({ promptUuid });
+
+  const options = data.map(item => {
+    return {
+      label: `${item.promptVersionUuid}(${item.promptName})`,
+      value: item.promptVersionUuid,
+      realData: item
+    }
+  });
+
+  return { options, loading };
 }
 
 // 获取组件列表

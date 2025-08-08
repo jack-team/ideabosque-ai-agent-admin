@@ -1,21 +1,23 @@
 import dayjs from "dayjs";
-import { Space } from "antd";
+import { Space, Button } from "antd";
+import { type FC, useRef } from "react";
 import { useMemoizedFn } from "ahooks";
 import { useNavigate } from "react-router-dom";
-import { type FC, cloneElement, useRef } from "react";
 import { ShopifyButton, TriggerModal } from "@/components";
-import {
-  PageContainer,
-  ProTable,
-  type ActionType,
-} from "@ant-design/pro-components";
+import { PageContainer, ProTable, type ActionType } from "@ant-design/pro-components";
 import { queryAgentWorkflowTemplatesApi } from "@/services/workflow";
 import { TemplateTypeMap } from "./const";
+import { StatusEnum } from '@/constants/enum';
 import CreateForm from "./components/CreateForm";
+import VersionForm from "./components/VersionForm";
 
 const AgentTemplates: FC = () => {
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
+
+  const onRefresh = useMemoizedFn(() => {
+    actionRef.current?.reload();
+  });
 
   const toDetail = useMemoizedFn((record: API.Workflow.PromptTemplateItem) => {
     const { promptUuid: uid, promptVersionUuid: vid } = record;
@@ -29,10 +31,10 @@ const AgentTemplates: FC = () => {
       extra={
         <Space size={16}>
           <ShopifyButton onClick={() => navigate('/workflow-mcp-servers')}>
-            Mcp Server Management
+            Mcp Servers
           </ShopifyButton>
           <ShopifyButton onClick={() => navigate('/workflow-ui-components')}>
-            Component Management
+            Components
           </ShopifyButton>
           <TriggerModal
             width={400}
@@ -49,17 +51,10 @@ const AgentTemplates: FC = () => {
     >
       <ProTable<API.Workflow.PromptTemplateItem>
         className="shopify"
+        rowKey="promptUuid"
         actionRef={actionRef}
         options={false}
-        search={{
-          layout: "vertical",
-          optionRender: (_, __, btns) => {
-            return btns.map((btn) =>
-              // @ts-ignore
-              cloneElement(btn, { className: "shopify" })
-            );
-          },
-        }}
+        search={false}
         columns={[
           {
             dataIndex: "promptName",
@@ -67,6 +62,7 @@ const AgentTemplates: FC = () => {
             fixed: "left",
           },
           {
+            hideInSearch: true,
             dataIndex: "promptType",
             title: "Type",
             valueEnum: TemplateTypeMap,
@@ -99,13 +95,33 @@ const AgentTemplates: FC = () => {
             render: (_, record) => {
               return (
                 <Space>
-                  <ShopifyButton
-                    type="primary"
+                  <Button
                     size="small"
+                    type="primary"
+                    className="shopify"
                     onClick={() => toDetail(record)}
                   >
                     Edit
-                  </ShopifyButton>
+                  </Button>
+                  <TriggerModal
+                    width={400}
+                    title="Versions"
+                    destroyOnHidden
+                    okText="Apply"
+                    trigger={
+                      <Button
+                        size="small"
+                        className="shopify"
+                      >
+                        Versions
+                      </Button>
+                    }
+                  >
+                    <VersionForm
+                      formData={record}
+                      onSuccess={onRefresh}
+                    />
+                  </TriggerModal>
                 </Space>
               );
             },
@@ -119,6 +135,7 @@ const AgentTemplates: FC = () => {
             await queryAgentWorkflowTemplatesApi({
               pageNumber: current,
               limit: pageSize,
+              statuses: [StatusEnum.Active],
               ...reset,
             });
           return {

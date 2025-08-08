@@ -3,7 +3,9 @@ import { generateQuery } from "./generate";
 
 // 获取 workflow 模板列表
 export const queryAgentWorkflowTemplatesApi = async (
-  variables: SplitPageParams
+  variables: SplitPageParams & {
+    statuses?: string[];
+  }
 ) => {
   const query = await generateQuery({
     type: "Query",

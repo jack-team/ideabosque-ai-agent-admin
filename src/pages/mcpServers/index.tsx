@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { type FC, type ReactElement, cloneElement, useRef } from "react";
+import { type FC, type ReactElement, useRef } from "react";
+import { useNavigate } from 'react-router';
 import { Space, App } from "antd";
 import {
   PageContainer,
@@ -11,14 +12,15 @@ import CreateForm from "./components/CreateForm";
 import { ShopifyButton, TriggerModal } from "@/components";
 import {
   fetchMcpServersApi,
-   //@ts-ignore
+  //@ts-ignore
   deleteUiComponentApi,
 } from "@/services/workflow";
 
 const McpServers: FC = () => {
-   //@ts-ignore
+  //@ts-ignore
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
+  const navigate = useNavigate();
 
   const refreshTable = useMemoizedFn(() => {
     actionRef.current?.reload();
@@ -52,7 +54,7 @@ const McpServers: FC = () => {
         className: "shopify",
       },
       onOk: async () => {
-       
+
       },
     });
   });
@@ -61,6 +63,7 @@ const McpServers: FC = () => {
     <PageContainer
       className="shopify"
       title="Mcp Servers"
+      onBack={() => navigate(-1)}
       extra={renderEditModal(
         <ShopifyButton type="primary">Create Mcp Server</ShopifyButton>
       )}
@@ -70,15 +73,7 @@ const McpServers: FC = () => {
         actionRef={actionRef}
         rowKey="mcpServerUuid"
         options={false}
-        search={{
-          layout: "vertical",
-          optionRender: (_, __, btns) => {
-            return btns.map((btn) =>
-              // @ts-ignore
-              cloneElement(btn, { className: "shopify" })
-            );
-          },
-        }}
+        search={false}
         columns={[
           {
             dataIndex: "mcpLabel",
@@ -120,6 +115,12 @@ const McpServers: FC = () => {
             render: (_, record) => {
               return (
                 <Space>
+                  {renderEditModal(
+                    <ShopifyButton type="primary" size="small">
+                      Edit
+                    </ShopifyButton>,
+                    record
+                  )}
                   <ShopifyButton
                     danger
                     size="small"
@@ -127,12 +128,6 @@ const McpServers: FC = () => {
                   >
                     Delete
                   </ShopifyButton>
-                  {renderEditModal(
-                    <ShopifyButton type="primary" size="small">
-                      Edit
-                    </ShopifyButton>,
-                    record
-                  )}
                 </Space>
               );
             },

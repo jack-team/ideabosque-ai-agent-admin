@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { type FC, type ReactElement, cloneElement, useRef } from "react";
+import { useNavigate } from 'react-router';
 import { Space, App } from "antd";
 import {
   PageContainer,
@@ -16,6 +17,7 @@ import {
 } from "@/services/workflow";
 
 const UiComponents: FC = () => {
+  const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
 
@@ -64,6 +66,7 @@ const UiComponents: FC = () => {
     <PageContainer
       className="shopify"
       title="Ui Components"
+      onBack={() => navigate(-1)}
       extra={renderEditModal(
         <ShopifyButton type="primary">Create Component</ShopifyButton>
       )}
@@ -73,15 +76,7 @@ const UiComponents: FC = () => {
         actionRef={actionRef}
         rowKey="uiComponentUuid"
         options={false}
-        search={{
-          layout: "vertical",
-          optionRender: (_, __, btns) => {
-            return btns.map((btn) =>
-              // @ts-ignore
-              cloneElement(btn, { className: "shopify" })
-            );
-          },
-        }}
+        search={false}
         columns={[
           {
             dataIndex: "tagName",

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { ProForm, ProFormText, ProFormSelect } from '@ant-design/pro-components';
 import { useListenModalOk } from '@/components/TriggerModal/hooks';
-import { useWorkFlowTemplates } from '@/hooks/useFetchData';
+import { useWorkFlowTemplatesActiveOptions } from '@/hooks/useFetchData';
 import { insertUpdateWorkflowApi } from '@/services/workflow';
 import styles from './styles.module.less';
 
@@ -11,7 +11,7 @@ type CreateFormProps = {
 
 const CreateForm: FC<CreateFormProps> = (props) => {
   const [form] = ProForm.useForm();
-  const { options, loading } = useWorkFlowTemplates();
+  const { options, loading } = useWorkFlowTemplatesActiveOptions();
 
   useListenModalOk(async () => {
     const formData = await form.validateFields();

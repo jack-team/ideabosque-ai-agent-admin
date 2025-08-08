@@ -98,90 +98,87 @@ const WorkflowTemplateDetail: FC = () => {
         }
       >
         <div className={styles.wrapper}>
-          <Card className="shopify">
-            <ProForm
-              form={form}
-              submitter={false}
-              layout="horizontal"
-              labelAlign="left"
-              className={styles.form}
-              labelCol={{ flex: "180px" }}
+          <ProForm
+            form={form}
+            submitter={false}
+            layout="horizontal"
+            labelAlign="left"
+            className={styles.form}
+            labelCol={{ flex: "180px" }}
+          >
+            <ProFormText hidden name="promptUuid" />
+            <Row gutter={16}>
+              <Col span={24}>
+                <ProFormText
+                  label="Template Name"
+                  name="promptName"
+                  rules={[{ required: true }]}
+                />
+              </Col>
+              <Col span={24}>
+                <ProFormSelect
+                  label="Type"
+                  name="promptType"
+                  valueEnum={TemplateTypeMap}
+                  rules={[{ required: true }]}
+                />
+              </Col>
+              <Col span={24}>
+                <ProFormSelect
+                  label="Mcp Servers"
+                  name="mcpServers"
+                  mode="multiple"
+                  options={mcpOptions}
+                  rules={[{ required: true }]}
+                  fieldProps={{ loading: mcpLoading }}
+                />
+              </Col>
+              <Col span={24}>
+                <ProFormSelect
+                  label="Ui Components"
+                  name="uiComponents"
+                  mode="multiple"
+                  options={uiOptions}
+                  rules={[{ required: true }]}
+                  fieldProps={{ loading: uiLoading }}
+                />
+              </Col>
+            </Row>
+            <ProFormTextArea
+              label="Template Description"
+              name="promptDescription"
+              fieldProps={{ rows: 12 }}
+              rules={[{ required: true }]}
+            />
+            <ProFormTextArea
+              label="Template Context"
+              name="templateContext"
+              fieldProps={{ rows: 12 }}
+              rules={[{ required: true }]}
+            />
+            <ProFormList
+              label="Variables"
+              name="variables"
+              className={styles.form_list}
             >
-              <ProFormText hidden name="promptUuid" />
-              <ProFormText hidden name="promptVersionUuid" />
               <Row gutter={16}>
-                <Col span={24}>
+                <Col span={12}>
                   <ProFormText
-                    label="Template Name"
-                    name="promptName"
+                    name="name"
+                    placeholder="Variable Name"
                     rules={[{ required: true }]}
                   />
                 </Col>
-                <Col span={24}>
-                  <ProFormSelect
-                    label="Type"
-                    name="promptType"
-                    valueEnum={TemplateTypeMap}
+                <Col span={12}>
+                  <ProFormText
+                    name="data_type"
+                    placeholder="Data type"
                     rules={[{ required: true }]}
-                  />
-                </Col>
-                <Col span={24}>
-                  <ProFormSelect
-                    label="Mcp Servers"
-                    name="mcpServers"
-                    mode="multiple"
-                    options={mcpOptions}
-                    rules={[{ required: true }]}
-                    fieldProps={{ loading: mcpLoading }}
-                  />
-                </Col>
-                <Col span={24}>
-                  <ProFormSelect
-                    label="Ui Components"
-                    name="uiComponents"
-                    mode="multiple"
-                    options={uiOptions}
-                    rules={[{ required: true }]}
-                    fieldProps={{ loading: uiLoading }}
                   />
                 </Col>
               </Row>
-              <ProFormTextArea
-                label="Template Description"
-                name="promptDescription"
-                fieldProps={{ rows: 12 }}
-                rules={[{ required: true }]}
-              />
-              <ProFormTextArea
-                label="Template Context"
-                name="templateContext"
-                fieldProps={{ rows: 12 }}
-                rules={[{ required: true }]}
-              />
-              <ProFormList
-                label="Variables"
-                name="variables"
-                className={styles.form_list}
-              >
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <ProFormText
-                      name="name"
-                      placeholder="Variable Name"
-                      rules={[{ required: true }]}
-                    />
-                  </Col>
-                  <Col span={12}>
-                    <ProFormText
-                      name="data_type"
-                      placeholder="Data type"
-                      rules={[{ required: true }]}
-                    />
-                  </Col>
-                </Row>
-              </ProFormList>
-            </ProForm>
-          </Card>
+            </ProFormList>
+          </ProForm>
         </div>
       </PageContainer>
     </SpinBox>

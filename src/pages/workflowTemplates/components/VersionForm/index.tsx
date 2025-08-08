@@ -1,15 +1,15 @@
 import { type FC } from 'react';
+import { App } from 'antd';
 import {
   ProForm,
   ProFormText,
   ProFormSelect
 } from '@ant-design/pro-components';
-import { App } from 'antd';
-
-import { useAgentVersions } from '@/hooks/useFetchData';
-import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import { insertUpdateAgentApi } from '@/services/agent';
+import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
+import { insertUpdatePromptTemplateApi } from '@/services/workflow';
+import { useWorkFlowTemplatesVersionOptions } from '@/hooks/useFetchData';
+import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 
 type VersionFormProps = {
   onSuccess?: () => void;
@@ -25,7 +25,7 @@ const VersionForm: FC<VersionFormProps> = (props) => {
   useListenModalOk(async () => {
     const values = await form.validateFields();
     try {
-      await insertUpdateAgentApi({
+      await insertUpdatePromptTemplateApi({
         ...values,
         status: StatusEnum.Active,
         updatedBy: 'Admin'
@@ -42,9 +42,10 @@ const VersionForm: FC<VersionFormProps> = (props) => {
   const {
     options: versionOptions,
     loading: versionLoading
-  } = useAgentVersions(formData?.agentUuid);
+  } = useWorkFlowTemplatesVersionOptions(formData?.promptUuid);
 
   return (
+
     <ProForm
       form={form}
       initialValues={formData}
@@ -53,22 +54,24 @@ const VersionForm: FC<VersionFormProps> = (props) => {
         padding: '24px 0 0 0'
       }}
     >
-      <ProFormText
-        hidden
-        name="agentUuid"
-      />
-      <ProFormSelect
-        label="Versions"
-        name="agentVersionUuid"
-        options={versionOptions}
-        fieldProps={{
-          loading: versionLoading
-        }}
-        rules={[
-          { required: true }
-        ]}
-      />
-    </ProForm>
+      <SpinBox loading={versionLoading}>
+        <ProFormText
+          hidden
+          name="promptUuid"
+        />
+        <ProFormSelect
+          label="Versions"
+          name="promptVersionUuid"
+          options={versionOptions}
+          fieldProps={{
+            loading: versionLoading
+          }}
+          rules={[
+            { required: true }
+          ]}
+        />
+      </SpinBox>
+    </ProForm >
   );
 }
 
