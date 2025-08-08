@@ -1,17 +1,10 @@
-import { type FC, useEffect } from 'react';
+import { type FC } from 'react';
 import {
   ProForm,
-  ProFormText,
-  ProFormTextArea,
-  ProFormSelect,
-  ProFormList
+  ProFormText
 } from '@ant-design/pro-components';
-import { useMemoizedFn } from 'ahooks';
-import { App, Row, Col } from 'antd';
-import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import { recordToFormData, formDataToParams } from './helper';
-import { insertUpdateQuestionGroupApi } from '@/services/question';
-import { RegionMap } from '@/constants/map';
+import { Divider, Card } from 'antd';
+import LongTextReadonly from '@/components/LongTextReadonly';
 
 type EditFromProps = {
   onSuccess?: () => void;
@@ -21,106 +14,76 @@ type EditFromProps = {
 const EditFrom: FC<EditFromProps> = (props) => {
   const { formData } = props;
   const [form] = ProForm.useForm();
-  const { message } = App.useApp();
-  const [closeModal] = useModalClose();
-
-  const initFromData = useMemoizedFn(() => {
-    form.setFieldsValue(recordToFormData(formData));
-  });
-
-  useEffect(() => {
-    if (formData) {
-      initFromData();
-    }
-  }, [formData]);
-
-  useListenModalOk(async () => {
-    const values = await form.validateFields();
-    const params = formDataToParams(values);
-
-    try {
-      await insertUpdateQuestionGroupApi(params);
-      closeModal();
-      props.onSuccess?.();
-      message.success(`Question Group ${formData ? 'updated' : 'created'} successfully.`);
-    } catch (err) {
-      message.error(`Failed to ${formData ? 'updated' : 'created'} Question Group.`);
-    }
-  });
 
   return (
     <ProForm
       form={form}
+      disabled
       submitter={false}
       layout="horizontal"
       labelAlign="left"
-      labelCol={{ flex: '220px' }}
+      initialValues={formData}
       style={{
-        padding: '24px 0 0 0'
+        padding: '24px 0'
       }}
     >
-      <ProFormText
-        hidden
-        name="questionGroupUuid"
-      />
-      <ProFormText
-        label="Question Group Name"
-        name="questionGroupName"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormTextArea
-        label="Question Group Description"
-        name="questionGroupDescription"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormText
-        label="Weight"
-        name="weight"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormSelect
-        label="Region"
-        name="region"
-        valueEnum={RegionMap}
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormList
-        label="Question Criteria"
-        name="questionCriteria"
+      <ProForm.Item
+        label="Role"
+        name="role"
+        labelCol={{ flex: '166px' }}
       >
-        <Row gutter={16}>
-          <Col span={12}>
-            <ProFormText
-              label="Attribute"
-              name="attribute"
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-              rules={[
-                { required: true }
-              ]}
-            />
-          </Col>
-          <Col span={12}>
-            <ProFormText
-              label="Value"
-              name="value"
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-              rules={[
-                { required: true }
-              ]}
-            />
-          </Col>
-        </Row>
-      </ProFormList>
+        <LongTextReadonly />
+      </ProForm.Item>
+      <Divider orientation="left">Message</Divider>
+      <ProForm.Item name="message">
+        <LongTextReadonly pre />
+      </ProForm.Item>
+      <Divider orientation="left">Run</Divider>
+      <Card className="shopify">
+        <ProForm.Item
+          label="Prompt Tokens"
+          name={["run", "prompt_tokens"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+        <ProForm.Item
+          label="Completion Tokens"
+          name={["run", "completion_tokens"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+        <ProForm.Item
+          label="Total Tokens"
+          name={["run", "total_tokens"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+        <Divider orientation="left">Thread</Divider>
+        <ProForm.Item
+          label="Agent UUID"
+          name={["run", "thread", "agent_uuid"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+        <ProForm.Item
+          label="Thread UUID"
+          name={["run", "thread", "thread_uuid"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+        <ProForm.Item
+          label="User ID"
+          name={["run", "thread", "user_id"]}
+          labelCol={{ flex: '150px' }}
+        >
+          <LongTextReadonly />
+        </ProForm.Item>
+      </Card>
     </ProForm>
   );
 }

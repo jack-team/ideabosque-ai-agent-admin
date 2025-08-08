@@ -6,7 +6,7 @@ import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-compon
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
-import { getMessageListApi } from '@/services/messages';
+import { getThreadListApi } from '@/services/threads';
 
 const Messages: FC = () => {
   const navigate = useNavigate();
@@ -18,29 +18,17 @@ const Messages: FC = () => {
 
   return (
     <PageContainer
-      title="Messages"
-      extra={
-        <Space>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/threads')}
-          >
-            Threads
-          </Button>
-             <Button
-            className="shopify"
-            onClick={() => navigate('/async-tasks')}
-          >
-            Async Tasks
-          </Button>
-        </Space>
-      }
+      title="Threads"
+      onBack={() => navigate(-1)}
     >
       <ProTable
+        pagination={{
+          pageSize: 10
+        }}
         actionRef={ref}
         search={false}
         options={false}
-        rowKey="questionGroupUuid"
+        rowKey="threadUuid"
         className="shopify"
         request={async (params) => {
           const {
@@ -50,8 +38,8 @@ const Messages: FC = () => {
           } = params;
 
           const {
-            messageList: result
-          } = await getMessageListApi({
+            threadList: result
+          } = await getThreadListApi({
             limit: pageSize,
             pageNumber: current,
             ...rest
@@ -59,17 +47,20 @@ const Messages: FC = () => {
 
           return {
             total: result.total,
-            data: result.messageList
+            data: result.threadList
           }
         }}
         columns={[
           {
-            title: 'Message UUID',
-            dataIndex: 'messageUuid'
+            title: 'Thread UUID',
+            dataIndex: 'threadUuid'
           },
           {
-            title: 'Role',
-            dataIndex: 'role'
+            title: 'Agent UUID',
+            key: 'agentUuid',
+            render: (_, record) => {
+              return record.agent?.agent_uuid;
+            }
           },
           {
             title: 'Create at',
@@ -93,11 +84,11 @@ const Messages: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={640}
+                    width={700}
                     hasFooter={false}
                     destroyOnHidden
                     className="shopify"
-                    title="Message"
+                    title="Thread"
                     trigger={
                       <Button
                         size="small"

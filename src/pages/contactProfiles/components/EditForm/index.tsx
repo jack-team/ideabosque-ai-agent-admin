@@ -1,12 +1,11 @@
 import type { FC } from 'react';
 import {
   ProForm,
-  ProFormText,
-  ProFormTextArea,
+  ProFormText
 } from '@ant-design/pro-components';
-import { Row, Col } from 'antd';
+import LongTextReadonly from '@/components/LongTextReadonly';
+import { Row, Col, Divider } from 'antd';
 import { recordToFormData } from './helper';
-import styles from './styles.module.less';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -20,11 +19,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       disabled
       form={form}
-      layout="horizontal"
       submitter={false}
-      labelCol={{
-        flex: '100px',
-      }}
       labelAlign='left'
       initialValues={recordToFormData(formData)}
       style={{
@@ -33,38 +28,40 @@ const EditFrom: FC<EditFromProps> = (props) => {
     >
       <Row gutter={16}>
         <Col span={24}>
-          <ProFormText
+          <ProForm.Item
             label="Email"
             name="email"
-          />
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
         </Col>
-        <Col span={24}>
-          <ProFormText
+        <Col span={12}>
+          <ProForm.Item
             label="First Name"
             name="firstName"
-          />
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
         </Col>
-        <Col span={24}>
-          <ProFormText
+        <Col span={12}>
+          <ProForm.Item
             label="Last Name"
             name="lastName"
-          />
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
         </Col>
-        <Col span={24} className={styles.readonly}>
-          <ProFormTextArea
-            label="Data"
-            name="data"
-            readonly
-            fieldProps={{ rows: 8 }}
-          />
+        <Col span={24}>
+          <Divider orientation="left">Data</Divider>
+          <ProForm.Item name="data">
+            <LongTextReadonly pre/>
+          </ProForm.Item>
         </Col>
-        <Col span={24} className={styles.readonly}>
-          <ProFormTextArea
-            readonly
-            label="Place"
-            name="place"
-            fieldProps={{ rows: 8 }}
-          />
+        <Col span={24}>
+          <Divider orientation="left">Place</Divider>
+          <ProForm.Item name="place">
+            <LongTextReadonly pre/>
+          </ProForm.Item>
         </Col>
       </Row>
     </ProForm>

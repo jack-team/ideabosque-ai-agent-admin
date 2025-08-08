@@ -5,6 +5,7 @@ import {
   ProFormSelect,
   ProFormTextArea
 } from '@ant-design/pro-components';
+import LongTextReadonly from '@/components/LongTextReadonly';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -29,42 +30,37 @@ const EditFrom: FC<EditFromProps> = (props) => {
         padding: '24px 0 24px 0'
       }}
     >
-      <ProFormText
+      <ProForm.Item
         label="Business Name"
         name="businessName"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormTextArea
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
         label="address"
         name="address"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormText
+        pre
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
         label="Region"
         name="region"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormText
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
         label="Website"
         name="website"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormSelect
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
         label="Types"
         name="types"
-        mode="tags"
-        rules={[
-          { required: true }
-        ]}
-      />
+      >
+        <LongTextReadonly/>
+      </ProForm.Item>
     </ProForm>
   );
 }

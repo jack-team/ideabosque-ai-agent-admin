@@ -6,9 +6,9 @@ import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-compon
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
-import { getMessageListApi } from '@/services/messages';
+import { getAsyncTaskListApi } from '@/services/asyncTasks';
 
-const Messages: FC = () => {
+const AsyncTasks: FC = () => {
   const navigate = useNavigate();
   const ref = useRef<ActionType>(null);
 
@@ -18,29 +18,18 @@ const Messages: FC = () => {
 
   return (
     <PageContainer
-      title="Messages"
-      extra={
-        <Space>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/threads')}
-          >
-            Threads
-          </Button>
-             <Button
-            className="shopify"
-            onClick={() => navigate('/async-tasks')}
-          >
-            Async Tasks
-          </Button>
-        </Space>
-      }
+      title="Async Tasks"
+      onBack={() => navigate(-1)}
     >
       <ProTable
+        pagination={{
+          pageSize: 10
+        }}
         actionRef={ref}
         search={false}
         options={false}
-        rowKey="questionGroupUuid"
+        scroll={{ x: 'max-content' }}
+        rowKey="asyncTaskUuid"
         className="shopify"
         request={async (params) => {
           const {
@@ -50,8 +39,8 @@ const Messages: FC = () => {
           } = params;
 
           const {
-            messageList: result
-          } = await getMessageListApi({
+            asyncTaskList: result
+          } = await getAsyncTaskListApi({
             limit: pageSize,
             pageNumber: current,
             ...rest
@@ -59,17 +48,25 @@ const Messages: FC = () => {
 
           return {
             total: result.total,
-            data: result.messageList
+            data: result.asyncTaskList
           }
         }}
         columns={[
           {
-            title: 'Message UUID',
-            dataIndex: 'messageUuid'
+            title: 'Async Task UUID',
+            dataIndex: 'asyncTaskUuid'
           },
           {
-            title: 'Role',
-            dataIndex: 'role'
+            title: 'Function Name',
+            dataIndex: 'functionName'
+          },
+          {
+            title: 'Status',
+            dataIndex: 'status'
+          },
+          {
+            title: 'Time Spent',
+            dataIndex: 'timeSpent'
           },
           {
             title: 'Create at',
@@ -89,6 +86,7 @@ const Messages: FC = () => {
             title: 'Action',
             align: 'center',
             hideInSearch: true,
+            fixed: 'right',
             render: (_, record) => {
               return (
                 <Space>
@@ -97,7 +95,7 @@ const Messages: FC = () => {
                     hasFooter={false}
                     destroyOnHidden
                     className="shopify"
-                    title="Message"
+                    title="Async Task"
                     trigger={
                       <Button
                         size="small"
@@ -122,4 +120,4 @@ const Messages: FC = () => {
   );
 }
 
-export default Messages;
+export default AsyncTasks;

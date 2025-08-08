@@ -1,9 +1,6 @@
 import type { FC } from 'react';
-import {
-  ProForm,
-  ProFormText,
-  ProFormTextArea
-} from '@ant-design/pro-components';
+import { ProForm } from '@ant-design/pro-components';
+import LongTextReadonly from '@/components/LongTextReadonly';
 
 type EditFromProps = {
   formData?: Record<string, any>;
@@ -22,20 +19,18 @@ const EditFrom: FC<EditFromProps> = (props) => {
         padding: '24px 0 0 0'
       }}
     >
-      <ProFormText
+      <ProForm.Item
         label="Request Title"
         name="requestTitle"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormTextArea
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
         label="Request Detail"
         name="requestDetail"
-        rules={[
-          { required: true }
-        ]}
-      />
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
     </ProForm>
   );
 }
