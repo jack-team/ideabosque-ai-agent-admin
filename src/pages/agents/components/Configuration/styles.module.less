@@ -1,23 +1,28 @@
 .wrapper {
   background: #f8f8f8;
   border-radius: 8px;
-  padding: 24px;
-  border: 1px solid #ececec;
+  padding: 56px 24px;
   text-align: center;
-}
-
-.container {
-  padding: 24px 0 0 0;
-}
-
-.card {
-  padding: 12px;
-  background: #f8f8f8;
-  border-radius: 8px;
   border: 1px solid #ececec;
+}
 
-  .card {
-    background: #fff;
+.schema_form {
+  padding: 24px 0;
+
+  :global {
+    .ant-pro-form-list-item {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .ant-pro-form-list-container {
+      width: 100%;
+    }
   }
 }
 
+.list_item {
+  background: #f6f6f6;
+}

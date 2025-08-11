@@ -97,8 +97,10 @@ const EditFrom: FC<EditFromProps> = (props) => {
               loading: llm.loading,
               onChange: (_, option) => {
                 if (!Array.isArray(option)) {
+                  const r = option?.realData;
                   form.setFieldsValue({
-                    llmName: option?.realData.llmName
+                    llmName: r?.llmName,
+                    configurationSchema: r.configurationSchema
                   });
                 }
               }
@@ -126,9 +128,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
             fieldProps={{
               loading: workflows.loading
             }}
-            rules={[
-              { required: true }
-            ]}
           />
         </Col>
         <Col span={12}>
@@ -151,19 +150,26 @@ const EditFrom: FC<EditFromProps> = (props) => {
           />
         </Col>
         <Col span={12}>
-          <ProFormSelect
-            label="MCP Servers"
-            name="mcpServerUuids"
-            mode="multiple"
-            options={mcpServers.options}
-            fieldProps={{
-              maxTagCount: 1,
-              loading: mcpServers.loading
+          <ProFormDependency name={["flowSnippet"]}>
+            {({ flowSnippet }) => {
+              return (
+                <ProFormSelect
+                  disabled={!!flowSnippet}
+                  label="MCP Servers"
+                  name="mcpServerUuids"
+                  mode="multiple"
+                  options={mcpServers.options}
+                  fieldProps={{
+                    maxTagCount: 1,
+                    loading: mcpServers.loading
+                  }}
+                  rules={[
+                    { required: true }
+                  ]}
+                />
+              )
             }}
-            rules={[
-              { required: true }
-            ]}
-          />
+          </ProFormDependency>
         </Col>
       </Row>
       <ProFormDependency name={['configurationSchema']}>
@@ -180,10 +186,19 @@ const EditFrom: FC<EditFromProps> = (props) => {
           );
         }}
       </ProFormDependency>
-      <ProFormTextArea
-        label="Instructions"
-        name="instructions"
-      />
+      <ProFormDependency name={["flowSnippet"]}>
+        {({ flowSnippet }) => {
+          return (
+            <ProFormTextArea
+              disabled={!!flowSnippet}
+              label="Instructions"
+              name="instructions"
+              fieldProps={{ rows: 10 }}
+            />
+          )
+        }}
+      </ProFormDependency>
+
     </ProForm>
   );
 }

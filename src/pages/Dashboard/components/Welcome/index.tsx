@@ -17,6 +17,7 @@ const Welcome: FC<WelcomeProps> = (props) => {
   return (
     <Modal
       width={620}
+      centered
       open={props.open}
       onCancel={handleClose}
       rootClassName="shopify"

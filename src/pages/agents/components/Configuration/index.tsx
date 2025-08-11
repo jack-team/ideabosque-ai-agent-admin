@@ -2,19 +2,15 @@ import { type FC } from 'react';
 import { Button } from 'antd';
 import { EditFilled } from '@ant-design/icons';
 import TriggerModal, { } from '@/components/TriggerModal';
-import type { SchemaTypes } from './types';
+import type { ConfigurationProps } from './types';
 import SchemaForm from './schemaForm';
 import styles from './styles.module.less';
-
-type ConfigurationProps = {
-  schema: SchemaTypes;
-}
 
 const Configuration: FC<ConfigurationProps> = (props) => {
   return (
     <div className={styles.wrapper}>
       <TriggerModal
-        width={800}
+        width={700}
         title="Edit Config"
         destroyOnHidden
         trigger={
@@ -26,9 +22,7 @@ const Configuration: FC<ConfigurationProps> = (props) => {
           </Button>
         }
       >
-        <SchemaForm
-          schema={props.schema}
-        />
+        <SchemaForm {...props} />
       </TriggerModal>
     </div>
   );

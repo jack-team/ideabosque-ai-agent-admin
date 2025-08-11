@@ -1,9 +1,7 @@
-import type { BetaSchemaForm } from '@ant-design/pro-components';
-import type { ProFormColumnsType } from '@ant-design/pro-form';
+import type { BetaSchemaForm, ProFormItemProps } from '@ant-design/pro-components';
+import type { DefaultOptionType } from 'antd/es/select';
 
-type SchemaProperties = Record<string, SchemaTypes>;
-
-export type SchemaType = 'string' | 'object' | 'array';
+export type SchemaType = 'string' | 'object' | 'array' | 'integer';
 
 export type SchemaTypes = {
   type: SchemaType,
@@ -14,8 +12,33 @@ export type SchemaTypes = {
   default?: any;
   minimum?: number;
   maximum?: number;
-  items?: SchemaTypes[];
-  properties?: SchemaProperties;
+  items?: SchemaTypes;
+  properties?: Record<string, SchemaTypes>;
+  definitions?: Record<string, SchemaTypes>;
 }
 
-export type ColumnType = ProFormColumnsType;
+export type FormItemType = {
+  label: string;
+  tip?: string;
+  type: SchemaType;
+  name: NonNullable<ProFormItemProps['name']>;
+  required?: boolean;
+  options?: DefaultOptionType[];
+  children?: FormItemType[];
+  items?: FormItemType[];
+  hasList?: boolean;
+  minimum?: number;
+  maximum?: number
+}
+
+export type ConfigurationProps = {
+  schema: SchemaTypes;
+  value?: Record<string, any>;
+  onChange?: (value: Record<string, any>) => void;
+}
+
+export type ValidateNumberOptions = {
+  min?: number;
+  max?: number;
+  allowDecimal?: number;
+}
