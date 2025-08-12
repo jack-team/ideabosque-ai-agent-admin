@@ -1,4 +1,4 @@
-import { type FC, useEffect, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import {
   ProForm,
   ProFormText,
@@ -6,7 +6,6 @@ import {
   ProFormSelect,
   ProFormDependency
 } from '@ant-design/pro-components';
-import { useMemoizedFn } from 'ahooks';
 import { App, Row, Col } from 'antd';
 import {
   useLlms,

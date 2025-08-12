@@ -1,10 +1,5 @@
 import type { FC } from 'react';
-import {
-  ProForm,
-  ProFormText,
-  ProFormSelect,
-  ProFormTextArea
-} from '@ant-design/pro-components';
+import { ProForm } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
 
 type EditFromProps = {

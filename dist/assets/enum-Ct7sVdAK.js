@@ -1,0 +1,1 @@
+var r=(e=>(e.Active="active",e.Inactive="inactive",e))(r||{}),a=(e=>(e.Assistant="assistant",e.Developer="developer",e))(a||{}),t=(e=>(e.Iframe="iframe",e.Form="form",e.Page="page",e))(t||{}),v=(e=>(e.US="US",e))(v||{});export{v as R,r as S,a as T,t as W};

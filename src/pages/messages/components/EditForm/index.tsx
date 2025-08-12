@@ -1,8 +1,5 @@
 import { type FC } from 'react';
-import {
-  ProForm,
-  ProFormText
-} from '@ant-design/pro-components';
+import { ProForm } from '@ant-design/pro-components';
 import { Divider, Card } from 'antd';
 import LongTextReadonly from '@/components/LongTextReadonly';
 

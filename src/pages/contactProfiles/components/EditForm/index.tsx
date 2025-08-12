@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import {
-  ProForm,
-  ProFormText
+  ProForm
 } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
 import { Row, Col, Divider } from 'antd';

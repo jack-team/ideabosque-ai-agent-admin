@@ -1,5 +1,5 @@
 import { type FC, useEffect } from "react";
-import { Card, Row, Col, Space, App } from "antd";
+import { Row, Col, Space, App } from "antd";
 import { useMemoizedFn, useSafeState } from "ahooks";
 import { useParams, useLocation } from "react-router-dom";
 import {

@@ -1,7 +1,6 @@
 import { type FC, useRef } from 'react';
 import { Space, Button, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
@@ -10,7 +9,6 @@ import { getQuestionGroupListApi, deleteQuestionGroupApi } from '@/services/ques
 
 const Agents: FC = () => {
   const { modal, message } = App.useApp();
-  const navigate = useNavigate();
   const ref = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
