@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useEffect, useMemo } from 'react';
 import {
   ProForm,
   ProFormText,
@@ -33,15 +33,9 @@ const EditFrom: FC<EditFromProps> = (props) => {
   const { message } = App.useApp();
   const [closeModal] = useModalClose();
 
-  const initFromData = useMemoizedFn(() => {
-    form.setFieldsValue(recordToFormData(formData));
-  });
-
-  useEffect(() => {
-    if (formData) {
-      initFromData();
-    }
-  }, [formData]);
+  const initFromData = useMemo(() => {
+    return recordToFormData(formData);
+  }, [formData])
 
   useListenModalOk(async () => {
     const values = await form.validateFields();
@@ -61,6 +55,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
+      initialValues={initFromData}
       style={{
         padding: '24px 0 0 0'
       }}
@@ -126,7 +121,18 @@ const EditFrom: FC<EditFromProps> = (props) => {
             name="flowSnippet"
             options={workflows.options}
             fieldProps={{
-              loading: workflows.loading
+              loading: workflows.loading,
+              onChange: (_, option: any) => {
+                if (option) {
+                  const realData = option.realData;
+                  const tpl = realData.promptTemplate;
+                  const mcpServers = tpl.mcp_servers as any[];
+                  const uuid = mcpServers.map(e => e.mcp_server_uuid);
+                  form.setFieldValue('mcpServerUuids', uuid);
+                } else {
+                  form.setFieldValue('mcpServerUuids', initFromData?.mcpServerUuids);
+                }
+              }
             }}
           />
         </Col>

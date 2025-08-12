@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import cloneDeep from 'clone-deep';
 
 import type {
   SchemaTypes,
@@ -5,25 +7,25 @@ import type {
   ValidateNumberOptions
 } from './types';
 
-const ParamSchema: SchemaTypes = {
+export const ParamSchema: SchemaTypes = {
   type: 'object',
-  required: ['name', 'type'],
   properties: {
-    type: {
-      type: 'string',
-      enum: [
-        "string",
-        "number",
-        "integer",
-        "boolean",
-        "object",
-        "array"
-      ]
-    },
     name: {
       type: 'string'
+    },
+    description: {
+      type: 'string'
+    },
+    type: {
+      type: 'string',
+      enum: ['string', 'object']
     }
-  }
+  },
+  required: [
+    'name',
+    'type',
+    'description'
+  ]
 }
 
 export const transfromSchema = (schema: SchemaTypes): FormItemType[] => {
@@ -49,6 +51,12 @@ export const transfromSchema = (schema: SchemaTypes): FormItemType[] => {
       type: item.type,
       minimum: item.minimum,
       maximum: item.maximum
+    }
+
+    item.definitions = schema.definitions;
+
+    if (items) {
+      items.definitions = schema.definitions;
     }
 
     if ('$ref' in item) {
@@ -116,4 +124,39 @@ export function validateNumber(input: string, options: ValidateNumberOptions = {
     success: true,
     message: 'Success.'
   }
+}
+
+export const transfromValueToFormData = (values: Record<string, any>) => {
+  values = cloneDeep(values);
+
+  const deepObj = (obj: Record<string, any>) => {
+    Object.keys(obj).forEach(key => {
+      const value = obj[key];
+
+      if (value?.properties) {
+        const properties = value.properties;
+        obj[key] = Object.keys(properties).map(k => {
+          const val = properties[k];
+          return {
+            name: k,
+            type: val.type,
+            description: val.description
+          }
+        });
+        return;
+      }
+
+      if (_.isObject(value)) {
+        if (!_.isArray(value)) {
+          deepObj(value);
+        } else {
+          value.forEach(deepObj)
+        }
+      }
+    })
+  }
+
+  deepObj(values);
+
+  return values;
 }

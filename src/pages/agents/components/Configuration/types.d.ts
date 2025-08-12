@@ -28,7 +28,7 @@ export type FormItemType = {
   items?: FormItemType[];
   hasList?: boolean;
   minimum?: number;
-  maximum?: number
+  maximum?: number;
 }
 
 export type ConfigurationProps = {

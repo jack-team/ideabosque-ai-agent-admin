@@ -6,11 +6,12 @@ import {
   ProFormText,
   ProFormSelect,
   ProFormList,
+  ProFormTextArea,
   type ProFormItemProps
 } from '@ant-design/pro-components';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
+import { transfromSchema, validateNumber, transfromValueToFormData } from './helper';
 import type { FormItemType, ConfigurationProps } from './types';
-import { transfromSchema, validateNumber } from './helper';
 import styles from './styles.module.less';
 
 type SchemaFormProps = ConfigurationProps;
@@ -111,38 +112,55 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       );
     }
 
+    const checkBlock = (item?: FormItemType) => {
+      return item?.children?.length ||
+        item?.options?.length ||
+        item?.items?.length ||
+        item?.type === 'object' ||
+        item?.type === 'array';
+    }
+
     let colNum = defaultCol;
-    const preItem = _items[_index - 1];
+    const allTotal = _items.length;
+    const hasFormList = _items.findIndex(checkBlock) > -1;
 
-    // 最近的 formList 的下标
-    const cursor = _items.findIndex((e, i) => {
-      return (e.children || e.items) && i > _index;
-    });
-
-    if (cursor > -1) {
-      const count = cursor;
-      if (count % defaultCol !== 0) {
-        if (_index === cursor - 1) {
+    // 如果不存在 formList
+    if (!hasFormList) {
+      // 如果有余数
+      if (allTotal % defaultCol !== 0) {
+        if (_index === allTotal - 1) {
           colNum = 1;
         }
       }
-    } else {
-      if (_items.length <= 1) {
+    }
+    else {
+      const pre = _items[_index - 1];
+      const next = _items[_index + 1];
+
+      if (checkBlock(pre) && checkBlock(next)) {
         colNum = 1;
-      } else {
-        if (preItem?.children || preItem?.items) {
-          colNum = 1;
-        }
+      } else if (checkBlock(pre) && !next) {
+        colNum = 1;
+      } else if (!pre && checkBlock(next)) {
+        colNum = 1;
       }
     }
 
     if (options.length) {
       return (
-        <Col key={key} span={24 / colNum}>
+        <Col key={key} span={24}>
           <ProFormSelect
             {...itemProps}
             options={options}
           />
+        </Col>
+      );
+    }
+
+    if (item.type === 'object' || item.type === 'array') {
+      return (
+        <Col key={key} span={24}>
+          <ProFormTextArea   {...itemProps} />
         </Col>
       );
     }
@@ -188,7 +206,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
-      initialValues={value}
+      initialValues={transfromValueToFormData({ ...value! })}
       className={styles.schema_form}
     >
       <Row gutter={16}>
