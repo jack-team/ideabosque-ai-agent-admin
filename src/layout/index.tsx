@@ -7,6 +7,8 @@ import './styles.less';
 
 const inShopify = getUrlParams('embedded') === '1';
 
+console.log('location.href', location.href)
+
 const BaseLayout: FC = () => {
   return (
     <div className="base_layout">
