@@ -1,5 +1,6 @@
-import { type FC } from 'react';
+import { type FC, Fragment } from 'react';
 import { Card, Row, Col } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import {
   ProForm,
   ProFormText,
@@ -56,19 +57,35 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
                 creatorButtonProps={{
                   creatorButtonText: 'Add item'
                 }}
+                actionRender={() => []}
                 required={item.required}
                 rules={[{
                   validator(_, value, callback) {
                     if (item.required && !value.length) {
                       callback('Please add item');
+                      return;
                     }
                     callback();
                   },
                 }]}
               >
-                <Row gutter={16}>
-                  {items.map((e, i) => renderItem(e, [], items, i))}
-                </Row>
+                {(_, index, action) => {
+                  return (
+                    <Fragment>
+                      <div
+                        className={styles.del_btn}
+                        onClick={() => action.remove(index)}
+                      >
+                        <CloseOutlined />
+                      </div>
+                      <Row gutter={16}>
+                        {items.map((e, i) => {
+                          return renderItem(e, [], items, i);
+                        })}
+                      </Row>
+                    </Fragment>
+                  )
+                }}
               </ProFormList>
             </Card>
           </ProForm.Item>
@@ -85,7 +102,9 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
             style={{ marginBottom: 24 }}
           >
             <Row gutter={16}>
-              {children.map((e, i) => renderItem(e, names, children, i))}
+              {children.map((e, i) => {
+                return renderItem(e, names, children, i);
+              })}
             </Row>
           </Card>
         </Col>
@@ -93,6 +112,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
     }
 
     let colNum = defaultCol;
+    const preItem = _items[_index - 1];
 
     // 最近的 formList 的下标
     const cursor = _items.findIndex((e, i) => {
@@ -103,6 +123,14 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       const count = cursor;
       if (count % defaultCol !== 0) {
         if (_index === cursor - 1) {
+          colNum = 1;
+        }
+      }
+    } else {
+      if (_items.length <= 1) {
+        colNum = 1;
+      } else {
+        if (preItem?.children || preItem?.items) {
           colNum = 1;
         }
       }

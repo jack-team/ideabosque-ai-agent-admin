@@ -10,7 +10,7 @@ const Configuration: FC<ConfigurationProps> = (props) => {
   return (
     <div className={styles.wrapper}>
       <TriggerModal
-        width={700}
+        width={640}
         title="Edit Config"
         destroyOnHidden
         trigger={
