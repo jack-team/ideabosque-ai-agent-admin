@@ -19,22 +19,7 @@ const Messages: FC = () => {
   return (
     <PageContainer
       title="Messages"
-      extra={
-        <Space>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/threads')}
-          >
-            Threads
-          </Button>
-             <Button
-            className="shopify"
-            onClick={() => navigate('/async-tasks')}
-          >
-            Async Tasks
-          </Button>
-        </Space>
-      }
+      onBack={() => navigate(-1)}
     >
       <ProTable
         actionRef={ref}

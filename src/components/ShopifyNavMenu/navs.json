@@ -29,8 +29,8 @@
     "title": "Agent Workflows"
   },
   {
-    "path": "/messages",
-    "title": "Messages"
+    "path": "/threads",
+    "title": "Threads"
   },
   {
     "path": "/settings",
