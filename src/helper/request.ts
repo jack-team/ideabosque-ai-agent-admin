@@ -15,3 +15,7 @@ export const aiMarketing = new GraphqlRequest({
 export const aiCoordination = new GraphqlRequest({
   namespace: 'ai_coordination_graphql'
 });
+
+export const shopify = new GraphqlRequest({
+  namespace: 'shopify_app_engine_graphql'
+})
