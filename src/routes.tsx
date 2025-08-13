@@ -18,6 +18,15 @@ export const routes: RouteObject[] = [
         path: "/dashboard",
         Component: lazyLoad(() => import("@/pages/dashboard")),
       },
+      // auth start
+      {
+        path: '/auth-start',
+        Component: () => null,
+      },
+      {
+        path: '/auth-success',
+        Component: () => null,
+      },
       {
         path: "/customer-groups",
         Component: lazyLoad(() => import("@/pages/customerGroups")),

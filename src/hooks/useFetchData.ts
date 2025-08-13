@@ -64,7 +64,7 @@ export const useWorkFlowTemplatesVersionOptions = (promptUuid: string) => {
 export const useUiComponents = () => {
   const { data, loading } = useRequest(async () => {
     const result = await requestWrapper(fetchuiComponentsApi);
-    return result.uiComponentList.uiComponentList;
+    return result?.uiComponentList?.uiComponentList;
   });
 
   const options = data?.map(item => ({
@@ -94,11 +94,18 @@ export const useMcpServers = () => {
   return { options, loading };
 }
 
+// 获取Workflows列表
+export const useWorkflowList = (params?: Record<string, any>) => {
+  return useRequest(async () => {
+    const result = await requestWrapper(queryAgentWorkflowsApi, params);
+    return result?.flowSnippetList?.flowSnippetList || [];
+  });
+}
+
 // 获取Workflows
 export const useWorkflows = () => {
-  const { data, loading } = useRequest(async () => {
-    const result = await requestWrapper(queryAgentWorkflowsApi);
-    return result.flowSnippetList.flowSnippetList;
+  const { data, loading } = useWorkflowList({
+    statuses: [StatusEnum.Active]
   });
 
   const options = data?.map(item => ({

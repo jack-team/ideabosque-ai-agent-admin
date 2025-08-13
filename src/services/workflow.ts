@@ -46,7 +46,7 @@ export const fetchWorkflowTemplateDetailApi = async (
 };
 
 // 获取workflow 列表
-export const queryAgentWorkflowsApi = async (variables: SplitPageParams) => {
+export const queryAgentWorkflowsApi = async (variables: SplitPageParams<{statuses?: string[]}>) => {
   const query = await generateQuery({
     type: "Query",
     name: "flowSnippetList",

@@ -9,10 +9,6 @@
     "title": "Dashboard"
   },
   {
-    "path": "/customer-groups",
-    "title": "Customer Groups"
-  },
-  {
     "path": "/question-groups",
     "title": "Question Groups"
   },

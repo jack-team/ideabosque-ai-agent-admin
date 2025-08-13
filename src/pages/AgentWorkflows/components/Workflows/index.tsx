@@ -1,13 +1,15 @@
 import { type FC, useRef } from 'react';
 import { Space, Tag, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { ShopifyButton } from '@/components';
+import { ShopifyButton, TriggerModal } from '@/components';
 import { ProTable, type ActionType } from '@ant-design/pro-components';
 import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
+import VersionForm from '../VersionForm';
 import { formatDate } from '@/utils';
+import { StatusEnum } from '@/constants/enum';
 
 type WorkflowsProps = {
-  onEdit?: (record: API.Workflow.FlowSnippet) => void;
+  onEdit?: (record: API.Workflow.FlowSnippet, type: string) => void;
 };
 
 const Workflows: FC<WorkflowsProps> = (props) => {
@@ -40,7 +42,8 @@ const Workflows: FC<WorkflowsProps> = (props) => {
           flowSnippetList: result
         } = await queryAgentWorkflowsApi({
           pageNumber: 1,
-          limit: 100
+          limit: 100,
+          statuses: [StatusEnum.Active]
         })
         return {
           total: result.total,
@@ -77,10 +80,23 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                 <ShopifyButton
                   size="small"
                   type="primary"
-                  onClick={() => props.onEdit?.(record)}
+                  onClick={() => props.onEdit?.(record, 'edit')}
                 >
                   Edit
                 </ShopifyButton>
+                <TriggerModal
+                  width={400}
+                  title="Versions"
+                  destroyOnHidden
+                  okText="Apply"
+                  trigger={
+                    <ShopifyButton size="small">
+                      Versions
+                    </ShopifyButton>
+                  }
+                >
+                  <VersionForm formData={record} />
+                </TriggerModal>
                 <ShopifyButton
                   danger
                   size="small"

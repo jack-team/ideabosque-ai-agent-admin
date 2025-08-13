@@ -9,9 +9,9 @@ import CreateWorkflowForm from './components/CreateForm';
 const AgentWorkflows: FC = () => {
   const navigate = useNavigate();
 
-  const toDetailPage = useMemoizedFn((record: API.Workflow.FlowSnippet) => {
+  const toDetailPage = useMemoizedFn((record: API.Workflow.FlowSnippet, type = 'new') => {
     const { flowSnippetUuid: uid, flowSnippetVersionUuid: vid } = record;
-    navigate(`/agent-workflows/detail/${uid}/${vid}`);
+    navigate(`/agent-workflows/detail/${uid}/${vid}?type=${type}`);
   });
 
   return (

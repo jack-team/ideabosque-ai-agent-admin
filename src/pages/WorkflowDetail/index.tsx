@@ -1,5 +1,5 @@
 import { App } from 'antd';
-import { useParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
 import { queryAgentWorkflowApi } from '@/services/workflow';
@@ -19,6 +19,7 @@ type UrlParams = {
 function WorkflowDetail() {
   const { message } = App.useApp();
   const [flow] = useFlowInstance();
+  const [search] = useSearchParams();
   const params = useParams<UrlParams>();
   const [submitLoading, setSubmitLoading] = useSafeState(false);
 
@@ -35,8 +36,23 @@ function WorkflowDetail() {
   const onSave = useMemoizedFn(async () => {
     const data = flow.getData()!;
     setSubmitLoading(true);
+
+    const { 
+      flowSnippetVersionUuid,
+      ...rest
+    } = detail!;
+
+    const type = search.get('type');
+    const params: Record<string, any> = {};
+
+    // 如果是新建
+    if (type === 'new') {
+      params.flowSnippetVersionUuid = flowSnippetVersionUuid;
+    }
+
     await insertUpdateWorkflowApi({
-      ...detail!,
+      ...rest,
+      ...params,
       promptUuid,
       flowContext: JSON.stringify(data.assembleData),
       flowRelationship: JSON.stringify(data.realDetails)
