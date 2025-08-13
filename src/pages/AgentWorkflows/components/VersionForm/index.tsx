@@ -40,7 +40,6 @@ const VersionForm: FC<VersionFormProps> = (props) => {
 
   // 获取 agent 的版本
   const { data, loading } = useWorkflowList({
-    statuses: [StatusEnum.Active],
     flowSnippetUuid: formData?.flowSnippetUuid
   });
 
