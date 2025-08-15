@@ -76,12 +76,12 @@ const Agents: FC = () => {
     >
       <ProTable
         actionRef={ref}
-        search={{
-          layout: 'vertical'
-        }}
+        search={false}
+        size="small"
         options={false}
         rowKey="agentUuid"
         className="shopify"
+        scroll={{ x: 'max-content' }}
         request={async (params) => {
           const {
             current,
@@ -105,12 +105,12 @@ const Agents: FC = () => {
         }}
         columns={[
           {
-            title: 'Agent UUID',
-            dataIndex: 'agentUuid'
-          },
-          {
             title: 'Agent Name',
             dataIndex: 'agentName'
+          },
+          {
+            title: 'Agent UUID',
+            dataIndex: 'agentUuid'
           },
           {
             title: 'Status',
@@ -131,10 +131,11 @@ const Agents: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '220px',
+            width: '240px',
             key: 'action',
             title: 'Action',
             align: 'center',
+            fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
               return (
