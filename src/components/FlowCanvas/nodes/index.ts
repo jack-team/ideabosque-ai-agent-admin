@@ -36,7 +36,7 @@ export const customNodes: CustomNodeConfig[] = [
     Component: BranchNode
   },
   {
-    type: 'prompt',
+    type: 'message',
     title: 'Prompt',
     desc: 'Prompt the AI what to do or say.',
     Component: PromptNode

@@ -128,7 +128,7 @@ export const transformEdagesToLinks = (edges: Edge[]) => {
 }
 
 // 组装数据给到外部
-export function assembleData(details: GetDataResult): AssembleDataResult[] {
+export function assembleData(details: GetDataResult, conditions: ConditionType[] = []): AssembleDataResult[] {
   const cacheNodes = new Map<string, NormalNodeType>();
   const nodes = details.nodes || [];
   const edges = details.edges || [];
@@ -159,12 +159,14 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
 
     // 获取分支
     if (branch?.length) {
-      const arr = item.conditions || [];
+      const arr = item.conditions || conditions;
+
       result.conditions = branch.map(b => {
         const val = b.value;
         const r = arr.find(e =>
           e.condition === val
         );
+
         return {
           label: b.label,
           condition: b.value,
@@ -174,7 +176,10 @@ export function assembleData(details: GetDataResult): AssembleDataResult[] {
     }
 
     if (data?.details) {
-      result.details = assembleData(data?.details);
+      result.details = assembleData(
+        data?.details,
+        result.conditions
+      );
     }
 
     return result;

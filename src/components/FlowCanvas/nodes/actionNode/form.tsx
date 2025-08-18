@@ -50,12 +50,11 @@ const Form: FC<FormProps> = () => {
                 name={['transform', 'type']}
                 options={transformTools}
                 rules={[
-                  { required: true }
+                  { required: false }
                 ]}
               />
               <ProFormList
                 name="attrs"
-                required
                 label="Attributes"
                 creatorButtonProps={{
                   creatorButtonText: 'Add Attribute'
@@ -65,7 +64,7 @@ const Form: FC<FormProps> = () => {
                   name="attr"
                   width="md"
                   rules={[
-                    { required: true }
+                    { required: false }
                   ]}
                 />
               </ProFormList>
