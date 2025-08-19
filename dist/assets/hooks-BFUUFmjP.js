@@ -1,0 +1,1 @@
+import{e as a,ar as r,as as u,b as t}from"./libs-CZ9azTWP.js";import{T as l}from"./index-4w9JELLy.js";const n=()=>t.useContext(l),M=()=>[t.useRef({closeModal:()=>null,openModal:()=>null}).current],f=o=>{const{event:e}=n(),s=a(o);r(()=>e.on("ok",s)),u(()=>e.off("ok",s))},m=()=>{const{closeModal:o}=n();return[o]};export{M as a,m as b,f as u};

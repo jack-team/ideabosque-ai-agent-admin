@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import cloneDeep from 'clone-deep';
 import type { Edge } from '@xyflow/react';
 import type {
   EdgeLinkType,
@@ -98,9 +99,6 @@ export function sortEdgesByFlow(edges: Edge[]) {
   return sortedEdges.filter(e => e.source !== StartNodeId);
 }
 
-const getNodeBranch = (node: NormalNodeType) => {
-  return node.data?.formData?.branch || [];
-}
 
 // 把 edges 转换为链
 export const transformEdagesToLinks = (edges: Edge[], findNode: FindNode) => {
@@ -108,21 +106,26 @@ export const transformEdagesToLinks = (edges: Edge[], findNode: FindNode) => {
   return result.map(([id, branch]) => {
     const [edge] = branch;
     const next = edge.target;
+    const node = findNode(edge.source);
 
-    const result: EdgeLinkType = { id };
     let conditions: ConditionType[] = [];
+    const result: EdgeLinkType = { id, node };
+
+    const getBranch = (branchId?: string | null) => {
+      const items = node?.data?.formData?.branch || [];
+      return items.find(e => e.id === branchId);
+    }
 
     branch.forEach(item => {
       const nextStep = item.target;
       const branchId = item.sourceHandle;
-      const node = findNode(item.source);
 
       // 默认分支
       if (branchId === DefaultSourceId) {
         result.nextStep = nextStep;
       } else if (node) {
         // 查找分支对应的 node
-        const r = getNodeBranch(node).find(e => e.id === branchId);
+        const r = getBranch(branchId);
         if (r) {
           conditions.push({
             id: r.id,
@@ -162,14 +165,14 @@ export function assembleData(details: GetDataResult, conditions: ConditionType[]
   const links = transformEdagesToLinks(sortEdges, findNode);
 
   return links.map(item => {
-    const node = findNode(item.id);
+    const { node, ...rest } = item;
     const data = node?.data;
 
     // 去掉 branch 字段
     const { branch, ...formData } = { ...data?.formData };
 
     const result: AssembleDataResult = {
-      ...item,
+      ...cloneDeep(rest),
       type: node?.type,
       formData,
     }
@@ -213,7 +216,7 @@ export const getNodeBranchByDetails = (details: GetDataResult) => {
             id: e.id,
             label: e.label,
             value: e.condition
-          })
+          });
         }
       });
     }

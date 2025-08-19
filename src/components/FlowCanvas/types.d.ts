@@ -116,6 +116,7 @@ export type EdgeLinkType = {
   formData?: Record<string, any>;
   conditions?: ConditionType[];
   nextStep?: string;
+  node?: NormalNodeType;
 }
 
 export type AssembleDataResult = EdgeLinkType & {
