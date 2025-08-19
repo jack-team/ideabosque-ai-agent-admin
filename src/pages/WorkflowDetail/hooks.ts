@@ -48,7 +48,8 @@ export const useTransformTools = () => {
     },
     {
       label: 'Structure input',
-      value: 'structure_input'
+      value: 'structure_input',
+      subValue: 'data_collect_dataset'
     }
   ];
 }

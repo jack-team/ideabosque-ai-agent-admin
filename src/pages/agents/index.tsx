@@ -10,6 +10,8 @@ import VersionForm from './components/VersionForm';
 import { getAgentListApi, insertUpdateAgentApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
+import IconButton from '@/components/IconButton';
+import { IconsFilledIcon } from '@shopify/polaris-icons';
 
 const Agents: FC = () => {
   const { modal, message } = App.useApp();
@@ -187,6 +189,7 @@ const Agents: FC = () => {
                   >
                     Archive
                   </Button>
+                  <IconButton icon={IconsFilledIcon} danger/>
                 </Space>
               );
             }

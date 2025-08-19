@@ -10,8 +10,11 @@ import {
 import type { FormProps } from '../types';
 import { useFlowContext } from '../../hooks';
 
+const transformValueName = ['transform', 'value'];
+
 // 该组建可以提供给外部使用
-const Form: FC<FormProps> = () => {
+const Form: FC<FormProps> = (props) => {
+  const { form } = props;
   const { actions = [], transformTools } = useFlowContext();
 
   const options = useMemo(() => {
@@ -41,7 +44,6 @@ const Form: FC<FormProps> = () => {
       <ProFormDependency name={['type']}>
         {({ type }) => {
           if (!type) return null;
-
           return (
             <Fragment >
               <Divider>Transform</Divider>
@@ -52,6 +54,16 @@ const Form: FC<FormProps> = () => {
                 rules={[
                   { required: false }
                 ]}
+                fieldProps={{
+                  onChange(value) {
+                    const item = transformTools?.find(e => e.value === value);
+                    form?.setFieldValue(transformValueName, item?.subValue)
+                  },
+                }}
+              />
+              <ProFormText
+                hidden
+                name={transformValueName}
               />
               <ProFormList
                 name="attrs"

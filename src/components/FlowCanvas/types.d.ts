@@ -1,8 +1,10 @@
 import type { NodeProps, Node, Edge } from '@xyflow/react';
 
 export type OptionType = {
+  id?: string;
   value: string;
   label: string;
+  subValue?: string;
 }
 
 // 输入输出的 key 和 label
@@ -102,6 +104,7 @@ export type GetDataResult<D extends {} = {}> = {
 }
 
 export type ConditionType = {
+  id?: string;
   condition?: string | null;
   nextStep?: string;
   label?: string;

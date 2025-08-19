@@ -4,9 +4,19 @@ import { checkShopAuthApi } from '@/services/auth';
 
 const appId = import.meta.env.ENV_SHOPIFY_APP_ID;
 
-export const useAuth = () => {
+export const useAppId = () => {
+  return [appId];
+}
+
+export const useShop = () => {
   const [searchParams] = useSearchParams();
-  const shop = searchParams.get('shop') || 'airobot-store.myshopify.com';
+  const shop = searchParams.get('shop');
+  return [shop];
+}
+
+export const useAuth = () => {
+  const [shop] = useShop();
+  const [appId] = useAppId();
 
   const { loading, data } = useRequest(async () => {
     const result = await checkShopAuthApi({ appId, shop });
@@ -16,6 +26,8 @@ export const useAuth = () => {
 
   return {
     loading,
+    appId,
+    shop,
     authed: data?.authed
   }
 }
