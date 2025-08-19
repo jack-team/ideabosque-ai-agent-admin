@@ -4,11 +4,10 @@ import { useMemoizedFn } from 'ahooks';
 import { useNodes, useNodeId, useNodesData, useReactFlow } from '@xyflow/react';
 import { useInstance } from '@/hooks/useInstance';
 import { DefaultTargetId } from './constants';
-import { assembleData } from './helper';
 import { FlowContext, CanvasContext } from './context';
 import type { StepNodeFormData } from './nodes/stepNode/types';
 import type { SelectResult } from "./components/SelectNodeDrawer/types";
-import type { FlowInstance, CanvasInstance, NormalNodeType, OptionType } from './types';
+import type { FlowInstance, CanvasInstance, NormalNodeType } from './types';
 
 // 获取 flow 的实例
 export const useFlowInstance = () => {
