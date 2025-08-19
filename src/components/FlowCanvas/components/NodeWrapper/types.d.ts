@@ -4,6 +4,7 @@ import type { CustomNodeProps } from '../../types';
 import type { FormProps } from '../../nodes/types';
 
 export type NodeBranchType = {
+  id: string;
   value: string;
   label?: string;
 }
@@ -41,4 +42,8 @@ export type ToolsProps = {
   nodeId: string;
   // 工具栏
   tools: ToolsType;
+}
+
+export type BranchGroupProps = Pick<SelectNodeDrawerProps, 'onChange'> & {
+  id: string;
 }

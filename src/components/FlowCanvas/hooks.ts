@@ -110,35 +110,3 @@ export function useNodeFormData<T extends {} = {}>() {
   const data = useNodeData<T>();
   return data?.formData;
 }
-
-// 根据 details 获取node 下面的分支
-export function useNodeBranchForDetails() {
-  const data = useNodeData();
-  const details = data?.details;
-
-  if (!details) {
-    return [];
-  }
-
-  const set = new Set<string>();
-  let result = assembleData(details);
-  result = result.filter(v => !v.nextStep);
-
-  result.forEach(item => {
-    const conditions = item.conditions;
-    if (!conditions?.length) {
-      set.add('off topic');
-    } else {
-      for (const con of conditions) {
-        set.add(con.condition!);
-      }
-    }
-  });
-
-  return [...set].map<OptionType>(val => (
-    {
-      label: val,
-      value: val
-    }
-  ));
-}

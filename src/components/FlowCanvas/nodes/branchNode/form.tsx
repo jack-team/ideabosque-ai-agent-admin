@@ -32,6 +32,7 @@ const Form: FC<FormProps> = () => {
       <ProFormList
         label="Condition"
         name="branch"
+        copyIconProps={false}
         actionRef={actionRef}
         actionGuard={{
           beforeAddRow: () => {
@@ -41,7 +42,7 @@ const Form: FC<FormProps> = () => {
           }
         }}
       >
-        <ProFormText name="id" />
+        <ProFormText name="id" hidden/>
         <Row gutter={16}>
           <Col span={12}>
             <ProFormText

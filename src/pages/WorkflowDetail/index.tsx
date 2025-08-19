@@ -35,8 +35,9 @@ function WorkflowDetail() {
 
   const onSave = useMemoizedFn(async () => {
     const data = flow.getData()!;
+    console.log(data)
 
-    console.log(data);
+    // return;
 
     const { 
       flowSnippetVersionUuid,

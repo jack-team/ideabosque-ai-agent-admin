@@ -1,7 +1,7 @@
 import type { NodeProps, Node, Edge } from '@xyflow/react';
 
 export type OptionType = {
-  id?: string;
+  id: string;
   value: string;
   label: string;
   subValue?: string;
@@ -104,10 +104,10 @@ export type GetDataResult<D extends {} = {}> = {
 }
 
 export type ConditionType = {
-  id?: string;
-  condition?: string | null;
+  id: string;
+  label: string;
+  condition: string;
   nextStep?: string;
-  label?: string;
 }
 
 export type EdgeLinkType = {

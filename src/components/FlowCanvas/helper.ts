@@ -15,6 +15,8 @@ import {
   DefaultTargetId
 } from './constants';
 
+type FindNode = (id: string) => NormalNodeType | undefined;
+
 // 以起点为维度，获取边
 const sourceToEdges = (edges: Edge[]) => {
   const maps: Map<string, Edge[]> = new Map();
@@ -96,8 +98,12 @@ export function sortEdgesByFlow(edges: Edge[]) {
   return sortedEdges.filter(e => e.source !== StartNodeId);
 }
 
+const getNodeBranch = (node: NormalNodeType) => {
+  return node.data?.formData?.branch || [];
+}
+
 // 把 edges 转换为链
-export const transformEdagesToLinks = (edges: Edge[]) => {
+export const transformEdagesToLinks = (edges: Edge[], findNode: FindNode) => {
   const result = [...sourceToEdges(edges)];
   return result.map(([id, branch]) => {
     const [edge] = branch;
@@ -108,12 +114,23 @@ export const transformEdagesToLinks = (edges: Edge[]) => {
 
     branch.forEach(item => {
       const nextStep = item.target;
-      const condition = item.sourceHandle;
+      const branchId = item.sourceHandle;
+      const node = findNode(item.source);
+
       // 默认分支
-      if (condition === DefaultSourceId) {
+      if (branchId === DefaultSourceId) {
         result.nextStep = nextStep;
-      } else {
-        conditions.push({ condition, nextStep });
+      } else if (node) {
+        // 查找分支对应的 node
+        const r = getNodeBranch(node).find(e => e.id === branchId);
+        if (r) {
+          conditions.push({
+            id: r.id,
+            label: r.label,
+            condition: r.value,
+            nextStep,
+          });
+        }
       }
     });
 
@@ -137,12 +154,12 @@ export function assembleData(details: GetDataResult, conditions: ConditionType[]
     cacheNodes.set(node.id, node);
   }
 
-  const sortEdges = sortEdgesByFlow(edges);
-  const links = transformEdagesToLinks(sortEdges);
-
   const findNode = (id: string) => {
     return cacheNodes.get(id);
   }
+
+  const sortEdges = sortEdgesByFlow(edges);
+  const links = transformEdagesToLinks(sortEdges, findNode);
 
   return links.map(item => {
     const node = findNode(item.id);
@@ -162,12 +179,9 @@ export function assembleData(details: GetDataResult, conditions: ConditionType[]
       const arr = item.conditions || conditions;
 
       result.conditions = branch.map(b => {
-        const val = b.value;
-        const r = arr.find(e =>
-          e.condition === val
-        );
-
+        const r = arr.find(e => e.id === b.id);
         return {
+          id: b.id,
           label: b.label,
           condition: b.value,
           nextStep: r?.nextStep
@@ -196,8 +210,9 @@ export const getNodeBranchByDetails = (details: GetDataResult) => {
       item.conditions.forEach(e => {
         if (!e.nextStep) {
           branch.push({
-            label: e.label!,
-            value: e.condition!
+            id: e.id,
+            label: e.label,
+            value: e.condition
           })
         }
       });
