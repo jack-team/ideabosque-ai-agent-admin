@@ -10,7 +10,7 @@ const JumpAuth: FC<PropsWithChildren> = (props) => {
   const toAuth = useMemoizedFn(() => {
     const search = qs.stringify({ shop, appId }, { addQueryPrefix: true });
     const url = `https://09sw8qvvg0.execute-api.us-west-2.amazonaws.com/beta/core/openai/app_callback${search}`;
-    open(url, '_top')
+    open(url, '_top');
   });
 
   useUpdateEffect(() => {
