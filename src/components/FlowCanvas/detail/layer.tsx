@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { Modal } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { CloseOutlined } from '@ant-design/icons';
+import { ExitIcon } from '@shopify/polaris-icons';
+import IconButton from '@/components/IconButton';
 import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
 import { useFlowContext, useStepData, useCanvasInctance } from '../hooks';
 import { ShopifyButton } from '@/components';
@@ -47,12 +48,12 @@ const Layer: FC = () => {
   return (
     <div className={styles.layer}>
       <div className={styles.layer_header}>
-        <div
+        <IconButton
+          children="Back"
+          icon={ExitIcon}
           onClick={closeLayer}
           className={styles.close_btn}
-        >
-          <CloseOutlined />
-        </div>
+        />
         <div className={styles.title}>
           {data?.formData?.name}
         </div>
