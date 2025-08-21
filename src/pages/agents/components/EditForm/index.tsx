@@ -81,6 +81,14 @@ const EditFrom: FC<EditFromProps> = (props) => {
           { required: true }
         ]}
       />
+      <ProFormSelect
+        label="Tool Call Role"
+        name="toolCallRole"
+        valueEnum={ToolCallMap}
+        rules={[
+          { required: true }
+        ]}
+      />
       <Row gutter={16}>
         <Col span={12}>
           <ProFormSelect
@@ -116,7 +124,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         </Col>
         <Col span={12}>
           <ProFormSelect
-            label="Flow snippet"
+            label="Connected Workflows"
             name="flowSnippet"
             options={workflows.options}
             fieldProps={{
@@ -144,39 +152,19 @@ const EditFrom: FC<EditFromProps> = (props) => {
             ]}
           />
         </Col>
-        <Col span={12}>
-          <ProFormSelect
-            label="Tool Call Role"
-            name="toolCallRole"
-            valueEnum={ToolCallMap}
-            rules={[
-              { required: true }
-            ]}
-          />
-        </Col>
-        <Col span={12}>
-          <ProFormDependency name={["flowSnippet"]}>
-            {({ flowSnippet }) => {
-              return (
-                <ProFormSelect
-                  disabled={!!flowSnippet}
-                  label="MCP Servers"
-                  name="mcpServerUuids"
-                  mode="multiple"
-                  options={mcpServers.options}
-                  fieldProps={{
-                    maxTagCount: 1,
-                    loading: mcpServers.loading
-                  }}
-                  rules={[
-                    { required: true }
-                  ]}
-                />
-              )
-            }}
-          </ProFormDependency>
-        </Col>
       </Row>
+      <ProFormDependency name={["flowSnippet"]}>
+        {({ flowSnippet }) => {
+          return (
+            <ProFormTextArea
+              disabled={!!flowSnippet}
+              label="Instructions"
+              name="instructions"
+              fieldProps={{ rows: 10 }}
+            />
+          )
+        }}
+      </ProFormDependency>
       <ProFormDependency name={['configurationSchema']}>
         {({ configurationSchema: schema }) => {
           if (!schema) return null;
@@ -194,16 +182,23 @@ const EditFrom: FC<EditFromProps> = (props) => {
       <ProFormDependency name={["flowSnippet"]}>
         {({ flowSnippet }) => {
           return (
-            <ProFormTextArea
+            <ProFormSelect
               disabled={!!flowSnippet}
-              label="Instructions"
-              name="instructions"
-              fieldProps={{ rows: 10 }}
+              label="MCP Servers"
+              name="mcpServerUuids"
+              mode="multiple"
+              options={mcpServers.options}
+              fieldProps={{
+                maxTagCount: 1,
+                loading: mcpServers.loading
+              }}
+              rules={[
+                { required: true }
+              ]}
             />
           )
         }}
       </ProFormDependency>
-
     </ProForm>
   );
 }

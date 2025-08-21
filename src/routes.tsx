@@ -64,7 +64,7 @@ export const routes: RouteObject[] = [
       // agents
       {
         path: '/agents',
-        Component: lazyLoad(() => import("@/pages/agents"))
+        Component: lazyLoad(() => import("@/pages/agentsEntry"))
       },
       {
         path: '/coordinations',

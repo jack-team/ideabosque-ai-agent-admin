@@ -50,30 +50,23 @@ const Agents: FC = () => {
   return (
     <PageContainer
       title="Agents"
+      className="shopify"
       extra={
-        <Space size={16}>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/coordinations')}
-          >
-            Coordinations
-          </Button>
-          <TriggerModal
-            width={600}
-            className="shopify"
-            title="Create agent"
-            trigger={
-              <Button
-                className="shopify"
-                type="primary"
-              >
-                Create agent
-              </Button>
-            }
-          >
-            <EditFrom />
-          </TriggerModal>
-        </Space>
+        <TriggerModal
+          width={620}
+          className="shopify"
+          title="Create agent"
+          trigger={
+            <Button
+              className="shopify"
+              type="primary"
+            >
+              Add agent
+            </Button>
+          }
+        >
+          <EditFrom />
+        </TriggerModal>
       }
     >
       <ProTable
@@ -137,13 +130,12 @@ const Agents: FC = () => {
             key: 'action',
             title: 'Action',
             align: 'center',
-            fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
               return (
                 <Space>
                   <TriggerModal
-                    width={600}
+                    width={620}
                     destroyOnHidden
                     className="shopify"
                     title="Create agent"
@@ -189,7 +181,7 @@ const Agents: FC = () => {
                   >
                     Archive
                   </Button>
-                  <IconButton icon={IconsFilledIcon} danger/>
+                  <IconButton icon={IconsFilledIcon} danger />
                 </Space>
               );
             }

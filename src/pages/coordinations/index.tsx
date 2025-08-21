@@ -2,6 +2,8 @@ import { type FC, useRef } from 'react';
 import { Button, Space, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { TriggerModal } from '@/components';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
+import IconButton from '@/components/IconButton';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
@@ -47,7 +49,7 @@ const Coordinations: FC = () => {
       title="Coordinations"
       extra={
         <TriggerModal
-          width={440}
+          width={620}
           destroyOnHidden
           className="shopify"
           title="Create Coordination"
@@ -64,12 +66,12 @@ const Coordinations: FC = () => {
         </TriggerModal>
       }
     >
-
       <ProTable
         actionRef={actionRef}
         className="shopify"
+        options={false}
+        size="small"
         search={false}
-        toolBarRender={false}
         rowKey="coordinationUuid"
         columns={[
           {
@@ -91,41 +93,28 @@ const Coordinations: FC = () => {
             render: (_, e) => formatDate(e.updateAt)
           },
           {
-            title: 'Action',
+            width: 120,
+            title: 'Actions',
             key: 'action',
-            width: '150px',
-            align: 'center',
             render: (_, record) => {
               return (
                 <Space>
                   <TriggerModal
-                    width={440}
+                    width={620}
                     destroyOnHidden
                     className="shopify"
                     title="Edit Coordination"
-                    trigger={
-                      <Button
-                        className="shopify"
-                        size="small"
-                        type="primary"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleDelete(record)}
-                  >
-                    Delete
-                  </Button>
+                  />
                 </Space>
               )
             }
