@@ -10,7 +10,7 @@ import { getAgentListApi, insertUpdateAgentApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
 import IconButton from '@/components/IconButton';
-import { IconsFilledIcon } from '@shopify/polaris-icons';
+import { EditIcon } from '@shopify/polaris-icons';
 
 const Agents: FC = () => {
   const { modal, message } = App.useApp();
@@ -74,6 +74,9 @@ const Agents: FC = () => {
         options={false}
         rowKey="agentUuid"
         className="shopify"
+        pagination={{
+          defaultPageSize: 5
+        }}
         scroll={{ x: 'max-content' }}
         request={async (params) => {
           const {
@@ -137,15 +140,7 @@ const Agents: FC = () => {
                     destroyOnHidden
                     className="shopify"
                     title="Create agent"
-                    trigger={
-                      <Button
-                        size="small"
-                        type="primary"
-                        className="shopify"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
@@ -179,7 +174,6 @@ const Agents: FC = () => {
                   >
                     Archive
                   </Button>
-                  <IconButton icon={IconsFilledIcon} danger />
                 </Space>
               );
             }

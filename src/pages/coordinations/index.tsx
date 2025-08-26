@@ -72,6 +72,9 @@ const Coordinations: FC = () => {
         options={false}
         size="small"
         search={false}
+        pagination={{
+          defaultPageSize: 5
+        }}
         rowKey="coordinationUuid"
         columns={[
           {
@@ -112,6 +115,7 @@ const Coordinations: FC = () => {
                     />
                   </TriggerModal>
                   <IconButton
+                    danger
                     icon={DeleteIcon}
                     onClick={() => handleDelete(record)}
                   />
