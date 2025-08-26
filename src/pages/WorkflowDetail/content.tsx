@@ -17,6 +17,8 @@ const DetailContent: FC<DetailContentProps> = props => {
     flowRelationship: frp,
   } = props.detail;
 
+  console.log(tpl)
+
   const actions = useActions(tpl.mcp_servers);
   const transformTools = useTransformTools();
   const uiComponents = useUiComponents(tpl.ui_components);

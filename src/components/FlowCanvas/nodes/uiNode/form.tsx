@@ -1,4 +1,5 @@
 import { type FC, Fragment } from 'react';
+import { useMemoizedFn } from 'ahooks';
 import {
   ProFormSelect,
   ProFormTextArea,
@@ -9,7 +10,7 @@ import { useFlowContext } from '../../hooks';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
-const Form: FC<FormProps> = () => {
+const Form: FC<FormProps> = (props) => {
   const { uiComponents = [] } = useFlowContext();
 
   const options = uiComponents.map(e => {
@@ -17,6 +18,18 @@ const Form: FC<FormProps> = () => {
       label: e.componentName,
       value: e.componentTag
     }
+  });
+
+  const getComponent = (val: string) => {
+    return uiComponents.find(e => e.componentTag === val);
+  }
+
+  const onComponentChange = useMemoizedFn((val: any) => {
+    const item = getComponent(val as string);
+    const formData = item?.input?.reduce((obj, item) => {
+      return { ...obj, [item.name]: item.initialValue };
+    }, {} as Record<string, any>);
+    props.form?.setFieldsValue(formData);
   });
 
   return (
@@ -28,6 +41,9 @@ const Form: FC<FormProps> = () => {
         rules={[
           { required: true }
         ]}
+        fieldProps={{
+          onChange: onComponentChange
+        }}
       />
       <ProFormTextArea
         label="Text"

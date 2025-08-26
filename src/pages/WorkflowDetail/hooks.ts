@@ -2,12 +2,23 @@ import type { UiComponentType, ActionFunctionType, OptionType } from "@/componen
 
 export const useUiComponents = (data: API.Workflow.UiComponentType[]) => {
   return data.map<UiComponentType>(item => {
+
+    const parameters = [
+      ...item.parameters,
+      { 
+        name: 'waitFor', 
+        parameter: item.wait_for 
+      }
+    ];
+
+    console.log(item)
+
     return {
       componentName: item.tag_name,
       componentTag: item.tag_name,
       componentId: item.ui_component_uuid,
       componentType: item.ui_component_type,
-      input: item.parameters.map(item => {
+      input: parameters.map(item => {
         let initialValue = item.parameter;
         if (initialValue) {
           initialValue = `{${initialValue}}`;
