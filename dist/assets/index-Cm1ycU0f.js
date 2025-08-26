@@ -1,0 +1,1 @@
+import{j as s,B as e,am as i,as as m}from"./libs-Da1xhxe8.js";const r="_icon_btn_1tacz_1",_={icon_btn:r},p=t=>{const{icon:n,className:o,type:c="text",size:l="small",...a}=t;return s.jsx(e,{...a,type:c,icon:s.jsx(m,{component:n}),className:i(_.icon_btn,o)})};export{p as I};

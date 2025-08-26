@@ -1,1 +1,0 @@
-import{S as s,W as a,T as e,R as t}from"./enum-Ct7sVdAK.js";const n={[s.Active]:"Active",[s.Inactive]:"Inactive"},i={[e.Assistant]:"Assistant",[e.Developer]:"Developer"},r={[a.Form]:"Form",[a.Iframe]:"Iframe",[a.Page]:"Page"},m={[t.US]:"US"};export{m as R,n as S,i as T,r as W};
