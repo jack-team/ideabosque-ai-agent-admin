@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import { WizardTypesMap } from '@/constants/map';
 import EditFrom from './components/EditForm';
 import { getElementsApi, deleteElementApi } from '@/services/wizard';
@@ -46,19 +48,19 @@ const Elements: FC = () => {
 
   return (
     <PageContainer
-      title="Elements"
+      title="UI Blocks / Elements"
       onBack={() => navigate(-1)}
       extra={
         <TriggerModal
-          width={500}
+          width={600}
           className="shopify"
-          title="Create Element"
+          title="Create new element"
           trigger={
             <Button
               className="shopify"
               type="primary"
             >
-              Create Element
+              Create new element
             </Button>
           }
         >
@@ -97,13 +99,13 @@ const Elements: FC = () => {
         }}
         columns={[
           {
+            title: 'Element Name',
+            dataIndex: 'elementTitle'
+          },
+          {
             title: 'Element UUID',
             dataIndex: 'elementUuid',
             hideInSearch: true
-          },
-          {
-            title: 'Element Title',
-            dataIndex: 'elementTitle'
           },
           {
             title: 'Data Type',
@@ -122,7 +124,7 @@ const Elements: FC = () => {
             render: (_, record) => formatDate(record.createdAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.updatedAt)
@@ -138,33 +140,21 @@ const Elements: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={500}
+                    width={600}
                     destroyOnHidden
                     className="shopify"
-                    title="Update Wizard"
-                    trigger={
-                      <Button
-                        size="small"
-                        type="primary"
-                        className="shopify"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    title="Element Details"
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleDel(record)}
-                  >
-                    Delete
-                  </Button>
+                  />
                 </Space>
               );
             }

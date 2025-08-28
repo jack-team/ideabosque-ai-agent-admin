@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
-import { WizardTypesMap } from '@/constants/map';
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import EditFrom from './components/EditForm';
 import { getWizardListApi, deleteWizardApi } from '@/services/wizard';
 
@@ -46,12 +47,12 @@ const Wizards: FC = () => {
 
   return (
     <PageContainer
-      title="Wizard List"
+      title="UI Blocks"
       onBack={() => navigate(-1)}
       extra={
         <Space size={16}>
           <Button
-            className="shopify"
+            className="shopify gray"
             onClick={() => navigate('/elements')}
           >
             Elements
@@ -59,13 +60,13 @@ const Wizards: FC = () => {
           <TriggerModal
             width={600}
             className="shopify"
-            title="Create Wizard"
+            title="Create new UI Block"
             trigger={
               <Button
                 className="shopify"
                 type="primary"
               >
-                Create Wizard
+                Create new UI Block
               </Button>
             }
           >
@@ -105,24 +106,18 @@ const Wizards: FC = () => {
         }}
         columns={[
           {
-            title: 'Wizard UUID',
+            title: 'UI Block Name',
+            dataIndex: 'wizardTitle'
+          },
+          {
+            title: 'UI Block UUID',
             dataIndex: 'wizardUuid',
             hideInSearch: true
           },
           {
-            title: 'Wizard Title',
-            dataIndex: 'wizardTitle'
-          },
-           {
-            title: 'Wizard Type',
-            dataIndex: 'wizardType',
-            valueEnum: WizardTypesMap
-          },
-          {
-            width: '300px',
-            hideInSearch: true,
-            title: 'Wizard Description',
-            dataIndex: 'wizardDescription'
+            title: 'Priority',
+            dataIndex: 'priority',
+            hideInSearch: true
           },
           {
             title: 'Create at',
@@ -131,7 +126,7 @@ const Wizards: FC = () => {
             render: (_, record) => formatDate(record.createdAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.updatedAt)
@@ -150,30 +145,18 @@ const Wizards: FC = () => {
                     width={600}
                     destroyOnHidden
                     className="shopify"
-                    title="Update Wizard"
-                    trigger={
-                      <Button
-                        size="small"
-                        type="primary"
-                        className="shopify"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    title="UI Block  Details"
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleDel(record)}
-                  >
-                    Delete
-                  </Button>
+                  />
                 </Space>
               );
             }

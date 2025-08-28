@@ -10,11 +10,8 @@ import {
 import type { FormProps } from '../types';
 import { useFlowContext } from '../../hooks';
 
-const transformValueName = ['transform', 'value'];
-
 // 该组建可以提供给外部使用
-const Form: FC<FormProps> = (props) => {
-  const { form } = props;
+const Form: FC<FormProps> = () => {
   const { actions = [], transformTools } = useFlowContext();
 
   const options = useMemo(() => {
@@ -23,6 +20,10 @@ const Form: FC<FormProps> = (props) => {
       label: item.description
     }));
   }, [actions]);
+
+  const getTool = (type: string) => {
+    return transformTools?.find(e => e.value === type);
+  }
 
   return (
     <Fragment>
@@ -47,38 +48,67 @@ const Form: FC<FormProps> = (props) => {
           return (
             <Fragment >
               <Divider>Transform</Divider>
-              <ProFormSelect
-                label="Type"
-                name={['transform', 'type']}
-                options={transformTools}
-                rules={[
-                  { required: false }
-                ]}
-                fieldProps={{
-                  onChange(value) {
-                    const item = transformTools?.find(e => e.value === value);
-                    form?.setFieldValue(transformValueName, item?.subValue)
-                  },
-                }}
-              />
-              <ProFormText
-                hidden
-                name={transformValueName}
-              />
               <ProFormList
-                name="attrs"
-                label="Attributes"
+                name="transform"
+                alwaysShowItemLabel
+                className="custom_form_list"
                 creatorButtonProps={{
-                  creatorButtonText: 'Add Attribute'
+                  creatorButtonText: 'Add Transform'
                 }}
               >
-                <ProFormText
-                  name="attr"
-                  width="md"
-                  rules={[
-                    { required: false }
-                  ]}
-                />
+                {(_, __, action) => {
+                  return (
+                    <>
+                      <ProFormSelect
+                        label="Type"
+                        name="type"
+                        options={transformTools}
+                        rules={[
+                          { required: true }
+                        ]}
+                        fieldProps={{
+                          onChange(value) {
+                            const tool = getTool(value as string);
+                            action.setCurrentRowData({ 
+                              attrs: [],
+                              value: tool?.subValue,
+                            });
+                          },
+                        }}
+                      />
+                      <ProFormText hidden name="value" />
+                      <ProFormDependency name={["attrs"]}>
+                        {({ attrs = [] }) => {
+                          const rowData = action.getCurrentRowData();
+                          const tool = getTool(rowData.type);
+                          const maxAttrs = tool?.maxAttrs ?? 100;
+                          const disabled = attrs.length >= maxAttrs;
+
+                          return (
+                            <ProFormList
+                              name="attrs"
+                              label="Attributes"
+                              alwaysShowItemLabel
+                              className="custom_form_list"
+                              creatorButtonProps={{
+                                disabled: disabled,
+                                creatorButtonText: 'Add Attribute'
+                              }}
+                            >
+                              <ProFormText
+                                name="attr"
+                                label="Attribute"
+                                rules={[
+                                  { required: true }
+                                ]}
+                              />
+                            </ProFormList>
+                          )
+                        }}
+                      </ProFormDependency>
+                    </>
+                  );
+                }}
               </ProFormList>
             </Fragment>
           );

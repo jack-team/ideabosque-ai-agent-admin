@@ -1,5 +1,5 @@
 import { type FC, useRef } from 'react';
-import { Space, Button, App } from 'antd';
+import { Space, Button, App, Tag } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
@@ -10,7 +10,7 @@ import { getAgentListApi, insertUpdateAgentApi } from '@/services/agent';
 import { StatusMap } from '@/constants/map';
 import { StatusEnum } from '@/constants/enum';
 import IconButton from '@/components/IconButton';
-import { EditIcon } from '@shopify/polaris-icons';
+import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
 
 const Agents: FC = () => {
   const { modal, message } = App.useApp();
@@ -53,7 +53,7 @@ const Agents: FC = () => {
         <TriggerModal
           width={620}
           className="shopify"
-          title="Create agent"
+          title="Add agent"
           trigger={
             <Button
               className="shopify"
@@ -75,7 +75,7 @@ const Agents: FC = () => {
         rowKey="agentUuid"
         className="shopify"
         pagination={{
-          defaultPageSize: 5
+          defaultPageSize: 4
         }}
         scroll={{ x: 'max-content' }}
         request={async (params) => {
@@ -101,18 +101,18 @@ const Agents: FC = () => {
         }}
         columns={[
           {
+            title: 'Status',
+            dataIndex: 'status',
+            valueEnum: StatusMap,
+            hideInSearch: true
+          },
+          {
             title: 'Agent Name',
             dataIndex: 'agentName'
           },
           {
             title: 'Agent UUID',
             dataIndex: 'agentUuid'
-          },
-          {
-            title: 'Status',
-            dataIndex: 'status',
-            valueEnum: StatusMap,
-            hideInSearch: true
           },
           {
             title: 'Create at',
@@ -127,10 +127,10 @@ const Agents: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '240px',
+            width: '120px',
             key: 'action',
             title: 'Action',
-            align: 'center',
+            fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
               return (
@@ -152,28 +152,17 @@ const Agents: FC = () => {
                     title="Versions"
                     destroyOnHidden
                     okText="Apply"
-                    trigger={
-                      <Button
-                        size="small"
-                        className="shopify"
-                      >
-                        Versions
-                      </Button>
-                    }
+                    trigger={<IconButton icon={DuplicateIcon} />}
                   >
                     <VersionForm
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleArchive(record)}
-                  >
-                    Archive
-                  </Button>
+                  />
                 </Space>
               );
             }

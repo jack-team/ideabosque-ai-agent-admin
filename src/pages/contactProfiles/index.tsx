@@ -35,6 +35,10 @@ const ContactProfiles: FC = () => {
         search={false}
         options={false}
         rowKey="contactUuid"
+        size="small"
+        pagination={{
+          defaultPageSize: 5
+        }}
         request={async (params) => {
           const {
             contactProfileList: result

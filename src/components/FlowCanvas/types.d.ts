@@ -5,6 +5,7 @@ export type OptionType = {
   value: string;
   label: string;
   subValue?: string;
+  maxAttrs?: number;
 }
 
 // 输入输出的 key 和 label

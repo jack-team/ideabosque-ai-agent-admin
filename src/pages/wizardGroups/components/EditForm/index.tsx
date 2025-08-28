@@ -42,21 +42,16 @@ const EditFrom: FC<EditFromProps> = (props) => {
       await insertUpdateWizardGroupApi(params);
       closeModal();
       props.onSuccess?.();
-      message.success(`Wizard Group ${formData ? 'updated' : 'created'} successfully.`);
+      message.success(`UI Block Group ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.error(`Failed to ${formData ? 'update' : 'create'} Wizard Group.`);
+      message.error(`Failed to ${formData ? 'update' : 'create'} UI Block Group.`);
     }
   });
 
   return (
     <ProForm
       form={form}
-      layout="horizontal"
       submitter={false}
-      labelCol={{
-        flex: '220px'
-      }}
-      labelAlign='left'
       style={{
         padding: '24px 0 0 0'
       }}
@@ -66,14 +61,14 @@ const EditFrom: FC<EditFromProps> = (props) => {
         name="wizardUuid"
       />
       <ProFormText
-        label="Wizard Group Name"
+        label="UI Block Group name"
         name="wizardGroupName"
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="Wizard Group Description"
+        label="UI Block Group description"
         name="wizardGroupDescription"
         rules={[
           { required: true }
@@ -92,7 +87,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         ]}
       />
       <ProFormSelect
-        label="Wizards"
+        label="UI Blocks"
         name="wizardUuids"
         mode="multiple"
         options={wizards.options}

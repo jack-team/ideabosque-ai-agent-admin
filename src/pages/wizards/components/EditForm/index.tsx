@@ -42,21 +42,16 @@ const EditFrom: FC<EditFromProps> = (props) => {
       await insertUpdateWizardApi(params);
       closeModal();
       props.onSuccess?.();
-      message.success(`Wizard ${formData ? 'updated' : 'created'} successfully.`);
+      message.success(`UI Block ${formData ? 'updated' : 'created'} successfully.`);
     } catch (err) {
-      message.error(`Failed to ${formData ? 'update' : 'create'} Wizard.`);
+      message.error(`Failed to ${formData ? 'update' : 'create'} UI Block.`);
     }
   });
 
   return (
     <ProForm
       form={form}
-      layout="horizontal"
       submitter={false}
-      labelCol={{
-        flex: '170px'
-      }}
-      labelAlign='left'
       style={{
         padding: '24px 0 0 0'
       }}
@@ -66,14 +61,14 @@ const EditFrom: FC<EditFromProps> = (props) => {
         name="wizardUuid"
       />
       <ProFormText
-        label="Wizard Title"
+        label="UI Block name"
         name="wizardTitle"
         rules={[
           { required: true }
         ]}
       />
       <ProFormSelect
-        label="Wizard Type"
+        label="UI Block Type"
         name="wizardType"
         valueEnum={WizardTypesMap}
         rules={[
@@ -81,7 +76,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         ]}
       />
       <ProFormTextArea
-        label="Wizard Description"
+        label="UI Block description"
         name="wizardDescription"
         fieldProps={{ rows: 8 }}
         rules={[
@@ -100,11 +95,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
           }
         ]}
       />
-      <ProFormTextArea
-        label="Form Schema"
-        name="formSchema"
-        fieldProps={{ rows: 8 }}
-      />
       <ProFormSelect
         label="Elements"
         name="elementUuids"
@@ -114,6 +104,11 @@ const EditFrom: FC<EditFromProps> = (props) => {
           maxTagCount: 1,
           loading: elements.loading
         }}
+      />
+      <ProFormTextArea
+        label="Form Schema"
+        name="formSchema"
+        fieldProps={{ rows: 8 }}
       />
     </ProForm>
   );

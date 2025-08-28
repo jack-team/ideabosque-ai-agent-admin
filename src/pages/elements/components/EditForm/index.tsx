@@ -47,12 +47,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
   return (
     <ProForm
       form={form}
-      layout="horizontal"
       submitter={false}
-      labelCol={{
-        flex: '140px'
-      }}
-      labelAlign='left'
       style={{
         padding: '24px 0 0 0'
       }}

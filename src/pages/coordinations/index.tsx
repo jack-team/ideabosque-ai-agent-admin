@@ -52,13 +52,13 @@ const Coordinations: FC = () => {
           width={620}
           destroyOnHidden
           className="shopify"
-          title="Create Coordination"
+          title="Add Coordination"
           trigger={
             <Button
               className="shopify"
               type="primary"
             >
-              Create coordination
+              Add coordination
             </Button>
           }
         >
@@ -73,9 +73,10 @@ const Coordinations: FC = () => {
         size="small"
         search={false}
         pagination={{
-          defaultPageSize: 5
+          defaultPageSize: 4
         }}
         rowKey="coordinationUuid"
+        scroll={{ x: 'max-content' }}
         columns={[
           {
             title: 'Coordination UUID',
@@ -96,9 +97,10 @@ const Coordinations: FC = () => {
             render: (_, e) => formatDate(e.updateAt)
           },
           {
-            width: 120,
+            width: 100,
             title: 'Actions',
             key: 'action',
+            fixed: 'right',
             render: (_, record) => {
               return (
                 <Space>
@@ -115,7 +117,6 @@ const Coordinations: FC = () => {
                     />
                   </TriggerModal>
                   <IconButton
-                    danger
                     icon={DeleteIcon}
                     onClick={() => handleDelete(record)}
                   />

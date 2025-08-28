@@ -4,6 +4,8 @@ import { useMemoizedFn } from 'ahooks';
 import { ShopifyButton, TriggerModal } from '@/components';
 import { ProTable, type ActionType } from '@ant-design/pro-components';
 import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
 import VersionForm from '../VersionForm';
 import { formatDate } from '@/utils';
 import { StatusEnum } from '@/constants/enum';
@@ -73,34 +75,25 @@ const Workflows: FC<WorkflowsProps> = (props) => {
         {
           key: 'action',
           title: 'Action',
-          width: '160px',
+          width: '120px',
           render: (_, record) => {
             return (
               <Space>
-                <ShopifyButton
-                  size="small"
-                  type="primary"
+                <IconButton
+                  icon={EditIcon}
                   onClick={() => props.onEdit?.(record, 'edit')}
-                >
-                  Edit
-                </ShopifyButton>
+                />
                 <TriggerModal
                   width={400}
                   title="Versions"
                   destroyOnHidden
                   okText="Apply"
-                  trigger={
-                    <ShopifyButton size="small">
-                      Versions
-                    </ShopifyButton>
-                  }
+                  trigger={<IconButton icon={DuplicateIcon}/>}
                 >
                   <VersionForm formData={record} />
                 </TriggerModal>
-                <ShopifyButton
-                  danger
-                  size="small"
-                  children="Delete"
+                <IconButton
+                  icon={DeleteIcon}
                   onClick={() => deleteRow(record)}
                 />
               </Space>

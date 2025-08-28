@@ -36,5 +36,5 @@ const ActionNode: CustomNodeFC = () => {
 export default ActionNode;
 
 ActionNode.Form = Form;
-ActionNode.modalWdith = 400;
+ActionNode.modalWdith = 460;
 ActionNode.Icon = FunctionOutlined;

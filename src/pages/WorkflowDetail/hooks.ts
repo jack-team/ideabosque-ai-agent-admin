@@ -5,9 +5,9 @@ export const useUiComponents = (data: API.Workflow.UiComponentType[]) => {
 
     const parameters = [
       ...item.parameters,
-      { 
-        name: 'waitFor', 
-        parameter: item.wait_for 
+      {
+        name: 'waitFor',
+        parameter: item.wait_for
       }
     ];
 
@@ -51,11 +51,13 @@ export const useTransformTools = () => {
   return <OptionType[]>[
     {
       label: 'Summarize',
-      value: 'summarize'
+      value: 'summarize',
+      maxAttrs: 1
     },
     {
       label: 'Full content',
-      value: 'full_content'
+      value: 'full_content',
+      maxAttrs: 1
     },
     {
       label: 'Structure input',

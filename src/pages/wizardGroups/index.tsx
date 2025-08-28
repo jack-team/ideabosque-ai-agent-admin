@@ -4,6 +4,8 @@ import { useMemoizedFn } from 'ahooks';
 import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
 import { getWizardGroupListApi, deleteWizardGroupApi } from '@/services/wizard';
@@ -45,25 +47,25 @@ const WizardGroups: FC = () => {
 
   return (
     <PageContainer
-      title="Wizard Groups"
+      title="UI Block Groups"
       extra={
         <Space size={16}>
           <Button
-            className="shopify"
+            className="shopify gray"
             onClick={() => navigate('/wizards')}
           >
-            Wizards
+            Blocks
           </Button>
           <TriggerModal
             width={600}
             className="shopify"
-            title="Create Wizard Group"
+            title="Create new UI Block Group"
             trigger={
               <Button
                 className="shopify"
                 type="primary"
               >
-                Create Wizard Group
+                Create new UI Block Group
               </Button>
             }
           >
@@ -103,18 +105,13 @@ const WizardGroups: FC = () => {
         }}
         columns={[
           {
-            title: 'Wizard Group UUID',
-            dataIndex: 'wizardGroupUuid',
-            hideInSearch: true
-          },
-          {
-            title: 'Wizard Group Name',
+            title: 'UI Block Group name',
             dataIndex: 'wizardGroupName'
           },
           {
-            hideInSearch: true,
-            title: 'Wizard Group Description',
-            dataIndex: 'wizardGroupDescription'
+            title: 'UI Block Group UUID',
+            dataIndex: 'wizardGroupUuid',
+            hideInSearch: true
           },
           {
             title: 'Weight',
@@ -128,16 +125,15 @@ const WizardGroups: FC = () => {
             render: (_, record) => formatDate(record.createdAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '120px',
+            width: '100px',
             key: 'action',
             title: 'Action',
-            align: 'center',
             fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
@@ -147,30 +143,18 @@ const WizardGroups: FC = () => {
                     width={600}
                     destroyOnHidden
                     className="shopify"
-                    title="Create agent"
-                    trigger={
-                      <Button
-                        size="small"
-                        type="primary"
-                        className="shopify"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    title="UI Block Group Details"
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleArchive(record)}
-                  >
-                    Delete
-                  </Button>
+                  />
                 </Space>
               );
             }
