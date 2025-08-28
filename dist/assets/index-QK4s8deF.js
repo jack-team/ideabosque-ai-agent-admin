@@ -1,0 +1,1 @@
+import{j as s,B as e,aq as i,ay as m}from"./libs-D2z24ZcL.js";const r="_icon_btn_q1v44_1",_={icon_btn:r},p=t=>{const{icon:n,className:o,type:c="text",size:l="small",...a}=t;return s.jsx(e,{...a,type:c,icon:s.jsx(m,{component:n}),className:i(_.icon_btn,o)})};export{p as I};
