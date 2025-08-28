@@ -1,5 +1,5 @@
 import { type FC, useRef } from 'react';
-import { Space, Button, App, Tag } from 'antd';
+import { Space, Button, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
