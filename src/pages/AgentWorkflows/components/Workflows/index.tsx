@@ -21,8 +21,8 @@ const Workflows: FC<WorkflowsProps> = (props) => {
   const deleteRow = useMemoizedFn(async (record: API.Workflow.FlowSnippet) => {
     modal.confirm({
       rootClassName: 'shopify',
-      okButtonProps: { className: 'shopify' },
-      cancelButtonProps: { className: 'shopify' },
+      okButtonProps: { className: 'shopify', danger: true },
+      cancelButtonProps: { className: 'shopify gray' },
       title: 'Are you sure you want to delete this record?',
       onOk: async () => {
         await deleteFlowSnippetApi(record);

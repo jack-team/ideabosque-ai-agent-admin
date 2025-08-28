@@ -75,7 +75,7 @@ const AgentSales: FC = () => {
           </div>
           <ReactECharts
             option={option}
-            style={{ height: 236 }}
+            style={{ height: 220 }}
           />
         </div>
       </Card>

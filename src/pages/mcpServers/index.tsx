@@ -8,17 +8,16 @@ import {
   type ActionType,
 } from "@ant-design/pro-components";
 import { useMemoizedFn } from "ahooks";
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import CreateForm from "./components/CreateForm";
 import { ShopifyButton, TriggerModal } from "@/components";
 import {
   fetchMcpServersApi,
-  //@ts-ignore
-  deleteUiComponentApi,
 } from "@/services/workflow";
 
 const McpServers: FC = () => {
-  //@ts-ignore
-  const { modal, message } = App.useApp();
+  const { modal } = App.useApp();
   const actionRef = useRef<ActionType>(null);
   const navigate = useNavigate();
 
@@ -32,10 +31,10 @@ const McpServers: FC = () => {
   ) => {
     return (
       <TriggerModal
-        width={550}
+        width={620}
         destroyOnHidden
         trigger={trigger}
-        title={`${record ? "Edit" : "Create"} Mcp server`}
+        title={`${record ? "Edit" : "Add"} Mcp server`}
       >
         <CreateForm formData={record} onSuccess={refreshTable} />
       </TriggerModal>
@@ -48,10 +47,11 @@ const McpServers: FC = () => {
       title: "Are you sure you want to delete the component?",
       okText: "Delete",
       cancelButtonProps: {
-        className: "shopify",
+        className: "shopify gray",
       },
       okButtonProps: {
         className: "shopify",
+        danger: true
       },
       onOk: async () => {
 
@@ -65,7 +65,7 @@ const McpServers: FC = () => {
       title="Mcp Servers"
       onBack={() => navigate(-1)}
       extra={renderEditModal(
-        <ShopifyButton type="primary">Create Mcp Server</ShopifyButton>
+        <ShopifyButton type="primary">Add Mcp Server</ShopifyButton>
       )}
     >
       <ProTable<API.Workflow.McpServerItem>
@@ -74,6 +74,9 @@ const McpServers: FC = () => {
         rowKey="mcpServerUuid"
         options={false}
         search={false}
+        pagination={{
+          defaultPageSize: 5
+        }}
         columns={[
           {
             dataIndex: "mcpLabel",
@@ -116,18 +119,13 @@ const McpServers: FC = () => {
               return (
                 <Space>
                   {renderEditModal(
-                    <ShopifyButton type="primary" size="small">
-                      Edit
-                    </ShopifyButton>,
+                    <IconButton icon={EditIcon} />,
                     record
                   )}
-                  <ShopifyButton
-                    danger
-                    size="small"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleDelete(record)}
-                  >
-                    Delete
-                  </ShopifyButton>
+                  />
                 </Space>
               );
             },

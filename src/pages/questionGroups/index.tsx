@@ -3,6 +3,8 @@ import { Space, Button, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
 import { getQuestionGroupListApi, deleteQuestionGroupApi } from '@/services/question';
@@ -24,7 +26,7 @@ const Agents: FC = () => {
         className: 'shopify'
       },
       cancelButtonProps: {
-        className: 'shopify'
+        className: 'shopify gray'
       },
       onOk: async () => {
         try {
@@ -58,7 +60,7 @@ const Agents: FC = () => {
             </Button>
           }
         >
-          <EditFrom onSuccess={onRefresh}/>
+          <EditFrom onSuccess={onRefresh} />
         </TriggerModal>
       }
     >
@@ -119,33 +121,21 @@ const Agents: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={600}
+                    width={620}
                     destroyOnHidden
                     className="shopify"
                     title="Edit Question Groups"
-                    trigger={
-                      <Button
-                        size="small"
-                        type="primary"
-                        className="shopify"
-                      >
-                        Edit
-                      </Button>
-                    }
+                    trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom
                       formData={record}
                       onSuccess={onRefresh}
                     />
                   </TriggerModal>
-                  <Button
-                    danger
-                    size="small"
-                    className="shopify"
+                  <IconButton
+                    icon={DeleteIcon}
                     onClick={() => handleDel(record)}
-                  >
-                    Delete
-                  </Button>
+                  />
                 </Space>
               );
             }

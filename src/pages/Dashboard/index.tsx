@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Button, Row, Col } from 'antd';
 import { useSafeState } from 'ahooks';
+import { useNavigate } from 'react-router-dom';
 import { PageContainer, } from '@ant-design/pro-components';
 import Statistic from './components/Statistic';
 import AgentSales from './components/AgentSales';
@@ -15,21 +16,24 @@ const Dashboard: FC = () => {
     setWelcomeOpen
   ] = useSafeState(true);
 
+  const navigate = useNavigate()
+
   return (
     <PageContainer
       title="Dashboard"
       className="shopify"
       extra={[
-        <Button
-          key="1"
-          className="shopify gray"
-        >
-          Add customer group
-        </Button>,
+        // <Button
+        //   key="1"
+        //   className="shopify gray"
+        // >
+        //   Add customer group
+        // </Button>,
         <Button
           type="primary"
           key="2"
           className="shopify"
+          onClick={() => navigate('/agent-workflows')}
         >
           Create workflow
         </Button>

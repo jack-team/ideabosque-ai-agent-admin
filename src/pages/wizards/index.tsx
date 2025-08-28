@@ -28,7 +28,7 @@ const Wizards: FC = () => {
         className: 'shopify'
       },
       cancelButtonProps: {
-        className: 'shopify'
+        className: 'shopify gray'
       },
       onOk: async () => {
         try {

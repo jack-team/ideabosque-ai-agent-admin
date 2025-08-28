@@ -20,7 +20,7 @@ const AgentBookedMeetings: FC = () => {
           <ProTable
             showHeader={false}
             dataSource={rows}
-            scroll={{ y: 264 }}
+            scroll={{ y: 282 }}
             pagination={false}
             search={false}
             toolBarRender={false}

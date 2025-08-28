@@ -5,32 +5,32 @@
     "title": "Home"
   },
   {
-    "path": "/",
+    "path": "/dashboard",
     "title": "Dashboard"
-  },
-  {
-    "path": "/question-groups",
-    "title": "Question Groups"
-  },
-  {
-    "path": "/contact-profiles",
-    "title": "Contact Info"
   },
   {
     "path": "/agents",
     "title": "Agents"
   },
   {
+    "path": "/agent-workflows",
+    "title": "Workflows"
+  },
+  {
     "path": "/wizard-groups",
     "title": "UI Block Groups"
   },
   {
-    "path": "/agent-workflows",
-    "title": "Agent Workflows"
+    "path": "/contact-profiles",
+    "title": "Contact Info"
   },
   {
     "path": "/threads",
     "title": "Message Threads"
+  },
+  {
+    "path": "/question-groups",
+    "title": "Question Groups"
   },
   {
     "path": "/settings",

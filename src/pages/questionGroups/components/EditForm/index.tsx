@@ -52,9 +52,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
-      layout="horizontal"
-      labelAlign="left"
-      labelCol={{ flex: '220px' }}
       style={{
         padding: '24px 0 0 0'
       }}
@@ -95,6 +92,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       <ProFormList
         label="Question Criteria"
         name="questionCriteria"
+        className="custom_form_list"
       >
         <Row gutter={16}>
           <Col span={12}>

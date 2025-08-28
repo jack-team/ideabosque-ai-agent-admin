@@ -8,6 +8,8 @@ import {
   type ActionType,
 } from "@ant-design/pro-components";
 import { useMemoizedFn } from "ahooks";
+import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import { ComponentTypeMap } from "./const";
 import CreateForm from "./components/CreateForm";
 import { ShopifyButton, TriggerModal } from "@/components";
@@ -31,10 +33,10 @@ const UiComponents: FC = () => {
   ) => {
     return (
       <TriggerModal
-        width={600}
+        width={620}
         destroyOnHidden
         trigger={trigger}
-        title={`${record ? "Edit" : "Create"} Component`}
+        title={`${record ? "Edit" : "Add"} Component`}
       >
         <CreateForm formData={record} onSuccess={refreshTable} />
       </TriggerModal>
@@ -49,7 +51,8 @@ const UiComponents: FC = () => {
         className: "shopify",
       },
       okButtonProps: {
-        className: "shopify",
+        className: "shopify gray",
+        danger: true
       },
       onOk: async () => {
         await deleteUiComponentApi({
@@ -68,7 +71,7 @@ const UiComponents: FC = () => {
       title="Ui Components"
       onBack={() => navigate(-1)}
       extra={renderEditModal(
-        <ShopifyButton type="primary">Create Component</ShopifyButton>
+        <ShopifyButton type="primary">Add Component</ShopifyButton>
       )}
     >
       <ProTable<API.Workflow.UiComponentType>
@@ -118,19 +121,14 @@ const UiComponents: FC = () => {
             render: (_, record) => {
               return (
                 <Space>
-                  <ShopifyButton
-                    danger
-                    size="small"
-                    onClick={() => handleDelete(record)}
-                  >
-                    Delete
-                  </ShopifyButton>
                   {renderEditModal(
-                    <ShopifyButton type="primary" size="small">
-                      Edit
-                    </ShopifyButton>,
+                    <IconButton icon={EditIcon} />,
                     record
                   )}
+                  <IconButton
+                    icon={DeleteIcon}
+                    onClick={() => handleDelete(record)}
+                  />
                 </Space>
               );
             },
