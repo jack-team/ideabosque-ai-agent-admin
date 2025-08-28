@@ -1,7 +1,7 @@
 import { type FC, useRef } from 'react';
 import { Space, Tag, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { ShopifyButton, TriggerModal } from '@/components';
+import { TriggerModal } from '@/components';
 import { ProTable, type ActionType } from '@ant-design/pro-components';
 import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
 import IconButton from '@/components/IconButton';
