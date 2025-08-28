@@ -3,6 +3,8 @@ import { Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
 import EditFrom from './components/EditForm';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { getContactProfileListApi } from '@/services/contactProfiles';
@@ -12,20 +14,14 @@ const ContactProfiles: FC = () => {
   return (
     <PageContainer
       className="shopify"
-      title="Contact Profiles"
+      title="Contact Info"
       extra={
         <Space>
           <Button
-            className="shopify"
+            className="shopify gray"
             onClick={() => navigate('/places')}
           >
-            Places
-          </Button>
-          <Button
-            className="shopify"
-            onClick={() => navigate('/contact-requests')}
-          >
-            Contact Requests
+            Addresses
           </Button>
         </Space>
       }
@@ -35,6 +31,7 @@ const ContactProfiles: FC = () => {
         search={false}
         options={false}
         rowKey="contactUuid"
+        scroll={{ x: 'max-content' }}
         size="small"
         pagination={{
           defaultPageSize: 5
@@ -82,24 +79,17 @@ const ContactProfiles: FC = () => {
             align: 'center',
             title: 'Action',
             key: 'action',
-            width: '100px',
+            width: '50px',
             fixed: 'right',
             render: (_, record) => {
               return (
                 <TriggerModal
-                  width={600}
-                  title="Contact Profile"
+                  width={620}
+                  title="Contact Info Details"
                   hasFooter={false}
-                  trigger={
-                    <Button
-                      size="small"
-                      className="shopify"
-                    >
-                      View
-                    </Button>
-                  }
+                  trigger={<IconButton icon={ViewIcon} />}
                 >
-                  <EditFrom formData={record}/>
+                  <EditFrom formData={record} />
                 </TriggerModal>
               );
             }

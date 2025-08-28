@@ -1,27 +1,35 @@
 import type { FC } from 'react';
-import { Button } from 'antd';
-import { useNavigate } from 'react-router';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
 import EditFrom from './components/EditForm';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { getContactRequestsApi } from '@/services/contactProfiles';
 
-const Places: FC = () => {
-  const navigate = useNavigate()
+const ContactRequests: FC = () => {
   return (
     <PageContainer
       className="shopify"
       title="Contact Requests"
-      onBack={() => navigate(-1)}
     >
       <ProTable
         size="small"
         className="shopify"
         rowKey="requestUuid"
+        pagination={{
+          defaultPageSize: 5
+        }}
+        scroll={{
+          x: 'max-content'
+        }}
         search={false}
         options={false}
         columns={[
+          {
+            title: 'Request Title',
+            dataIndex: 'requestTitle'
+          },
           {
             title: 'Request UUID',
             dataIndex: 'requestUuid'
@@ -31,39 +39,26 @@ const Places: FC = () => {
             dataIndex: 'contactUuid'
           },
           {
-            title: 'Request Title',
-            dataIndex: 'requestTitle'
-          },
-          {
-            title: 'Website',
-            dataIndex: 'website'
-          },
-          {
-            title: 'Create at',
+            title: 'Received at',
             dataIndex: 'createAt',
             render: (_, e) => formatDate(e.createAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updateAt',
             render: (_, e) => formatDate(e.updateAt)
           },
           {
             title: 'Action',
             key: 'action',
+            fixed: 'right',
             render: (_, record) => {
               return (
                 <TriggerModal
-                  title="Contact Request"
+                  width={620}
+                  title="Submission request details"
                   hasFooter={false}
-                  trigger={
-                    <Button
-                      className="shopify"
-                      size="small"
-                    >
-                      View
-                    </Button>
-                  }
+                  trigger={<IconButton icon={ViewIcon} />}
                 >
                   <EditFrom formData={record} />
                 </TriggerModal>
@@ -88,4 +83,4 @@ const Places: FC = () => {
   );
 }
 
-export default Places;
+export default ContactRequests;

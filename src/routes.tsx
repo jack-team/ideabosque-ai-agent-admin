@@ -72,15 +72,11 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/contact-profiles',
-        Component: lazyLoad(() => import("@/pages/contactProfiles"))
+        Component: lazyLoad(() => import("@/pages/contactProfileEntry"))
       },
       {
         path: '/places',
         Component: lazyLoad(() => import("@/pages/places"))
-      },
-      {
-        path: '/contact-requests',
-        Component: lazyLoad(() => import("@/pages/contactRequests"))
       },
       // wizard
       {

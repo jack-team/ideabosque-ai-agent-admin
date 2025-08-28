@@ -1,7 +1,7 @@
 import { type FC, useEffect } from "react";
 import { Row, Col, Space, App } from "antd";
 import { useMemoizedFn, useSafeState } from "ahooks";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import {
   ProForm,
   PageContainer,
@@ -36,6 +36,7 @@ const WorkflowTemplateDetail: FC = () => {
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
   const { state } = useLocation();
+  const navigate = useNavigate()
   const { uid, vid } = useParams<UrlParams>();
   const [loading, setLoading] = useSafeState(false);
   const { options: uiOptions, loading: uiLoading } = useUiComponents();
@@ -84,6 +85,7 @@ const WorkflowTemplateDetail: FC = () => {
       <PageContainer
         title={detail?.promptName}
         className="shopify full-screen"
+        onBack={() => navigate(-1)}
         extra={
           <Space>
             <ShopifyButton
@@ -101,10 +103,7 @@ const WorkflowTemplateDetail: FC = () => {
           <ProForm
             form={form}
             submitter={false}
-            layout="horizontal"
-            labelAlign="left"
             className={styles.form}
-            labelCol={{ flex: "180px" }}
           >
             <ProFormText hidden name="promptUuid" />
             <Row gutter={16}>

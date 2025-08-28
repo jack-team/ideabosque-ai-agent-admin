@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import { Button } from 'antd';
 import { useNavigate } from 'react-router';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
 import EditFrom from './components/EditForm';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { getPlacesApi } from '@/services/contactProfiles';
@@ -13,19 +14,22 @@ const Places: FC = () => {
   return (
     <PageContainer
       className="shopify"
-      title="Places"
+      title="Addresses"
       onBack={() => navigate(-1)}
     >
       <ProTable
         size="small"
         rowKey="placeUuid"
         className="shopify"
+        pagination={{
+          defaultPageSize: 5
+        }}
         scroll={{ x: 'max-content' }}
         search={false}
         options={false}
         columns={[
           {
-            title: 'Place UUID',
+            title: 'Address UUID',
             dataIndex: 'placeUuid'
           },
           {
@@ -33,13 +37,12 @@ const Places: FC = () => {
             dataIndex: 'businessName'
           },
           {
-            width: '50px',
-            title: 'Region',
-            dataIndex: 'region'
-          },
-          {
             title: 'Website',
             dataIndex: 'website'
+          },
+          {
+            title: 'Region',
+            dataIndex: 'region'
           },
           {
             title: 'Create at',
@@ -47,7 +50,7 @@ const Places: FC = () => {
             render: (_, e) => formatDate(e.createAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updateAt',
             render: (_, e) => formatDate(e.updateAt)
           },
@@ -60,16 +63,10 @@ const Places: FC = () => {
             render: (_, record) => {
               return (
                 <TriggerModal
-                  title="Place"
+                  width={620}
+                  title="Address Details"
                   hasFooter={false}
-                  trigger={
-                    <Button
-                      className="shopify"
-                      size="small"
-                    >
-                      View
-                    </Button>
-                  }
+                  trigger={<IconButton icon={ViewIcon} />}
                 >
                   <EditFrom formData={record} />
                 </TriggerModal>

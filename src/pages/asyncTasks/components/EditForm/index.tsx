@@ -8,10 +8,6 @@ type EditFromProps = {
   formData?: Record<string, any>;
 }
 
-const cardLabelCol = {
-  flex: '104px'
-}
-
 const EditFrom: FC<EditFromProps> = (props) => {
   const { formData } = props;
   const [form] = ProForm.useForm();
@@ -20,11 +16,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
-      layout="horizontal"
-      labelAlign="left"
-      labelCol={{
-        flex: '120px'
-      }}
       initialValues={formData}
       style={{
         padding: '24px 0'
@@ -49,49 +40,42 @@ const EditFrom: FC<EditFromProps> = (props) => {
         <LongTextReadonly />
       </ProForm.Item>
       <Divider orientation="left">Arguments</Divider>
-      <Card className="shopify">
+      <Card className="shopify" style={{ marginBottom: 24 }}>
         <ProForm.Item
           label="Agent UUID"
           name={["arguments", "agent_uuid"]}
-          labelCol={cardLabelCol}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
           label="Run UUID"
           name={["arguments", "run_uuid"]}
-          labelCol={cardLabelCol}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
           label="Stream"
           name={["arguments", "stream"]}
-          labelCol={cardLabelCol}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
           label="Thread UUID"
           name={["arguments", "thread_uuid"]}
-          labelCol={cardLabelCol}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
           label="User Query"
           name={["arguments", "user_query"]}
-          labelCol={cardLabelCol}
         >
           <LongTextReadonly pre />
         </ProForm.Item>
       </Card>
-      <Divider orientation="left">Notes</Divider>
-      <ProForm.Item name="notes">
+      <ProForm.Item name="notes" label="Notes">
         <LongTextReadonly />
       </ProForm.Item>
-      <Divider orientation="left">Result</Divider>
-      <ProForm.Item name="result">
+      <ProForm.Item name="result" label="Result">
         <LongTextReadonly />
       </ProForm.Item>
     </ProForm>

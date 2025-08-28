@@ -1,8 +1,9 @@
-import { type FC, useRef } from 'react';
-import { Space, Button } from 'antd';
-import { useMemoizedFn } from 'ahooks';
+import { type FC } from 'react';
+import { Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
@@ -10,11 +11,6 @@ import { getMessageListApi } from '@/services/messages';
 
 const Messages: FC = () => {
   const navigate = useNavigate();
-  const ref = useRef<ActionType>(null);
-
-  const onRefresh = useMemoizedFn(() => {
-    ref.current?.reload();
-  });
 
   return (
     <PageContainer
@@ -22,9 +18,12 @@ const Messages: FC = () => {
       onBack={() => navigate(-1)}
     >
       <ProTable
-        actionRef={ref}
         search={false}
         options={false}
+        pagination={{
+          defaultPageSize: 5
+        }}
+        scroll={{ x: 'max-content' }}
         rowKey="questionGroupUuid"
         className="shopify"
         request={async (params) => {
@@ -69,33 +68,24 @@ const Messages: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '120px',
+            width: '80px',
             key: 'action',
             title: 'Action',
             align: 'center',
+            fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
               return (
                 <Space>
                   <TriggerModal
-                    width={640}
+                    width={710}
                     hasFooter={false}
                     destroyOnHidden
                     className="shopify"
-                    title="Message"
-                    trigger={
-                      <Button
-                        size="small"
-                        className="shopify"
-                      >
-                        View
-                      </Button>
-                    }
+                    title="Message Details"
+                    trigger={<IconButton icon={ViewIcon} />}
                   >
-                    <EditFrom
-                      formData={record}
-                      onSuccess={onRefresh}
-                    />
+                    <EditFrom formData={record} />
                   </TriggerModal>
                 </Space>
               );

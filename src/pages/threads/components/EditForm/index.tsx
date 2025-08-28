@@ -1,11 +1,10 @@
 import { type FC } from 'react';
-import { Divider, Card } from 'antd';
+import { Divider } from 'antd';
 import { ProForm } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
 import MessageList from '../MessageList';
 
 type EditFromProps = {
-  onSuccess?: () => void;
   formData?: Record<string, any>;
 }
 
@@ -17,45 +16,36 @@ const EditFrom: FC<EditFromProps> = (props) => {
     <ProForm
       form={form}
       submitter={false}
-      layout="horizontal"
-      labelAlign="left"
-      labelCol={{
-        flex: '140px'
-      }}
       initialValues={formData}
       style={{
-        padding: '24px 0'
+        padding: '0 0 24px 0'
       }}
     >
       <Divider orientation="left">
-        Agent
+        Agent details
       </Divider>
-      <Card className="shopify">
-        <ProForm.Item
-          label="Agent UUID"
-          name={["agent", "agent_uuid"]}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="Agent Name"
-          name={["agent", "agent_name"]}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="Agent Description"
-          name={["agent", "agent_description"]}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-      </Card>
+      <ProForm.Item
+        label="Agent UUID"
+        name={["agent", "agent_uuid"]}
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
+        label="Agent Name"
+        name={["agent", "agent_name"]}
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
+      <ProForm.Item
+        label="Agent Description"
+        name={["agent", "agent_description"]}
+      >
+        <LongTextReadonly />
+      </ProForm.Item>
       <Divider orientation="left">Messages</Divider>
-      <Card className="shopify">
-        <ProForm.Item name="messages">
-          <MessageList />
-        </ProForm.Item>
-      </Card>
+      <ProForm.Item name="messages">
+        <MessageList />
+      </ProForm.Item>
     </ProForm>
   );
 }

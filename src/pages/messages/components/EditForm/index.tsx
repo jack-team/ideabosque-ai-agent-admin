@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ProForm } from '@ant-design/pro-components';
-import { Divider, Card } from 'antd';
+import { Divider, Card, Row, Col } from 'antd';
 import LongTextReadonly from '@/components/LongTextReadonly';
 
 type EditFromProps = {
@@ -17,8 +17,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
       form={form}
       disabled
       submitter={false}
-      layout="horizontal"
-      labelAlign="left"
       initialValues={formData}
       style={{
         padding: '24px 0'
@@ -27,60 +25,66 @@ const EditFrom: FC<EditFromProps> = (props) => {
       <ProForm.Item
         label="Role"
         name="role"
-        labelCol={{ flex: '166px' }}
       >
         <LongTextReadonly />
       </ProForm.Item>
-      <Divider orientation="left">Message</Divider>
-      <ProForm.Item name="message">
+      <ProForm.Item name="message" label="Message">
         <LongTextReadonly pre />
       </ProForm.Item>
-      <Divider orientation="left">Run</Divider>
-      <Card className="shopify">
-        <ProForm.Item
-          label="Prompt Tokens"
-          name={["run", "prompt_tokens"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="Completion Tokens"
-          name={["run", "completion_tokens"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="Total Tokens"
-          name={["run", "total_tokens"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <Divider orientation="left">Thread</Divider>
-        <ProForm.Item
-          label="Agent UUID"
-          name={["run", "thread", "agent_uuid"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="Thread UUID"
-          name={["run", "thread", "thread_uuid"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-        <ProForm.Item
-          label="User ID"
-          name={["run", "thread", "user_id"]}
-          labelCol={{ flex: '150px' }}
-        >
-          <LongTextReadonly />
-        </ProForm.Item>
-      </Card>
+      <Divider orientation="left">Run Details</Divider>
+      <Row gutter={16}>
+        <Col span={8}>
+          <ProForm.Item
+            label="Prompt Tokens"
+            name={["run", "prompt_tokens"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+        <Col span={8}>
+          <ProForm.Item
+            label="Completion Tokens"
+            name={["run", "completion_tokens"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+        <Col span={8}>
+          <ProForm.Item
+            label="Total Tokens"
+            name={["run", "total_tokens"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+      </Row>
+      <Divider orientation="left">Thread Details</Divider>
+      <Row gutter={16}>
+        <Col span={8}>
+          <ProForm.Item
+            label="Agent UUID"
+            name={["run", "thread", "agent_uuid"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+        <Col span={8}>
+          <ProForm.Item
+            label="Thread UUID"
+            name={["run", "thread", "thread_uuid"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+        <Col span={8}>
+          <ProForm.Item
+            label="User ID"
+            name={["run", "thread", "user_id"]}
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+      </Row>
     </ProForm>
   );
 }

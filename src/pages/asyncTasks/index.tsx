@@ -1,8 +1,9 @@
-import { type FC, useRef } from 'react';
-import { Space, Button } from 'antd';
-import { useMemoizedFn } from 'ahooks';
+import { type FC  } from 'react';
+import { Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { TriggerModal } from '@/components';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
@@ -10,11 +11,6 @@ import { getAsyncTaskListApi } from '@/services/asyncTasks';
 
 const AsyncTasks: FC = () => {
   const navigate = useNavigate();
-  const ref = useRef<ActionType>(null);
-
-  const onRefresh = useMemoizedFn(() => {
-    ref.current?.reload();
-  });
 
   return (
     <PageContainer
@@ -23,9 +19,8 @@ const AsyncTasks: FC = () => {
     >
       <ProTable
         pagination={{
-          pageSize: 10
+          pageSize: 5
         }}
-        actionRef={ref}
         search={false}
         options={false}
         scroll={{ x: 'max-content' }}
@@ -81,7 +76,7 @@ const AsyncTasks: FC = () => {
             render: (_, record) => formatDate(record.updatedAt)
           },
           {
-            width: '120px',
+            width: '80px',
             key: 'action',
             title: 'Action',
             align: 'center',
@@ -91,24 +86,14 @@ const AsyncTasks: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={640}
+                    width={620}
                     hasFooter={false}
                     destroyOnHidden
                     className="shopify"
-                    title="Async Task"
-                    trigger={
-                      <Button
-                        size="small"
-                        className="shopify"
-                      >
-                        View
-                      </Button>
-                    }
+                    title="Async Task Details"
+                     trigger={<IconButton icon={ViewIcon} />}
                   >
-                    <EditFrom
-                      formData={record}
-                      onSuccess={onRefresh}
-                    />
+                    <EditFrom formData={record} />
                   </TriggerModal>
                 </Space>
               );

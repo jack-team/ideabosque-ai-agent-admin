@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 import { Button } from 'antd';
+import IconButton from '@/components/IconButton';
+import { ViewIcon } from '@shopify/polaris-icons';
 import { TriggerModal } from '@/components';
 import { ProTable } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
@@ -52,22 +54,16 @@ const MessageList: FC<MessageListProps> = (props) => {
             }
           },
           {
-            title: 'content',
-            key: 'content',
+            title: 'Actions',
+            key: 'action',
+            width: '80px',
             render: (_, { message }) => {
               return (
                 <TriggerModal
-                  width={760}
+                  width={620}
                   hasFooter={false}
                   title="Message Content"
-                  trigger={
-                    <Button
-                      className="shopify"
-                      size="small"
-                    >
-                      View
-                    </Button>
-                  }
+                  trigger={<IconButton icon={ViewIcon} />}
                 >
                   <div style={{ padding: '24px 0' }}>
                     <LongTextReadonly pre value={message?.content} />

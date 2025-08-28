@@ -3,7 +3,7 @@ import {
   ProForm
 } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col } from 'antd';
 import { recordToFormData } from './helper';
 
 type EditFromProps = {
@@ -26,14 +26,6 @@ const EditFrom: FC<EditFromProps> = (props) => {
       }}
     >
       <Row gutter={16}>
-        <Col span={24}>
-          <ProForm.Item
-            label="Email"
-            name="email"
-          >
-            <LongTextReadonly />
-          </ProForm.Item>
-        </Col>
         <Col span={12}>
           <ProForm.Item
             label="First Name"
@@ -50,16 +42,30 @@ const EditFrom: FC<EditFromProps> = (props) => {
             <LongTextReadonly />
           </ProForm.Item>
         </Col>
-        <Col span={24}>
-          <Divider orientation="left">Data</Divider>
-          <ProForm.Item name="data">
-            <LongTextReadonly pre/>
+        <Col span={12}>
+          <ProForm.Item
+            label="Email"
+            name="email"
+          >
+            <LongTextReadonly />
+          </ProForm.Item>
+        </Col>
+        <Col span={12}>
+          <ProForm.Item
+            label="Contact UUID"
+            name="contactUuid"
+          >
+            <LongTextReadonly />
           </ProForm.Item>
         </Col>
         <Col span={24}>
-          <Divider orientation="left">Place</Divider>
-          <ProForm.Item name="place">
-            <LongTextReadonly pre/>
+          <ProForm.Item name="data" label="Data">
+            <LongTextReadonly pre />
+          </ProForm.Item>
+        </Col>
+        <Col span={24}>
+          <ProForm.Item name="place" label="Address">
+            <LongTextReadonly pre />
           </ProForm.Item>
         </Col>
       </Row>

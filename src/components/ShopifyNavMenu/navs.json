@@ -14,7 +14,7 @@
   },
   {
     "path": "/contact-profiles",
-    "title": "Contact Profiles"
+    "title": "Contact Info"
   },
   {
     "path": "/agents",
@@ -30,7 +30,7 @@
   },
   {
     "path": "/threads",
-    "title": "Threads"
+    "title": "Message Threads"
   },
   {
     "path": "/settings",

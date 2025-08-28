@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
-import { Space, Button } from "antd";
+import { Space } from "antd";
 import { type FC, useRef } from "react";
 import { useMemoizedFn } from "ahooks";
 import { useNavigate } from "react-router-dom";
 import { ShopifyButton, TriggerModal } from "@/components";
+import IconButton from '@/components/IconButton';
+import { EditIcon, DuplicateIcon } from '@shopify/polaris-icons';
 import { PageContainer, ProTable, type ActionType } from "@ant-design/pro-components";
 import { queryAgentWorkflowTemplatesApi } from "@/services/workflow";
 import { TemplateTypeMap } from "./const";
@@ -27,13 +29,19 @@ const AgentTemplates: FC = () => {
   return (
     <PageContainer
       className="shopify"
-      title="Workflow Templates"
+      title="Featured templates"
       extra={
         <Space size={16}>
-          <ShopifyButton onClick={() => navigate('/workflow-mcp-servers')}>
+          <ShopifyButton
+            className="gray"
+            onClick={() => navigate('/workflow-mcp-servers')}
+          >
             Mcp Servers
           </ShopifyButton>
-          <ShopifyButton onClick={() => navigate('/workflow-ui-components')}>
+          <ShopifyButton
+            className="gray"
+            onClick={() => navigate('/workflow-ui-components')}
+          >
             Components
           </ShopifyButton>
           <TriggerModal
@@ -55,6 +63,9 @@ const AgentTemplates: FC = () => {
         actionRef={actionRef}
         options={false}
         search={false}
+        pagination={{
+          defaultPageSize: 5
+        }}
         columns={[
           {
             dataIndex: "promptName",
@@ -95,26 +106,16 @@ const AgentTemplates: FC = () => {
             render: (_, record) => {
               return (
                 <Space>
-                  <Button
-                    size="small"
-                    type="primary"
-                    className="shopify"
+                  <IconButton
+                    icon={EditIcon}
                     onClick={() => toDetail(record)}
-                  >
-                    Edit
-                  </Button>
+                  />
                   <TriggerModal
                     width={400}
                     title="Versions"
                     destroyOnHidden
                     okText="Apply"
-                    trigger={
-                      <Button
-                        size="small"
-                        className="shopify"
-                      >
-                        Versions
-                      </Button>
+                    trigger={<IconButton icon={DuplicateIcon} />
                     }
                   >
                     <VersionForm

@@ -16,14 +16,15 @@ const AgentWorkflows: FC = () => {
 
   return (
     <PageContainer
-      title="Agent workflows"
+      title="workflows"
       className="shopify"
       extra={[
         <ShopifyButton
           key="mange"
+          className="gray"
           onClick={() => navigate('/workflow-templates')}
         >
-          Template Management
+          Featured templates
         </ShopifyButton>,
         <TriggerModal
           key="add"

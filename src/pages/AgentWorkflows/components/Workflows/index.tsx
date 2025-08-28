@@ -38,7 +38,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
       search={false}
       actionRef={actionRef}
       rowKey="flowSnippetUuid"
-      pagination={{ pageSize: 10 }}
+      pagination={{ pageSize: 5 }}
       request={async () => {
         const {
           flowSnippetList: result
