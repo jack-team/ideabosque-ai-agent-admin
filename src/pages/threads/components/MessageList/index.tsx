@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { Button } from 'antd';
 import IconButton from '@/components/IconButton';
 import { ViewIcon } from '@shopify/polaris-icons';
 import { TriggerModal } from '@/components';
