@@ -1,16 +1,12 @@
-import {
-  EditFilled,
-  DeleteOutlined,
-  FullscreenOutlined,
-} from '@ant-design/icons';
 import { Space } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import type { FC, ReactElement } from "react";
+import { DeleteIcon, EditIcon, MaximizeIcon } from '@shopify/polaris-icons';
+import IconButton from '@/components/IconButton';
 import { useReactFlow } from '@xyflow/react';
 import { useCanvasContext, useFlowContext, useNodeFormData } from '../../hooks';
 import ModalForm from "../ModalForm";
 import type { ToolsProps } from './types';
-import styles from "./styles.module.less";
 
 const Tools: FC<ToolsProps> = (props) => {
   const { nodeId, tools } = props;
@@ -56,24 +52,18 @@ const Tools: FC<ToolsProps> = (props) => {
   return (
     <Space size={16}>
       {top && (
-        <div
+        <IconButton
+          icon={MaximizeIcon}
           onClick={openCanvasDetail}
-          className={styles.tool_item}
-        >
-          <FullscreenOutlined />
-        </div>
+        />
       )}
       {renderEditForm(
-        <div className={styles.tool_item}>
-          <EditFilled />
-        </div>
+        <IconButton icon={EditIcon} />
       )}
-      <div
+      <IconButton
+        icon={DeleteIcon}
         onClick={handleDeleteNode}
-        className={styles.tool_item}
-      >
-        <DeleteOutlined />
-      </div>
+      />
     </Space>
   );
 };

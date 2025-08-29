@@ -34,7 +34,7 @@ const Canvas: FC<CanvasProps> = (props) => {
     defaultEdges = [],
   } = props;
 
-  // 如果没有数据，默认一开始接点
+  // 如果没有数据，默认添加开始节点
   const initNodes = useMemo(() => {
     return defaultNodes.length ?
       defaultNodes :
