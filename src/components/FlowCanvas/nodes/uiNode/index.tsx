@@ -35,5 +35,5 @@ const UiNode: CustomNodeFC = () => {
 export default UiNode;
 
 UiNode.Form = Form;
-UiNode.modalWdith = 400;
+UiNode.modalWdith = 560;
 UiNode.Icon = KubernetesOutlined;

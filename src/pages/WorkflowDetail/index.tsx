@@ -1,4 +1,6 @@
 import { App } from 'antd';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router';
 import { useParams, useSearchParams } from 'react-router';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
@@ -21,6 +23,7 @@ function WorkflowDetail() {
   const [flow] = useFlowInstance();
   const [search] = useSearchParams();
   const params = useParams<UrlParams>();
+  const navigate = useNavigate();
   const [submitLoading, setSubmitLoading] = useSafeState(false);
 
   const { data: detail } = useRequest(async () => {
@@ -35,11 +38,8 @@ function WorkflowDetail() {
 
   const onSave = useMemoizedFn(async () => {
     const data = flow.getData()!;
-    console.log(data)
 
-    // return;
-
-    const { 
+    const {
       flowSnippetVersionUuid,
       ...rest
     } = detail!;
@@ -52,6 +52,9 @@ function WorkflowDetail() {
       params.flowSnippetVersionUuid = flowSnippetVersionUuid;
     }
 
+
+    setSubmitLoading(true);
+
     await insertUpdateWorkflowApi({
       ...rest,
       ...params,
@@ -63,15 +66,29 @@ function WorkflowDetail() {
     setSubmitLoading(false);
   });
 
+  const getLastUpdate = () => {
+    if (!detail) return '';
+    const updatedAt = detail.updatedAt;
+    return `Last updated on ${dayjs(updatedAt).format('YYYY/MM/DD HH:mm:ss')}`;
+  }
+
   return (
     <PageContainer
-      title={detail?.flowName}
+      title={
+        <div className={styles.page_title}>
+          {detail?.flowName || 'Workflow Details'}
+          <div className={styles.update_time}>
+            {getLastUpdate()}
+          </div>
+        </div>
+      }
       className="shopify full-screen"
       loading={!detail && (
         <div className={styles.loading}>
           <Spinner size={36} />
         </div>
       )}
+      onBack={() => navigate(-1)}
       extra={detail ? (
         <ShopifyButton
           type="primary"

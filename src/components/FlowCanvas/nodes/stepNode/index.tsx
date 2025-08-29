@@ -31,5 +31,5 @@ const StepNode: CustomNodeFC = () => {
 export default StepNode;
 
 StepNode.Form = Form;
-StepNode.modalWdith = 380;
+StepNode.modalWdith = 560;
 StepNode.Icon = StepForwardFilled;

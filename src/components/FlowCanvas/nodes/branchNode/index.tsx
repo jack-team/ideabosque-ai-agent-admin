@@ -31,5 +31,5 @@ const BranchNode: CustomNodeFC = () => {
 export default BranchNode;
 
 BranchNode.Form = Form;
-BranchNode.modalWdith =  400;
+BranchNode.modalWdith = 560;
 BranchNode.Icon = BranchesOutlined;

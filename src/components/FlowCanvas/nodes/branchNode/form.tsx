@@ -34,6 +34,8 @@ const Form: FC<FormProps> = () => {
         name="branch"
         copyIconProps={false}
         actionRef={actionRef}
+        alwaysShowItemLabel
+        className="custom_form_list"
         actionGuard={{
           beforeAddRow: () => {
             const id = uuid.v4();

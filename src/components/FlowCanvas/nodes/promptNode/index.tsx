@@ -32,5 +32,5 @@ const PromptNode: CustomNodeFC = () => {
 export default PromptNode;
 
 PromptNode.Form = Form;
-PromptNode.modalWdith = 360;
+PromptNode.modalWdith = 560;
 PromptNode.Icon = SendOutlined;

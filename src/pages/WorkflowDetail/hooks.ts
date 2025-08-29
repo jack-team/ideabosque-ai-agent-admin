@@ -11,8 +11,6 @@ export const useUiComponents = (data: API.Workflow.UiComponentType[]) => {
       }
     ];
 
-    console.log(item)
-
     return {
       componentName: item.tag_name,
       componentTag: item.tag_name,

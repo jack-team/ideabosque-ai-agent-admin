@@ -36,5 +36,5 @@ const TransformNode: CustomNodeFC = () => {
 export default TransformNode;
 
 TransformNode.Form = Form;
-TransformNode.modalWdith = 450;
+TransformNode.modalWdith = 560;
 TransformNode.Icon = BlockOutlined;
