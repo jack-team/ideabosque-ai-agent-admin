@@ -1,5 +1,5 @@
 import {
-  StepEdge,
+  SmoothStepEdge,
   useReactFlow,
   EdgeLabelRenderer,
   getSmoothStepPath,
@@ -46,7 +46,7 @@ const CustomStepEdge: FC<EdgeProps> = (props) => {
   return (
     <Fragment>
       <Marker stroke={stroke} id={id} />
-      <StepEdge
+      <SmoothStepEdge
         sourceX={sourceX}
         sourceY={sourceY}
         targetX={targetX}
@@ -54,7 +54,7 @@ const CustomStepEdge: FC<EdgeProps> = (props) => {
         markerEnd={`url(#${id})`}
         sourcePosition={sourcePosition}
         targetPosition={targetPosition}
-        style={{ stroke, strokeWidth: 2 }}
+        style={{ stroke, strokeWidth: 3 }}
       />
       <EdgeLabelRenderer>
         {selected ? (
