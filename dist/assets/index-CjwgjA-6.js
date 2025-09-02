@@ -1,1 +1,0 @@
-import{j as s,B as e,ao as i,ax as m}from"./libs-BaOSQqCJ.js";const r="_icon_btn_q1v44_1",x={icon_btn:r},p=t=>{const{icon:n,className:o,type:c="text",size:_="small",...a}=t;return s.jsx(e,{...a,type:c,icon:s.jsx(m,{component:n}),className:i(x.icon_btn,o)})};export{p as I};
