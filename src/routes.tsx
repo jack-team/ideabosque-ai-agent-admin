@@ -106,6 +106,10 @@ export const routes: RouteObject[] = [
       {
         path: '/async-tasks',
         Component: lazyLoad(() => import("@/pages/asyncTasks"))
+      },
+      {
+        path: '/preview',
+        Component: lazyLoad(() => import("@/pages/preview"))
       }
     ],
   },

@@ -33,6 +33,10 @@
     "title": "Question Groups"
   },
   {
+    "path": "/preview",
+    "title": "Preview"
+  },
+  {
     "path": "/settings",
     "title": "Settings"
   }
