@@ -5,7 +5,6 @@ import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components'
 import { PageContainer } from '@ant-design/pro-components';
 import SpinBox from '@/components/SpinBox';
-import { useAppBridge } from '@shopify/app-bridge-react'
 import { useCoordinationList } from './hooks';
 import styles from './styles.module.less';
 
@@ -17,19 +16,17 @@ type FormDataType = {
 const aibotUrl = 'https://ideabosque-ai-chat.pages.dev';
 
 const Preview: FC = () => {
-  const shopify = useAppBridge();
   const [form] = ProForm.useForm();
   const [iframeLoading, setIframeLoading] = useSafeState(false);
   const [formData, setFormData] = useSafeState<FormDataType | undefined>();
   const { data = [], loading: dataLoading } = useCoordinationList();
 
   const urlSearch = useMemo(() => {
-    return qs.stringify({ ...formData, mode: 'iframe' });
+    return qs.stringify({ ...formData, mode: 'preview' });
   }, [formData]);
 
   const handleSubmit = useMemoizedFn(async () => {
     const values = await form.validateFields();
-    await shopify.pos.location();
     setFormData(values);
   });
 
@@ -115,8 +112,10 @@ const Preview: FC = () => {
                 <iframe
                   width="100%"
                   height="100%"
+                  allow="geolocation;"
                   onLoad={onIframeLoadEnd}
                   src={`${aibotUrl}?${urlSearch}`}
+                  sandbox="allow-scripts allow-same-origin"
                 />
               ) : (
                 <div className={styles.placeholder}>
