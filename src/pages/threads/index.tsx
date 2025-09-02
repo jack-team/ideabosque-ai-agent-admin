@@ -17,12 +17,12 @@ const Messages: FC = () => {
       title="Message Threads"
       extra={
         <Space>
-          <Button
+          {/* <Button
             className="shopify gray"
             onClick={() => navigate('/messages')}
           >
             Messages
-          </Button>
+          </Button> */}
           <Button
             className="shopify gray"
             onClick={() => navigate('/async-tasks')}
