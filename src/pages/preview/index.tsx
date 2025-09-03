@@ -115,7 +115,6 @@ const Preview: FC = () => {
                   allow="geolocation;"
                   onLoad={onIframeLoadEnd}
                   src={`${aibotUrl}?${urlSearch}`}
-                  sandbox="allow-scripts allow-same-origin"
                 />
               ) : (
                 <div className={styles.placeholder}>
