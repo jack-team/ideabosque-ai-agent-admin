@@ -9,11 +9,19 @@ import type {
   GraphqlRequestHeaders,
   GraphqlResultType,
 } from "./types";
+import { getUrlParams } from '@/utils';
 import { ResultError } from "./result";
 
 const defaultApiUrl = import.meta.env.ENV_API_URL;
 const defaultApiKey = import.meta.env.ENV_API_KEY;
-const defaultEndpoint = import.meta.env.ENV_API_ENDPOINT_ID;
+let defaultEndpoint = import.meta.env.ENV_API_ENDPOINT_ID;
+
+let shop = getUrlParams('shop');
+
+// 存在店铺，获取店铺名称作为 endpointid
+if (shop) {
+  defaultEndpoint = shop.replace('.myshopify.com', '');
+}
 
 const baseUrl = [defaultApiUrl, defaultEndpoint].join("/");
 
