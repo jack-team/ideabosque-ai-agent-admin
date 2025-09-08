@@ -23,20 +23,21 @@ if (shop) {
   defaultEndpoint = shop.replace('.myshopify.com', '');
 }
 
-const baseUrl = [defaultApiUrl, defaultEndpoint].join("/");
-
 class GraphqlRequest {
   private readonly request: Axios;
   private readonly namespace: string;
-  private readonly baseUrl = baseUrl;
+  private readonly baseUrl: string;
   private readonly headers?: GraphqlRequestHeaders;
 
   constructor(options: GraphqlRequestOptions) {
-    const { apiKey = defaultApiKey } = options;
+    const {
+      apiKey = defaultApiKey,
+      endponitId = defaultEndpoint
+    } = options;
 
-    if (options.baseUrl) {
-      this.baseUrl = options.baseUrl;
-    }
+    this.baseUrl = options.baseUrl ?
+      options.baseUrl :
+      [defaultApiUrl, endponitId].join('/');
 
     this.request = axios.create({
       baseURL: this.baseUrl,

@@ -7,6 +7,7 @@ export type GraphqlRequestHeaders = (
 export type GraphqlRequestOptions = {
   baseUrl?: string;
   apiKey?: string;
+  endponitId?: string;
   namespace: string;
   headers?: GraphqlRequestHeaders;
 }
