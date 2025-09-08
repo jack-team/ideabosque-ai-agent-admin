@@ -1,1 +1,0 @@
-import{f as a,au as r,av as u,b as t}from"./libs-BaOSQqCJ.js";import{T as l}from"./index-DTADpAFe.js";const n=()=>t.useContext(l),M=()=>[t.useRef({closeModal:()=>null,openModal:()=>null}).current],f=o=>{const{event:e}=n(),s=a(o);r(()=>e.on("ok",s)),u(()=>e.off("ok",s))},m=()=>{const{closeModal:o}=n();return[o]};export{M as a,m as b,f as u};
