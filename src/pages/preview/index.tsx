@@ -5,7 +5,7 @@ import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components'
 import { PageContainer } from '@ant-design/pro-components';
 import SpinBox from '@/components/SpinBox';
-import { useCoordinationList } from './hooks';
+import { useCoordinationList, useEndpointId } from './hooks';
 import styles from './styles.module.less';
 
 type FormDataType = {
@@ -17,6 +17,7 @@ const aibotUrl = 'https://ideabosque-ai-chat.pages.dev';
 
 const Preview: FC = () => {
   const [form] = ProForm.useForm();
+  const endpointId = useEndpointId();
   const [iframeLoading, setIframeLoading] = useSafeState(false);
   const [formData, setFormData] = useSafeState<FormDataType | undefined>();
   const { data = [], loading: dataLoading } = useCoordinationList();
@@ -27,16 +28,16 @@ const Preview: FC = () => {
 
   const handleSubmit = useMemoizedFn(async () => {
     const values = await form.validateFields();
-    setFormData(values);
+    setFormData({ ...values, endpointId });
   });
 
   const onIframeLoadStart = useMemoizedFn(() => {
     setIframeLoading(true)
-  })
+  });
 
   const onIframeLoadEnd = useMemoizedFn(() => {
     setIframeLoading(false)
-  })
+  });
 
   useUpdateEffect(onIframeLoadStart, [urlSearch]);
 

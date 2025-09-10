@@ -14,13 +14,12 @@ import { ResultError } from "./result";
 
 const defaultApiUrl = import.meta.env.ENV_API_URL;
 const defaultApiKey = import.meta.env.ENV_API_KEY;
-let defaultEndpoint = import.meta.env.ENV_API_ENDPOINT_ID;
-
-let shop = getUrlParams('shop');
+const defaultEndpoint = import.meta.env.ENV_API_ENDPOINT_ID;
 
 // 存在店铺，获取店铺名称作为 endpointid
-if (shop) {
-  defaultEndpoint = shop.replace('.myshopify.com', '');
+export const getAiEndpoint = () => {
+  let shop = getUrlParams('shop');
+  return shop ? shop.replace('.myshopify.com', '') : defaultEndpoint;
 }
 
 class GraphqlRequest {
@@ -32,7 +31,7 @@ class GraphqlRequest {
   constructor(options: GraphqlRequestOptions) {
     const {
       apiKey = defaultApiKey,
-      endponitId = defaultEndpoint
+      endponitId = getAiEndpoint()
     } = options;
 
     this.baseUrl = options.baseUrl ?

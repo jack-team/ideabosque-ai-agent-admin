@@ -85,7 +85,7 @@ function WorkflowDetail() {
       className="shopify full-screen"
       loading={!detail && (
         <div className={styles.loading}>
-          <Spinner size={36} />
+          <Spinner size={48} />
         </div>
       )}
       onBack={() => navigate(-1)}

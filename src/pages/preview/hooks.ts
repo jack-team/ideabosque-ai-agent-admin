@@ -1,6 +1,7 @@
 import { useRequest } from 'ahooks';
-import { requestWrapper } from '@/utils'
+import { requestWrapper } from '@/utils';
 import { getCoordinationsApi } from '@/services/contactProfiles';
+import { getAiEndpoint } from '@/libs/graphql'
 
 type CoordinationItem = {
   label: string;
@@ -20,4 +21,8 @@ export const useCoordinationList = () => {
       }
     }) as CoordinationItem[];
   });
+}
+
+export const useEndpointId = () => {
+  return getAiEndpoint();
 }
