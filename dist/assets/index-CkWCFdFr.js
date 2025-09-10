@@ -1,0 +1,1 @@
+import{j as s}from"./libs-BaOSQqCJ.js";import{S as r}from"./index-BO1sSPnO.js";const l=i=>{const{loading:n=!1,children:o}=i;return s.jsxs("div",{className:"spin-box",children:[o,n?s.jsx("div",{className:"spin-box-loading",children:s.jsx(r,{size:48})}):null]})};export{l as S};
