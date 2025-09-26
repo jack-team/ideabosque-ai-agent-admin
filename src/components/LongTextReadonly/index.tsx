@@ -1,14 +1,15 @@
-import type { FC } from 'react';
+import type { FC, CSSProperties } from 'react';
 import { Typography, Tag } from 'antd';
 import styles from './styles.module.less';
 
 type LongTextReadonlyProps = {
   value?: string | any[];
   pre?: boolean;
+  rows?: number;
 }
 
 const LongTextReadonly: FC<LongTextReadonlyProps> = (props) => {
-  const { value, pre = false } = props;
+  const { value, pre = false, rows = 1 } = props;
 
   const renderContent = () => {
     if (Array.isArray(value)) {
@@ -23,8 +24,14 @@ const LongTextReadonly: FC<LongTextReadonlyProps> = (props) => {
     }
   }
 
+  const WrapperStyle: CSSProperties = {};
+
+  if (rows > 1) {
+    WrapperStyle.minHeight = rows * 32;
+  }
+
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={WrapperStyle}>
       <Typography.Paragraph>
         {renderContent()}
       </Typography.Paragraph>

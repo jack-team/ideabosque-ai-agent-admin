@@ -52,11 +52,12 @@ const ContactRequests: FC = () => {
             title: 'Action',
             key: 'action',
             fixed: 'right',
+            width: 100,
             render: (_, record) => {
               return (
                 <TriggerModal
                   width={620}
-                  title="Submission request details"
+                  title="Contact Request details"
                   hasFooter={false}
                   trigger={<IconButton icon={ViewIcon} />}
                 >
@@ -68,13 +69,13 @@ const ContactRequests: FC = () => {
         ]}
         request={async (params) => {
           const {
-            placeList: result
+            contactRequestList: result
           } = await getContactRequestsApi({
             pageNumber: params.current,
             limit: params.pageSize
           });
           return {
-            data: result.placeList,
+            data: result.contactRequestList,
             total: result.total
           }
         }}

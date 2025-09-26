@@ -16,7 +16,8 @@ const EditFrom: FC<EditFromProps> = (props) => {
       initialValues={formData}
       submitter={false}
       style={{
-        padding: '24px 0 0 0'
+        padding: '24px 0 0 0',
+        overflow: 'hidden'
       }}
     >
       <ProForm.Item
@@ -29,7 +30,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         label="Request Detail"
         name="requestDetail"
       >
-        <LongTextReadonly />
+        <LongTextReadonly pre rows={6}/>
       </ProForm.Item>
     </ProForm>
   );
