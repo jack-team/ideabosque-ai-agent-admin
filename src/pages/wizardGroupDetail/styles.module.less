@@ -1,0 +1,25 @@
+.form_list {
+  .step_card {
+    :global {
+      .ant-card-head-title {
+        color: #2AB2D9;
+      }
+    }
+  }
+
+  :global {
+    .ant-form-item-control-input {
+      min-height: auto;
+    }
+
+    .ant-pro-form-list-item {
+      &+.ant-pro-form-list-item {
+        margin-top: 24px;
+      }
+
+      .ant-pro-form-list-container {
+        width: 100%;
+      }
+    }
+  }
+}

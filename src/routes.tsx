@@ -18,15 +18,6 @@ export const routes: RouteObject[] = [
         path: "/dashboard",
         Component: lazyLoad(() => import("@/pages/dashboard")),
       },
-      // auth start
-      {
-        path: '/auth-start',
-        Component: () => null,
-      },
-      {
-        path: '/auth-success',
-        Component: () => null,
-      },
       {
         path: "/customer-groups",
         Component: lazyLoad(() => import("@/pages/customerGroups")),
@@ -82,6 +73,10 @@ export const routes: RouteObject[] = [
       {
         path: '/wizard-groups',
         Component: lazyLoad(() => import("@/pages/wizardGroups"))
+      },
+      {
+        path: '/wizard-group/:uid',
+        Component: lazyLoad(() => import("@/pages/wizardGroupDetail"))
       },
       {
         path: '/wizards',

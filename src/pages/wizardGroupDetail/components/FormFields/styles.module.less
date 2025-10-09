@@ -1,0 +1,48 @@
+.form_field_wrapper {
+  width: 100%;
+}
+
+.sub_list {
+  :global {
+    .ant-pro-form-list-item {
+      margin-bottom: 0 !important;
+
+      &+.ant-pro-form-list-item {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+.form_field {
+  height: 36px;
+  border: 1px solid #E3E3E3;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding-right: 4px;
+  font-size: 14px;
+  color: #303030;
+}
+
+.field_label {
+  flex: 1;
+  overflow: hidden;
+}
+
+.drag_handle {
+  height: 100%;
+  padding: 0 6px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.options {
+  padding: 0 0 0 24px;
+  margin-top: 12px;
+
+  &.hide {
+    display: none;
+  }
+}

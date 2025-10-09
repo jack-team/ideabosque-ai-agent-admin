@@ -21,7 +21,8 @@ export const themeConfigs: ThemeConfig = {
       colorTextDisabled: '#D1D5DB',
       multipleSelectorBgDisabled: '#333',
       colorBgContainerDisabled: 'transparent',
-      multipleItemColorDisabled: '#303030'
+      multipleItemColorDisabled: primaryColor,
+      optionSelectedColor: '#fff'
     },
     Form: {
       labelFontSize: 13,

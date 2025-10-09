@@ -7,6 +7,12 @@ export const getWizardGroupListApi = async (params: Record<string, any>) => {
   return agentCore.graphql({ query, variables: params });
 }
 
+// 通过 uuid 获取 WizardGroup
+export const getWizardGroupApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Query', name: 'wizardGroup' });
+  return agentCore.graphql({ query, variables: params });
+}
+
 export const insertUpdateWizardGroupApi = async (params: Record<string, any>) => {
   const query = await generateQuery({ type: 'Mutation', name: 'insertUpdateWizardGroup' });
   return agentCore.graphql({ query, variables: params });
