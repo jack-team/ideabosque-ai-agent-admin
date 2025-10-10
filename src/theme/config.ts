@@ -1,5 +1,6 @@
 import type { ThemeConfig } from 'antd';
 import { primaryColor, borderColor } from './colors';
+import { hexToRgba } from '@/utils';
 
 export const themeConfigs: ThemeConfig = {
   token: {
@@ -22,7 +23,7 @@ export const themeConfigs: ThemeConfig = {
       multipleSelectorBgDisabled: '#333',
       colorBgContainerDisabled: 'transparent',
       multipleItemColorDisabled: primaryColor,
-      optionSelectedColor: '#fff'
+      optionSelectedBg: hexToRgba(primaryColor, .2),
     },
     Form: {
       labelFontSize: 13,

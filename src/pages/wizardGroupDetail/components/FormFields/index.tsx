@@ -1,19 +1,22 @@
 import { useMemoizedFn } from 'ahooks';
 import { type FC, Fragment, type RefObject } from 'react';
-import { ProFormList, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
+import { ProFormList, type FormListActionType, ProFormDependency, type ProFormItemProps } from '@ant-design/pro-components';
 import AddButton from '../AddButton';
 import { TriggerModal } from '@/components';
 import AddMenuForm from './AddMenuForm';
 import Fields, { type EditFormProps } from './fields';
+import { getNestedValue } from '../../helper';
 import styles from './styles.module.less';
 
 type FormFieldsProps = {
-  name: string;
   floor?: number;
   fields: string[];
   titleField: string;
   showAddBtn?: boolean;
   EditForm: FC<EditFormProps>;
+  editFormTitle: string;
+  addFormTitle?: string;
+  name: NonNullable<ProFormItemProps['name']>;
   actionRef: RefObject<FormListActionType | undefined>;
 }
 
@@ -25,10 +28,13 @@ const FormFields: FC<FormFieldsProps> = (props) => {
     floor = 0,
     actionRef,
     EditForm,
-    showAddBtn = true
+    editFormTitle,
+    addFormTitle,
+    showAddBtn = true,
   } = props;
 
   const handleAdd = useMemoizedFn((data: Record<string, any>) => {
+    console.log(data);
     actionRef.current?.add(data);
   });
 
@@ -54,24 +60,25 @@ const FormFields: FC<FormFieldsProps> = (props) => {
               formData={formData}
               EditForm={EditForm}
               showAddBtn={showAddBtn}
+              editFormTitle={editFormTitle}
               title={formData[titleField]}
             />
           )
         }}
       </ProFormList>
       {!floor && (
-        <ProFormDependency name={[name]}>
+        <ProFormDependency name={name}>
           {(formData) => {
-            const list = formData[name] || [];
-            const marginTop = list.length ? 12 : 0;
+            const stpes = getNestedValue(formData, name);
+            const marginTop = stpes?.length ? 12 : 0;
 
             return (
               <TriggerModal
                 destroyOnHidden
-                title="Add menu item"
+                title={addFormTitle}
                 trigger={(
                   <AddButton
-                    text="Add menu item"
+                    text={addFormTitle}
                     style={{ marginTop }}
                   />
                 )}

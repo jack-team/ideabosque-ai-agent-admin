@@ -4,6 +4,7 @@ import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { DataTypeMap } from '../../enum';
 import type { EditFormProps } from './fields';
 
+
 const AddMenuForm: FC<EditFormProps> = (props) => {
   const [form] = ProForm.useForm();
   const [closeModal] = useModalClose();
@@ -22,21 +23,14 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
       style={{ padding: '16px 0 0 0' }}
     >
       <ProFormText
-        name="element_title"
+        name="title"
         label="Name"
         rules={[
           { required: true }
         ]}
       />
-      <ProFormText
-        name="attribute_name"
-        label="Attribute Name"
-        rules={[
-          { required: true }
-        ]}
-      />
       <ProFormSelect
-        name="attribute_type"
+        name="attrType"
         label="Attribute type"
         valueEnum={DataTypeMap}
         rules={[
@@ -44,7 +38,14 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
         ]}
       />
       <ProFormText
-        name="data_type"
+        name="attrName"
+        label="Attribute Name"
+        rules={[
+          { required: true }
+        ]}
+      />
+      <ProFormText
+        name="dataType"
         label="Data type"
         rules={[
           { required: true }

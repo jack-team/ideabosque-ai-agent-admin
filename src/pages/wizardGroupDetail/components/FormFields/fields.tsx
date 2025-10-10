@@ -9,6 +9,7 @@ import IconButton from '@/components/IconButton';
 import { TriggerModal } from '@/components';
 import AddOptionForm from './AddOptionForm';
 import FormFields from '.';
+import { getNestedValue } from '../../helper';
 import styles from './styles.module.less';
 
 type RowActionType = Extract<
@@ -33,7 +34,10 @@ type FieldsProps = {
   EditForm: FC<EditFormProps>;
   formData?: Record<string, any>;
   action: Parameters<RowActionType>[2];
+  editFormTitle: string;
 }
+
+const optionsName = ['options'];
 
 const Fields: FC<FieldsProps> = (props) => {
   const {
@@ -42,13 +46,13 @@ const Fields: FC<FieldsProps> = (props) => {
     floor = 0,
     EditForm,
     fields = [],
+    editFormTitle,
     showAddBtn = true
   } = props;
 
+  const isTop = floor === 0;
   const [modal, contextHolder] = Modal.useModal();
   const actionRef = useRef<FormListActionType>(undefined);
-
-  const isTop = floor === 0;
 
   const handleAdd = useMemoizedFn((data: Record<string, any>) => {
     actionRef.current?.add(data);
@@ -78,8 +82,8 @@ const Fields: FC<FieldsProps> = (props) => {
         <Space size={0}>
           {isTop && showAddBtn && (
             <TriggerModal
-              title="Add Option"
               destroyOnHidden
+              title="Add option"
               trigger={<IconButton icon={PlusCircleIcon} />}
             >
               <AddOptionForm onSubmit={handleAdd} />
@@ -87,7 +91,7 @@ const Fields: FC<FieldsProps> = (props) => {
           )}
           <TriggerModal
             destroyOnHidden
-            title="Menu Item Details"
+            title={editFormTitle}
             trigger={<IconButton icon={EditIcon} />}
           >
             <EditForm
@@ -102,21 +106,26 @@ const Fields: FC<FieldsProps> = (props) => {
         </Space>
       </div>
       {isTop && showAddBtn && (
-        <ProFormDependency name={['option_values']}>
-          {({ option_values: options = [] }) => {
+        <ProFormDependency name={optionsName}>
+          {formData => {
+            const options = getNestedValue(
+              formData,
+              optionsName
+            );
             const className = classNames(
               styles.options,
-              !options.length && styles.hide
+              !options?.length && styles.hide
             );
             return (
               <div className={className}>
                 <FormFields
                   floor={floor + 1}
                   titleField="name"
-                  name="option_values"
-                  fields={['name', 'value']}
+                  name={optionsName}
                   actionRef={actionRef}
                   EditForm={AddOptionForm}
+                  fields={["name", "value"]}
+                  editFormTitle="Option details"
                 />
               </div>
             );

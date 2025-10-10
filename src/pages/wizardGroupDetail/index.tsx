@@ -1,8 +1,9 @@
-import { Card } from 'antd';
+import { Card, Space } from 'antd';
 import classNames from 'classnames';
 import { type FC, useEffect, useRef } from 'react';
 import { useSafeState, useMemoizedFn } from 'ahooks';
 import { useNavigate, useParams } from 'react-router';
+import { ShopifyButton } from '@/components';
 import { PageContainer, ProForm, ProFormList, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
 import { getWizardGroupApi } from '@/services/wizard';
 import SpinBox from '@/components/SpinBox';
@@ -11,6 +12,7 @@ import BasicForm from './components/BasicForm';
 import StepForm from './components/StepForm';
 import AddBlockForm from './components/AddBlockForm';
 import AddButton from './components/AddButton';
+import { parseData } from './helper';
 import styles from './styles.module.less';
 
 const WizardGroupDetail: FC = () => {
@@ -24,7 +26,9 @@ const WizardGroupDetail: FC = () => {
     setLoading(true);
     try {
       const result = await getWizardGroupApi({ wizardGroupUuid: id });
-      // form.setFieldsValue(result.wizardGroup);
+      const json = parseData(result.wizardGroup);
+      console.log(json);
+      form.setFieldsValue(json);
     } catch (err) {
       console.log(err);
     } finally {
@@ -36,20 +40,42 @@ const WizardGroupDetail: FC = () => {
     if (uid) loadDetail(uid);
   }, [uid]);
 
-  const handleAddItem = useMemoizedFn((type: string) => {
-    actionRef.current?.add({ wizard_type: type });
+  const handleAddItem = useMemoizedFn((blockType: string) => {
+    actionRef.current?.add({
+      wizard_type: blockType,
+      form_schema: { blockType }
+    });
   });
 
   return (
     <SpinBox loading={loading}>
       <PageContainer
         title="UI Block Group"
-        className="shopify"
+        className="shopify full-screen"
         onBack={() => navigate(-1)}
+        extra={
+          <Space>
+            <ShopifyButton className="gray">
+              Save
+            </ShopifyButton>
+            <TriggerModal
+              destroyOnHidden
+              title="New UI Block"
+              trigger={
+                <ShopifyButton type="primary">
+                  Add new block
+                </ShopifyButton>
+              }
+            >
+              <AddBlockForm onChange={handleAddItem} />
+            </TriggerModal>
+          </Space>
+        }
       >
         <ProForm
           form={form}
           submitter={false}
+          className={styles.page_content}
         >
           <Card
             className="shopify"
@@ -68,10 +94,10 @@ const WizardGroupDetail: FC = () => {
             creatorButtonProps={false}
             className={styles.form_list}
             style={{ marginBottom: 0 }}
-            itemContainerRender={(dom, e) => (
+            itemContainerRender={(dom, { index }) => (
               <Card
                 children={dom}
-                title={`Step ${e.index + 1}`}
+                title={`Step ${index + 1}`}
                 className={classNames(styles.step_card, 'shopify')}
               />
             )}
@@ -94,7 +120,7 @@ const WizardGroupDetail: FC = () => {
                     <AddBlockForm onChange={handleAddItem} />
                   </TriggerModal>
                 </Card>
-              )
+              );
             }}
           </ProFormDependency>
         </ProForm>

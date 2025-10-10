@@ -52,3 +52,23 @@ export const DataTypeMap = {
   [DataTypeEnum.String]: 'String',
   [DataTypeEnum.Array]: 'Array'
 }
+
+export enum FileTypes {
+  PDF = 'pdf',
+  JPEG = 'jpeg',
+  PNG = 'png'
+}
+
+export const FileTypeMap = {
+  [FileTypes.PDF]: 'PDF',
+  [FileTypes.JPEG]: 'JPEG',
+  [FileTypes.PNG]: 'PNG'
+}
+
+export enum CalendarTypes {
+  Hubspot = 'hubspot'
+}
+
+export const CalendarTypeMap = {
+  [CalendarTypes.Hubspot]: 'Hubspot'
+}

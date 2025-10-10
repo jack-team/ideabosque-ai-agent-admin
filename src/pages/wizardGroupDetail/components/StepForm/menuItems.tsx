@@ -5,16 +5,17 @@ import AddMenuForm from '../FormFields/AddMenuForm';
 import styles from './styles.module.less';
 
 const fileds = [
-  'element_title',
-  'attribute_name',
-  'attribute_type',
-  'data_type',
+  'title',
+  'attrName',
+  'attrType',
+  'dataType',
   'priority',
-  'required'
+  'required',
 ];
 
 type MenuItemsProps = {
   showAddBtn?: boolean;
+  title: string;
 };
 
 const MenuItems: FC<MenuItemsProps> = (props) => {
@@ -22,13 +23,17 @@ const MenuItems: FC<MenuItemsProps> = (props) => {
 
   return (
     <Fragment>
-      <div className={styles.title}>Menu items</div>
+      <div className={styles.title}>
+        {props.title}
+      </div>
       <FormFields
         fields={fileds}
-        name="elements"
+        name={["form_schema", "items"]}
         actionRef={actionRef}
         EditForm={AddMenuForm}
         titleField="element_title"
+        addFormTitle="Add menu item"
+        editFormTitle="Menu Item Details"
         {...props}
       />
     </Fragment>
