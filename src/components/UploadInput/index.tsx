@@ -12,12 +12,14 @@ type UploadInputProps = {
 const UploadInput: FC<UploadInputProps> = (props) => {
   const { value, onChange, namespace } = props;
   //@ts-ignore
+  const [loading, setLoading] = useSafeState(false);
   const [files, setFiles] = useSafeState<UploadFile[]>([{ name: value }]);
 
   const onUpload = useMemoizedFn(async (files: UploadFile[]) => {
     const [file] = files;
     file.status = 'uploading';
     setFiles(files);
+    setLoading(true);
 
     try {
       const objectKey = await uploadFile(file, namespace);
@@ -29,12 +31,14 @@ const UploadInput: FC<UploadInputProps> = (props) => {
       message.error('File upload failed.');
     } finally {
       setFiles([file]);
+      setLoading(false);
     }
   });
 
   return (
     <ProUploadFile
       value={files}
+      disbaled={loading}
       onChange={onUpload}
     />
   );
