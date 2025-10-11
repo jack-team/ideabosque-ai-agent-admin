@@ -19,6 +19,10 @@ const WizardGroups: FC = () => {
     ref.current?.reload();
   });
 
+  const toDetail = useMemoizedFn((uid) => {
+    navigate(`/wizard-group/${uid}`);
+  });
+
   const handleArchive = useMemoizedFn((record: Record<string, any>) => {
     modal.confirm({
       title: 'Are you sure you want to delete?',
@@ -137,20 +141,13 @@ const WizardGroups: FC = () => {
             fixed: 'right',
             hideInSearch: true,
             render: (_, record) => {
+              const uid = record.wizardGroupUuid;
               return (
                 <Space>
-                  <TriggerModal
-                    width={600}
-                    destroyOnHidden
-                    className="shopify"
-                    title="UI Block Group Details"
-                    trigger={<IconButton icon={EditIcon} />}
-                  >
-                    <EditFrom
-                      formData={record}
-                      onSuccess={onRefresh}
-                    />
-                  </TriggerModal>
+                  <IconButton
+                    icon={EditIcon}
+                    onClick={() => toDetail(uid)}
+                  />
                   <IconButton
                     icon={DeleteIcon}
                     onClick={() => handleArchive(record)}

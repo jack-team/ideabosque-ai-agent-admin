@@ -38,7 +38,7 @@ const StepForm: FC = () => {
         ]}
       />
       <ProFormText
-        disabled
+        hidden
         name={blockTypeName}
         label="Step type"
         rules={[
@@ -71,6 +71,16 @@ const StepForm: FC = () => {
           }
         }}
       </ProFormDependency>
+      <div className={styles.title}>
+        Bottom actions
+      </div>
+      <ProFormText
+        label="CTA button"
+        name={["form_schema", "ctaButton"]}
+        rules={[
+          { required: true }
+        ]}
+      />
     </Fragment>
   );
 }

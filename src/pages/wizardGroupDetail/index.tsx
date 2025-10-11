@@ -49,13 +49,12 @@ const WizardGroupDetail: FC = () => {
 
   const handleSave = useMemoizedFn(async () => {
     console.log(form.getFieldsValue())
-
   })
 
   return (
     <SpinBox loading={loading}>
       <PageContainer
-        title="UI Block Group"
+        title="Onboarding Block Group"
         className="shopify full-screen"
         onBack={() => navigate(-1)}
         extra={

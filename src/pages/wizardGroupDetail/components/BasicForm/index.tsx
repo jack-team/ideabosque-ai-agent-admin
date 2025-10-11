@@ -14,7 +14,7 @@ const BasicForm: FC = () => {
       />
       <ProFormTextArea
         name="wizardGroupDescription"
-        label="Block Group Name"
+        label="Description"
         placeholder="This is the description of the UI Block Group"
         rules={[
           { required: true }
