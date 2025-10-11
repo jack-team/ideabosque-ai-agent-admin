@@ -22,7 +22,7 @@ const AddOptionForm: FC<EditFormProps> = (props) => {
       style={{ padding: '16px 0 0 0' }}
     >
       <Row gutter={16}>
-        <Col span={12}>
+        <Col span={24}>
           <ProFormText
             name="name"
             label="Label"
@@ -31,10 +31,10 @@ const AddOptionForm: FC<EditFormProps> = (props) => {
             ]}
           />
         </Col>
-        <Col span={12}>
+        <Col span={24}>
           <ProFormText
-            name="Value"
-            label="value"
+            name="value"
+            label="Value"
             rules={[
               { required: true }
             ]}

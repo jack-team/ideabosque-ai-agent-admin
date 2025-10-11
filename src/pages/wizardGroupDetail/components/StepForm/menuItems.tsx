@@ -31,7 +31,7 @@ const MenuItems: FC<MenuItemsProps> = (props) => {
         name={["form_schema", "items"]}
         actionRef={actionRef}
         EditForm={AddMenuForm}
-        titleField="element_title"
+        titleField="title"
         addFormTitle="Add menu item"
         editFormTitle="Menu Item Details"
         {...props}

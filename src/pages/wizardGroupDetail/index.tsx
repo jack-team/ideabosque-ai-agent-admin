@@ -47,6 +47,11 @@ const WizardGroupDetail: FC = () => {
     });
   });
 
+  const handleSave = useMemoizedFn(async () => {
+    console.log(form.getFieldsValue())
+
+  })
+
   return (
     <SpinBox loading={loading}>
       <PageContainer
@@ -55,7 +60,10 @@ const WizardGroupDetail: FC = () => {
         onBack={() => navigate(-1)}
         extra={
           <Space>
-            <ShopifyButton className="gray">
+            <ShopifyButton
+              className="gray"
+              onClick={handleSave}
+            >
               Save
             </ShopifyButton>
             <TriggerModal

@@ -26,15 +26,24 @@ const StepForm: FC = () => {
       <ProFormText
         name="wizard_title"
         label="Step title"
+        rules={[
+          { required: true }
+        ]}
       />
       <ProFormText
         name="wizard_description"
         label="Step description"
+        rules={[
+          { required: true }
+        ]}
       />
       <ProFormText
         disabled
         name={blockTypeName}
         label="Step type"
+        rules={[
+          { required: true }
+        ]}
       />
       <ProFormDependency name={blockTypeName}>
         {({ form_schema: schema }) => {

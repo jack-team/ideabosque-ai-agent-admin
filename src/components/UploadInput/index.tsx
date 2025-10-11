@@ -11,9 +11,11 @@ type UploadInputProps = {
 
 const UploadInput: FC<UploadInputProps> = (props) => {
   const { value, onChange, namespace } = props;
-  //@ts-ignore
   const [loading, setLoading] = useSafeState(false);
-  const [files, setFiles] = useSafeState<UploadFile[]>([{ name: value }]);
+
+  const [files, setFiles] = useSafeState<UploadFile[]>((() => {
+    return value ? [{ name: value }] as UploadFile[] : []
+  })());
 
   const onUpload = useMemoizedFn(async (files: UploadFile[]) => {
     const [file] = files;
