@@ -1002,6 +1002,11 @@
   resolved "https://registry.npmmirror.com/@shopify/app-bridge-types/-/app-bridge-types-0.0.18.tgz#f5219d9349e8b770f8bf05ff439c84158f697227"
   integrity sha512-02AiWgn1op7qCKx6HXpFqBwJNPoqZ9g47hltch1ZD4bC+2vVuCgePlmJ+yEFWcN5tW9AG/a27Igsbi0LnY01gA==
 
+"@shopify/polaris-icons@9.3.1":
+  version "9.3.1"
+  resolved "https://registry.npmjs.org/@shopify/polaris-icons/-/polaris-icons-9.3.1.tgz#945aff6632c70a8086ca62d99c2e68257ea59e5a"
+  integrity sha512-16BIFAT93LJ8X4YRXz5cR9ZPHeErMg3DYS0gyTPNPkd0E5IBPoTxPINjn2b4Mr9Sc1x4RfI4AqPcV8ut0D1J5w==
+
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   version "8.0.0"
   resolved "https://registry.npmmirror.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz#4001f5d5dd87fa13303e36ee106e3ff3a7eb8b22"
@@ -1961,6 +1966,11 @@ es-set-tostringtag@^2.1.0:
     get-intrinsic "^1.2.6"
     has-tostringtag "^1.0.2"
     hasown "^2.0.2"
+
+es-toolkit@^1.39.6:
+  version "1.40.0"
+  resolved "https://registry.npmjs.org/es-toolkit/-/es-toolkit-1.40.0.tgz#1132e3d8a990298edd08d7b830a12c4eebbe82bb"
+  integrity sha512-8o6w0KFmU0CiIl0/Q/BCEOabF2IJaELM1T2PWj6e8KqzHv1gdx+7JtFnDwOx1kJH/isJ5NwlDG1nCr1HrRF94Q==
 
 esbuild@^0.25.0:
   version "0.25.5"
@@ -3311,6 +3321,13 @@ react-refresh@^0.17.0:
   resolved "https://registry.npmmirror.com/react-refresh/-/react-refresh-0.17.0.tgz#b7e579c3657f23d04eccbe4ad2e58a8ed51e7e53"
   integrity sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==
 
+react-resize-detector@12.3.0:
+  version "12.3.0"
+  resolved "https://registry.npmjs.org/react-resize-detector/-/react-resize-detector-12.3.0.tgz#f273586fccef9da5282909a160ce1ff44c7d5669"
+  integrity sha512-mIDOVrTHKGnKe6qEUWi8dFdfHM5CPyTOpqoHctdMQf89Ljm/0qqDIzkP3vTRZZJi9/raaMiRxDEOqO4you5x+A==
+  dependencies:
+    es-toolkit "^1.39.6"
+
 react-router-dom@7.6.2:
   version "7.6.2"
   resolved "https://registry.npmmirror.com/react-router-dom/-/react-router-dom-7.6.2.tgz#e97e386ab390b6503a2a7968124b7a3237fb10c7"
@@ -3567,6 +3584,11 @@ svg-parser@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmmirror.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
   integrity sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==
+
+swiper@12.0.2:
+  version "12.0.2"
+  resolved "https://registry.npmjs.org/swiper/-/swiper-12.0.2.tgz#aa52251d125fc6e9986af09ae3769fe836e68780"
+  integrity sha512-y8F6fDGXmTVVgwqJj6I00l4FdGuhpFJn0U/9Ucn1MwWOw3NdLV8aH88pZOjyhBgU/6PyBlUx+JuAQ5KMWz906Q==
 
 swr@^2.0.0:
   version "2.3.4"

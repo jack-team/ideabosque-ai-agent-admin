@@ -1,0 +1,1 @@
+import{h as a,aI as r,aJ as u,b as t}from"./libs-NYaGYdqa.js";import{T as l}from"./index-CD538xby.js";const n=()=>t.useContext(l),M=()=>[t.useRef({closeModal:()=>null,openModal:()=>null}).current],f=o=>{const{event:e}=n(),s=a(o);r(()=>e.on("ok",s)),u(()=>e.off("ok",s))},m=()=>{const{closeModal:o}=n();return[o]};export{M as a,m as b,f as u};

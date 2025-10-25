@@ -18,7 +18,7 @@ type OptionType = {
   value: string;
 }
 
-const aibotUrl = 'https://ideabosque-ai-chat.pages.dev';
+const aibotUrl = 'https://shopify-ai-chat.pages.dev';
 
 const Preview: FC = () => {
   const [form] = ProForm.useForm();

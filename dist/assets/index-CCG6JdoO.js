@@ -1,0 +1,1 @@
+import{j as s,B as e,ao as i,aA as m}from"./libs-NYaGYdqa.js";const r="_icon_btn_q1v44_1",_={icon_btn:r},p=t=>{const{icon:n,className:o,type:c="text",size:l="small",...a}=t;return s.jsx(e,{...a,type:c,icon:s.jsx(m,{component:n}),className:i(_.icon_btn,o)})};export{p as I};

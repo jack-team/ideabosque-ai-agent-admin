@@ -1,0 +1,134 @@
+.container {
+  width: 90%;
+  margin: 60px auto;
+  background: #fff;
+  padding: 24px 0;
+
+  .stpes {
+    width: 100%;
+  }
+
+  .stpes_wrapper {
+    position: relative;
+    align-items: center;
+    align-items: flex-end;
+
+    .step_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+      gap: 8px;
+      user-select: none;
+
+      &:last-child {
+        margin-right: 0 !important;
+      }
+
+      .top {
+        text-align: center;
+      }
+
+      .main_title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .sub_title {
+        font-size: 12px;
+        font-weight: 500;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #aaa;
+      }
+
+      .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer_text {
+        font-size: 12px;
+        color: #aaa;
+      }
+
+      .actions {
+        height: 24px;
+      }
+
+      .action_button {
+        padding: 0 20px;
+        height: 24px;
+        border-radius: 12px;
+        border: 1px solid #f40;
+        color: #f40;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+
+    .step_line_inner {
+      height: 2px;
+      background: #ccc;
+      position: absolute;
+      overflow: hidden;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .progress {
+      height: 100%;
+      background: #f40;
+    }
+  }
+
+  .icon_wrapper {
+    width: 54px;
+    height: 54px;
+    position: relative;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    background: #f2f2f2;
+  }
+}
+
+.content {
+  position: relative;
+
+  .pre,
+  .next {
+    position: absolute;
+    height: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0, 0, 0, .3);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .pre {
+    left: 4px;
+  }
+
+  .next {
+    right: 4px;
+  }
+}
