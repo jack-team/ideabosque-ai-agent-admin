@@ -4,7 +4,6 @@ import autoprefixer from "autoprefixer";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { fileURLToPath, URL } from "node:url";
 import react from '@vitejs/plugin-react';
-import { dependencies } from './package.json';
 
 // https://vite.dev/config/
 export default defineConfig((config) => {
@@ -39,8 +38,44 @@ export default defineConfig((config) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            libs: Object.keys(dependencies)
-          }
+            vendor: [
+              'react',
+              'react-dom',
+              'react-router',
+              'react-router-dom',
+              'zustand',
+              'ahooks',
+              '@shopify/app-bridge-react'
+            ],
+            utils: [
+              'lodash',
+              'dayjs',
+              'axios',
+              'uuid',
+              'clone-deep'
+            ],
+            ui: [
+              'antd',
+              '@ant-design/icons',
+              '@ant-design/pro-components',
+              '@shopify/polaris-icons'
+            ]
+          },
+          chunkFileNames: (chunkInfo) => {
+            const moduleId = chunkInfo.facadeModuleId
+            if (moduleId) {
+              if (moduleId.includes('node_modules')) {
+                return 'vendor/[name]-[hash].js'
+              }
+              if (moduleId.includes('src/components')) {
+                return 'components/[name]-[hash].js'
+              }
+              if (moduleId.includes('src/pages')) {
+                return 'pages/[name]-[hash].js'
+              }
+            }
+            return 'chunks/[name]-[hash].js'
+          },
         }
       }
     },

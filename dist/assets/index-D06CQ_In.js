@@ -1,1 +1,0 @@
-import{aM as t,j as s}from"./libs-NYaGYdqa.js";const n="_container_p290y_1",o={container:n},a=()=>{const{ref:e}=t();return s.jsx("div",{className:o.container,ref:e,children:"demo"})};export{a as default};
