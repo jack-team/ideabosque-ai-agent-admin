@@ -13,11 +13,13 @@ const Tools: FC<ToolsProps> = (props) => {
   const { editForm } = tools;
   const { top } = useCanvasContext();
   const { openDetail } = useFlowContext();
-  const { setNodes, updateNodeData } = useReactFlow();
+  const { setNodes, updateNodeData, setEdges } = useReactFlow();
   const formData = useNodeFormData();
 
   const handleDeleteNode = useMemoizedFn(() => {
+    //删除节点，同时删除对应的边
     setNodes(ns => ns.filter(n => n.id !== nodeId));
+    setEdges(edges=> edges.filter(e => e.source !== nodeId && e.target !== nodeId));
   });
 
   const onSaveNodeData = useMemoizedFn(
