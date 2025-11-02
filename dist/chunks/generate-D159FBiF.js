@@ -1,0 +1,1 @@
+import{d as t}from"../assets/index-BYkTdspT.js";const n=async(e,r)=>(await t.send({function_name:e,operation_name:r.name,operation_type:r.type})).query,i=async e=>n("ai_agent_core_graphql",e),s=e=>n("ai_marketing_graphql",e),g=e=>n("ai_coordination_graphql",e);export{s as a,g as b,i as g};
