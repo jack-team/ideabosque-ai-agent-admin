@@ -1,1 +1,0 @@
-import{D as r,P as a,Q as u,r as t}from"./vendor-BASRo5BV.js";import{T as l}from"../assets/index-a3n_qMTh.js";const n=()=>t.useContext(l),M=()=>[t.useRef({closeModal:()=>null,openModal:()=>null}).current],f=o=>{const{event:e}=n(),s=r(o);a(()=>e.on("ok",s)),u(()=>e.off("ok",s))},m=()=>{const{closeModal:o}=n();return[o]};export{M as a,m as b,f as u};
