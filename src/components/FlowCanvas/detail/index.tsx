@@ -1,34 +1,25 @@
 import { type FC } from 'react';
 import classNames from 'classnames';
 import { useSafeState, useUpdateEffect, useMemoizedFn } from 'ahooks';
-import { useFlowContext } from '../hooks';
 import Layer from './layer';
+import { useFlowContext } from '../hooks';
 import styles from './styles.module.less';
 
 const Detail: FC = () => {
-  const {
-    detailId
-  } = useFlowContext();
+  const { detailId } = useFlowContext();
+  const [open, setOpen] = useSafeState(!!detailId);
 
-  const [
-    open,
-    setOpen
-  ] = useSafeState(false);
-
-  const openDetail = useMemoizedFn(
-    () => setOpen(true)
-  );
-
-  const closeDetail = useMemoizedFn(
-    () => setOpen(false)
-  );
+  const openDetail = useMemoizedFn(() => setOpen(true));
+  const closeDetail = useMemoizedFn(() => setOpen(false));
 
   useUpdateEffect(() => {
+    let timer: NodeJS.Timeout;
     if (detailId) {
       openDetail();
     } else {
-      setTimeout(closeDetail, 400);
+      timer = setTimeout(closeDetail, 400);
     }
+    return () => clearTimeout(timer);
   }, [detailId]);
 
   const cls = classNames(
