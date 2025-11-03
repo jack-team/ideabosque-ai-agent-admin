@@ -3,8 +3,6 @@ import { Navigate } from "react-router-dom";
 import { lazyLoad } from "@/utils/lazyload";
 import BaseLayout from "./layout";
 
-import '@/services/wizard'
-
 export const routes: RouteObject[] = [
   {
     path: "/",
