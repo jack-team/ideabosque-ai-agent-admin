@@ -1,1 +1,0 @@
-import{k as s}from"./vendor-BASRo5BV.js";import{B as e,G as i,X as m}from"./ui-CrIkMfD8.js";const r="_icon_btn_q1v44_1",_={icon_btn:r},b=t=>{const{icon:n,className:o,type:c="text",size:l="small",...a}=t;return s.jsx(e,{...a,type:c,icon:s.jsx(m,{component:n}),className:i(_.icon_btn,o)})};export{b as I};
