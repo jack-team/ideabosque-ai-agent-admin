@@ -82,7 +82,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/elements',
-        Component: lazyLoad(() => import("@/pages/elements"))
+        Component: lazyLoad(() => import("./pages/elements"))
       },
       {
         path: '/question-groups',
