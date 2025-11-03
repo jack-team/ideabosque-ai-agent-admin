@@ -32,6 +32,7 @@ const Layer: FC = () => {
 
   const closeLayer = useMemoizedFn(() => {
     modal.confirm({
+      rootClassName: 'shopify',
       title: 'Are you sure you want to leave?',
       content: 'The data on this page will be lost after leaving.',
       okText: 'Yes',
