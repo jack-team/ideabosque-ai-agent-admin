@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { lazyLoad } from "@/utils/lazyload";
 import BaseLayout from "./layout";
 
+
 export const routes: RouteObject[] = [
   {
     path: "/",
@@ -14,87 +15,87 @@ export const routes: RouteObject[] = [
       },
       {
         path: "/dashboard",
-        Component: lazyLoad(() => import("@/pages/dashboard")),
+        Component: lazyLoad(() => import("@/pages/dashboardEntry")),
       },
       {
         path: "/customer-groups",
-        Component: lazyLoad(() => import("@/pages/customerGroups")),
+        Component: lazyLoad(() => import("@/pages/customerGroupsEntry")),
       },
       // workflow-templates
       {
         path: "/workflow-templates",
-        Component: lazyLoad(() => import("./pages/workflowTemplates")),
+        Component: lazyLoad(() => import("@/pages/workflowTemplates")),
       },
       {
         path: "/workflow-templates/detail/:uid/:vid",
-        Component: lazyLoad(() => import("./pages/workflowTemplateDetail")),
+        Component: lazyLoad(() => import("@/pages/workflowTemplateDetail")),
       },
       {
         path: "/workflow-ui-components",
-        Component: lazyLoad(() => import("./pages/uiComponents")),
+        Component: lazyLoad(() => import("@/pages/uiComponents")),
       },
       {
         path: "/workflow-mcp-servers",
-        Component: lazyLoad(() => import("./pages/mcpServers")),
+        Component: lazyLoad(() => import("@/pages/mcpServers")),
       },
       // agent-workflows
       {
         path: "/agent-workflows",
-        Component: lazyLoad(() => import("./pages/agentWorkflows")),
+        Component: lazyLoad(() => import("@/pages/agentWorkflowsEntry")),
       },
       {
         path: "/agent-workflows/detail/:uid/:vid",
-        Component: lazyLoad(() => import("./pages/workflowDetail")),
+        Component: lazyLoad(() => import("@/pages/workflowDetailEntry")),
       },
       {
         path: "/settings",
-        Component: lazyLoad(() => import("./pages/settings")),
+        Component: lazyLoad(() => import("@/pages/settingsEntry")),
       },
       // agents
       {
         path: '/agents',
-        Component: lazyLoad(() => import("./pages/agentsEntry"))
+        Component: lazyLoad(() => import("@/pages/agentsEntry"))
       },
       {
         path: '/coordinations',
-        Component: lazyLoad(() => import("./pages/coordinations"))
+        Component: lazyLoad(() => import("@/pages/coordinations"))
       },
       {
         path: '/contact-profiles',
-        Component: lazyLoad(() => import("./pages/contactProfileEntry"))
+        Component: lazyLoad(() => import("@/pages/contactProfileEntry"))
       },
       {
         path: '/places',
-        Component: lazyLoad(() => import("./pages/places"))
+        Component: lazyLoad(() => import("@/pages/places"))
       },
       // wizard
       {
         path: '/wizard-groups',
-        Component: lazyLoad(() => import("./pages/wizardGroups"))
+        Component: lazyLoad(() => import("@/pages/wizardGroups"))
       },
       {
         path: '/wizard-group/:uid',
-        Component: lazyLoad(() => import("./pages/wizardGroupDetail"))
+        Component: lazyLoad(() => import("@/pages/wizardGroupDetail"))
       },
       {
         path: '/wizards',
-        Component: lazyLoad(() => import("./pages/wizards"))
+        Component: lazyLoad(() => import("@/pages/wizards"))
       },
       {
         path: '/elements',
-        Component: lazyLoad(() => import("./pages/elements"))
+        Component: lazyLoad(() => import("@/pages/elements"))
       },
       {
         path: '/question-groups',
-        Component: lazyLoad(() => import("./pages/questionGroups"))
+        Component: lazyLoad(() => import("@/pages/questionGroups"))
       },
       {
         path: '/messages',
-        Component: lazyLoad(() => import("./pages/messages"))
+        Component: lazyLoad(() => import("@/pages/messages"))
       },
       {
         path: '/threads',
-        Component: lazyLoad(() => import("./pages/threads"))
+        Component: lazyLoad(() => import("@/pages/threads"))
       },
       {
         path: '/async-tasks',
@@ -102,11 +103,11 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/preview',
-        Component: lazyLoad(() => import("./pages/preview"))
+        Component: lazyLoad(() => import("@/pages/preview"))
       },
       {
         path: '/demo',
-        Component: lazyLoad(() => import("./pages/demo"))
+        Component: lazyLoad(() => import("@/pages/demo"))
       }
     ],
   },
