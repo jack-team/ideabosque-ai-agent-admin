@@ -62,19 +62,20 @@ export default defineConfig((config) => {
             ]
           },
           chunkFileNames: (chunkInfo) => {
-            const moduleId = chunkInfo.facadeModuleId
-            if (moduleId) {
-              if (moduleId.includes('node_modules')) {
-                return 'vendor/[name]-[hash].js'
-              }
-              if (moduleId.includes('src/components')) {
-                return 'components/[name]-[hash].js'
-              }
-              if (moduleId.includes('src/pages')) {
-                return 'pages/[name]-[hash].js'
-              }
+            const mid = chunkInfo.facadeModuleId
+            let folder = 'chunks';
+            let fileName = '[name]-[hash].js';
+
+            if (mid?.includes('node_modules')) {
+              folder = 'vendor';
             }
-            return 'chunks/[name]-[hash].js'
+            if (mid?.includes('src/components')) {
+              folder = 'components';
+            }
+            if (mid?.includes('src/pages')) {
+              folder = 'pages';
+            }
+            return [folder, fileName].join('/');
           },
         }
       }
