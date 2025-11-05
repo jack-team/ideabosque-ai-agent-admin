@@ -20,8 +20,12 @@ export const useListenModalOk = (listener: HookListener) => {
   const { event } = useModalContext();
   const handleOk = useMemoizedFn(listener);
 
-  useMount(() => event.on('ok', handleOk));
-  useUnmount(() => event.off('ok', handleOk));
+  useMount(() => {
+    event.on('ok', handleOk)
+  });
+  useUnmount(() => {
+    event.off('ok', handleOk)
+  });
 }
 
 //监听 Modal 取消按钮
@@ -29,8 +33,12 @@ export const useListenModalCancel = (listener: HookListener) => {
   const { event } = useModalContext();
   const handleCancel = useMemoizedFn(listener);
 
-  useMount(() => event.on('cancel', handleCancel));
-  useUnmount(() => event.off('cancel', handleCancel));
+  useMount(() => {
+    event.on('cancel', handleCancel)
+  });
+  useUnmount(() => {
+    event.off('cancel', handleCancel)
+  });
 }
 
 // 获取 Modal 的关闭函数
