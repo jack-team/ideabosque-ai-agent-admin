@@ -1,22 +1,35 @@
 import { type FC, useRef } from 'react';
-import { Space, Tag, App } from 'antd';
+import { Tag, App, Dropdown } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { TriggerModal } from '@/components';
+import IconButton, { withIcon } from '@/components/IconButton';
 import { ProTable, type ActionType } from '@ant-design/pro-components';
 import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
-import IconButton from '@/components/IconButton';
-import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
-import VersionForm from '../VersionForm';
+import { EditIcon, DeleteIcon, DuplicateIcon, AlertCircleIcon, MenuHorizontalIcon } from '@shopify/polaris-icons';
+import EditForm from '../EditForm';
 import { formatDate } from '@/utils';
 import { StatusEnum } from '@/constants/enum';
 
 type WorkflowsProps = {
-  onEdit?: (record: API.Workflow.FlowSnippet, type: string) => void;
+  onEdit?: (
+    record: API.Workflow.FlowSnippet,
+    type: string
+  ) => void;
 };
 
+const WEditIcon = withIcon(EditIcon);
+const WDeleteIcon = withIcon(DeleteIcon);
+const WDuplicateIcon = withIcon(DuplicateIcon);
+const WAlertCircleIcon = withIcon(AlertCircleIcon);
+
 const Workflows: FC<WorkflowsProps> = (props) => {
+  const { onEdit } = props;
   const { modal } = App.useApp();
   const actionRef = useRef<ActionType>(null);
+
+  const refreshTable = useMemoizedFn(() => {
+    actionRef.current?.reload();
+  });
 
   const deleteRow = useMemoizedFn(async (record: API.Workflow.FlowSnippet) => {
     modal.confirm({
@@ -26,7 +39,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
       title: 'Are you sure you want to delete this record?',
       onOk: async () => {
         await deleteFlowSnippetApi(record);
-        actionRef.current?.reload();
+        refreshTable();
       }
     });
   });
@@ -75,28 +88,57 @@ const Workflows: FC<WorkflowsProps> = (props) => {
         {
           key: 'action',
           title: 'Action',
-          width: '120px',
+          width: '100px',
           render: (_, record) => {
+            let ele: HTMLDivElement | null = null;
             return (
-              <Space>
-                <IconButton
-                  icon={EditIcon}
-                  onClick={() => props.onEdit?.(record, 'edit')}
-                />
+              <>
+                <Dropdown
+                  overlayClassName="shopify"
+                  menu={{
+                    items: [
+                      {
+                        key: 'edit',
+                        icon: <WEditIcon />,
+                        label: 'Edit workflow',
+                        onClick: () => ele?.click()
+                      },
+                      {
+                        key: 'details',
+                        label: 'View details',
+                        icon: <WAlertCircleIcon />,
+                        onClick: () => onEdit?.(record, 'edit')
+                      },
+                      {
+                        key: 'duplicate',
+                        label: 'Duplicate',
+                        icon: <WDuplicateIcon />
+                      },
+                      {
+                        danger: true,
+                        key: 'delete',
+                        label: 'Delete',
+                        icon: <WDeleteIcon />,
+                        onClick: () => deleteRow(record)
+                      }
+                    ]
+                  }}
+                >
+                  <IconButton icon={MenuHorizontalIcon} />
+                </Dropdown>
                 <TriggerModal
                   width={400}
-                  title="Versions"
+                  title="Workflow details"
                   destroyOnHidden
-                  okText="Apply"
-                  trigger={<IconButton icon={DuplicateIcon}/>}
+                  okText="Save"
+                  trigger={<div ref={e => { ele = e; }} />}
                 >
-                  <VersionForm formData={record} />
+                  <EditForm
+                    formData={record}
+                    onSuccess={refreshTable}
+                  />
                 </TriggerModal>
-                <IconButton
-                  icon={DeleteIcon}
-                  onClick={() => deleteRow(record)}
-                />
-              </Space>
+              </>
             )
           }
         }

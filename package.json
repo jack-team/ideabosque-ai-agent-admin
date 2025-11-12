@@ -4,8 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 4000",
-    "build": "tsc -b && vite build",
+    "r:dev": "vite --port 4000 --mode dev",
+    "r:staging": "vite --port 4000 --mode staging",
+    "r:prod": "vite --port 4000 --mode prod",
+    "build:dev": "tsc -b && vite build --mode dev",
+    "build:staging": "tsc -b && vite build --mode staging",
+    "build:prod": "tsc -b && vite build --mode prod",
     "lint": "eslint .",
     "preview": "vite preview"
   },

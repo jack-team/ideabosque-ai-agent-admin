@@ -23,6 +23,7 @@ export default defineConfig((config) => {
       createHtmlPlugin({
         inject: {
           data: {
+            appId: getEnv("ENV_SHOPIFY_APP_ID"),
             title: getEnv("ENV_APP_NAME"),
           }
         }

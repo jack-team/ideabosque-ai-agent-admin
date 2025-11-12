@@ -1,8 +1,8 @@
 import { useRequest } from 'ahooks';
 import { useSearchParams } from 'react-router';
 import { checkShopAuthApi } from '@/services/auth';
+import { appId } from '@/env';
 
-const appId = import.meta.env.ENV_SHOPIFY_APP_ID;
 
 export const useAppId = () => {
   return [appId];
@@ -10,8 +10,7 @@ export const useAppId = () => {
 
 export const useShop = () => {
   const [searchParams] = useSearchParams();
-  const shop = searchParams.get('shop');
-  return [shop];
+  return [searchParams.get('shop')];
 }
 
 export const useAuth = () => {

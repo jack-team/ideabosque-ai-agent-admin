@@ -11,15 +11,12 @@ import type {
 } from "./types";
 import { getUrlParams } from '@/utils';
 import { ResultError } from "./result";
-
-const defaultApiUrl = import.meta.env.ENV_API_URL;
-const defaultApiKey = import.meta.env.ENV_API_KEY;
-const defaultEndpoint = import.meta.env.ENV_API_ENDPOINT_ID;
+import { apiUrl as defaultApiUrl, apiKey as defaultApiKey, endpoint } from '@/env';
 
 // 存在店铺，获取店铺名称作为 endpointid
 export const getAiEndpoint = () => {
   let shop = getUrlParams('shop');
-  return shop ? shop.replace('.myshopify.com', '') : defaultEndpoint;
+  return shop ? shop.replace('.myshopify.com', '') : endpoint;
 }
 
 class GraphqlRequest {

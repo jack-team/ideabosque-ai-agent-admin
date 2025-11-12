@@ -3,13 +3,14 @@ import type { FC, PropsWithChildren } from 'react';
 import { useUpdateEffect, useMemoizedFn } from 'ahooks';
 import Spinner from '../Spinner';
 import { useAuth } from '@/hooks/useAuth';
+import { apiAuthUrl } from '@/env';
 
 const JumpAuth: FC<PropsWithChildren> = (props) => {
   const { loading, authed, appId, shop } = useAuth();
 
   const toAuth = useMemoizedFn(() => {
-    const search = qs.stringify({ shop, appId }, { addQueryPrefix: true });
-    const url = `https://09sw8qvvg0.execute-api.us-west-2.amazonaws.com/beta/core/openai/app_callback${search}`;
+    const search = qs.stringify({ shop, appId });
+    const url = `${apiAuthUrl}/app_callback?${search}`;
     open(url, '_top');
   });
 

@@ -4,6 +4,7 @@ import {
   ProFormText,
   ProFormSelect
 } from '@ant-design/pro-components';
+import dayjs from 'dayjs';
 import { App } from 'antd';
 import SpinBox from '@/components/SpinBox';
 import { useWorkflowList } from '@/hooks/useFetchData';
@@ -44,8 +45,10 @@ const VersionForm: FC<VersionFormProps> = (props) => {
   });
 
   const options = data?.map(item => {
+    const t = dayjs(item.createdAt).format('YYYY/MM/DD HH:mm:ss');
     return {
-      label: `${item.flowSnippetVersionUuid}(${item.flowName})`,
+      item,
+      label: item.flowName + `(${t})`,
       value: item.flowSnippetVersionUuid
     }
   });
@@ -64,8 +67,20 @@ const VersionForm: FC<VersionFormProps> = (props) => {
           hidden
           name="flowSnippetUuid"
         />
+        <ProFormText
+          label="Name"
+          name="flowName"
+          rules={[
+            { required: true }
+          ]}
+        />
+        <ProFormText
+          disabled
+          label="Workflow UUID"
+          name="flowSnippetUuid"
+        />
         <ProFormSelect
-          label="Versions"
+          label="Version"
           name="flowSnippetVersionUuid"
           options={options}
           fieldProps={{

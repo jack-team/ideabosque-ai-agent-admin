@@ -8,6 +8,12 @@ type IconButtonProps = {
   icon: FC<SVGProps<SVGSVGElement>>;
 } & Omit<ButtonProps, 'icon'>;
 
+export const withIcon = (icon: FC<SVGProps<SVGSVGElement>>) => {
+  return (props: Record<string, any>) => (
+    <Icon component={icon} {...props} />
+  )
+}
+
 const IconButton: FC<IconButtonProps> = (props) => {
   const {
     icon,
@@ -17,11 +23,13 @@ const IconButton: FC<IconButtonProps> = (props) => {
     ...rest
   } = props;
 
+  const Icon = withIcon(icon);
+
   return (
     <Button
       {...rest}
       type={type}
-      icon={<Icon component={icon} />}
+      icon={<Icon />}
       className={classNames(styles.icon_btn, className)}
     />
   );

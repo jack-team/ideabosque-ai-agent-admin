@@ -38,6 +38,8 @@ const blockTypes: OptionType[] = [
   }
 ];
 
+console.log(blockTypes)
+
 type AddBlockFormProps = {
   onChange: (type: string) => void;
 }
