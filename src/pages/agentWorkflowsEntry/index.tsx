@@ -16,7 +16,7 @@ const AgentWorkflows: FC = () => {
 
   return (
     <PageContainer
-      title="workflows"
+      title="Workflows"
       className="shopify"
       extra={[
         <ShopifyButton

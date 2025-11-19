@@ -9,6 +9,7 @@ import { EditIcon, DeleteIcon, DuplicateIcon, AlertCircleIcon, MenuHorizontalIco
 import EditForm from '../EditForm';
 import { formatDate } from '@/utils';
 import { StatusEnum } from '@/constants/enum';
+import styles from './styles.module.less';
 
 type WorkflowsProps = {
   onEdit?: (
@@ -73,7 +74,11 @@ const Workflows: FC<WorkflowsProps> = (props) => {
         {
           title: 'Status',
           dataIndex: 'status',
-          render: (_, record) => <Tag>{record.status}</Tag>
+          render: (_, record) => (
+            <Tag className={styles.active_tag}>
+              {record.status === 'active'? 'Active': 'Inactive'}
+            </Tag>
+          )
         },
         {
           title: 'Create at',
@@ -87,7 +92,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
         },
         {
           key: 'action',
-          title: 'Action',
+          title: 'Actions',
           width: '100px',
           render: (_, record) => {
             let ele: HTMLDivElement | null = null;
@@ -101,13 +106,13 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                         key: 'edit',
                         icon: <WEditIcon />,
                         label: 'Edit workflow',
-                        onClick: () => ele?.click()
+                        onClick: () => onEdit?.(record, 'edit')
                       },
                       {
                         key: 'details',
                         label: 'View details',
                         icon: <WAlertCircleIcon />,
-                        onClick: () => onEdit?.(record, 'edit')
+                        onClick: () => ele?.click()
                       },
                       {
                         key: 'duplicate',
@@ -128,7 +133,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                 </Dropdown>
                 <TriggerModal
                   width={400}
-                  title="Workflow details"
+                  title="Workflow editor"
                   destroyOnHidden
                   okText="Save"
                   trigger={<div ref={e => { ele = e; }} />}

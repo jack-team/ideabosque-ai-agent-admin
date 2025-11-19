@@ -5,6 +5,7 @@
     "title": "Home"
   },
   {
+    "hide": true,
     "path": "/dashboard",
     "title": "Dashboard"
   },
@@ -21,10 +22,12 @@
     "title": "UI Block Groups"
   },
   {
+    "hide": true,
     "path": "/contact-profiles",
     "title": "Contact Info"
   },
   {
+    "hide": true,
     "path": "/threads",
     "title": "Message Threads"
   },
@@ -37,6 +40,7 @@
     "title": "Preview"
   },
   {
+    "hide": true,
     "path": "/settings",
     "title": "Settings"
   }

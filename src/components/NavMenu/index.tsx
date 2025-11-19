@@ -6,7 +6,7 @@ import styles from './styles.module.less';
 const NavMenu: FC = () => {
   return (
     <div className={styles.menus}>
-      {navs.filter(e => !e.rel).map(nav => {
+      {navs.filter(e => !e.rel && !e.hide).map(nav => {
         return (
           <NavLink
             key={nav.path}

@@ -6,7 +6,7 @@ const ShopifyNavMenu: FC = () => {
   return (
     <div style={{ display: 'none' }}>
       <NavMenu>
-        {navs.map(nav => {
+        {navs.filter(v => !v.hide).map(nav => {
           return (
             <a
               key={nav.path}

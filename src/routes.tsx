@@ -11,12 +11,12 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: <Navigate replace to="/dashboard" />,
+        element: <Navigate replace to="/agents" />,
       },
-      {
-        path: "/dashboard",
-        Component: lazyLoad(() => import("@/pages/dashboardEntry")),
-      },
+      // {
+      //   path: "/dashboard",
+      //   Component: lazyLoad(() => import("@/pages/dashboardEntry")),
+      // },
       {
         path: "/customer-groups",
         Component: lazyLoad(() => import("@/pages/customerGroupsEntry")),
@@ -47,10 +47,10 @@ export const routes: RouteObject[] = [
         path: "/agent-workflows/detail/:uid/:vid",
         Component: lazyLoad(() => import("@/pages/workflowDetailEntry")),
       },
-      {
-        path: "/settings",
-        Component: lazyLoad(() => import("@/pages/settingsEntry")),
-      },
+      // {
+      //   path: "/settings",
+      //   Component: lazyLoad(() => import("@/pages/settingsEntry")),
+      // },
       // agents
       {
         path: '/agents',
@@ -60,10 +60,10 @@ export const routes: RouteObject[] = [
         path: '/coordinations',
         Component: lazyLoad(() => import("@/pages/coordinations"))
       },
-      {
-        path: '/contact-profiles',
-        Component: lazyLoad(() => import("@/pages/contactProfileEntry"))
-      },
+      // {
+      //   path: '/contact-profiles',
+      //   Component: lazyLoad(() => import("@/pages/contactProfileEntry"))
+      // },
       {
         path: '/places',
         Component: lazyLoad(() => import("@/pages/places"))
@@ -93,10 +93,10 @@ export const routes: RouteObject[] = [
         path: '/messages',
         Component: lazyLoad(() => import("@/pages/messages"))
       },
-      {
-        path: '/threads',
-        Component: lazyLoad(() => import("@/pages/threads"))
-      },
+      // {
+      //   path: '/threads',
+      //   Component: lazyLoad(() => import("@/pages/threads"))
+      // },
       {
         path: '/async-tasks',
         Component: lazyLoad(() => import("@/pages/asyncTasks"))
