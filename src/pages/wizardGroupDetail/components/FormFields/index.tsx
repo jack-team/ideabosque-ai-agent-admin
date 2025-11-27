@@ -1,14 +1,16 @@
 import { useMemoizedFn } from 'ahooks';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { type FC, Fragment, type RefObject } from 'react';
 import { ProFormList, type FormListActionType, ProFormDependency, type ProFormItemProps } from '@ant-design/pro-components';
 import AddButton from '../AddButton';
-import { TriggerModal } from '@/components';
 import AddMenuForm from './AddMenuForm';
-import Fields, { type EditFormProps } from './fields';
+import { TriggerModal } from '@/components';
 import { getNestedValue } from '../../helper';
+import Fields, { type EditFormProps } from './fields';
 import styles from './styles.module.less';
 
-type FormFieldsProps = {
+export type FormFieldsProps = {
   floor?: number;
   fields: string[];
   titleField: string;
@@ -33,13 +35,14 @@ const FormFields: FC<FormFieldsProps> = (props) => {
     showAddBtn = true,
   } = props;
 
-  const handleAdd = useMemoizedFn((data: Record<string, any>) => {
-    console.log(data);
-    actionRef.current?.add(data);
-  });
+  const handleAdd = useMemoizedFn(
+    (data: Record<string, any>) => {
+      actionRef.current?.add(data);
+    }
+  );
 
   return (
-    <Fragment>
+    <DndProvider backend={HTML5Backend}>
       <ProFormList
         name={name}
         actionRef={actionRef}
@@ -71,25 +74,19 @@ const FormFields: FC<FormFieldsProps> = (props) => {
           {(formData) => {
             const stpes = getNestedValue(formData, name);
             const marginTop = stpes?.length ? 12 : 0;
-
             return (
               <TriggerModal
+                width={480}
                 destroyOnHidden
                 title={addFormTitle}
-                trigger={(
-                  <AddButton
-                    text={addFormTitle}
-                    style={{ marginTop }}
-                  />
-                )}
-              >
-                <AddMenuForm onSubmit={handleAdd} />
-              </TriggerModal>
+                children={<AddMenuForm onSubmit={handleAdd} />}
+                trigger={<AddButton text={addFormTitle} style={{ marginTop }} />}
+              />
             );
           }}
         </ProFormDependency>
       )}
-    </Fragment>
+    </DndProvider>
   );
 }
 

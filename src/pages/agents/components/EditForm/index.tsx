@@ -134,7 +134,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
                   const realData = option.realData;
                   const tpl = realData.promptTemplate;
                   const mcpServers = tpl.mcp_servers as any[];
-                  const uuid = mcpServers.map(e => e.mcp_server_uuid);
+                  const uuid = mcpServers?.map(e => e.mcp_server_uuid);
                   form.setFieldValue('mcpServerUuids', uuid);
                 } else {
                   form.setFieldValue('mcpServerUuids', initFromData?.mcpServerUuids);
@@ -193,7 +193,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
                 loading: mcpServers.loading
               }}
               rules={[
-                { required: true }
+                { required: false }
               ]}
             />
           )

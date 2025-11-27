@@ -1,5 +1,3 @@
-const splitTag = '__';
-
 export const recordToFormData = (record?: Record<string, any>) => {
   if (!record) return;
 
@@ -11,10 +9,7 @@ export const recordToFormData = (record?: Record<string, any>) => {
     ...rest
   } = record;
 
-  const workFlowId = [
-    flowSnippet?.flow_snippet_uuid,
-    flowSnippet?.flow_snippet_version_uuid
-  ].filter(v => v).join(splitTag);
+  const workFlowId = flowSnippet?.flow_snippet_version_uuid;
 
   const mcpServerUuids = mcpServers.map((item: any) => {
     return item.mcp_server_uuid;
@@ -32,11 +27,9 @@ export const recordToFormData = (record?: Record<string, any>) => {
 
 export const formDataToParams = (formData: Record<string, any>) => {
   const { flowSnippet, ...reset } = formData;
-  const [, flowSnippetVersionUuid] = flowSnippet.split(splitTag);
-
   return {
     ...reset,
-    flowSnippetVersionUuid,
+    flowSnippetVersionUuid: flowSnippet,
     updatedBy: 'Admin'
   }
 }

@@ -27,6 +27,7 @@ const UploadInput: FC<UploadInputProps> = (props) => {
       const objectKey = await uploadFile(file, namespace);
       file.status = 'done';
       onChange?.(objectKey);
+      console.log(objectKey)
       message.success('File uploaded successfully.');
     } catch (err) {
       file.status = 'error';

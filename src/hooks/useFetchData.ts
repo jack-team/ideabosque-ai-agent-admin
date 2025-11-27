@@ -111,10 +111,7 @@ export const useWorkflows = () => {
   const options = data?.map(item => ({
     realData: item,
     label: item.flowName,
-    value: [
-      item.flowSnippetUuid,
-      item.flowSnippetVersionUuid
-    ].join('__'),
+    value: item.flowSnippetVersionUuid,
   }));
 
   return { options, loading };

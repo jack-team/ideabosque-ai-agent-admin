@@ -3,6 +3,7 @@ import { Space, Modal } from 'antd';
 import Iocn from '@ant-design/icons';
 import classNames from 'classnames';
 import { type FC, useRef } from 'react';
+import DargCard from './DargCard';
 import { EditIcon, DeleteIcon, PlusCircleIcon, DragHandleIcon } from '@shopify/polaris-icons';
 import { ProFormText, type ProFormListProps, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
 import IconButton from '@/components/IconButton';
@@ -37,7 +38,7 @@ type FieldsProps = {
   editFormTitle: string;
 }
 
-const optionsName = ['options'];
+const optionsName = ['option_values'];
 
 const Fields: FC<FieldsProps> = (props) => {
   const {
@@ -64,12 +65,22 @@ const Fields: FC<FieldsProps> = (props) => {
       okButtonProps: { danger: true, },
       cancelButtonProps: { className: 'shopify' },
       title: 'Are you sure you want to delete it?',
+      content: (
+        <div style={{ paddingTop: 6 }}>
+          <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system.
+          To avoid making global changes, make a new item from th Edit UI Block Group page.
+        </div>
+      ),
       onOk: () => action.remove(index)
     });
   });
 
   return (
-    <div className={styles.form_field_wrapper}>
+    <DargCard
+      index={index}
+      moveCard={action.move}
+      className={styles.form_field_wrapper}
+    >
       {contextHolder}
       {fields.map(f => <ProFormText key={f} hidden name={f} />)}
       <div className={styles.form_field}>
@@ -132,7 +143,7 @@ const Fields: FC<FieldsProps> = (props) => {
           }}
         </ProFormDependency>
       )}
-    </div>
+    </DargCard>
   );
 }
 

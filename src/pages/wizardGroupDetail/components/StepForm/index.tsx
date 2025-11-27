@@ -1,28 +1,40 @@
-import { type FC, Fragment } from 'react';
-import { ProFormText, ProFormDependency } from '@ant-design/pro-components';
-import { BlockTypes, BlockTypesMap } from '../../enum';
-import MenuItems from './menuItems';
-import FileUploader from './fileUploader';
-import Scheduler from './scheduler';
-import Confirmation from './confirmation';
+import { type FC } from 'react';
+import { Card } from 'antd';
+import classNames from 'classnames';
+import { ProFormText } from '@ant-design/pro-components';
+import SchemaForm from './schemaForm';
+import type { FormListAction, WizardSchemaType } from '../../types';
+import MoreMenu from './moreMenu';
 import styles from './styles.module.less';
 
-type WizardType = keyof typeof BlockTypesMap;
-const blockTypeName = ['form_schema', 'blockType'];
+export type StepFormProps = {
+  index: number;
+  count: number;
+  action: FormListAction;
+}
 
-const StepForm: FC = () => {
+const StepForm: FC<StepFormProps> = (props) => {
+  const { action, index } = props;
+
+  const {
+    attributes,
+    attributeGroups,
+    wizardSchemaDescription
+  } = action.getCurrentRowData() as WizardSchemaType;
+
   return (
-    <Fragment>
-      <ProFormDependency name={blockTypeName}>
-        {({ form_schema: schema }) => {
-          const type = schema.blockType;
-          return (
-            <div className={styles.title}>
-              Block - {BlockTypesMap[type as WizardType]?.label}
-            </div>
-          );
-        }}
-      </ProFormDependency>
+    <Card
+      title={`Step ${index + 1}`}
+      className={classNames(styles.step_card, 'shopify')}
+      extra={<MoreMenu {...props} />}
+    >
+      <div className={styles.group_title}>
+        Block - {wizardSchemaDescription}
+      </div>
+      <ProFormText hidden name="wizard_uuid" />
+      <ProFormText hidden name="wizard_type" />
+      <ProFormText hidden name="wizard_schema_type" />
+      <ProFormText hidden name="wizard_schema_name" />
       <ProFormText
         name="wizard_title"
         label="Step title"
@@ -37,51 +49,22 @@ const StepForm: FC = () => {
           { required: true }
         ]}
       />
-      <ProFormText
-        hidden
-        name={blockTypeName}
-        label="Step type"
-        rules={[
-          { required: true }
-        ]}
-      />
-      <ProFormDependency name={blockTypeName}>
-        {({ form_schema: schema }) => {
-          switch (schema.blockType) {
-            case BlockTypes.FormFields: {
-              return <MenuItems title="Menu items" />;
-            }
-            case BlockTypes.MultipleChoice: {
-              return (
-                <MenuItems
-                  showAddBtn={false}
-                  title="Multiple choice  items"
-                />
-              );
-            }
-            case BlockTypes.FileUploader: {
-              return <FileUploader />;
-            }
-            case BlockTypes.Scheduler: {
-              return <Scheduler />;
-            }
-            case BlockTypes.Confirmation: {
-              return <Confirmation />;
-            }
-          }
-        }}
-      </ProFormDependency>
-      <div className={styles.title}>
-        Bottom actions
-      </div>
-      <ProFormText
-        label="CTA button"
-        name={["form_schema", "ctaButton"]}
-        rules={[
-          { required: true }
-        ]}
-      />
-    </Fragment>
+      {attributeGroups.map(item => {
+        const schema = attributes.filter(attr => {
+          return attr.group_name === item.name;
+        });
+        return (
+          <div className={styles.group} key={item.name}>
+            <div className={styles.group_title}>
+              {item.label}
+            </div>
+            <div className={styles.group_content}>
+              <SchemaForm name="schemaFormData" schema={schema} />
+            </div>
+          </div>
+        );
+      })}
+    </Card>
   );
 }
 

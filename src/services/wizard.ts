@@ -54,3 +54,14 @@ export const insertUpdateElementApi = async (params: Record<string, any>) => {
   const query = await generateQuery({ type: 'Mutation', name: 'insertUpdateElement' });
   return agentCore.graphql({ query, variables: params });
 }
+
+// new-----
+export const getWizardSchemaList = async () => {
+  const query = await generateQuery({ type: 'Query', name: 'wizardSchemaList' });
+  return agentCore.graphql({ query });
+}
+
+export const insertUpdateWizardGroupWithWizards = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Mutation', name: 'insertUpdateWizardGroupWithWizards' });
+  return agentCore.graphql({ query, variables: params });
+}
