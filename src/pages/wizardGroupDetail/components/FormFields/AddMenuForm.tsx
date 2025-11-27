@@ -11,7 +11,7 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
   const { formData } = props;
   const [form] = ProForm.useForm();
   const [closeModal] = useModalClose();
-  const { elementOptions, loading, refreshData } = useElements();
+  const { elementOptions, loading } = useElements();
 
   useListenModalOk(async () => {
     const formData = await form.validateFields();

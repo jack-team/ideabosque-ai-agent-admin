@@ -1,6 +1,5 @@
 import { useRequest, useMemoizedFn } from 'ahooks';
 import { getWizardSchemaList, getElementsApi, getWizardGroupApi } from '@/services/wizard';
-import { getInitFormData } from './helper';
 
 // 获取block schemas
 export const useBlockSchemas = () => {
@@ -29,12 +28,12 @@ export const useElements = () => {
   } = useRequest(async (params) => {
     const {
       elementList: result
-    } = await getElementsApi({ pageNumber: 1, limit: 1000 });
+    } = await getElementsApi({ pageNumber: 1, limit: 1000, ...params });
     return result?.elementList || [];
   });
 
-  const refreshData = useMemoizedFn((keyword: string) => {
-    return runAsync({ keyword });
+  const refreshData = useMemoizedFn((params?: Record<string, any>) => {
+    return runAsync(params);
   });
 
   const elementOptions = elementList.map(
