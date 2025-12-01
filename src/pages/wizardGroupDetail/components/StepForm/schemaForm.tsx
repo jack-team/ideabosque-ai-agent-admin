@@ -54,10 +54,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       case FormFieldType.CheckboxItems: {
         return (
           <Form.Item label={item.label} noStyle={!item.label}>
-            <MenuItems
-              name={formName}
-              showAddBtn={type === FormFieldType.Elements}
-            />
+            <MenuItems name={formName} />
           </Form.Item>
         );
       }

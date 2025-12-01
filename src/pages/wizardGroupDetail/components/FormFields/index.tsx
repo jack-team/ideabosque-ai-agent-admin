@@ -51,6 +51,15 @@ const FormFields: FC<FormFieldsProps> = (props) => {
         creatorButtonProps={false}
         style={{ marginBottom: 0 }}
         className={styles.sub_list}
+        rules={[{
+          validator(_, value, callback) {
+            if (!value?.length) {
+              callback('Please add menu item');
+              return;
+            }
+            callback();
+          },
+        }]}
       >
         {(_, index, action) => {
           const formData = action.getCurrentRowData();
