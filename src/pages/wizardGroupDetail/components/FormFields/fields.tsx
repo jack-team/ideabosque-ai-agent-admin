@@ -1,10 +1,10 @@
-import { useMemoizedFn } from 'ahooks'
+import { useMemoizedFn, useSafeState } from 'ahooks'
 import { Space, Modal } from 'antd';
 import Iocn from '@ant-design/icons';
 import classNames from 'classnames';
 import { type FC, useRef } from 'react';
 import DargCard from './DargCard';
-import { EditIcon, DeleteIcon, PlusCircleIcon, DragHandleIcon } from '@shopify/polaris-icons';
+import { EditIcon, DeleteIcon, PlusCircleIcon, DragHandleIcon, ChevronDownIcon, ChevronUpIcon } from '@shopify/polaris-icons';
 import { ProFormText, type ProFormListProps, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
 import IconButton from '@/components/IconButton';
 import { TriggerModal } from '@/components';
@@ -52,7 +52,9 @@ const Fields: FC<FieldsProps> = (props) => {
   } = props;
 
   const isTop = floor === 0;
+  const enableSub = isTop && showAddBtn;
   const [modal, contextHolder] = Modal.useModal();
+  const [showSubItems, setShowSubItems] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
 
   const handleAdd = useMemoizedFn((data: Record<string, any>) => {
@@ -76,59 +78,70 @@ const Fields: FC<FieldsProps> = (props) => {
   });
 
   return (
-    <DargCard
-      index={index}
-      moveCard={action.move}
-      className={styles.form_field_wrapper}
-    >
-      {contextHolder}
-      {fields.map(f => <ProFormText key={f} hidden name={f} />)}
-      <div className={styles.form_field}>
-        <div className={styles.drag_handle}>
-          <Iocn component={DragHandleIcon} />
-        </div>
-        <div className={styles.field_label}>
-          {props.title}
-        </div>
-        <Space size={0}>
-          {isTop && showAddBtn && (
-            <TriggerModal
-              destroyOnHidden
-              title="Add option"
-              trigger={<IconButton icon={PlusCircleIcon} />}
-            >
-              <AddOptionForm onSubmit={handleAdd} />
-            </TriggerModal>
-          )}
-          <TriggerModal
-            destroyOnHidden
-            title={editFormTitle}
-            trigger={<IconButton icon={EditIcon} />}
+    <ProFormDependency name={optionsName}>
+      {formData => {
+        const options = getNestedValue(
+          formData,
+          optionsName
+        );
+
+        const hasSub = !!options?.length;
+
+        return (
+          <DargCard
+            index={index}
+            moveCard={action.move}
+            className={styles.form_field_wrapper}
           >
-            <EditForm
-              formData={props.formData}
-              onSubmit={action.setCurrentRowData}
-            />
-          </TriggerModal>
-          <IconButton
-            icon={DeleteIcon}
-            onClick={handleDelete}
-          />
-        </Space>
-      </div>
-      {isTop && showAddBtn && (
-        <ProFormDependency name={optionsName}>
-          {formData => {
-            const options = getNestedValue(
-              formData,
-              optionsName
-            );
-            const className = classNames(
-              styles.options,
-              !options?.length && styles.hide
-            );
-            return (
-              <div className={className}>
+            {contextHolder}
+            {fields.map(f => <ProFormText key={f} hidden name={f} />)}
+            <div className={styles.form_field}>
+              <div className={styles.drag_handle}>
+                <Iocn component={DragHandleIcon} />
+              </div>
+              <div className={styles.field_label}>
+                {props.title}
+              </div>
+              <Space size={0}>
+                {enableSub && (
+                  <>
+                    {hasSub && (
+                      <IconButton
+                        onClick={() => setShowSubItems(s => !s)}
+                        icon={!showSubItems ? ChevronDownIcon : ChevronUpIcon}
+                      />
+                    )}
+                    <TriggerModal
+                      destroyOnHidden
+                      title="Add option"
+                      trigger={<IconButton icon={PlusCircleIcon} />}
+                    >
+                      <AddOptionForm onSubmit={handleAdd} />
+                    </TriggerModal>
+                  </>
+                )}
+                <TriggerModal
+                  destroyOnHidden
+                  title={editFormTitle}
+                  trigger={<IconButton icon={EditIcon} />}
+                >
+                  <EditForm
+                    formData={props.formData}
+                    onSubmit={action.setCurrentRowData}
+                  />
+                </TriggerModal>
+                <IconButton
+                  icon={DeleteIcon}
+                  onClick={handleDelete}
+                />
+              </Space>
+            </div>
+            {enableSub && (
+              <div className={classNames(
+                styles.options,
+                (!hasSub || !showSubItems) && styles.hide
+              )}
+              >
                 <FormFields
                   floor={floor + 1}
                   titleField="name"
@@ -139,11 +152,12 @@ const Fields: FC<FieldsProps> = (props) => {
                   editFormTitle="Option details"
                 />
               </div>
-            );
-          }}
-        </ProFormDependency>
-      )}
-    </DargCard>
+            )}
+          </DargCard>
+        )
+      }}
+    </ProFormDependency >
+
   );
 }
 
