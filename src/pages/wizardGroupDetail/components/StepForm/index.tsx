@@ -50,12 +50,13 @@ const StepForm: FC<StepFormProps> = (props) => {
         ]}
       />
       {attributeGroups.map(item => {
-        const schema = attributes.filter(attr => {
-          return attr.group_name === item.name;
-        });
+        const schema = attributes.filter(attr => attr.group_name === item.name);
+        const [laster] = schema;
+        const isRequired = schema.length === 1 && laster.required && !laster.label;
+
         return (
           <div className={styles.group} key={item.name}>
-            <div className={styles.group_title}>
+            <div className={classNames(styles.group_title, isRequired && styles.required)}>
               {item.label}
             </div>
             <div className={styles.group_content}>

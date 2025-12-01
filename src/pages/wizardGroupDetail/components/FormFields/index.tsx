@@ -53,7 +53,7 @@ const FormFields: FC<FormFieldsProps> = (props) => {
         className={styles.sub_list}
         rules={[{
           validator(_, value, callback) {
-            if (!value?.length) {
+            if (!floor && !value?.length) {
               callback('Please add menu item');
               return;
             }

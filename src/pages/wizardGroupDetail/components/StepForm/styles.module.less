@@ -7,6 +7,14 @@
   color: #303030;
   font-weight: 600;
   margin-bottom: 16px;
+
+  &.required {
+    &::before {
+      content: "*";
+      color: #ff4d4f;
+      margin-right: 4px;
+    }
+  }
 }
 
 .group_content {
