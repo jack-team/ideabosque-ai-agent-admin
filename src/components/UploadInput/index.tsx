@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type UploadFile, message, App } from 'antd';
+import { type UploadFile, App } from 'antd';
 import { useSafeState, useMemoizedFn } from 'ahooks';
 import { getAwsFileUrl } from '../AwsImage/helper';
 import { openUrl } from '@/utils'
