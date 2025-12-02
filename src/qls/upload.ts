@@ -10,3 +10,21 @@ export const presignedUploadQl = `
     }
   }
 `;
+
+export const presignedAwsS3UrlQl = `
+  query presignedAwsS3Url(
+    $clientMethod: String!, 
+    $objectKey: String!
+    $expiration: Int!
+  ) {
+    presignedAwsS3Url(
+      clientMethod: $clientMethod, 
+      objectKey: $objectKey,
+      expiration: $expiration
+    ) {
+      url
+      objectKey     
+      expiration
+    }
+  }
+`;
