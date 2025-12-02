@@ -1,8 +1,8 @@
 import { type FC } from 'react';
-import { Modal } from 'antd';
-import { type UploadFile, message } from 'antd';
+import { type UploadFile, message, App } from 'antd';
 import { useSafeState, useMemoizedFn } from 'ahooks';
-import { AwsImage } from '../AwsImage';
+import { getAwsFileUrl } from '../AwsImage/helper';
+import { openUrl } from '@/utils'
 import ProUploadFile, { uploadFile } from '@/components/UploadFile';
 
 type UploadInputProps = {
@@ -12,9 +12,9 @@ type UploadInputProps = {
 }
 
 const UploadInput: FC<UploadInputProps> = (props) => {
+  const { message } = App.useApp();
   const { value, onChange, namespace } = props;
   const [loading, setLoading] = useSafeState(false);
-  const [reviewFile, setReviewFile] = useSafeState<UploadFile | null>(null);
 
   const [files, setFiles] = useSafeState<UploadFile[]>((() => {
     return value ? [{ name: value, url: value }] as UploadFile[] : []
@@ -41,10 +41,13 @@ const UploadInput: FC<UploadInputProps> = (props) => {
     }
   });
 
-  const handleClearReview = useMemoizedFn(() => {
-    setReviewFile(null);
-  })
-
+  const handleReview = useMemoizedFn(async (file: UploadFile) => {
+    if (file.url) {
+      const closeLoading = message.loading('Loading..');
+      openUrl(await getAwsFileUrl(file.url));
+      closeLoading();
+    }
+  });
 
   return (
     <>
@@ -52,20 +55,8 @@ const UploadInput: FC<UploadInputProps> = (props) => {
         value={files}
         disbaled={loading}
         onChange={onUpload}
-        onReview={setReviewFile}
+        onReview={handleReview}
       />
-      <Modal
-        footer={null}
-        destroyOnHidden
-        title="Review"
-        open={!!reviewFile}
-        rootClassName="shopify"
-        onCancel={handleClearReview}
-      >
-        <div style={{ textAlign: 'center', padding: 32 }}>
-          <AwsImage awsKey={reviewFile?.url!} />
-        </div>
-      </Modal>
     </>
   );
 }

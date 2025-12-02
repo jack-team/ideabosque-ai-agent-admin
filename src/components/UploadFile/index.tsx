@@ -25,7 +25,7 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
     maxCount = 1,
     disbaled = false,
     value: files = [],
-    accept = '.png,.jpg,.pdf'
+    accept = '.png,.jpg,.jpeg,.svg'
   } = props;
 
   const hintText = useMemo(() => {

@@ -40,3 +40,14 @@ export function hexToRgba(hex: string, opacity = 1) {
   const b = parseInt(hex.slice(4, 6), 16);
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
+export const openUrl = (url: string, target = '_blank') => {
+  const $body = document.body;
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.target = target;
+  $body.appendChild(a);
+  a.click();
+  $body.removeChild(a);
+}
