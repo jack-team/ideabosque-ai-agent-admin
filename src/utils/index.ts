@@ -51,3 +51,19 @@ export const openUrl = (url: string, target = '_blank') => {
   a.click();
   $body.removeChild(a);
 }
+
+export const pathToObj = (name: string[], val: any) => {
+  return name.reduceRight((acc, key) => ({ [key]: acc }), val);
+}
+
+export const getAiSdkStaticUrl = (path: string) => {
+  const sdkUrl = import.meta.env.ENV_AI_SDK_URL || '';
+  return `${sdkUrl}${path}`;
+}
+
+// 支持多种协议的验证
+export function isURL(string: string, protocols = ['http', 'https', 'ftp']) {
+  const pattern = protocols.join('|');
+  const regex = new RegExp(`^(${pattern}):\\/\\/[^\\s/$.?#].[^\\s]*$`, 'i');
+  return regex.test(string);
+}

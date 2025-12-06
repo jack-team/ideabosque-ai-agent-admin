@@ -1,24 +1,36 @@
 import { type FC } from 'react';
 import { type UploadFile, App } from 'antd';
-import { useSafeState, useMemoizedFn } from 'ahooks';
+import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { getAwsFileUrl } from '../AwsImage/helper';
-import { openUrl } from '@/utils'
+import { openUrl, isURL } from '@/utils';
 import ProUploadFile, { uploadFile } from '@/components/UploadFile';
+import { AwsImage } from '../AwsImage';
+import styles from './styles.module.less';
 
 type UploadInputProps = {
   namespace: string;
   value?: string;
+  reviewImg?: boolean;
   onChange?: (value?: string) => void;
 }
 
 const UploadInput: FC<UploadInputProps> = (props) => {
   const { message } = App.useApp();
-  const { value, onChange, namespace } = props;
+  const { value, onChange, namespace, reviewImg = false } = props;
   const [loading, setLoading] = useSafeState(false);
 
-  const [files, setFiles] = useSafeState<UploadFile[]>((() => {
-    return value ? [{ name: value, url: value }] as UploadFile[] : []
-  })());
+  const getFiles = useMemoizedFn(() => {
+    if (!value) return [];
+    return [{ name: value, url: value }] as UploadFile[]
+  });
+
+  const [files, setFiles] = useSafeState<UploadFile[]>(getFiles());
+
+  useUpdateEffect(() => {
+    if (!files.length && value) {
+      setFiles(getFiles());
+    }
+  }, [value]);
 
   const onUpload = useMemoizedFn(async (files: UploadFile[]) => {
     const [file] = files;
@@ -42,10 +54,14 @@ const UploadInput: FC<UploadInputProps> = (props) => {
   });
 
   const handleReview = useMemoizedFn(async (file: UploadFile) => {
-    if (file.url) {
-      const closeLoading = message.loading('Loading..');
-      openUrl(await getAwsFileUrl(file.url));
-      closeLoading();
+    let url = file.url;
+    if (url) {
+      if (!isURL(url)) {
+        const closeLoading = message.loading('Loading..');
+        url = await getAwsFileUrl(url)
+        closeLoading();
+      }
+      openUrl(url);
     }
   });
 
@@ -56,7 +72,14 @@ const UploadInput: FC<UploadInputProps> = (props) => {
         disbaled={loading}
         onChange={onUpload}
         onReview={handleReview}
-      />
+      >
+        {reviewImg && !!value && (
+          <AwsImage
+            awsKey={files[0]?.url!}
+            className={styles.review_img}
+          />
+        )}
+      </ProUploadFile>
     </>
   );
 }
