@@ -3,6 +3,7 @@ import { Segmented } from 'antd';
 import ThemeColors from './components/ThemeColors';
 import ThemeIcons from './components/ThemeIcons';
 import ThemeTexts from './components/ThemeTexts';
+import ThemeFont from './components/ThemeFont';
 import styles from './styles.module.less';
 
 type AppearanceProps = {
@@ -27,6 +28,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
         <ThemeColors sdk={sdk} />
         <ThemeIcons sdk={sdk} />
         <ThemeTexts sdk={sdk} />
+        <ThemeFont sdk={sdk} />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const ThemeIcons: FC<ThemeColorsProps> = (props) => {
   const [form] = ProForm.useForm();
 
   return (
-    <CustomCollapse title="Theme texts">
+    <CustomCollapse title="Text content">
       <ProForm
         form={form}
         size="large"

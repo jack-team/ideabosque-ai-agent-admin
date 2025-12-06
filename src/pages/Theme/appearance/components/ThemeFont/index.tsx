@@ -1,47 +1,31 @@
 import { type FC } from 'react';
-import { Tag } from 'antd';
-import { useMemoizedFn } from 'ahooks';
 import { ProForm, ProFormItem } from '@ant-design/pro-components';
 import { pathToObj } from '@/utils';
+import SliderInput from '../SliderInput';
 import CustomCollapse from '../CustomCollapse';
-import ColorPickerInput from '../ColorPickerInput';
-import { configs, darkTheme } from './configs';
+import { configs, initFormData } from './configs';
 import styles from './styles.module.less';
 
-type ThemeColorsProps = {
+type ThemeFontProps = {
   sdk: Record<string, any>;
 }
 
-const ThemeColors: FC<ThemeColorsProps> = (props) => {
+const ThemeFont: FC<ThemeFontProps> = (props) => {
   const { sdk } = props;
   const [form] = ProForm.useForm();
 
-  const onSetDark = useMemoizedFn(() => {
-    form.setFieldsValue(darkTheme);
-    sdk.updateThemeConfigs(darkTheme);
-  });
-
-  const onReset = useMemoizedFn(() => {
-    sdk.resetThemeConfigs();
-    form.resetFields();
-  });
-
   return (
     <CustomCollapse
-      title="Colors"
-      tags={[
-        <Tag key="default" onClick={onReset}>Default</Tag>,
-        <Tag key="dark" onClick={onSetDark}>Dark</Tag>
-      ]}
+      title="Text font"
     >
       <ProForm
         form={form}
+        initialValues={initFormData}
         className={styles.container}
         submitter={false}
         onFieldsChange={arr => {
           for (const item of arr) {
-            const obj = pathToObj(item.name, item.value);
-            console.log(obj)
+            const obj = pathToObj(item.name, `${item.value}px`);
             sdk.updateThemeConfigs(obj)
           }
         }}
@@ -53,7 +37,7 @@ const ThemeColors: FC<ThemeColorsProps> = (props) => {
               label={item.label}
               name={item.name}
             >
-              <ColorPickerInput />
+              <SliderInput />
             </ProFormItem>
           );
         })}
@@ -62,4 +46,4 @@ const ThemeColors: FC<ThemeColorsProps> = (props) => {
   );
 }
 
-export default ThemeColors;
+export default ThemeFont;

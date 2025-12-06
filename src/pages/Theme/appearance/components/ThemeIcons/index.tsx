@@ -29,7 +29,7 @@ const ThemeIcons: FC<ThemeColorsProps> = (props) => {
 
   return (
     <CustomCollapse
-      title="Theme icons"
+      title="Icons"
       tags={[
         <Tag key="default" onClick={onReset}>Default</Tag>,
         <Tag key="dark" onClick={onSetDark}>Dark</Tag>
