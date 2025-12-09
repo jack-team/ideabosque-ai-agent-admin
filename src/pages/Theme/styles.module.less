@@ -1,17 +1,23 @@
 .container {
   height: 100%;
   padding: 16px;
+  margin: auto;
   border-radius: 16px;
   background: #fff;
   display: flex;
   gap: 16px;
+  opacity: 0;
+
+  &.show {
+    opacity: 1;
+  }
 
   .form {
     height: 100%;
-    width: 560px;
+    width: 420px;
     overflow: hidden;
     border-radius: 12px;
-    background: #f9f9f9;
+    background: #f6f6f6;
   }
 
   .tabs {
@@ -20,9 +26,16 @@
     flex-direction: column;
 
     :global {
+      .ant-tabs-nav {
+        &::before {
+          border-bottom: 1px solid #e5e7eb !important;
+        }
+      }
+
       .ant-tabs-nav-wrap {
         padding: 0 16px;
       }
+
       .ant-tabs-content-holder {
         flex: 1;
         overflow: hidden;
@@ -38,12 +51,5 @@
         }
       }
     }
-  }
-
-  .window {
-    height: 100%;
-    flex: 1;
-    border-radius: 12px;
-    background: #f8f8f8;
   }
 }

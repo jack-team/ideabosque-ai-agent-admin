@@ -1,65 +1,50 @@
-import { type FC } from 'react';
-import { Tag } from 'antd';
-import { useMemoizedFn } from 'ahooks';
-import { ProForm, ProFormItem } from '@ant-design/pro-components';
-import { pathToObj } from '@/utils';
+import { type FC, useMemo, memo } from 'react';
+import { ProFormItem, type FormInstance } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';
+import { getVariableConfigs } from '../../../helper';
 import CustomCollapse from '../CustomCollapse';
-import { configs, darkTheme } from './configs';
 import styles from './styles.module.less';
 
-type ThemeColorsProps = {
-  sdk: Record<string, any>;
+type ThemeIconsProps = {
+  sdk: AgentSdkInstance;
 }
 
-const ThemeIcons: FC<ThemeColorsProps> = (props) => {
+const ThemeIcons: FC<ThemeIconsProps> = (props) => {
   const { sdk } = props;
-  const [form] = ProForm.useForm();
+  const { bubble, chat } = sdk.variables;
 
-  const onSetDark = useMemoizedFn(() => {
-    form.setFieldsValue(darkTheme);
-    console.log(darkTheme)
-    sdk.updateThemeConfigs(darkTheme);
-  });
 
-  const onReset = useMemoizedFn(() => {
-    sdk.resetThemeConfigs();
-    form.resetFields();
-  });
+  const configs = useMemo(() => ([
+    ...getVariableConfigs(
+      bubble.IconConfigs,
+      'uiVariables'
+    ),
+    ...getVariableConfigs(
+      chat.IconConfigs,
+      'chatUiVariables'
+    )
+  ]), [bubble, chat]);
 
   return (
     <CustomCollapse
       title="Icons"
-      tags={[
-        <Tag key="default" onClick={onReset}>Default</Tag>,
-        <Tag key="dark" onClick={onSetDark}>Dark</Tag>
-      ]}
+      desc="Upload icon image"
     >
-      <ProForm
-        form={form}
-        className={styles.container}
-        submitter={false}
-        onFieldsChange={arr => {
-          for (const item of arr) {
-            const obj = pathToObj(item.name, item.value);
-            sdk.updateThemeConfigs(obj)
-          }
-        }}
-      >
-        {configs.map((item, i) => {
+      <div className={styles.container}>
+        {configs.map(item => {
           return (
             <ProFormItem
-              key={i}
-              label={item.label}
+              key={item.variable}
               name={item.name}
+              label={item.label}
             >
               <UploadInput namespace="sdk-icons" reviewImg />
             </ProFormItem>
           );
         })}
-      </ProForm>
+      </div>
     </CustomCollapse>
   );
 }
 
-export default ThemeIcons;
+export default memo(ThemeIcons);

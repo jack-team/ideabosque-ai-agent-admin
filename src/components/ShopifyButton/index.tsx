@@ -12,6 +12,7 @@ const ShopifyButton: FC<ShopifyButtonProps> = (props) => {
     className,
     children,
     onClick,
+    async = true,
     ...rest
   } = props;
 
@@ -22,19 +23,31 @@ const ShopifyButton: FC<ShopifyButtonProps> = (props) => {
 
   const btnLoading = loading || asyncLoading;
 
-  const handleClick = useMemoizedFn(async (e: MouseEvent) => {
-    if (loading) {
-      return;
-    }
+  const asyncHandle = useMemoizedFn(async (e: MouseEvent) => {
     setAsyncLoading(true);
-    try {
-      await onClick?.(e);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setAsyncLoading(false);
-    }
+    requestAnimationFrame(async () => {
+      try {
+        await onClick?.(e);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setAsyncLoading(false);
+      }
+    });
   });
+
+  const handleClick = useMemoizedFn(
+    async (e: MouseEvent) => {
+      if (loading) {
+        return;
+      }
+      if (async) {
+        asyncHandle(e);
+      } else {
+        onClick?.(e);
+      }
+    }
+  );
 
   return (
     <Button

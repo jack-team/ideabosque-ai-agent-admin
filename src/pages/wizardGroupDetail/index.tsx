@@ -1,28 +1,30 @@
 import { Card, Space, App } from 'antd';
-import { useSafeState, useMemoizedFn } from 'ahooks';
+import { useBlocker } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router';
+import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { type FC, useRef, type ReactElement, useEffect } from 'react';
-import { PageContainer, ProForm, ProFormList, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
+import { PageContainer, ProForm, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
 import { insertUpdateWizardGroupWithWizards } from '@/services/wizard';
 import { ShopifyButton } from '@/components';
 import SpinBox from '@/components/SpinBox';
 import { TriggerModal } from '@/components';
 import BasicForm from './components/BasicForm';
-import StepForm from './components/StepForm';
 import AddBlockForm from './components/AddBlockForm';
 import AddButton from './components/AddButton';
+import Wizards from './wizards';
 import { useBlockSchemas, useWizardGroupDeail } from './hooks';
-import { processOutputData, getInitFormData } from './helper'
+import { processOutputData, getInitFormData } from './helper';
 import type { WizardSchemaType, WizardGroupResultType } from './types';
 import styles from './styles.module.less';
 
 const WizardGroupDetail: FC = () => {
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
-  const { message } = App.useApp();
+  const { message, modal } = App.useApp();
   const { uid } = useParams<{ uid: string }>();
   const { wizardSchemas } = useBlockSchemas();
   const [loading, setLoading] = useSafeState(false);
+  const [anyUpdates, setAnyUpdates] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
   const { detail, detailLoading } = useWizardGroupDeail(uid!);
 
@@ -33,9 +35,7 @@ const WizardGroupDetail: FC = () => {
   );
 
   useEffect(() => {
-    if (detail) {
-      updateFromData(detail)
-    }
+    if (detail) updateFromData(detail);
   }, [detail]);
 
   // 添加一个 Block
@@ -56,6 +56,7 @@ const WizardGroupDetail: FC = () => {
         ...values,
         updatedBy: 'admin'
       });
+      setAnyUpdates(false);
       updateFromData(result.wizardGroup);
       message.success('Save successfully.');
     } catch (err) {
@@ -64,6 +65,10 @@ const WizardGroupDetail: FC = () => {
     } finally {
       setLoading(false);
     }
+  });
+
+  const onFieldsChange = useMemoizedFn(() => {
+    setAnyUpdates(true);
   });
 
   const renderAddBlockForm = (button: ReactElement<any>) => {
@@ -83,6 +88,40 @@ const WizardGroupDetail: FC = () => {
     );
   };
 
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    return anyUpdates && currentLocation.pathname !== nextLocation.pathname;
+  });
+
+  useUpdateEffect(() => {
+    if (blocker.state === 'blocked') {
+      const e = modal.confirm({
+        closable: true,
+        rootClassName: 'shopify',
+        title: 'Are you sure you want to leave this page?',
+        content: 'The form will not be saved after leaving.',
+        okText: 'Save',
+        cancelText: 'Leave',
+        okButtonProps: {
+          className: 'shopify'
+        },
+        cancelButtonProps: {
+          className: 'shopify',
+          onClick: () => {
+            blocker.proceed();
+            e.destroy();
+          }
+        },
+        onCancel: () => {
+          blocker.reset();
+        },
+        onOk: async () => {
+          blocker.reset();
+          handleSave()
+        }
+      });
+    }
+  }, [blocker]);
+
   return (
     <SpinBox loading={loading || detailLoading}>
       <PageContainer
@@ -93,7 +132,6 @@ const WizardGroupDetail: FC = () => {
           <Space>
             <ShopifyButton
               className="gray"
-              loading={loading}
               onClick={handleSave}
             >
               Save
@@ -109,6 +147,7 @@ const WizardGroupDetail: FC = () => {
         <ProForm
           form={form}
           submitter={false}
+          onFieldsChange={onFieldsChange}
           className={styles.page_content}
         >
           <Card
@@ -118,25 +157,7 @@ const WizardGroupDetail: FC = () => {
           >
             <BasicForm />
           </Card>
-          <ProFormList<WizardSchemaType>
-            name="wizards"
-            initialValue={[]}
-            alwaysShowItemLabel
-            copyIconProps={false}
-            actionRef={actionRef}
-            deleteIconProps={false}
-            creatorButtonProps={false}
-            className={styles.form_list}
-            style={{ marginBottom: 0 }}
-          >
-            {(_, index, action, count) => (
-              <StepForm
-                index={index}
-                count={count}
-                action={action}
-              />
-            )}
-          </ProFormList>
+          <Wizards actionRef={actionRef} />
           <ProFormDependency name={['wizards']}>
             {({ wizards = [] }) => {
               const marginTop = wizards.length ? 24 : 0;

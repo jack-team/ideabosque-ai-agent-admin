@@ -73,7 +73,7 @@ const WizardGroups: FC = () => {
               </Button>
             }
           >
-            <EditFrom />
+            <EditFrom onSuccess={onRefresh}/>
           </TriggerModal>
         </Space>
       }

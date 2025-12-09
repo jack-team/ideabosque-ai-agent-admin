@@ -1,41 +1,44 @@
-import { type FC, useMemo, memo } from 'react';
-import { ProFormTextArea } from '@ant-design/pro-components';
+import { type FC, useMemo } from 'react';
+import { ProFormItem } from '@ant-design/pro-components';
 import { getVariableConfigs } from '../../../helper';
+import SliderInput from '../SliderInput';
 import CustomCollapse from '../CustomCollapse';
 import styles from './styles.module.less';
 
-type ThemeTextsProps = {
+type ThemeBoxModelProps = {
   sdk: AgentSdkInstance;
 }
 
-const ThemeTexts: FC<ThemeTextsProps> = (props) => {
+const ThemeBoxModel: FC<ThemeBoxModelProps> = (props) => {
   const { sdk } = props;
   const { bubble, chat } = sdk.variables;
 
   const configs = useMemo(() => ([
     ...getVariableConfigs(
-      bubble.TextConfigs,
-      'uiVariables'
+      bubble.BoxModelConfigs,
+      'cssVariables'
     ),
     ...getVariableConfigs(
-      chat.TextConfigs,
-      'chatUiVariables'
+      chat.BoxModelConfigs,
+      'chatCssVariables'
     )
   ]), [bubble, chat]);
 
   return (
-    <CustomCollapse
-      title="Text content"
-      desc="Set text content, such as bubble titles, AI assistant names, etc."
+    <CustomCollapse 
+    title="Box Model"
+     desc="Set the box model, such as container size, padding, margin, etc."
     >
       <div className={styles.container}>
         {configs.map(item => {
           return (
-            <ProFormTextArea
+            <ProFormItem
               key={item.variable}
               label={item.label}
               name={item.name}
-            />
+            >
+              <SliderInput {...item.formItemConfigs} />
+            </ProFormItem>
           );
         })}
       </div>
@@ -43,4 +46,4 @@ const ThemeTexts: FC<ThemeTextsProps> = (props) => {
   );
 }
 
-export default memo(ThemeTexts);
+export default ThemeBoxModel;

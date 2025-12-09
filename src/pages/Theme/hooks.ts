@@ -1,46 +1,45 @@
 import { useRef } from 'react'
 import { useMemoizedFn, useMount, useUnmount, useSafeState } from 'ahooks';
 
-export const useAiSdk = () => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const [sdk, setSdk] = useSafeState<Record<string, any>>();
-  const [openMode, setOpenMode] = useSafeState<string>('bubble');
-  const destroySdk = useMemoizedFn(() => sdk?.destroy());
+type UseAgentSdkOptions = {
+  agentName?: string;
+  floatBubbleOffsetX: number;
+}
 
-  const createChat = useMemoizedFn((mode = 'bubble') => {
-    const newSdk = AiChatSdk.createChat({
-      openMode: mode,
+export const useAgentSdk = (options?: UseAgentSdkOptions) => {
+  const agentName = options?.agentName || 'Chat Assistant';
+  const bubbleOffsetX = options?.floatBubbleOffsetX ?? 56;
+
+  const targetRef = useRef<HTMLDivElement>(null);
+  const [agentSdk, setAgentSdk] = useSafeState<AgentSdkInstance>();
+  const destroySdk = useMemoizedFn(() => agentSdk?.destroy());
+
+  const createChat = useMemoizedFn(async () => {
+    const sdk = AiChatSdk.createChat({
       enableEditTheme: true,
       position: 'bottomRight',
       target: targetRef.current!,
-      configs: { agentName: 'B2B Chat Agent' }
+      configs: { agentName }
     });
 
-    newSdk.init();
-    newSdk.bubbleExpand();
+    const result = await sdk.init();
+    sdk.variables = result.data;
+    setAgentSdk(sdk);
 
-    newSdk.updateThemeConfigs({
-      bubbleThemeConfigs: {
-        floatBubbleOffsetX: '56px'
+    sdk.bubbleExpand();
+
+    sdk.updateThemeConfigs({
+      cssVariables: {
+        floatBubbleOffsetX: `${bubbleOffsetX}px`
       }
     });
-
-    setSdk(newSdk);
-    setOpenMode(mode);
-  });
-
-  const updateChatMode = useMemoizedFn(async (mode = 'bubble') => {
-    if (openMode === mode) return;
-    destroySdk();
-    createChat(mode);
   });
 
   useMount(createChat);
   useUnmount(destroySdk);
 
   return {
-    sdk,
-    targetRef,
-    updateChatMode
+    agentSdk,
+    targetRef
   };
 }

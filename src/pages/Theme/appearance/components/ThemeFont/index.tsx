@@ -1,47 +1,47 @@
-import { type FC } from 'react';
-import { ProForm, ProFormItem } from '@ant-design/pro-components';
-import { pathToObj } from '@/utils';
+import { type FC, useMemo } from 'react';
+import { ProFormItem } from '@ant-design/pro-components';
+import { getVariableConfigs } from '../../../helper';
 import SliderInput from '../SliderInput';
 import CustomCollapse from '../CustomCollapse';
-import { configs, initFormData } from './configs';
 import styles from './styles.module.less';
 
 type ThemeFontProps = {
-  sdk: Record<string, any>;
+  sdk: AgentSdkInstance;
 }
 
 const ThemeFont: FC<ThemeFontProps> = (props) => {
   const { sdk } = props;
-  const [form] = ProForm.useForm();
+  const { bubble, chat } = sdk.variables;
+
+  const configs = useMemo(() => ([
+    ...getVariableConfigs(
+      bubble.FontSizeConfigs,
+      'cssVariables'
+    ),
+    ...getVariableConfigs(
+      chat.FontSizeConfigs,
+      'chatCssVariables'
+    )
+  ]), [bubble, chat]);
 
   return (
     <CustomCollapse
       title="Text font"
+      desc="Set text size, such as bubble title text, welcome message, etc."
     >
-      <ProForm
-        form={form}
-        initialValues={initFormData}
-        className={styles.container}
-        submitter={false}
-        onFieldsChange={arr => {
-          for (const item of arr) {
-            const obj = pathToObj(item.name, `${item.value}px`);
-            sdk.updateThemeConfigs(obj)
-          }
-        }}
-      >
-        {configs.map((item, i) => {
+      <div className={styles.container}>
+        {configs.map(item => {
           return (
             <ProFormItem
-              key={i}
+              key={item.variable}
               label={item.label}
               name={item.name}
             >
-              <SliderInput />
+              <SliderInput {...item.formItemConfigs} />
             </ProFormItem>
           );
         })}
-      </ProForm>
+      </div>
     </CustomCollapse>
   );
 }

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, memo } from 'react';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 
 const BasicForm: FC = () => {
@@ -42,4 +42,4 @@ const BasicForm: FC = () => {
   );
 }
 
-export default BasicForm;
+export default memo(BasicForm);

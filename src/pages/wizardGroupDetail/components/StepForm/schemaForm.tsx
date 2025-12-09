@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useEffect, memo } from 'react';
 import { Row, Col, type FormItemProps, Form } from 'antd';
 import { ProFormText, ProFormSelect, ProFormItem } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';
@@ -32,7 +32,8 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       rules,
       required,
       name: formName,
-      label: item.label
+      label: item.label,
+      extra: item.extra
     };
 
     switch (type) {
@@ -89,4 +90,4 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
   );
 }
 
-export default SchemaForm;
+export default memo(SchemaForm);

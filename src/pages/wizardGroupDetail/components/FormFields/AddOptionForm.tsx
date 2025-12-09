@@ -25,7 +25,7 @@ const AddOptionForm: FC<EditFormProps> = (props) => {
         <Col span={24}>
           <ProFormText
             name="name"
-            label="Label"
+            label="Name"
             rules={[
               { required: true }
             ]}

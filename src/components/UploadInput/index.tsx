@@ -27,9 +27,7 @@ const UploadInput: FC<UploadInputProps> = (props) => {
   const [files, setFiles] = useSafeState<UploadFile[]>(getFiles());
 
   useUpdateEffect(() => {
-    if (!files.length && value) {
-      setFiles(getFiles());
-    }
+    if (value) setFiles(getFiles());
   }, [value]);
 
   const onUpload = useMemoizedFn(async (files: UploadFile[]) => {
@@ -75,7 +73,7 @@ const UploadInput: FC<UploadInputProps> = (props) => {
       >
         {reviewImg && !!value && (
           <AwsImage
-            awsKey={files[0]?.url!}
+            awsKey={value}
             className={styles.review_img}
           />
         )}

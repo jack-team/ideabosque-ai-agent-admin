@@ -22,6 +22,7 @@ export type AttributeType = {
   col: string;
   label?: string;
   name: string;
+  extra?: string;
   options?: OptionType[];
   pattern: string;
   required: boolean;

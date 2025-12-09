@@ -1,30 +1,51 @@
- .collapse {
-   :global {
-     .ant-tag {
-      user-select: none;
-       cursor: pointer;
-     }
+.container {
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ececec;
 
-     .ant-collapse-item {
-       .ant-collapse-header-text {
-         font-size: 16px;
-         font-weight: 550;
-       }
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
 
-       .ant-collapse-expand-icon>span {
-         color: #555 !important;
-         font-size: 16px !important;
-       }
-     }
-   }
+  .left {
+    flex: 1;
+    margin-right: 24px;
+  }
 
-   .label {
-     .tags {
-       margin-top: 6px;
-     }
+  .title {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--theme-color);
+  }
 
-     .title {
-       display: block;
-     }
-   }
- }
+  .desc {
+    font-size: 13px;
+    color: #999;
+    margin-top: 4px;
+    line-height: 1.2;
+  }
+
+  .tags {
+    padding: 0 16px 16px;
+
+    :global {
+      .ant-tag {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .body {
+    padding: 16px;
+    display: none;
+    border-top: 1px solid #ececec;
+
+    &.collapsible {
+      display: block;
+    }
+  }
+}

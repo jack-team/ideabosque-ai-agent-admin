@@ -1,14 +1,23 @@
-const bubbleName = 'bubbleThemeConfigs';
-const chatName = 'chatThemeConfigs';
+import { getAiSdkStaticUrl } from '@/utils';
 
-const chatLabel = 'Chat agent';
-const bubbleLabel = 'Bubble';
+const avatarImg = getAiSdkStaticUrl('/avatar-dark.svg');
 
-export const darkTheme = {
-  [chatName]: {
+export const DarkTheme = {
+  uiVariables: {
+    avatarImg: avatarImg,
+    closeImg: getAiSdkStaticUrl('/close-dark.svg'),
+    sendImg: getAiSdkStaticUrl('/send-dark.svg'),
+  },
+  chatUiVariables: {
+    avatar: avatarImg,
+    headerIcon: avatarImg,
+    welcomeImg: getAiSdkStaticUrl('/welcome-dark.svg')
+  },
+  chatCssVariables: {
     primaryColor: '#fff',
     headerBackground: '#2E2E3A',
     headerBorderColor: '#444',
+    headerTitleTextColor: '#edebe7',
 
     windowBackground: '#2E2E3A',
 
@@ -30,9 +39,8 @@ export const darkTheme = {
     senderInputTextColor: '#fff',
     senderSubmitBtnBackground: '#fff',
     senderSubmitBtnDisabledBackground: '#888',
-
   },
-  [bubbleName]: {
+  cssVariables: {
     floatBubbleBackground: '#2E2E3A',
     floatBubbleTitleTextColor: '#f2f2f2',
     floatBubbleDescTextColor: '#ccc',
@@ -40,110 +48,3 @@ export const darkTheme = {
     floatBubbleBoxShadowColor: '#2E2E3A'
   }
 }
-
-export const configs = [
-  {
-    name: [bubbleName, 'floatBubbleBackground'],
-    label: `${bubbleLabel} background`
-  },
-  {
-    name: [bubbleName, 'floatBubbleBoxShadowColor'],
-    label: `${bubbleLabel} shadow color`
-  },
-  {
-    name: [bubbleName, 'floatBubbleBorderColor'],
-    label: `${bubbleLabel} border color`
-  },
-  {
-    name: [bubbleName, 'floatBubbleTitleTextColor'],
-    label: `${bubbleLabel} title color`
-  },
-  {
-    name: [bubbleName, 'floatBubbleDescTextColor'],
-    label: `${bubbleLabel} secondary title color`
-  },
-  {
-    name: [chatName, 'primaryColor'],
-    label: `${chatLabel} primary color`
-  },
-  {
-    name: [chatName, 'headerBackground'],
-    label: `${chatLabel} header background`
-  },
-  {
-    name: [chatName, 'headerTitleTextColor'],
-    label: `${chatLabel} header title text color`
-  },
-  {
-    name: [chatName, 'headerBorderColor'],
-    label: `${chatLabel} header border color`
-  },
-  {
-    name: [chatName, 'windowBackground'],
-    label: `${chatLabel} window background`
-  },
-  {
-    name: [chatName, 'welcomeTitleTextColor'],
-    label: `${chatLabel} welcome title color`
-  },
-  {
-    name: [chatName, 'welcomeSubTitleTextColor'],
-    label: `${chatLabel} welcome text color`
-  },
-  {
-    name: [chatName, 'welcomeSubTitleTextColor'],
-    label: `${chatLabel} welcome text color`
-  },
-  {
-    name: [chatName, 'bubbleBackground'],
-    label: `${chatLabel} bubble background`
-  },
-  {
-    name: [chatName, 'bubbleUserNameTextColor'],
-    label: `${chatLabel} bubble user name text color`
-  },
-  {
-    name: [chatName, 'bubbleCreateAtTextColor'],
-    label: `${chatLabel} bubble create at text color`
-  },
-  {
-    name: [chatName, 'bubbleInnerBackground'],
-    label: `${chatLabel} bubble inner background`
-  },
-  {
-    name: [chatName, 'bubbleContentTextColor'],
-    label: `${chatLabel} bubble content text color`
-  },
-  {
-    name: [chatName, 'bubbleUserBackground'],
-    label: `${chatLabel} user bubble background color`
-  },
-  {
-    name: [chatName, 'bubbleContentUserTextColor'],
-    label: `${chatLabel} user bubble content text color`
-  },
-  {
-    name: [chatName, 'senderBackground'],
-    label: `${chatLabel} send background`
-  },
-  {
-    name: [chatName, 'senderBorderColor'],
-    label: `${chatLabel} send border color`
-  },
-  {
-    name: [chatName, 'senderInputBackground'],
-    label: `${chatLabel} send input background`
-  },
-  {
-    name: [chatName, 'senderInputTextColor'],
-    label: `${chatLabel} send input text color`
-  },
-  {
-    name: [chatName, 'senderSubmitBtnBackground'],
-    label: `${chatLabel} send button background`
-  },
-  {
-    name: [chatName, 'senderSubmitBtnDisabledBackground'],
-    label: `${chatLabel} send button disbaled background`
-  },
-];

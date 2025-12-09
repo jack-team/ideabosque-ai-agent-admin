@@ -1,32 +1,45 @@
 import { type FC } from 'react';
 import { Tabs } from 'antd';
+import classNames from 'classnames';
 import { useMemoizedFn, useSafeState } from 'ahooks';
-import { PageContainer } from '@ant-design/pro-components';
+import { PageContainer, ProForm } from '@ant-design/pro-components';
 import SpinBox from '@/components/SpinBox';
+import { ShopifyButton } from '@/components';
 import { SettingType } from './enum';
-import { useAiSdk } from './hooks';
+import { useAgentSdk } from './hooks';
 import Appearance from './appearance';
 import Component from './component';
+import Preview from './preview';
 import styles from './styles.module.less';
 
-const Preview: FC = () => {
-  const { targetRef, updateChatMode, sdk } = useAiSdk();
+const ThemeEditor: FC = () => {
+  const { agentSdk, targetRef } = useAgentSdk();
+  const [appearanceForm] = ProForm.useForm();
   const [activeKey, setActiveKey] = useSafeState(SettingType.NORMAL);
 
   const handleTabChange = useMemoizedFn((tabKey) => {
     setActiveKey(tabKey);
-    updateChatMode(tabKey === SettingType.NORMAL ? 'bubble' : 'window');
+    agentSdk?.setOpenMode(
+      tabKey === SettingType.NORMAL ?
+        'bubble' :
+        'window'
+    );
   });
 
   return (
     <PageContainer
       title="Theme Editor"
       className="shopify full-screen"
+      extra={
+        <ShopifyButton type="primary">
+          Save
+        </ShopifyButton>
+      }
     >
-      <SpinBox>
-        <div className={styles.container}>
+      <SpinBox loading={!agentSdk}>
+        <div className={classNames(styles.container, !!agentSdk && styles.show)}>
           <div className={styles.form}>
-            {!!sdk && (
+            {!!agentSdk && (
               <Tabs
                 activeKey={activeKey}
                 className={styles.tabs}
@@ -35,20 +48,26 @@ const Preview: FC = () => {
                   {
                     key: SettingType.NORMAL,
                     label: 'Appearance Settings',
-                    children: <Appearance sdk={sdk} updateChatMode={updateChatMode}/>
+                    children: (
+                      <Appearance
+                        sdk={agentSdk}
+                        form={appearanceForm}
+                      />
+                    )
                   },
                   {
                     key: SettingType.COMPONENTS,
                     label: 'Component Settings',
-                    children: <Component sdk={sdk} />
+                    children: <Component sdk={agentSdk} />
                   }
                 ]}
               />
             )}
           </div>
-          <div
+          <Preview
+            sdk={agentSdk}
             ref={targetRef}
-            className={styles.window}
+            appearanceForm={appearanceForm}
           />
         </div>
       </SpinBox>
@@ -56,4 +75,4 @@ const Preview: FC = () => {
   );
 }
 
-export default Preview;
+export default ThemeEditor;

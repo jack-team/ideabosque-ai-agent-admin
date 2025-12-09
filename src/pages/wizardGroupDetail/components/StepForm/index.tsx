@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, memo, useEffect } from 'react';
 import { Card } from 'antd';
 import classNames from 'classnames';
 import { ProFormText } from '@ant-design/pro-components';
@@ -24,7 +24,7 @@ const StepForm: FC<StepFormProps> = (props) => {
 
   return (
     <Card
-      title={`Step ${index + 1}`}
+      title={<span className={styles.step_num}>{`Step ${index + 1}`}</span>}
       className={classNames(styles.step_card, 'shopify')}
       extra={<MoreMenu {...props} />}
     >
@@ -52,13 +52,16 @@ const StepForm: FC<StepFormProps> = (props) => {
       {attributeGroups.map(item => {
         const schema = attributes.filter(attr => attr.group_name === item.name);
         const [laster] = schema;
+
         const isRequired = schema.length === 1 && laster.required && !laster.label;
+        const className = classNames(styles.group_title, isRequired && styles.required);
 
         return (
-          <div className={styles.group} key={item.name}>
-            <div className={classNames(styles.group_title, isRequired && styles.required)}>
-              {item.label}
-            </div>
+          <div
+            key={item.name}
+            className={styles.group}
+          >
+            <div className={className}>{item.label}</div>
             <div className={styles.group_content}>
               <SchemaForm name="schemaFormData" schema={schema} />
             </div>
@@ -69,4 +72,4 @@ const StepForm: FC<StepFormProps> = (props) => {
   );
 }
 
-export default StepForm;
+export default memo(StepForm);
