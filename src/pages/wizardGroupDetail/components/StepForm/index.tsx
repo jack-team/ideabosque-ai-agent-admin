@@ -1,4 +1,4 @@
-import { type FC, memo, useEffect } from 'react';
+import { type FC, memo } from 'react';
 import { Card } from 'antd';
 import classNames from 'classnames';
 import { ProFormText } from '@ant-design/pro-components';
