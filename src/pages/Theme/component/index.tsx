@@ -1,5 +1,4 @@
 import { type FC } from 'react';
-import { useMemoizedFn, useSafeState } from 'ahooks';
 
 type ComponentProps = {
   sdk: Record<string, any>;

@@ -1,4 +1,4 @@
-import { type FC, useEffect, memo } from 'react';
+import { type FC, memo } from 'react';
 import { Row, Col, type FormItemProps, Form } from 'antd';
 import { ProFormText, ProFormSelect, ProFormItem } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';

@@ -8,7 +8,7 @@ import { ShopifyButton } from '@/components';
 import { SettingType } from './enum';
 import { useAgentSdk } from './hooks';
 import Appearance from './appearance';
-import Component from './component';
+// import Component from './component';
 import Preview from './preview';
 import styles from './styles.module.less';
 

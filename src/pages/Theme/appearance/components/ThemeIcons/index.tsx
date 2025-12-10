@@ -1,5 +1,5 @@
 import { type FC, useMemo, memo } from 'react';
-import { ProFormItem, type FormInstance } from '@ant-design/pro-components';
+import { ProFormItem } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';
 import { getVariableConfigs } from '../../../helper';
 import CustomCollapse from '../CustomCollapse';
