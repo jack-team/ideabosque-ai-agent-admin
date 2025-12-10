@@ -12,6 +12,7 @@ declare namespace API {
       createdAt: string;
       promptTemplate: PromptTemplateItem;
       promptUuid?: string;
+      duplicate?: boolean;
     };
 
     type McpServerTool = {

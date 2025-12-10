@@ -2,10 +2,11 @@ import { type FC, useRef } from 'react';
 import { Button, Space, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { TriggerModal } from '@/components';
-import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
+import { EditIcon, DeleteIcon, EyeCheckMarkIcon } from '@shopify/polaris-icons';
 import IconButton from '@/components/IconButton';
 import { formatDate } from '@/utils';
 import EditFrom from './components/EditForm';
+import ReviewAgent from './components/ReviewAgent';
 import { PageContainer, ProTable, type ActionType } from '@ant-design/pro-components';
 import { getCoordinationsApi, deleteCoordinationApi } from '@/services/contactProfiles';
 
@@ -104,6 +105,18 @@ const Coordinations: FC = () => {
             render: (_, record) => {
               return (
                 <Space>
+                  {record.agents?.length > 0 && (
+                    <TriggerModal
+                      width={560}
+                      hasFooter={false}
+                      destroyOnHidden
+                      className="shopify"
+                      title="Review Agent"
+                      trigger={<IconButton icon={EyeCheckMarkIcon} />}
+                    >
+                      <ReviewAgent record={record as any} />
+                    </TriggerModal>
+                  )}
                   <TriggerModal
                     width={620}
                     destroyOnHidden

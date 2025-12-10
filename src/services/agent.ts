@@ -15,3 +15,8 @@ export const getCoordinationListApi = async (params: Record<string, any>) => {
   const query = await generateQuery({ type: 'Query', name: 'coordinationList' });
   return agentCore.graphql({ query, variables: params });
 }
+
+export const getAgentDetailApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Query', name: 'agent' });
+  return agentCore.graphql({ query, variables: params });
+}

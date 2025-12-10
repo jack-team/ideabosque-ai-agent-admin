@@ -8,8 +8,16 @@ type ColorPickerInputProps = {
   onChange?: (value?: string) => void;
 }
 
+const prefixs = ['var', 'linear-gradient'];
+
 const ColorPickerInput: FC<ColorPickerInputProps> = (props) => {
   const { value } = props;
+
+  let newVal = value;
+
+  if (prefixs.some(p => newVal?.startsWith(p))) {
+    newVal = undefined;
+  }
 
   const [open, setOpen] = useSafeState(false);
 
@@ -22,7 +30,7 @@ const ColorPickerInput: FC<ColorPickerInputProps> = (props) => {
   return (
     <div className={styles.container}>
       <ColorPicker
-        value={value}
+        value={newVal}
         size="large"
         open={open}
         onOpenChange={setOpen}
@@ -30,9 +38,10 @@ const ColorPickerInput: FC<ColorPickerInputProps> = (props) => {
       />
       <div
         onClick={onClick}
+        title={value}
         className={styles.val}
       >
-        {value || '--'}
+        <div>{value || '--'}</div>
       </div>
     </div>
   )

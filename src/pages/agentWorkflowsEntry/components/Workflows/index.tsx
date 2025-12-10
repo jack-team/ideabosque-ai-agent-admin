@@ -4,7 +4,7 @@ import { useMemoizedFn } from 'ahooks';
 import { TriggerModal } from '@/components';
 import IconButton, { withIcon } from '@/components/IconButton';
 import { ProTable, type ActionType } from '@ant-design/pro-components';
-import { queryAgentWorkflowsApi, deleteFlowSnippetApi } from '@/services/workflow';
+import { queryAgentWorkflowsApi, deleteFlowSnippetApi, insertUpdateWorkflowApi } from '@/services/workflow';
 import { EditIcon, DeleteIcon, DuplicateIcon, AlertCircleIcon, MenuHorizontalIcon } from '@shopify/polaris-icons';
 import EditForm from '../EditForm';
 import { formatDate } from '@/utils';
@@ -25,7 +25,7 @@ const WAlertCircleIcon = withIcon(AlertCircleIcon);
 
 const Workflows: FC<WorkflowsProps> = (props) => {
   const { onEdit } = props;
-  const { modal } = App.useApp();
+  const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
 
   const refreshTable = useMemoizedFn(() => {
@@ -45,6 +45,22 @@ const Workflows: FC<WorkflowsProps> = (props) => {
     });
   });
 
+  const onDuplicate = useMemoizedFn(
+    async (record: Record<string, any>) => {
+      const closeLoading = message.loading('Loading..');
+
+      await insertUpdateWorkflowApi({
+        duplicate: true,
+        updatedBy: 'Admin',
+        flowSnippetUuid: record.flowSnippetUuid,
+      });
+
+      closeLoading();
+      refreshTable();
+      message.success('Operation successful');
+    }
+  );
+
   return (
     <ProTable<API.Workflow.FlowSnippet>
       className="shopify"
@@ -53,12 +69,12 @@ const Workflows: FC<WorkflowsProps> = (props) => {
       actionRef={actionRef}
       rowKey="flowSnippetUuid"
       pagination={{ pageSize: 5 }}
-      request={async () => {
+      request={async (params) => {
         const {
           flowSnippetList: result
         } = await queryAgentWorkflowsApi({
-          pageNumber: 1,
-          limit: 100,
+          pageNumber: params.current!,
+          limit: params.pageSize!,
           statuses: [StatusEnum.Active]
         })
         return {
@@ -76,7 +92,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
           dataIndex: 'status',
           render: (_, record) => (
             <Tag className={styles.active_tag}>
-              {record.status === 'active'? 'Active': 'Inactive'}
+              {record.status === 'active' ? 'Active' : 'Inactive'}
             </Tag>
           )
         },
@@ -117,7 +133,8 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                       {
                         key: 'duplicate',
                         label: 'Duplicate',
-                        icon: <WDuplicateIcon />
+                        icon: <WDuplicateIcon />,
+                        onClick: () => onDuplicate(record)
                       },
                       {
                         danger: true,

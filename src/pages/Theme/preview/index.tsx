@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
-import { Space, App } from 'antd';
+import { Space, App, Dropdown } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import copy from 'copy-to-clipboard';
+import { CaretDownOutlined } from '@ant-design/icons'
 import type { FormInstance } from '@ant-design/pro-components';
 import { ShopifyButton, TriggerModal } from '@/components';
 import JsonInput from './jsonInput';
@@ -14,7 +15,7 @@ type PreviewProps = {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const { sdk, appearanceForm } = props;
-  const { message } = App.useApp();
+  const { message, modal } = App.useApp();
 
   const copyJson = useMemoizedFn(() => {
     copy(JSON.stringify(appearanceForm.getFieldsValue(true)));
@@ -29,9 +30,25 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     }
   );
 
+  const setOpenMode = useMemoizedFn((mode: string) => {
+    sdk?.setOpenMode(mode);
+  })
+
   const resetDefaults = useMemoizedFn(() => {
-    sdk?.resetThemeConfigs();
-    appearanceForm.resetFields();
+    modal.confirm({
+      title: 'Are you sure you want to reset all configuration to defaults?',
+      rootClassName: 'shopify',
+      okButtonProps: {
+        className: 'shopify'
+      },
+      cancelButtonProps: {
+        className: 'shopify'
+      },
+      onOk: () => {
+        sdk?.resetThemeConfigs();
+        appearanceForm.resetFields();
+      }
+    });
   });
 
   return (
@@ -41,6 +58,33 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           Live Preview
         </div>
         <Space size={16}>
+          <Dropdown
+            rootClassName="shopify"
+            menu={{
+              items: [
+                {
+                  key: 'bubble',
+                  label: 'Bubble',
+                  onClick: () => setOpenMode('bubble')
+                },
+                {
+                  key: 'window',
+                  label: 'Window',
+                  onClick: () => setOpenMode('window')
+                }
+              ]
+            }}
+          >
+            <ShopifyButton
+              type="primary"
+              async={false}
+            >
+              <Space>
+                <span>Open Mode</span>
+                <CaretDownOutlined />
+              </Space>
+            </ShopifyButton>
+          </Dropdown>
           <ShopifyButton
             type="primary"
             async={false}

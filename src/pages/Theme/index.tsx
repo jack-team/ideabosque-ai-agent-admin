@@ -44,6 +44,7 @@ const ThemeEditor: FC = () => {
                 activeKey={activeKey}
                 className={styles.tabs}
                 onChange={handleTabChange}
+                renderTabBar={() => <span />}
                 items={[
                   {
                     key: SettingType.NORMAL,
@@ -55,11 +56,11 @@ const ThemeEditor: FC = () => {
                       />
                     )
                   },
-                  {
-                    key: SettingType.COMPONENTS,
-                    label: 'Component Settings',
-                    children: <Component sdk={agentSdk} />
-                  }
+                  // {
+                  //   key: SettingType.COMPONENTS,
+                  //   label: 'Component Settings',
+                  //   children: <Component sdk={agentSdk} />
+                  // }
                 ]}
               />
             )}

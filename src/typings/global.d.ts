@@ -84,6 +84,7 @@ type AgentSdkInstance = {
   clearAllHistory: () => void;
   insertHistory: () => void;
   setOpenMode: (mode: string) => void; 
+  updateChatConfigs: (configs: Record<string, any>) => void;
 }
 
 declare const AiChatSdk: AiChatSdkFunc;
