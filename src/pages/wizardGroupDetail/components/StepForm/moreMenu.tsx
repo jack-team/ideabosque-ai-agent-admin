@@ -65,9 +65,13 @@ const MoreMenu: FC<StepFormProps> = (props) => {
               onClick: () => {
                 modal.confirm({
                   okText: 'Delete',
-                  okButtonProps: { danger: true, },
                   cancelButtonProps: { className: 'shopify' },
                   title: 'Are you sure you want to delete it?',
+                  content: (
+                    <span>
+                      <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system. To avoid making global changes, make a new item from the Edit UI Block Group page.
+                    </span>
+                  ),
                   onOk: () => action.remove(index)
                 });
               }

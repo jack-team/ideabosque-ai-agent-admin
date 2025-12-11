@@ -1,20 +1,20 @@
 import type { FC } from 'react';
-import { Modal } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { ExitIcon } from '@shopify/polaris-icons';
 import IconButton from '@/components/IconButton';
 import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
 import { useFlowContext, useStepData, useCanvasInctance } from '../hooks';
 import { ShopifyButton } from '@/components';
+import { useConfirm } from '@/hooks/useConfirm';
 import { getNodeBranchByDetails } from '../helper';
 import Canvas from '../canvas';
 import styles from './styles.module.less';
 
 const Layer: FC = () => {
   const data = useStepData();
+  const [confirm] = useConfirm();
   const [canvas] = useCanvasInctance();
   const { updateNodeData } = useReactFlow();
-  const [modal, contextHandler] = Modal.useModal();
   const { closeDetail, detailId } = useFlowContext();
 
   const details = data?.details;
@@ -31,18 +31,11 @@ const Layer: FC = () => {
   });
 
   const closeLayer = useMemoizedFn(() => {
-    modal.confirm({
-      rootClassName: 'shopify',
+    confirm({
       title: 'Are you sure you want to leave?',
       content: 'The data on this page will be lost after leaving.',
       okText: 'Yes',
-      okButtonProps: {
-        className: 'shopify'
-      },
-      cancelButtonProps: {
-        className: 'shopify gray'
-      },
-      onOk: closeDetail
+      onConfirm: closeDetail
     });
   });
 
@@ -75,7 +68,6 @@ const Layer: FC = () => {
           />
         </ReactFlowProvider>
       </div>
-      {contextHandler}
     </div>
   );
 }

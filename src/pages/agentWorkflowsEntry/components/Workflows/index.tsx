@@ -150,7 +150,7 @@ const Workflows: FC<WorkflowsProps> = (props) => {
                 </Dropdown>
                 <TriggerModal
                   width={400}
-                  title="Workflow editor"
+                  title="Workflow details"
                   destroyOnHidden
                   okText="Save"
                   trigger={<div ref={e => { ele = e; }} />}

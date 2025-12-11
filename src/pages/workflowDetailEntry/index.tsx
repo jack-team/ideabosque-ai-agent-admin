@@ -8,6 +8,8 @@ import { queryAgentWorkflowApi } from '@/services/workflow';
 import { insertUpdateWorkflowApi } from '@/services/workflow';
 import { useFlowInstance } from '@/components/FlowCanvas';
 import { ShopifyButton } from '@/components';
+import { useLeavePage } from '@/hooks/useLeavePage';
+import { useConfirm } from '@/hooks/useConfirm';
 import { Spinner } from '@/components';
 import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
@@ -22,9 +24,19 @@ function WorkflowDetail() {
   const { message } = App.useApp();
   const [flow] = useFlowInstance();
   const [search] = useSearchParams();
+  const [confirm] = useConfirm();
   const params = useParams<UrlParams>();
   const navigate = useNavigate();
   const [submitLoading, setSubmitLoading] = useSafeState(false);
+
+  useLeavePage((blocker) => {
+    confirm({
+      okText: 'Yes',
+      title: 'Are you sure you want to leave?',
+      content: 'The data on this page will be lost after leaving.',
+      onConfirm: () => blocker.proceed()
+    });
+  }, { shouldBlock: true });
 
   const { data: detail } = useRequest(async () => {
     const result = await queryAgentWorkflowApi({
@@ -39,8 +51,6 @@ function WorkflowDetail() {
   const onSave = useMemoizedFn(async () => {
     const data = flow.getData()!;
 
-    console.log('flow data:', data);
-
     const {
       flowSnippetVersionUuid,
       ...rest
@@ -53,7 +63,6 @@ function WorkflowDetail() {
     if (type === 'new') {
       params.flowSnippetVersionUuid = flowSnippetVersionUuid;
     }
-
 
     setSubmitLoading(true);
 
@@ -78,7 +87,7 @@ function WorkflowDetail() {
     <PageContainer
       title={
         <div className={styles.page_title}>
-          {detail?.flowName || 'Workflow Details'}
+          {detail?.flowName || 'Workflow editor'}
           <div className={styles.update_time}>
             {getLastUpdate()}
           </div>

@@ -3,6 +3,8 @@ import { Tabs } from 'antd';
 import classNames from 'classnames';
 import { useMemoizedFn, useSafeState } from 'ahooks';
 import { PageContainer, ProForm } from '@ant-design/pro-components';
+import { useLeavePage } from '@/hooks/useLeavePage';
+import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import { ShopifyButton } from '@/components';
 import { SettingType } from './enum';
@@ -13,6 +15,7 @@ import Preview from './preview';
 import styles from './styles.module.less';
 
 const ThemeEditor: FC = () => {
+  const [confirm] = useConfirm();
   const { agentSdk, targetRef } = useAgentSdk();
   const [appearanceForm] = ProForm.useForm();
   const [activeKey, setActiveKey] = useSafeState(SettingType.NORMAL);
@@ -25,6 +28,15 @@ const ThemeEditor: FC = () => {
         'window'
     );
   });
+
+  useLeavePage((blocker) => {
+    confirm({
+      okText: 'Yes',
+      title: 'Are you sure you want to leave?',
+      content: 'The data on this page will be lost after leaving.',
+      onConfirm: () => blocker.proceed()
+    });
+  }, { shouldBlock: true });
 
   return (
     <PageContainer

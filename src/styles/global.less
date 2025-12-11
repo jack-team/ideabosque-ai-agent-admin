@@ -13,10 +13,34 @@
     @import (less, multiple) './shopify/ant-dropdown.less';
   }
 
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
+
   .ant-form-item-label {
     font-size: 13px;
     color: #303030;
     font-weight: 500;
+
+    >label {
+
+      &.ant-form-item-required {
+        &::before {
+          display: none;
+        }
+        &::after {
+          display: inline-block;
+          margin-inline-start: 4px;
+          color: #ff4d4f;
+          font-size: 14px;
+          font-family: SimSun, sans-serif;
+          line-height: 1;
+          content: "*";
+          visibility: visible !important;
+        }
+      }
+    }
+
   }
 }
 

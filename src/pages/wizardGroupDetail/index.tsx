@@ -1,30 +1,37 @@
 import { Card, Space, App } from 'antd';
-import { useBlocker } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router';
-import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useSafeState, useMemoizedFn } from 'ahooks';
 import { type FC, useRef, type ReactElement, useEffect } from 'react';
-import { PageContainer, ProForm, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
-import { insertUpdateWizardGroupWithWizards } from '@/services/wizard';
+import {
+  ProForm,
+  PageContainer,
+  ProFormDependency,
+  type FormListActionType,
+} from '@ant-design/pro-components';
 import { ShopifyButton } from '@/components';
 import SpinBox from '@/components/SpinBox';
 import { TriggerModal } from '@/components';
+import { useLeavePage } from '@/hooks/useLeavePage';
 import BasicForm from './components/BasicForm';
 import AddBlockForm from './components/AddBlockForm';
 import AddButton from './components/AddButton';
-import Wizards from './wizards';
+import { useConfirm } from '@/hooks/useConfirm'
 import { useBlockSchemas, useWizardGroupDeail } from './hooks';
 import { processOutputData, getInitFormData } from './helper';
+import { insertUpdateWizardGroupWithWizards } from '@/services/wizard';
 import type { WizardSchemaType, WizardGroupResultType } from './types';
+import Wizards from './wizards';
 import styles from './styles.module.less';
 
 const WizardGroupDetail: FC = () => {
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
-  const { message, modal } = App.useApp();
+  const [confirm] = useConfirm();
+  const { message } = App.useApp();
   const { uid } = useParams<{ uid: string }>();
   const { wizardSchemas } = useBlockSchemas();
   const [loading, setLoading] = useSafeState(false);
-  const [anyUpdates, setAnyUpdates] = useSafeState(false);
+  const [shouldBlock, setShouldBlock] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
   const { detail, detailLoading } = useWizardGroupDeail(uid!);
 
@@ -56,7 +63,7 @@ const WizardGroupDetail: FC = () => {
         ...values,
         updatedBy: 'admin'
       });
-      setAnyUpdates(false);
+      setShouldBlock(false);
       updateFromData(result.wizardGroup);
       message.success('Save successfully.');
     } catch (err) {
@@ -67,9 +74,7 @@ const WizardGroupDetail: FC = () => {
     }
   });
 
-  const onFieldsChange = useMemoizedFn(() => {
-    setAnyUpdates(true);
-  });
+  const onFieldsChange = useMemoizedFn(() => setShouldBlock(true));
 
   const renderAddBlockForm = (button: ReactElement<any>) => {
     return (
@@ -88,39 +93,24 @@ const WizardGroupDetail: FC = () => {
     );
   };
 
-  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
-    return anyUpdates && currentLocation.pathname !== nextLocation.pathname;
-  });
-
-  useUpdateEffect(() => {
-    if (blocker.state === 'blocked') {
-      const e = modal.confirm({
-        closable: true,
-        rootClassName: 'shopify',
-        title: 'Are you sure you want to leave this page?',
-        content: 'The form will not be saved after leaving.',
-        okText: 'Save',
-        cancelText: 'Leave',
-        okButtonProps: {
-          className: 'shopify'
-        },
-        cancelButtonProps: {
-          className: 'shopify',
-          onClick: () => {
-            blocker.proceed();
-            e.destroy();
-          }
-        },
-        onCancel: () => {
-          blocker.reset();
-        },
-        onOk: async () => {
-          blocker.reset();
-          handleSave()
-        }
-      });
-    }
-  }, [blocker]);
+  useLeavePage((blocker) => {
+    confirm({
+      title: 'Are you sure you want to leave this page?',
+      content: 'The form will not be saved after leaving.',
+      okText: 'Save',
+      cancelText: 'Leave',
+      onConfirm: () => {
+        blocker.reset();
+        handleSave();
+      },
+      onClose: () => {
+        blocker.reset();
+      },
+      onCancel: () => {
+        blocker.proceed();
+      }
+    });
+  }, { shouldBlock });
 
   return (
     <SpinBox loading={loading || detailLoading}>

@@ -16,8 +16,8 @@ export enum DataTypeEnum {
 }
 
 export const DataTypeMap = {
-  [DataTypeEnum.String]: 'String',
-  [DataTypeEnum.Array]: 'Array',
+  [DataTypeEnum.String]: 'Text',
+  [DataTypeEnum.Array]: 'List',
   [DataTypeEnum.File]: 'File'
 }
 
@@ -33,12 +33,14 @@ export enum FormFieldType {
 
 // 验证类型
 export enum ValidateType {
+  None = 'none',
   Email = 'email',
   Number = 'number',
   Telephone = 'phone'
 }
 
 export const ValidateTypeMap = {
+  [ValidateType.None]: 'None', 
   [ValidateType.Email]: 'Email',
   [ValidateType.Number]: 'Number',
   [ValidateType.Telephone]: 'Telephone'

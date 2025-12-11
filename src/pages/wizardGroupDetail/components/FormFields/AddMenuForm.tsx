@@ -3,9 +3,10 @@ import { Checkbox, Form } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { ProFormText, ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
-import { DataTypeMap, ValidateTypeMap } from '../../enum';
+import { DataTypeMap, ValidateTypeMap, ValidateType } from '../../enum';
 import { useElements } from '../../hooks'
 import type { EditFormProps } from './fields';
+import styles from './styles.module.less';
 
 const AddMenuForm: FC<EditFormProps> = (props) => {
   const { formData } = props;
@@ -59,7 +60,7 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
           label="Name"
           rules={[{ required: true }]}
           extra={!!formData ? (
-            <div style={{ paddingTop: 6 }}>
+            <div className={styles.name_tip}>
               <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system.
               To avoid making global changes, make a new item from th Edit UI Block Group page.
             </div>
@@ -102,6 +103,8 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
                 disabled={disabled}
                 label="Validate type"
                 valueEnum={ValidateTypeMap}
+                initialValue={ValidateType.None}
+                tooltip="Defines the required format for the data entered"
               />
             </Fragment>
           )
