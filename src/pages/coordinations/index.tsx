@@ -50,7 +50,8 @@ const Coordinations: FC = () => {
       title="Coordinations"
       extra={
         <TriggerModal
-          width={620}
+          width={400}
+          centered
           destroyOnHidden
           className="shopify"
           title="Add Coordination"
@@ -107,7 +108,8 @@ const Coordinations: FC = () => {
                 <Space>
                   {record.agents?.length > 0 && (
                     <TriggerModal
-                      width={560}
+                      width={600}
+                      centered
                       hasFooter={false}
                       destroyOnHidden
                       className="shopify"
@@ -118,7 +120,8 @@ const Coordinations: FC = () => {
                     </TriggerModal>
                   )}
                   <TriggerModal
-                    width={620}
+                    centered
+                    width={400}
                     destroyOnHidden
                     className="shopify"
                     title="Edit Coordination"

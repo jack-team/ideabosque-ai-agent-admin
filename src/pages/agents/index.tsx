@@ -136,10 +136,11 @@ const Agents: FC = () => {
               return (
                 <Space>
                   <TriggerModal
+                    centered
                     width={620}
                     destroyOnHidden
                     className="shopify"
-                    title="Create agent"
+                    title="Agent details"
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditFrom

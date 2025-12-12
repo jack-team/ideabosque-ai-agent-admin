@@ -158,23 +158,23 @@ const WorkflowTemplateDetail: FC = () => {
             <ProFormList
               label="Variables"
               name="variables"
-              className={styles.form_list}
+              className="custom_form_list"
             >
               <Row gutter={16}>
-                <Col span={12}>
+                <Col span={24}>
                   <ProFormText
                     name="name"
-                    placeholder="Variable Name"
+                    label="Variable Name"
                     rules={[{ required: true }]}
                   />
                 </Col>
-                <Col span={12}>
-                  <ProFormText
-                    name="data_type"
-                    placeholder="Data type"
-                    rules={[{ required: true }]}
-                  />
-                </Col>
+                <ProFormText
+                  hidden
+                  name="data_type"
+                  initialValue="string"
+                  placeholder="Data type"
+                  rules={[{ required: true }]}
+                />
               </Row>
             </ProFormList>
           </ProForm>

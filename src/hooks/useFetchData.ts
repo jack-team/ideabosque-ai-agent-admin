@@ -1,5 +1,6 @@
 import { useRequest } from 'ahooks';
 import { requestWrapper } from '@/utils';
+import dayjs from 'dayjs';
 import {
   queryAgentWorkflowTemplatesApi,
   queryAgentWorkflowsApi,
@@ -50,8 +51,9 @@ export const useWorkFlowTemplatesVersionOptions = (promptUuid: string) => {
   const { loading, data = [] } = useWorkFlowTemplates({ promptUuid });
 
   const options = data.map(item => {
+    const createTime = dayjs(item.createAt).format('YYYY-MM-DD HH:mm:ss');
     return {
-      label: `${item.promptVersionUuid}(${item.promptName})`,
+      label: createTime,
       value: item.promptVersionUuid,
       realData: item
     }
@@ -167,8 +169,9 @@ export const useAgentVersions = (agentUuid?: string) => {
   const { data, loading } = useAgentList({ agentUuid });
 
   const options = data?.map(e => {
+    const createTime = dayjs(e.createdAt).format('YYYY-MM-DD HH:mm:ss');
     return {
-      label: `${e.agentVersionUuid}(${e.agentName})`,
+      label: `${createTime}`,
       value: e.agentVersionUuid
     }
   });

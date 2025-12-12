@@ -4,7 +4,8 @@ import {
   ProFormText,
   ProFormTextArea,
   ProFormSelect,
-  ProFormDependency
+  ProFormDependency,
+  ProFormList
 } from '@ant-design/pro-components';
 import { App, Row, Col } from 'antd';
 import { useRequest, useUpdateEffect } from 'ahooks';
@@ -15,11 +16,13 @@ import {
 } from '@/hooks/useFetchData';
 import SpinBox from '@/components/SpinBox';
 import { getAgentDetailApi } from '@/services/agent';
+import { fetchWorkflowTemplateDetailApi } from '@/services/workflow'
 import Configuration from '../Configuration';
 import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
 import { recordToFormData, formDataToParams } from './helper';
 import { insertUpdateAgentApi } from '@/services/agent';
 import { ToolCallMap } from '@/constants/map';
+import styles from './styles.module.less';
 
 type EditFromProps = {
   onSuccess?: () => void;
@@ -40,17 +43,30 @@ const EditFrom: FC<EditFromProps> = (props) => {
     if (!formData) {
       return Promise.resolve(null);
     }
+
     const result = await getAgentDetailApi({
       agentUuid: formData.agentUuid,
       agentVersionUuid: formData.agentVersionUuid
     });
-    return result.agent;
-  });
 
+    const agent = result.agent;
+
+    if (agent?.flowSnippet?.prompt_uuid) {
+      const {
+        promptTemplate
+      } = await fetchWorkflowTemplateDetailApi({
+        promptUuid: agent?.flowSnippet?.prompt_uuid
+      });
+      agent.promptTemplate = promptTemplate;
+    }
+
+    return agent;
+  });
 
   useUpdateEffect(() => {
     if (!loading && data) {
       initFromDataRef.current = recordToFormData(data);
+      console.log(initFromDataRef.current)
       form.setFieldsValue(initFromDataRef.current);
     }
   }, [loading, data]);
@@ -74,9 +90,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       <ProForm
         form={form}
         submitter={false}
-        style={{
-          padding: '24px 0 0 0'
-        }}
+        className={styles.container}
       >
         <ProFormText
           hidden
@@ -209,7 +223,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
                 mode="multiple"
                 options={mcpServers.options}
                 fieldProps={{
-                  maxTagCount: 1,
+                  maxTagCount: 2,
                   loading: mcpServers.loading
                 }}
                 rules={[
@@ -219,9 +233,46 @@ const EditFrom: FC<EditFromProps> = (props) => {
             )
           }}
         </ProFormDependency>
+        <ProFormDependency name={['variableOptions']}>
+          {({ variableOptions = [] }) => {
+            return (
+              <ProFormList
+                name="variables"
+                label="Variables"
+                className="custom_form_list"
+              >
+                <Row gutter={16}>
+                  <ProFormText
+                    hidden
+                    name="data_type"
+                    initialValue="string"
+                  />
+                  <Col span={12}>
+                    <ProFormSelect
+                      name="name"
+                      label="Variable"
+                      options={variableOptions}
+                      rules={[
+                        { required: true }
+                      ]}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <ProFormText
+                      name="value"
+                      label="Value"
+                      rules={[
+                        { required: true }
+                      ]}
+                    />
+                  </Col>
+                </Row>
+              </ProFormList>
+            )
+          }}
+        </ProFormDependency>
       </ProForm>
     </SpinBox>
-
   );
 }
 

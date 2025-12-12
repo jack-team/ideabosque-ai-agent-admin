@@ -9,6 +9,7 @@ type ReviewAgentProps = {
     coordinationUuid: string;
     agents: Array<{
       agent_uuid: string;
+      agent_name: string;
     }>
   }
 }
@@ -19,15 +20,15 @@ const ReviewAgent: FC<ReviewAgentProps> = (props) => {
   const agentSdkRef = useRef<AgentSdkInstance>(undefined);
 
   const options = agents.map(item => {
+    const id = item.agent_uuid;
+    const name = item.agent_name;
     return {
-      label: item.agent_uuid,
-      value: item.agent_uuid
+      label: name || id,
+      value: id
     }
   });
 
-  const initValue = {
-    agent: options[0]?.value
-  };
+  const [laster] = options;
 
   const getConfigs = useMemoizedFn(
     (agent, agentName = 'B2B Chat Agent') => {
@@ -42,12 +43,11 @@ const ReviewAgent: FC<ReviewAgentProps> = (props) => {
   );
 
   useMount(() => {
-    const agent = initValue.agent;
     agentSdkRef.current = AiChatSdk.createChat({
       openMode: 'window',
       target: ref.current!,
       clientId: 'xxxx',
-      configs: getConfigs(agent, agent)
+      configs: getConfigs(laster?.value, laster?.label)
     });
     agentSdkRef.current.init();
   });
@@ -60,15 +60,25 @@ const ReviewAgent: FC<ReviewAgentProps> = (props) => {
     <div className={styles.container}>
       <ProForm
         submitter={false}
-        initialValues={initValue}
+        initialValues={{
+          agent: laster?.value
+        }}
       >
         <ProFormSelect
           label="Agent"
           name="agent"
+          fieldProps={{
+            allowClear: false
+          }}
           options={options}
-          onChange={e => {
+          onChange={(_, option: any) => {
             const sdk = agentSdkRef.current;
-            sdk?.updateChatConfigs(getConfigs(e, e));
+            sdk?.updateChatConfigs(
+              getConfigs(
+                option?.value,
+                option?.label
+              )
+            );
           }}
         />
       </ProForm>

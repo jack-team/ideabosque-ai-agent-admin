@@ -74,6 +74,7 @@ declare namespace API {
       status: string;
       templateContext: string;
       updatedAt: string;
+      createAt: string;
       updatedBy: string;
       variables: any[];
       mcpServers: McpServerItem[];

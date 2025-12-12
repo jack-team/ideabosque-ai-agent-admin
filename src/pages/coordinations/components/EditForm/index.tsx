@@ -47,7 +47,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
     >
       <ProFormText name="coordinationUuid" hidden />
       <ProFormText
-        required={false}
+        required
         label="Coordination Name"
         name="coordinationName"
         rules={[
@@ -55,7 +55,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
         ]}
       />
       <ProFormTextArea
-        required={false}
+        required
         label="Coordination Description"
         name="coordinationDescription"
         rules={[
@@ -63,13 +63,14 @@ const EditFrom: FC<EditFromProps> = (props) => {
         ]}
       />
       <ProFormSelect
+        required
         label="Connected agents"
         name="agents"
         mode="multiple"
         options={agents.options}
         fieldProps={{
-          maxTagCount: 1,
-          loading: agents.loading
+          maxTagCount: 2,
+          loading: agents.loading,
         }}
       />
     </ProForm>
