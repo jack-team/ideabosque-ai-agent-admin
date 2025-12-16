@@ -20,12 +20,25 @@ import {
 import {
   StatusEnum
 } from '@/constants/enum';
+import { useFetchDataStore } from '@/store/fetchDataCache';
 
 // 获取模板数据
 export const useWorkFlowTemplates = (params?: Record<string, any>) => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   return useRequest(async () => {
+    const cacheKey = `workflow-templates-${JSON.stringify(params || {})}`;
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(queryAgentWorkflowTemplatesApi, params);
-    return result?.promptTemplateList?.promptTemplateList;
+    const data = result?.promptTemplateList?.promptTemplateList;
+    setCache(cacheKey, data);
+    return data;
   });
 }
 
@@ -35,7 +48,7 @@ export const useWorkFlowTemplatesActiveOptions = () => {
     statuses: [StatusEnum.Active]
   });
 
-  const options = data.map(item => {
+  const options = data.map((item: any) => {
     return {
       label: item.promptName,
       value: item.promptUuid,
@@ -50,7 +63,7 @@ export const useWorkFlowTemplatesActiveOptions = () => {
 export const useWorkFlowTemplatesVersionOptions = (promptUuid: string) => {
   const { loading, data = [] } = useWorkFlowTemplates({ promptUuid });
 
-  const options = data.map(item => {
+  const options = data.map((item: any) => {
     const createTime = dayjs(item.createAt).format('YYYY-MM-DD HH:mm:ss');
     return {
       label: createTime,
@@ -64,12 +77,24 @@ export const useWorkFlowTemplatesVersionOptions = (promptUuid: string) => {
 
 // 获取组件列表
 export const useUiComponents = () => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   const { data, loading } = useRequest(async () => {
+    const cacheKey = 'ui-components';
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(fetchuiComponentsApi);
-    return result?.uiComponentList?.uiComponentList;
+    const data = result?.uiComponentList?.uiComponentList;
+    setCache(cacheKey, data);
+    return data;
   });
 
-  const options = data?.map(item => ({
+  const options = data?.map((item: any) => ({
     realData: item,
     label: item.tagName,
     value: [
@@ -82,12 +107,24 @@ export const useUiComponents = () => {
 }
 
 export const useMcpServers = () => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   const { data, loading } = useRequest(async () => {
+    const cacheKey = 'mcp-servers';
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(fetchMcpServersApi);
-    return result.mcpServerList.mcpServerList;
+    const data = result.mcpServerList.mcpServerList;
+    setCache(cacheKey, data);
+    return data;
   });
 
-  const options = data?.map(item => ({
+  const options = data?.map((item: any) => ({
     realData: item,
     label: item.mcpLabel,
     value: item.mcpServerUuid,
@@ -98,9 +135,21 @@ export const useMcpServers = () => {
 
 // 获取Workflows列表
 export const useWorkflowList = (params?: Record<string, any>) => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   return useRequest(async () => {
+    const cacheKey = `workflow-list-${JSON.stringify(params || {})}`;
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(queryAgentWorkflowsApi, params);
-    return result?.flowSnippetList?.flowSnippetList || [];
+    const data = result?.flowSnippetList?.flowSnippetList || [];
+    setCache(cacheKey, data);
+    return data;
   });
 }
 
@@ -110,7 +159,7 @@ export const useWorkflows = () => {
     statuses: [StatusEnum.Active]
   });
 
-  const options = data?.map(item => ({
+  const options = data?.map((item: any) => ({
     realData: item,
     label: item.flowName,
     value: item.flowSnippetVersionUuid,
@@ -122,12 +171,24 @@ export const useWorkflows = () => {
 
 // 获取 llm
 export const useLlms = () => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   const { data, loading } = useRequest(async () => {
+    const cacheKey = 'llm-list';
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(getLlmListApi);
-    return result.llmList.llmList as any[];
+    const data = result.llmList.llmList as any[];
+    setCache(cacheKey, data);
+    return data;
   });
 
-  const options = data?.map(item => ({
+  const options = data?.map((item: any) => ({
     realData: item,
     label: item.llmProvider,
     value: item.llmProvider
@@ -138,9 +199,21 @@ export const useLlms = () => {
 
 // 获取 agent 列表
 export const useAgentList = (params?: Record<string, any>) => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   return useRequest(async () => {
+    const cacheKey = `agent-list-${JSON.stringify(params || {})}`;
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(getAgentListApi, params);
-    return result?.agentList?.agentList as any[];
+    const data = result?.agentList?.agentList as any[];
+    setCache(cacheKey, data);
+    return data;
   }, {
     refreshDeps: [params ? JSON.stringify(params) : null]
   });
@@ -151,7 +224,7 @@ export const useAgentOptions = () => {
     statuses: [StatusEnum.Active]
   });
 
-  const options = data.map(item => (
+  const options = data.map((item: any) => (
     {
       label: item.agentName,
       value: item.agentUuid,
@@ -168,7 +241,7 @@ export const useAgentVersions = (agentUuid?: string) => {
   if (!agentUuid) return { loading: false, options: [] };
   const { data, loading } = useAgentList({ agentUuid });
 
-  const options = data?.map(e => {
+  const options = data?.map((e: any) => {
     const createTime = dayjs(e.createdAt).format('YYYY-MM-DD HH:mm:ss');
     return {
       label: `${createTime}`,
@@ -184,9 +257,21 @@ export const useAgentVersions = (agentUuid?: string) => {
 
 // 获取Wizards
 export const useWizardList = () => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   return useRequest(async () => {
+    const cacheKey = 'wizard-list';
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(getWizardListApi);
-    return result.wizardList?.wizardList;
+    const data = result.wizardList?.wizardList;
+    setCache(cacheKey, data);
+    return data;
   });
 }
 
@@ -209,9 +294,21 @@ export const useWizardOptions = () => {
 
 // 获取 elements
 export const useElementsList = () => {
+  const setCache = useFetchDataStore(state => state.setCache);
+  const getCache = useFetchDataStore(state => state.getCache);
+  
   return useRequest(async () => {
+    const cacheKey = 'elements-list';
+    const cachedData = getCache(cacheKey);
+    
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const result = await requestWrapper(getElementsApi);
-    return result.elementList?.elementList;
+    const data = result.elementList?.elementList;
+    setCache(cacheKey, data);
+    return data;
   });
 }
 

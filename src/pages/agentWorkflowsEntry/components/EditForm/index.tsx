@@ -44,7 +44,7 @@ const VersionForm: FC<VersionFormProps> = (props) => {
     flowSnippetUuid: formData?.flowSnippetUuid
   });
 
-  const options = data?.map(item => {
+  const options = data?.map((item: any) => {
     const t = dayjs(item.createdAt).format('YYYY/MM/DD HH:mm:ss');
     return {
       item,

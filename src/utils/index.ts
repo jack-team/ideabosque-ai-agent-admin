@@ -18,12 +18,12 @@ export function formatDate(date: string, format = 'YYYY-MM-DD HH:mm:ss') {
 export const parseJson = (json: string) => {
   try {
     return JSON.parse(json);
-  } catch (err) {
+  } catch {
     return null;
   }
 }
 
-export function requestWrapper<T extends GlobalNoop>(fn: T, params?: Record<string, any>): ReturnType<T> {
+export function requestWrapper<T extends GlobalNoop>(fn: T, params?: Record<string, unknown>): ReturnType<T> {
   return fn({ limit: 1000, pageNumber: 1, ...params });
 }
 
@@ -41,6 +41,7 @@ export function hexToRgba(hex: string, opacity = 1) {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
+
 export const openUrl = (url: string, target = '_blank') => {
   const $body = document.body;
   const a = document.createElement('a');
@@ -52,8 +53,8 @@ export const openUrl = (url: string, target = '_blank') => {
   $body.removeChild(a);
 }
 
-export const pathToObj = (name: string[], val: any) => {
-  return name.reduceRight((acc, key) => ({ [key]: acc }), val);
+export const pathToObj = <T>(name: string[], val: T) => {
+  return name.reduceRight<Record<string, any>>((acc, key) => ({ [key]: acc }), val as any);
 }
 
 export const getAiSdkStaticUrl = (path: string) => {

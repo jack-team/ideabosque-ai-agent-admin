@@ -65,7 +65,7 @@ export default defineConfig((config) => {
           chunkFileNames: (chunkInfo) => {
             const mid = chunkInfo.facadeModuleId
             let folder = 'chunks';
-            let fileName = '[name]-[hash].js';
+            const fileName = '[name]-[hash].js';
 
             if (mid?.includes('node_modules')) {
               folder = 'vendor';

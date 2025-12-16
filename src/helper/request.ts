@@ -18,4 +18,8 @@ export const aiCoordination = new GraphqlRequest({
 
 export const shopify = new GraphqlRequest({
   namespace: 'shopify_app_engine_graphql'
-})
+});
+
+export const mcpCore = new GraphqlRequest({
+  namespace: 'mcp_core_graphql'
+});

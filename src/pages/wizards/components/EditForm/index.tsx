@@ -33,7 +33,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
     if (formData) {
       initFromData();
     }
-  }, [formData]);
+  }, [formData, initFromData]);
 
   useListenModalOk(async () => {
     const values = await form.validateFields();

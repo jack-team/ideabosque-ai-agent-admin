@@ -43,7 +43,7 @@ const WizardGroupDetail: FC = () => {
 
   useEffect(() => {
     if (detail) updateFromData(detail);
-  }, [detail]);
+  }, [detail, updateFromData]);
 
   // 添加一个 Block
   const handleAddItem = useMemoizedFn(

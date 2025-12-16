@@ -26,7 +26,7 @@ const EditFrom: FC<EditFromProps> = (props) => {
       closeModal();
       props.onSuccess?.();
       message.success(`UI Block Group created successfully.`);
-    } catch (err) {
+    } catch {
       message.error(`Failed to create UI Block Group.`);
     }
   });

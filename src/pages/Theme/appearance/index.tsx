@@ -33,7 +33,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
   // 表单字段变换
   const onFieldsChange = useMemoizedFn((items: any[]) => {
     for (const item of items) {
-      const obj = pathToObj(item.name, item.value);
+      const obj = pathToObj(item.name, item.value) as Record<string, any>;
       sdk.updateThemeConfigs(obj);
     }
   });

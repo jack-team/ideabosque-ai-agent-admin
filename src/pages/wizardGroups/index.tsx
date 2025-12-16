@@ -85,7 +85,7 @@ const WizardGroups: FC = () => {
         scroll={{
           x: 'max-content'
         }}
-        rowKey="agentUuid"
+        rowKey="wizardGroupUuid"
         className="shopify"
         request={async (params) => {
           const {
