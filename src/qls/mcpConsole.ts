@@ -68,3 +68,98 @@ export const insertUpdateMcpModuleQl = `
   }
 }
 `;
+
+export const getListMcpFunctionsQl = `
+  query ListMcpFunctions(
+  $pageNumber: Int
+  $limit: Int
+  $mcpType: String
+  $moduleName: String
+  $className: String
+  $functionName: String
+) {
+  mcpFunctionList(
+    pageNumber: $pageNumber
+    limit: $limit
+    mcpType: $mcpType
+    moduleName: $moduleName
+    className: $className
+    functionName: $functionName
+  ) {
+    mcpFunctionList {
+      endpointId
+      name
+      mcpType
+      description
+      data
+      annotations
+      moduleName
+      className
+      functionName
+      returnType
+      isAsync
+      updatedBy
+      createdAt
+      updatedAt
+    }
+    pageSize
+    pageNumber
+    total
+  }
+}
+`;
+
+export const deleteMcpFunctionQl = `
+  mutation DeleteMcpFunction($name: String!) {
+    deleteMcpFunction(name: $name) {
+      ok
+    }
+  }
+`;
+
+export const insertUpdateMcpFunctionQl=`
+  mutation InsertUpdateMcpFunction(
+  $name: String!
+  $mcpType: String!
+  $description: String
+  $data: JSON
+  $annotations: String
+  $moduleName: String
+  $className: String
+  $functionName: String
+  $returnType: String
+  $isAsync: Boolean
+  $updatedBy: String!
+) {
+  insertUpdateMcpFunction(
+    name: $name
+    mcpType: $mcpType
+    description: $description
+    data: $data
+    annotations: $annotations
+    moduleName: $moduleName
+    className: $className
+    functionName: $functionName
+    returnType: $returnType
+    isAsync: $isAsync
+    updatedBy: $updatedBy
+  ) {
+    mcpFunction {
+      endpointId
+      name
+      mcpType
+      description
+      data
+      annotations
+      moduleName
+      className
+      functionName
+      returnType
+      isAsync
+      updatedBy
+      createdAt
+      updatedAt
+    }
+  }
+}
+`

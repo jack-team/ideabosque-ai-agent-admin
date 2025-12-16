@@ -1,6 +1,7 @@
+import dayjs from "dayjs";
 import { type FC, type ReactElement, useRef } from "react";
 import { useNavigate } from 'react-router';
-import { Space, App } from "antd";
+import { Space, App, Tag } from "antd";
 import {
   PageContainer,
   ProTable,
@@ -8,59 +9,38 @@ import {
 } from "@ant-design/pro-components";
 import { useMemoizedFn } from "ahooks";
 import IconButton from '@/components/IconButton';
-import { EditIcon, PlayIcon } from '@shopify/polaris-icons';
-import { ShopifyButton, TriggerModal } from "@/components";
+import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
+import { TriggerModal, ShopifyButton } from "@/components";
+import { getFunctionListApi, deleteMcpFunctionApi } from "@/services/mcpConsole";
+import EditForm from "./components/EditForm";
+import styles from './styles.module.less';
 
 // 定义函数数据类型
 export type FunctionItem = {
-  functionName: string;
-  type: 'tool' | 'resource';
-  moduleClass: string;
-  className: string;
-  async: 'ASYNC' | 'SYNC';
-  returnType: string;
+  endpointId: string;
+  name: string;
+  mcpType: string;
+  description?: string;
+  data?: any;
+  annotations?: string;
+  moduleName?: string;
+  className?: string;
+  functionName?: string;
+  returnType?: string;
+  isAsync?: boolean;
+  updatedBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
-// 模拟数据
-const mockFunctions: FunctionItem[] = [
-  {
-    functionName: 'login_user',
-    type: 'tool',
-    moduleClass: 'auth_service',
-    className: 'AuthHandler',
-    async: 'ASYNC',
-    returnType: 'AuthToken',
-  },
-  {
-    functionName: 'validate_token',
-    type: 'tool',
-    moduleClass: 'auth_service',
-    className: 'TokenManager',
-    async: 'SYNC',
-    returnType: 'Boolean',
-  },
-  {
-    functionName: 'clean_data',
-    type: 'resource',
-    moduleClass: 'data_processor',
-    className: 'DataCleaner',
-    async: 'ASYNC',
-    returnType: 'JSON',
-  },
-  {
-    functionName: 'send_email',
-    type: 'tool',
-    moduleClass: 'notification_center',
-    className: 'EmailSender',
-    async: 'ASYNC',
-    returnType: 'void',
-  },
-];
-
 const Functions: FC = () => {
-  const { modal } = App.useApp();
+  const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
   const navigate = useNavigate();
+
+  const refreshTable = useMemoizedFn(() => {
+    actionRef.current?.reload();
+  });
 
   const renderEditModal = (
     trigger: ReactElement<any>,
@@ -68,36 +48,41 @@ const Functions: FC = () => {
   ) => {
     return (
       <TriggerModal
-        width={620}
+        width={700}
         destroyOnHidden
         trigger={trigger}
         title={`${record ? "Edit" : "Add"} Function`}
       >
-        {/* 这里可以替换为实际的表单组件 */}
-        <div style={{ padding: '20px' }}>
-          <p>Function Form</p>
-          <p>Function Name: {record?.functionName}</p>
-        </div>
+        <EditForm
+          formData={record}
+          onSuccess={refreshTable}
+        />
       </TriggerModal>
     );
   };
 
-  const handleExecute = useMemoizedFn((record: FunctionItem) => {
-    modal.info({
-      title: `Execute Function: ${record.functionName}`,
-      content: (
-        <div>
-          <p>Function Type: {record.type}</p>
-          <p>Module: {record.moduleClass}</p>
-          <p>Class: {record.className}</p>
-          <p>Async: {record.async}</p>
-          <p>Return Type: {record.returnType}</p>
-        </div>
-      ),
-      okText: "Execute",
-      cancelText: "Cancel",
-      onOk: () => {
-        console.log('Execute function:', record.functionName);
+  const handleDelete = useMemoizedFn((record: FunctionItem) => {
+    modal.confirm({
+      title: "Are you sure you want to delete this function?",
+      okText: "Delete",
+      cancelButtonProps: {
+        className: "shopify gray",
+      },
+      okButtonProps: {
+        className: "shopify",
+        danger: true
+      },
+      onOk: async () => {
+        try {
+          await deleteMcpFunctionApi({
+            name: record.name
+          });
+          message.success('Function deleted successfully.');
+          refreshTable();
+        } catch (error) {
+          message.error('Failed to delete function.');
+          console.error('Delete function error:', error);
+        }
       },
     });
   });
@@ -107,54 +92,67 @@ const Functions: FC = () => {
       className="shopify"
       title="Functions"
       onBack={() => navigate(-1)}
-      extra={renderEditModal(
-        <ShopifyButton type="primary">Add Function</ShopifyButton>
-      )}
     >
       <ProTable<FunctionItem>
         className="shopify"
         actionRef={actionRef}
-        rowKey="functionName"
+        rowKey="name"
         options={false}
-        search={{}}
-        pagination={{ showQuickJumper: true }}
+        search={false}
+        pagination={{ pageSize: 5 }}
+        request={async (params) => {
+          const {
+            mcpFunctionList: res
+          } = await getFunctionListApi({
+            pageNumber: params.current,
+            limit: params.pageSize,
+            ...params
+          });
+
+          return {
+            data: res?.mcpFunctionList || [],
+            total: res?.total || 0,
+          };
+        }}
         columns={[
           {
-            dataIndex: "functionName",
+            dataIndex: "name",
             title: "FUNCTION NAME",
           },
           {
-            dataIndex: "type",
+            dataIndex: "mcpType",
             title: "TYPE",
-            render: (_, record) => {
+            render: (_, { mcpType }) => {
+              const c = {
+                resource: '#fa8c16',
+                tool: '#722ed1'
+              }
+              const b = {
+                resource: '#fff7e6',
+                tool: '#f9f0ff'
+              }
               return (
-                <span style={{
-                  color: record.type === 'tool' ? '#722ed1' : '#fa8c16',
-                  fontWeight: 'bold',
-                  backgroundColor: record.type === 'tool' ? '#f9f0ff' : '#fff7e6',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '12px'
-                }}>
-                  {record.type}
-                </span>
+                <Tag style={{
+                  color: c[mcpType as never] || c.resource,
+                  backgroundColor: b[mcpType as never] || b.resource
+                }}>{mcpType}</Tag>
               );
             },
           },
           {
-            dataIndex: "moduleClass",
+            dataIndex: "moduleName",
             title: "MODULE / CLASS",
             render: (_, record) => {
               return (
                 <div>
-                  <div>{record.moduleClass}</div>
-                  <div style={{ fontSize: '12px', color: '#8c8c8c' }}>{record.className}</div>
+                  <div>{record.moduleName || '-'}</div>
+                  <div style={{ fontSize: '12px', color: '#8c8c8c' }}>{record.className || '-'}</div>
                 </div>
               );
             },
           },
           {
-            dataIndex: "async",
+            dataIndex: "isAsync",
             title: "ASYNC",
             render: (_, record) => {
               return (
@@ -163,7 +161,7 @@ const Functions: FC = () => {
                   fontWeight: 'bold',
                   fontSize: '12px'
                 }}>
-                  {record.async}
+                  {record.isAsync ? 'ASYNC' : 'SYNC'}
                 </span>
               );
             },
@@ -171,39 +169,40 @@ const Functions: FC = () => {
           {
             dataIndex: "returnType",
             title: "RETURN TYPE",
+            render: (_, record) => {
+              return record.returnType || '-';
+            },
+          },
+          {
+            dataIndex: "updatedAt",
+            title: "LAST UPDATED",
+            render: (_, record) => {
+              return dayjs(record.updatedAt).format('YYYY-MM-DD HH:mm:ss');
+            },
           },
           {
             key: "action",
             title: "ACTIONS",
-            width: "120px",
+            width: "100px",
             align: "center",
             fixed: "right",
             render: (_, record) => {
               return (
                 <Space>
-                  <IconButton
-                    icon={PlayIcon}
-                    onClick={() => handleExecute(record)}
-                    style={{ color: '#52c41a' }}
-                  />
                   {renderEditModal(
                     <IconButton icon={EditIcon} />,
                     record
                   )}
+                  <IconButton
+                    icon={DeleteIcon}
+                    onClick={() => handleDelete(record)}
+                  />
                 </Space>
               );
             },
           },
         ]}
         scroll={{ x: "max-content" }}
-        request={async (params) => {
-          // 这里可以替换为实际的API调用
-          console.log('Fetch functions with params:', params);
-          return {
-            total: mockFunctions.length,
-            data: mockFunctions,
-          };
-        }}
       />
     </PageContainer>
   );
