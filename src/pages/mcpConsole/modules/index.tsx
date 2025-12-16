@@ -10,45 +10,23 @@ import {
 import { useMemoizedFn } from "ahooks";
 import IconButton from '@/components/IconButton';
 import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
-import { ShopifyButton, TriggerModal } from "@/components";
-import { getModuleListApi } from "@/services/mcpConsole";
+import { TriggerModal } from "@/components";
+import { getModuleListApi, deleteMcpModuleApi } from "@/services/mcpConsole";
+import EditForm from "./components/EditForm";
 
 // 定义模块数据类型
 export type ModuleItem = {
   moduleName: string;
-  package: string;
+  packageName: string;
   classes: string[];
-  status: 'Active' | 'Inactive';
-  lastUpdated: string;
+  source?: string;
+  updatedBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
-// 模拟数据
-const mockModules: ModuleItem[] = [
-  {
-    moduleName: 'auth_service',
-    package: 'mcp_auth',
-    classes: ['AuthHandler', 'TokenManager'],
-    status: 'Active',
-    lastUpdated: dayjs().subtract(2, 'minute').toISOString(),
-  },
-  {
-    moduleName: 'data_processor',
-    package: 'mcp_data',
-    classes: ['DataCleaner', 'ETL'],
-    status: 'Active',
-    lastUpdated: dayjs().subtract(1, 'hour').toISOString(),
-  },
-  {
-    moduleName: 'notification_center',
-    package: 'mcp_notify',
-    classes: ['EmailSender', 'PushNotifier'],
-    status: 'Inactive',
-    lastUpdated: dayjs().subtract(3, 'hour').toISOString(),
-  },
-];
-
 const Modules: FC = () => {
-  const { modal } = App.useApp();
+  const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
   const navigate = useNavigate();
 
@@ -67,11 +45,10 @@ const Modules: FC = () => {
         trigger={trigger}
         title={`${record ? "Edit" : "Add"} Module`}
       >
-        {/* 这里可以替换为实际的表单组件 */}
-        <div style={{ padding: '20px' }}>
-          <p>Module Form</p>
-          <p>Module Name: {record?.moduleName}</p>
-        </div>
+        <EditForm
+          formData={record}
+          onSuccess={refreshTable}
+        />
       </TriggerModal>
     );
   };
@@ -88,9 +65,16 @@ const Modules: FC = () => {
         danger: true
       },
       onOk: async () => {
-        // 这里可以添加实际的删除逻辑
-        console.log('Delete module:', record.moduleName);
-        refreshTable();
+        try {
+          await deleteMcpModuleApi({
+            moduleName: record.moduleName
+          });
+          message.success('Module deleted successfully.');
+          refreshTable();
+        } catch (error) {
+          message.error('Failed to delete module.');
+          console.error('Delete module error:', error);
+        }
       },
     });
   });
@@ -100,22 +84,24 @@ const Modules: FC = () => {
       className="shopify"
       title="Modules"
       onBack={() => navigate(-1)}
-      extra={renderEditModal(
-        <ShopifyButton type="primary">Add Module</ShopifyButton>
-      )}
     >
       <ProTable<ModuleItem>
         className="shopify"
         actionRef={actionRef}
         rowKey="moduleName"
         options={false}
-        search={{}}
+        search={false}
         pagination={{ showQuickJumper: true }}
         request={async (params) => {
-          const res = await getModuleListApi(params);
+          const {
+            mcpModuleList: result
+          } = await getModuleListApi({
+            page: params.current,
+            limit: params.pageSize,
+          });
           return {
-            data: res.data?.ListMcpModules || [],
-            total: res.data?.ListMcpModules?.total || 0,
+            data: result.mcpModuleList || [],
+            total: result?.total,
           };
         }}
         columns={[
@@ -124,44 +110,28 @@ const Modules: FC = () => {
             title: "MODULE NAME",
           },
           {
-            dataIndex: "package",
+            dataIndex: "packageName",
             title: "PACKAGE",
           },
           {
             dataIndex: "classes",
             title: "CLASSES",
-            render: (_, record) => {
-              return record.classes.join(', ');
+            render: (_, { classes }) => {
+              return classes?.map((e: any) => e.class_name)?.join(', ');
+            },
+          },
+           {
+            dataIndex: "source",
+            title: "SOURCE",
+            render: (_, { source }) => {
+              return source || '-';
             },
           },
           {
-            dataIndex: "status",
-            title: "STATUS",
-            render: (_, record) => {
-              return (
-                <span style={{
-                  color: record.status === 'Active' ? '#52c41a' : '#faad14',
-                  fontWeight: 'bold'
-                }}>
-                  {record.status}
-                </span>
-              );
-            },
-          },
-          {
-            dataIndex: "lastUpdated",
+            dataIndex: "updatedAt",
             title: "LAST UPDATED",
             render: (_, record) => {
-              const updatedTime = dayjs(record.lastUpdated);
-              const now = dayjs();
-              const diffMinutes = now.diff(updatedTime, 'minute');
-              
-              if (diffMinutes < 60) {
-                return `${diffMinutes} mins ago`;
-              } else {
-                const diffHours = now.diff(updatedTime, 'hour');
-                return `${diffHours} hours ago`;
-              }
+              return dayjs(record.updatedAt).format('YYYY-MM-DD HH:mm:ss');
             },
           },
           {
