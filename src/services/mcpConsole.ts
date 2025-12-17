@@ -5,7 +5,10 @@ import {
   insertUpdateMcpModuleQl,
   getListMcpFunctionsQl,
   deleteMcpFunctionQl,
-  insertUpdateMcpFunctionQl
+  insertUpdateMcpFunctionQl,
+  getListMcpFunctionCallsQl,
+  deleteMcpFunctionCallQl,
+  insertUpdateMcpFunctionCallQl
 } from '@/qls/mcpConsole';
 
 // 获取模块列表
@@ -34,4 +37,19 @@ export const deleteMcpFunctionApi = async (params: Record<string, any>) => {
 // 插入或更新函数
 export const insertUpdateMcpFunctionApi = async (params: Record<string, any>) => {
   return mcpCore.graphql({ query: insertUpdateMcpFunctionQl, variables: params });
+}
+
+// 获取函数调用列表
+export const getFunctionCallListApi = async (params: Record<string, any>) => {
+  return mcpCore.graphql({ query: getListMcpFunctionCallsQl, variables: params });
+}
+
+// 删除函数调用
+export const deleteMcpFunctionCallApi = async (params: Record<string, any>) => {
+  return mcpCore.graphql({ query: deleteMcpFunctionCallQl, variables: params });
+}
+
+// 插入或更新函数调用
+export const insertUpdateMcpFunctionCallApi = async (params: Record<string, any>) => {
+  return mcpCore.graphql({ query: insertUpdateMcpFunctionCallQl, variables: params });
 }

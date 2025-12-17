@@ -10,10 +10,9 @@ import {
 import { useMemoizedFn } from "ahooks";
 import IconButton from '@/components/IconButton';
 import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
-import { TriggerModal, ShopifyButton } from "@/components";
+import { TriggerModal } from "@/components";
 import { getFunctionListApi, deleteMcpFunctionApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
-import styles from './styles.module.less';
 
 // 定义函数数据类型
 export type FunctionItem = {

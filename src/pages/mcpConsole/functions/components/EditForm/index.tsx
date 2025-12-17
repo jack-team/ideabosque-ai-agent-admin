@@ -24,9 +24,8 @@ const EditForm: FC<FunctionFormProps> = ({ onSuccess, formData }) => {
 
   // 表单提交处理
   useListenModalOk(async () => {
+    const values = await form.validateFields();
     try {
-      const values = await form.validateFields();
-
       const params = {
         ...values,
         updatedBy: 'Admin',
@@ -54,8 +53,7 @@ const EditForm: FC<FunctionFormProps> = ({ onSuccess, formData }) => {
         name="name"
         label="Function Name"
         rules={[
-          { required: true, message: 'Please input function name' },
-          { pattern: /^[a-zA-Z_]+$/, message: 'Function name can only contain letters and underscores' },
+          { required: true, message: 'Please input function name' }
         ]}
         disabled={!!formData} // 编辑时禁用函数名称
       />
@@ -114,29 +112,6 @@ const EditForm: FC<FunctionFormProps> = ({ onSuccess, formData }) => {
         label="Annotations"
         placeholder="Enter function annotations"
         fieldProps={{ rows: 3 }}
-      />
-
-      <ProFormTextArea
-        name="data"
-        label="Data (JSON)"
-        placeholder="Enter JSON data"
-        fieldProps={{ 
-          rows: 5,
-          style: { fontFamily: 'monospace' },
-        }}
-        rules={[
-          {
-            validator: (_: any, value: string) => {
-              if (!value) return Promise.resolve();
-              try {
-                JSON.parse(value);
-                return Promise.resolve();
-              } catch {
-                return Promise.reject(new Error('Invalid JSON format'));
-              }
-            },
-          },
-        ]}
       />
     </ProForm>
   );

@@ -117,7 +117,7 @@ export const deleteMcpFunctionQl = `
   }
 `;
 
-export const insertUpdateMcpFunctionQl=`
+export const insertUpdateMcpFunctionQl = `
   mutation InsertUpdateMcpFunction(
   $name: String!
   $mcpType: String!
@@ -162,4 +162,89 @@ export const insertUpdateMcpFunctionQl=`
     }
   }
 }
-`
+`;
+
+export const getListMcpFunctionCallsQl = `
+ query ListMcpFunctionCalls(
+  $pageNumber: Int
+  $limit: Int
+  $mcpType: String
+  $name: String
+  $status: String
+) {
+  mcpFunctionCallList(
+    pageNumber: $pageNumber
+    limit: $limit
+    mcpType: $mcpType
+    name: $name
+    status: $status
+  ) {
+    mcpFunctionCallList {
+      endpointId
+      mcpFunctionCallUuid
+      mcpType
+      name
+      arguments
+      content
+      status
+      notes
+      timeSpent
+      updatedBy
+      createdAt
+      updatedAt
+    }
+    pageSize
+    pageNumber
+    total
+  }
+}
+`;
+
+export const deleteMcpFunctionCallQl = `
+  mutation DeleteMcpFunctionCall($mcpFunctionCallUuid: String!) {
+  deleteMcpFunctionCall(mcpFunctionCallUuid: $mcpFunctionCallUuid) {
+    ok
+  }
+}
+`;
+
+export const insertUpdateMcpFunctionCallQl = `
+ mutation InsertUpdateMcpFunctionCall(
+  $mcpFunctionCallUuid: String
+  $name: String
+  $mcpType: String
+  $arguments: JSON
+  $hasContent: Boolean
+  $status: String
+  $notes: String
+  $timeSpent: Int
+  $updatedBy: String!
+) {
+  insertUpdateMcpFunctionCall(
+    mcpFunctionCallUuid: $mcpFunctionCallUuid
+    name: $name
+    mcpType: $mcpType
+    arguments: $arguments
+    hasContent: $hasContent
+    status: $status
+    notes: $notes
+    timeSpent: $timeSpent
+    updatedBy: $updatedBy
+  ) {
+    mcpFunctionCall {
+      endpointId
+      mcpFunctionCallUuid
+      mcpType
+      name
+      arguments
+      content
+      status
+      notes
+      timeSpent
+      updatedBy
+      createdAt
+      updatedAt
+    }
+  }
+}
+`;
