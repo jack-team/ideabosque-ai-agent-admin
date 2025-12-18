@@ -16,6 +16,7 @@ import { apiUrl as defaultApiUrl, apiKey as defaultApiKey, endpoint } from '@/en
 // 存在店铺，获取店铺名称作为 endpointid
 export const getAiEndpoint = () => {
   let shop = getUrlParams('shop');
+  return 'nestaging';
   return shop ? shop.replace('.myshopify.com', '') : endpoint;
 }
 

@@ -2,11 +2,9 @@ import { type FC } from 'react';
 import { Space, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { TriggerModal } from '@/components';
 import IconButton from '@/components/IconButton';
 import { ViewIcon } from '@shopify/polaris-icons';
 import { formatDate } from '@/utils';
-import EditFrom from './components/EditForm';
 import { getThreadListApi } from '@/services/threads';
 
 const Messages: FC = () => {
@@ -34,7 +32,7 @@ const Messages: FC = () => {
     >
       <ProTable
         pagination={{
-          pageSize: 5
+          pageSize: 10
         }}
         search={false}
         options={false}
@@ -62,6 +60,10 @@ const Messages: FC = () => {
           }
         }}
         columns={[
+          {
+            title: 'Contact name',
+            dataIndex: 'userId'
+          },
           {
             title: 'Thread UUID',
             dataIndex: 'threadUuid'
@@ -95,18 +97,10 @@ const Messages: FC = () => {
             hideInSearch: true,
             render: (_, record) => {
               return (
-                <Space>
-                  <TriggerModal
-                    width={620}
-                    hasFooter={false}
-                    destroyOnHidden
-                    className="shopify"
-                    title="Message thread Details"
-                    trigger={<IconButton icon={ViewIcon} />}
-                  >
-                    <EditFrom formData={record} />
-                  </TriggerModal>
-                </Space>
+                <IconButton
+                  icon={ViewIcon}
+                  onClick={() => navigate(`/threads/${record.threadUuid}`)}
+                />
               );
             }
           }

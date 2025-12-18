@@ -5,3 +5,9 @@ export const getThreadListApi = async (params: Record<string, any>) => {
   const query = await generateQuery({ type: 'Query', name: 'threadList' });
   return agentCore.graphql({ query, variables: params });
 }
+
+// 获取线程详情
+export const getThreadDetailApi = async (params: Record<string, any>) => {
+  const query = await generateQuery({ type: 'Query', name: 'thread' });
+  return agentCore.graphql({ query, variables: params });
+}

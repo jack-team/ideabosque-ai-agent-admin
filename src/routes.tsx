@@ -98,6 +98,10 @@ export const routes: RouteObject[] = [
         Component: lazyLoad(() => import("@/pages/threads"))
       },
       {
+        path: '/threads/:threadUuid',
+        Component: lazyLoad(() => import("@/pages/threadDetail"))
+      },
+      {
         path: '/async-tasks',
         Component: lazyLoad(() => import("@/pages/asyncTasks"))
       },
