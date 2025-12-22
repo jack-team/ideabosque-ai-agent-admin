@@ -116,7 +116,7 @@ export const routes: RouteObject[] = [
       // MCP Console
       {
         path: '/mcp-console',
-        element: <Navigate replace to="/mcp-console/modules" />,
+        Component: lazyLoad(() => import('@/pages/mcpConsole')),
       },
       {
         path: '/mcp-console/modules',

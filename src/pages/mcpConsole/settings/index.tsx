@@ -1,16 +1,15 @@
 import dayjs from "dayjs";
 import { type FC, type ReactElement, useRef } from "react";
-import { Space, App } from "antd";
+import { Space } from "antd";
 import {
   PageContainer,
   ProTable,
   type ActionType,
 } from "@ant-design/pro-components";
-import { useMemoizedFn } from "ahooks";
 import IconButton from '@/components/IconButton';
-import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
+import { EditIcon } from '@shopify/polaris-icons';
 import { TriggerModal } from "@/components";
-import { getModuleListApi, deleteMcpModuleApi } from "@/services/mcpConsole";
+import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
 
 // 定义模块数据类型
@@ -24,58 +23,24 @@ export type ModuleItem = {
   updatedAt?: string;
 };
 
-const Modules: FC = () => {
-  const { modal, message } = App.useApp();
+const Settings: FC = () => {
   const actionRef = useRef<ActionType>(null);
-
-  const refreshTable = useMemoizedFn(() => {
-    actionRef.current?.reload();
-  });
 
   const renderEditModal = (
     trigger: ReactElement<any>,
-    record?: ModuleItem
+    record: ModuleItem
   ) => {
     return (
       <TriggerModal
         width={620}
         destroyOnHidden
         trigger={trigger}
-        title={`${record ? "Edit" : "Add"} Module`}
+        title="view details"
       >
-        <EditForm
-          formData={record}
-          onSuccess={refreshTable}
-        />
+        <EditForm formData={record} />
       </TriggerModal>
     );
   };
-
-  const handleDelete = useMemoizedFn((record: ModuleItem) => {
-    modal.confirm({
-      title: "Are you sure you want to delete this module?",
-      okText: "Delete",
-      cancelButtonProps: {
-        className: "shopify gray",
-      },
-      okButtonProps: {
-        className: "shopify",
-        danger: true
-      },
-      onOk: async () => {
-        try {
-          await deleteMcpModuleApi({
-            moduleName: record.moduleName
-          });
-          message.success('Module deleted successfully.');
-          refreshTable();
-        } catch (error) {
-          message.error('Failed to delete module.');
-          console.error('Delete module error:', error);
-        }
-      },
-    });
-  });
 
   return (
     <PageContainer
@@ -91,38 +56,20 @@ const Modules: FC = () => {
         pagination={{ showQuickJumper: true }}
         request={async (params) => {
           const {
-            mcpModuleList: result
-          } = await getModuleListApi({
+            mcpSettingList: result
+          } = await getListMcpSettingsApi({
             page: params.current,
             limit: params.pageSize,
           });
           return {
-            data: result.mcpModuleList || [],
+            data: result.mcpSettingList || [],
             total: result?.total,
           };
         }}
         columns={[
           {
-            dataIndex: "moduleName",
-            title: "MODULE NAME",
-          },
-          {
-            dataIndex: "packageName",
-            title: "PACKAGE",
-          },
-          {
-            dataIndex: "classes",
-            title: "CLASSES",
-            render: (_, { classes }) => {
-              return classes?.map((e: any) => e.class_name)?.join(', ');
-            },
-          },
-           {
-            dataIndex: "source",
-            title: "SOURCE",
-            render: (_, { source }) => {
-              return source || '-';
-            },
+            dataIndex: "settingId",
+            title: "Setting Id",
           },
           {
             dataIndex: "updatedAt",
@@ -144,10 +91,6 @@ const Modules: FC = () => {
                     <IconButton icon={EditIcon} />,
                     record
                   )}
-                  <IconButton
-                    icon={DeleteIcon}
-                    onClick={() => handleDelete(record)}
-                  />
                 </Space>
               );
             },
@@ -159,4 +102,4 @@ const Modules: FC = () => {
   );
 };
 
-export default Modules;
+export default Settings;

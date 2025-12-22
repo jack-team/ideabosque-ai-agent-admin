@@ -35,6 +35,10 @@
     "title": "Question Groups"
   },
   {
+    "path": "/mcp-console",
+    "title": "Mcp Console"
+  },
+  {
     "path": "/theme",
     "title": "Theme Editor"
   },

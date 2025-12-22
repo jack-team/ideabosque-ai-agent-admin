@@ -248,3 +248,53 @@ export const insertUpdateMcpFunctionCallQl = `
   }
 }
 `;
+
+
+export const listMcpSettingsQl = `
+query ListMcpSettings(
+  $pageNumber: Int
+  $limit: Int
+  $settingId: String
+) {
+  mcpSettingList(
+    pageNumber: $pageNumber
+    limit: $limit
+    settingId: $settingId
+  ) {
+    mcpSettingList {
+      endpointId
+      settingId
+      setting
+      updatedBy
+      createdAt
+      updatedAt
+    }
+    pageSize
+    pageNumber
+    total
+  }
+}
+`;
+
+export const insertUpdateMcpSettingQl = `
+mutation InsertUpdateMcpSetting(
+  $settingId: String
+  $setting: JSON
+  $updatedBy: String!
+) {
+  insertUpdateMcpSetting(
+    settingId: $settingId
+    setting: $setting
+    updatedBy: $updatedBy
+  ) {
+    mcpSetting {
+      endpointId
+      settingId
+      setting
+      updatedBy
+      createdAt
+      updatedAt
+    }
+  }
+}
+`;

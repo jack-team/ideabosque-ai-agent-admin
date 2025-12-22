@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { type FC, type ReactElement, useRef } from "react";
-import { useNavigate } from 'react-router';
 import { Space, App } from "antd";
 import {
   PageContainer,
@@ -33,8 +32,7 @@ export type FunctionCallItem = {
 const FunctionCalls: FC = () => {
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
-  const navigate = useNavigate();
-
+  
   const refreshTable = useMemoizedFn(() => {
     actionRef.current?.reload();
   });
@@ -88,7 +86,6 @@ const FunctionCalls: FC = () => {
     <PageContainer
       className="shopify"
       title="Function Calls"
-      onBack={() => navigate(-1)}
     >
       <ProTable<FunctionCallItem>
         className="shopify"

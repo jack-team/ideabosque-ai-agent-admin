@@ -1,14 +1,16 @@
 import { mcpCore } from '@/helper/request';
-import { 
-  getListMcpModulesQl, 
-  deleteMcpModuleQl, 
+import {
+  getListMcpModulesQl,
+  deleteMcpModuleQl,
   insertUpdateMcpModuleQl,
   getListMcpFunctionsQl,
   deleteMcpFunctionQl,
   insertUpdateMcpFunctionQl,
   getListMcpFunctionCallsQl,
   deleteMcpFunctionCallQl,
-  insertUpdateMcpFunctionCallQl
+  insertUpdateMcpFunctionCallQl,
+  listMcpSettingsQl,
+  insertUpdateMcpSettingQl
 } from '@/qls/mcpConsole';
 
 // 获取模块列表
@@ -52,4 +54,13 @@ export const deleteMcpFunctionCallApi = async (params: Record<string, any>) => {
 // 插入或更新函数调用
 export const insertUpdateMcpFunctionCallApi = async (params: Record<string, any>) => {
   return mcpCore.graphql({ query: insertUpdateMcpFunctionCallQl, variables: params });
+}
+
+
+export const getListMcpSettingsApi = (params: Record<string, any>) => {
+  return mcpCore.graphql({ query: listMcpSettingsQl, variables: params });
+}
+
+export const insertUpdateMcpSettingApi = (params: Record<string, any>) => {
+  return mcpCore.graphql({ query: insertUpdateMcpSettingQl, variables: params });
 }
