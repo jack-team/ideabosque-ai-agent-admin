@@ -73,7 +73,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     }
     return (
       <Fragment>
-        {showCancel && (
+        {showCancel ? (
           <Button
             type="text"
             onClick={onCancel}
@@ -82,7 +82,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
           >
             {cancelText}
           </Button>
-        )}
+        ): <span />}
         <Button
           type="primary"
           loading={loading}
