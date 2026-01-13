@@ -26,7 +26,8 @@ export default defineConfig((config) => {
           data: {
             appId: getEnvVal("ENV_SHOPIFY_APP_ID"),
             title: getEnvVal("ENV_APP_NAME"),
-            sdkUrl: getEnvVal('ENV_AI_SDK_URL')
+            sdkUrl: getEnvVal('ENV_AI_SDK_URL'),
+            sdkVersion: getEnvVal('ENV_AI_SDK_VERSION')
           }
         }
       })
