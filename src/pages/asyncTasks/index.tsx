@@ -3,11 +3,13 @@ import { Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@/components/IconButton';
 import { ViewIcon } from '@shopify/polaris-icons';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { TriggerModal } from '@/components';
+import Table from '@/components/Table';
+import { PageContainer } from '@ant-design/pro-components';
+import TriggerModal from '@/components/TriggerModal';
 import { formatDate } from '@/utils';
-import EditFrom from './components/EditForm';
-import { getAsyncTaskListApi } from '@/services/asyncTasks';
+import Details from './details';
+import type { AsyncTaskDataType } from '@/typings/asyncTask';
+import { asyncTaskListApi } from '@/services/asyncTasks';
 
 const AsyncTasks: FC = () => {
   const navigate = useNavigate();
@@ -17,9 +19,9 @@ const AsyncTasks: FC = () => {
       title="Async Tasks"
       onBack={() => navigate(-1)}
     >
-      <ProTable
+      <Table<AsyncTaskDataType>
         pagination={{
-          pageSize: 5
+          pageSize: 15
         }}
         search={false}
         options={false}
@@ -27,24 +29,7 @@ const AsyncTasks: FC = () => {
         rowKey="asyncTaskUuid"
         className="shopify"
         request={async (params) => {
-          const {
-            current,
-            pageSize,
-            ...rest
-          } = params;
-
-          const {
-            asyncTaskList: result
-          } = await getAsyncTaskListApi({
-            limit: pageSize,
-            pageNumber: current,
-            ...rest
-          });
-
-          return {
-            total: result.total,
-            data: result.asyncTaskList
-          }
+         return asyncTaskListApi(params);
         }}
         columns={[
           {
@@ -70,7 +55,7 @@ const AsyncTasks: FC = () => {
             render: (_, record) => formatDate(record.createdAt)
           },
           {
-            title: 'Update at',
+            title: 'Last updated',
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.updatedAt)
@@ -88,12 +73,10 @@ const AsyncTasks: FC = () => {
                   <TriggerModal
                     width={620}
                     hasFooter={false}
-                    destroyOnHidden
-                    className="shopify"
                     title="Async Task Details"
                      trigger={<IconButton icon={ViewIcon} />}
                   >
-                    <EditFrom formData={record} />
+                    <Details formData={record} />
                   </TriggerModal>
                 </Space>
               );

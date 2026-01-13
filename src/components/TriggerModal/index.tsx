@@ -1,123 +1,121 @@
-import type { FC, MouseEvent } from 'react';
-import { Fragment, useMemo, useEffect } from 'react';
-import { useMemoizedFn, useUpdateEffect, useSafeState } from 'ahooks';
 import { Modal } from 'antd';
-import classNames from 'classnames';
 import EventEmitter from 'eventemitter3';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { useTriggerState } from '@/hooks/useTriggerState';
-import { ShopifyButton } from '@/components';
+import { useSafeState, useMemoizedFn, useUnmount, useMount } from 'ahooks';
+import { type FC, type MouseEvent, Fragment, cloneElement, useMemo } from 'react';
+import type { TriggerModalProps, EventType, EventListener } from './types';
 import { TriggerModalContext } from './context';
-import type { TriggerModalProps, EventType } from './types';
+import Button from '../Button';
+
 export * from './hooks';
 
 const TriggerModal: FC<TriggerModalProps> = (props) => {
   const {
-    modal,
-    onOpen,
-    onClose,
     trigger,
-    className,
-    rootClassName,
-    okText = 'Save',
-    hasFooter = true,
-    cancelText = 'Back',
+    children,
     showCancel = true,
+    hasFooter = true,
+    okText = "Save",
+    cancelText = "Back",
     ...rest
   } = props;
 
-  const [
-    runing,
-    setRuning
-  ] = useSafeState(false);
+  const [loading, setLoading] = useSafeState(false);
+  const [modalOpen, setModalOpen] = useSafeState(false);
+  const onTrigger = useMemoizedFn(() => setModalOpen(true));
+  const event = useMemo(() => new EventEmitter<EventType>(), []);
 
-  const {
-    open: modalOpen,
-    onClose: closeModal,
-    onOpen: openModal,
-    trigger: triggerNode
-  } = useTriggerState(trigger);
+  const closeModal = useMemoizedFn(() => {
+    if (loading) return;
+    setModalOpen(false)
+  });
 
-  const restProps = useMemo(() => {
-    if (runing) {
-      return {
-        ...rest,
-        closable: false,
+  const getListeners = useMemoizedFn((type: EventType) => {
+    return event.listeners(type) as EventListener[];
+  });
+
+  const runListeners = useMemoizedFn(async (listeners: EventListener[], e: MouseEvent) => {
+    let prevent = false;
+    for (const listsener of listeners) {
+      try {
+        const pass = await listsener(e) ?? true;
+        if (pass === false) {
+          prevent = true;
+          break;
+        }
+      }
+      catch (err) {
+        console.error(err);
+        prevent = true;
+        break;
       }
     }
-    return rest;
-  }, [rest, runing])
-
-  const event = useMemo(() => {
-    return new EventEmitter<EventType>();
-  }, []);
-
-  const getEventTasks = useMemoizedFn(
-    (type: EventType, e: MouseEvent) =>
-      event.listeners(type).map(f => f(e))
-  );
-
-  const handleOk = useMemoizedFn(async (e: MouseEvent) => {
-    setRuning(true);
-    try {
-      await Promise.all(getEventTasks('ok', e));
-    } catch (err) {
-      console.error(err);
-    }
-    setRuning(false);
+    return prevent;
   });
 
-  const handleCancel = useMemoizedFn(async (e: MouseEvent) => {
-    if (runing) return;
-    await Promise.all(getEventTasks('cancel', e));
-    closeModal();
+  // 点击确定按钮
+  const onConfirm = useMemoizedFn(async (e: MouseEvent) => {
+    setLoading(true);
+    const prevent = await runListeners(getListeners('ok'), e);
+    if (!prevent) requestAnimationFrame(closeModal);
+    setLoading(false);
   });
 
-  useEffect(() => {
-    if (modal) {
-      modal.closeModal = closeModal;
-      modal.openModal = openModal;
-    }
-  }, [modal]);
+  // 点击取消按钮
+  const onCancel = useMemoizedFn(async (e: MouseEvent) => {
+    const prevent = await runListeners(getListeners('cancel'), e);
+    if (!prevent) requestAnimationFrame(closeModal);
+  });
 
-  useUpdateEffect(() => {
-    if (modalOpen) {
-      onOpen?.();
-    } else {
-      onClose?.();
+  const renderFooter = () => {
+    if (!hasFooter) {
+      return null;
     }
-  }, [modalOpen]);
+    return (
+      <Fragment>
+        {showCancel && (
+          <Button
+            type="text"
+            onClick={onCancel}
+            disabled={loading}
+            icon={<ArrowLeftOutlined />}
+          >
+            {cancelText}
+          </Button>
+        )}
+        <Button
+          type="primary"
+          loading={loading}
+          onClick={onConfirm}
+        >
+          {okText}
+        </Button>
+      </Fragment>
+    );
+  }
+
+  useUnmount(() => {
+    event.removeAllListeners();
+  });
+
+  useMount(() => {
+    event.on('close-modal', closeModal);
+  });
 
   return (
-    <TriggerModalContext.Provider
-      value={{ event, closeModal }}
-    >
-      {triggerNode}
+    <TriggerModalContext.Provider value={{ event }}>
+      {cloneElement(trigger, { onClick: onTrigger })}
       <Modal
-        {...restProps}
+        {...rest}
+        centered
+        destroyOnHidden
         open={modalOpen}
-        onCancel={handleCancel}
-        rootClassName={classNames(
-          'shopify', rootClassName
-        )}
-        className={className}
-        footer={hasFooter ?
-          <Fragment>
-            <ShopifyButton
-              type="text"
-              children={cancelText}
-              onClick={handleCancel}
-              icon={<ArrowLeftOutlined />}
-              className={(!showCancel || runing) ? 'visb-hide' : ''}
-            />
-            <ShopifyButton
-              type="primary"
-              children={okText}
-              onClick={handleOk}
-            />
-          </Fragment> : null
-        }
-      />
+        closable={!loading}
+        onCancel={closeModal}
+        footer={renderFooter()}
+      >
+        {children}
+      </Modal>
     </TriggerModalContext.Provider>
   );
 }

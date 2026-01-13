@@ -1,40 +1,30 @@
-@import './custom.less';
-
-.shopify-app {
-  .shopify {
-    @import (less, multiple) './shopify/ant-modal.less';
-    @import (less, multiple) './shopify/ant-container.less';
-    @import (less, multiple) './shopify/ant-btn.less';
-    @import (less, multiple) './shopify/ant-table.less';
-    @import (less, multiple) './shopify/ant-card.less';
-    @import (less, multiple) './shopify/ant-input.less';
-    @import (less, multiple) './shopify/ant-tag.less';
-    @import (less, multiple) './shopify/ant-drawer.less';
-    @import (less, multiple) './shopify/ant-dropdown.less';
-  }
-
-  .ant-form-item-label {
-    font-size: 13px;
-    color: #303030;
-    font-weight: 500;
-  }
+* {
+  box-sizing: border-box;
+  font-family: "Latin";
 }
 
-.app-container {
+body {
+  margin: 0;
+  padding: 0;
+  background: #f1f1f1;
+  @import (less, multiple) './custom.less';
+}
+
+.app-wrapper {
   height: 100vh;
   position: relative;
-  background: #f1f1f1;
-}
 
-.lazy-loading {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  .spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 64px;
+    transform: translate3d(-50%, -50%, 0);
+  }
 }
 
 .visb-hide {
-  visibility: hidden !important;
+  visibility: hidden;
 }
 
 &::-webkit-scrollbar {
@@ -48,3 +38,4 @@
   background: #f2f2f2;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
 }
+

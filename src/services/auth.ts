@@ -1,8 +1,10 @@
 import qs from 'qs';
-import { apiAuthUrl } from '@/env';
+import { appInstallUrl } from '@/env';
 
-// 检查当前店铺是否需要授权
-export const checkShopAuthApi = (params: Record<string, any>) => {
+// 安装 App
+export const appInstallApi = async (params: Record<string, any>) => {
   const query = qs.stringify(params, { addQueryPrefix: true });
-  return fetch(`${apiAuthUrl}/app_check${query}`);
+  const result = await fetch(`${appInstallUrl}/beta/core/openai/app_check${query}`);
+  const json = await result.json();
+  return json as { authed: boolean };
 }

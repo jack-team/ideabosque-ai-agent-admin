@@ -12,6 +12,7 @@ type UploadFileProps = {
   disbaled?: boolean;
   value?: UploadFile[];
   children?: any;
+  onReview?: (file: UploadFile) => void;
   onChange?: (files: UploadFile[]) => void;
 }
 
@@ -24,7 +25,7 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
     maxCount = 1,
     disbaled = false,
     value: files = [],
-    accept = '.png,.jpg,.pdf'
+    accept = '.png,.jpg,.jpeg,.svg'
   } = props;
 
   const hintText = useMemo(() => {
@@ -63,6 +64,7 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
       maxCount={maxCount}
       onRemove={onRemove}
       disabled={disbaled}
+      onPreview={props.onReview}
       beforeUpload={beforeUpload}
       className={styles.container}
     >

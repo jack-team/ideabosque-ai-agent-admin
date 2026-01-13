@@ -1,20 +1,15 @@
-import type { FC } from "react";
-import Svg from "./spinner.svg?react";
+import type { FC } from 'react';
+import classNames from 'classnames';
+import Icon from '@ant-design/icons';
 import type { SpinnerProps } from './types';
-import "./styles.less";
+import SpinnerSvg from './spinner.svg?react';
+import styles from './styles.module.less';
 
 const Spinner: FC<SpinnerProps> = (props) => {
-  const { size = 24, color = 'var(--theme-color)' } = props;
+  const { className } = props;
   return (
-    <div
-      className="global-spinner"
-      style={{ 
-        color,
-        width: size, 
-        height: size
-      }}
-    >
-      <Svg />
+    <div className={classNames(styles.spinner, className)}>
+      <Icon component={SpinnerSvg} />
     </div>
   );
 }

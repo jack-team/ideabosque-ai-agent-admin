@@ -4,7 +4,7 @@ import navs from './navs.json';
 
 const ShopifyNavMenu: FC = () => {
   return (
-    <div style={{ display: 'none' }}>
+    <span style={{ display: 'none' }}>
       <NavMenu>
         {navs.map(nav => {
           return (
@@ -18,7 +18,7 @@ const ShopifyNavMenu: FC = () => {
           );
         })}
       </NavMenu>
-    </div>
+    </span>
   );
 }
 

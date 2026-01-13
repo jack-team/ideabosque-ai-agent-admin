@@ -1,18 +1,16 @@
 import { type FC } from 'react';
 import { ProForm } from '@ant-design/pro-components';
-import { useListenModalOk, useModalClose } from '@/components/TriggerModal';
+import { useModalOkClick } from '@/components/TriggerModal';
 import type { FormProps } from './types';
 import styles from './styles.module.less';
 
 const Form: FC<FormProps> = (props) => {
   const { onSubmit } = props;
-  const [closeModal] = useModalClose();
   const [form] = ProForm.useForm();
 
-  useListenModalOk(async () => {
+  useModalOkClick(async () => {
     const values = await form?.validateFields();
     if (values) await onSubmit(values);
-    closeModal();
   });
 
   return (

@@ -1,7 +1,10 @@
-import { agentCore } from '@/helper/request';
-import { generateQuery } from './generate';
+import { apiCore, getSplitPageParams } from '@/utils/api';
+import { asyncTaskListQuery } from '@/graphql/asyncTasks';
+import type { AsyncTaskDataType } from '@/typings/asyncTask';
 
-export const getAsyncTaskListApi = async (params: Record<string, any>) => {
-  const query = await generateQuery({ type: 'Query', name: 'asyncTaskList' });
-  return agentCore.graphql({ query, variables: params });
+export const asyncTaskListApi = (params: SplitPageParams) => {
+  return apiCore.graphql<AsyncTaskDataType[]>({
+    query: asyncTaskListQuery,
+    variables: getSplitPageParams(params)
+  });
 }

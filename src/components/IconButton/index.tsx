@@ -9,9 +9,7 @@ type IconButtonProps = {
 } & Omit<ButtonProps, 'icon'>;
 
 export const withIcon = (icon: FC<SVGProps<SVGSVGElement>>) => {
-  return (props: Record<string, any>) => (
-    <Icon component={icon} {...props} />
-  )
+  return (props: Record<string, any>) => <Icon component={icon} {...props} />
 }
 
 const IconButton: FC<IconButtonProps> = (props) => {

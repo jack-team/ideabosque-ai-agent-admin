@@ -1,114 +1,128 @@
-import type { RouteObject } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-import { lazyLoad } from "@/utils/lazyload";
-import BaseLayout from "./layout";
-
+import { lazy } from 'react';
+import type { RouteObject } from 'react-router-dom';
+import { Navigate } from 'react-router';
+import AppLayout from '@/components/AppLayout';
 
 export const routes: RouteObject[] = [
   {
-    path: "/",
-    Component: BaseLayout,
+    path: '/',
+    element: <Navigate replace to="/agent" />
+  },
+  {
+    path: '/',
+    Component: AppLayout,
     children: [
       {
-        path: "/",
-        element: <Navigate replace to="/dashboard" />,
+        path: '/agent',
+        Component: lazy(() => import('./pages/agent'))
       },
       {
-        path: "/dashboard",
-        Component: lazyLoad(() => import("@/pages/dashboardEntry")),
+        path: '/workflow',
+        Component: lazy(() => import('./pages/workflow/list'))
       },
       {
-        path: "/customer-groups",
-        Component: lazyLoad(() => import("@/pages/customerGroupsEntry")),
-      },
-      // workflow-templates
-      {
-        path: "/workflow-templates",
-        Component: lazyLoad(() => import("@/pages/workflowTemplates")),
+        path: '/workflow/detail',
+        Component: lazy(() => import('./pages/workflow/detail'))
       },
       {
-        path: "/workflow-templates/detail/:uid/:vid",
-        Component: lazyLoad(() => import("@/pages/workflowTemplateDetail")),
+        path: '/workflow/template',
+        Component: lazy(() => import('./pages/workflow/template'))
       },
       {
-        path: "/workflow-ui-components",
-        Component: lazyLoad(() => import("@/pages/uiComponents")),
+        path: '/workflow/template/detail',
+        Component: lazy(() => import('./pages/workflow/template/editForm'))
       },
       {
-        path: "/workflow-mcp-servers",
-        Component: lazyLoad(() => import("@/pages/mcpServers")),
-      },
-      // agent-workflows
-      {
-        path: "/agent-workflows",
-        Component: lazyLoad(() => import("@/pages/agentWorkflowsEntry")),
+        path: '/workflow/template/mcp-server',
+        Component: lazy(() => import('./pages/mcpServer/list'))
       },
       {
-        path: "/agent-workflows/detail/:uid/:vid",
-        Component: lazyLoad(() => import("@/pages/workflowDetailEntry")),
+        path: '/workflow/template/ui-component',
+        Component: lazy(() => import('./pages/uiComponent/list'))
       },
       {
-        path: "/settings",
-        Component: lazyLoad(() => import("@/pages/settingsEntry")),
-      },
-      // agents
-      {
-        path: '/agents',
-        Component: lazyLoad(() => import("@/pages/agentsEntry"))
+        path: '/ui-block-group',
+        Component: lazy(() => import('./pages/uiBlockGroup/list'))
       },
       {
-        path: '/coordinations',
-        Component: lazyLoad(() => import("@/pages/coordinations"))
+        path: '/ui-block-group/:wizardGroupUuid',
+        Component: lazy(() => import('./pages/uiBlockGroup/detail'))
       },
       {
-        path: '/contact-profiles',
-        Component: lazyLoad(() => import("@/pages/contactProfileEntry"))
+        path: '/thread',
+        Component: lazy(() => import('./pages/thread/list'))
       },
       {
-        path: '/places',
-        Component: lazyLoad(() => import("@/pages/places"))
-      },
-      // wizard
-      {
-        path: '/wizard-groups',
-        Component: lazyLoad(() => import("@/pages/wizardGroups"))
+        path: '/thread/detail/:threadUuid',
+        Component: lazy(() => import('./pages/thread/detail'))
       },
       {
-        path: '/wizard-group/:uid',
-        Component: lazyLoad(() => import("@/pages/wizardGroupDetail"))
+        path: '/thread/async-tasks',
+        Component: lazy(() => import('./pages/asyncTasks'))
       },
       {
-        path: '/wizards',
-        Component: lazyLoad(() => import("@/pages/wizards"))
+        path: '/theme-editor',
+        Component: lazy(() => import('./pages/themeEditor'))
+      }, {
+        path: '/agent',
+        Component: lazy(() => import('./pages/agent'))
       },
       {
-        path: '/elements',
-        Component: lazyLoad(() => import("@/pages/elements"))
+        path: '/workflow',
+        Component: lazy(() => import('./pages/workflow/list'))
       },
       {
-        path: '/question-groups',
-        Component: lazyLoad(() => import("@/pages/questionGroups"))
+        path: '/workflow/detail',
+        Component: lazy(() => import('./pages/workflow/detail'))
       },
       {
-        path: '/messages',
-        Component: lazyLoad(() => import("@/pages/messages"))
+        path: '/workflow-template',
+        Component: lazy(() => import('./pages/workflow/template'))
       },
       {
-        path: '/threads',
-        Component: lazyLoad(() => import("@/pages/threads"))
+        path: '/workflow-template/detail',
+        Component: lazy(() => import('./pages/workflow/template/editForm'))
+      },
+      {
+        path: '/mcp-server',
+        Component: lazy(() => import('./pages/mcpServer/list'))
+      },
+      {
+        path: '/ui-component',
+        Component: lazy(() => import('./pages/uiComponent/list'))
+      },
+      {
+        path: '/ui-block-group',
+        Component: lazy(() => import('./pages/uiBlockGroup/list'))
+      },
+      {
+        path: '/ui-block-group/:wizardGroupUuid',
+        Component: lazy(() => import('./pages/uiBlockGroup/detail'))
+      },
+      {
+        path: '/thread',
+        Component: lazy(() => import('./pages/thread/list'))
+      },
+      {
+        path: '/thread/:threadUuid',
+        Component: lazy(() => import('./pages/thread/detail'))
       },
       {
         path: '/async-tasks',
-        Component: lazyLoad(() => import("@/pages/asyncTasks"))
+        Component: lazy(() => import('./pages/asyncTasks'))
       },
       {
-        path: '/preview',
-        Component: lazyLoad(() => import("@/pages/preview"))
+        path: '/theme-editor',
+        Component: lazy(() => import('./pages/themeEditor'))
       },
-      {
-        path: '/demo',
-        Component: lazyLoad(() => import("@/pages/demo"))
-      }
-    ],
+    ]
   },
+  {
+    path: '/404',
+    Component: lazy(() => import('./pages/notFound'))
+  },
+  {
+    path: '*',
+    element: <Navigate replace to="/404" />
+  }
 ];

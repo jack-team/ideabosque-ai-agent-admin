@@ -1,48 +1,48 @@
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { useMemoizedFn, useMount, useUnmount } from 'ahooks';
 import { TriggerModalContext } from './context';
-import type { HookListener, ModalInstance } from './types';
+import type { EventListener } from './types';
 
-export const useModalContext = () => {
-  return useContext(TriggerModalContext);
+const useEvent = () => {
+  const { event } = useContext(TriggerModalContext);
+  return [event];
 }
 
-export const useModal = () => {
-  const ref = useRef<ModalInstance>({
-    closeModal: () => null,
-    openModal: () => null
-  });
-  return [ref.current];
-}
-
-//监听 Modal 的确定按钮
-export const useListenModalOk = (listener: HookListener) => {
-  const { event } = useModalContext();
-  const handleOk = useMemoizedFn(listener);
+// 监听Ok 按钮点击
+export const useModalOkClick = (listener: EventListener) => {
+  const [event] = useEvent();
+  const handler = useMemoizedFn(listener);
 
   useMount(() => {
-    event.on('ok', handleOk)
+    event.on('ok', handler);
   });
+
   useUnmount(() => {
-    event.off('ok', handleOk)
+    event.off('ok', handler);
   });
 }
 
-//监听 Modal 取消按钮
-export const useListenModalCancel = (listener: HookListener) => {
-  const { event } = useModalContext();
-  const handleCancel = useMemoizedFn(listener);
+// 监听Cancel 按钮点击
+export const useModalCancelClick = (listener: EventListener) => {
+  const [event] = useEvent();
+  const handler = useMemoizedFn(listener);
 
   useMount(() => {
-    event.on('cancel', handleCancel)
+    event.on('cancel', handler);
   });
+
   useUnmount(() => {
-    event.off('cancel', handleCancel)
+    event.off('cancel', handler);
   });
 }
 
-// 获取 Modal 的关闭函数
+// 关闭Modal
 export const useModalClose = () => {
-  const { closeModal } = useModalContext();
+  const [event] = useEvent();
+
+  const closeModal = useMemoizedFn(() => {
+    event.emit('close-modal');
+  });
+
   return [closeModal];
 }

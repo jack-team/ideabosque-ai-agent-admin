@@ -1,0 +1,53 @@
+.container {
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ececec;
+
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .left {
+    flex: 1;
+    margin-right: 24px;
+  }
+
+  .title {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--primaryColor);
+  }
+
+  .desc {
+    font-size: 13px;
+    color: #999;
+    margin-top: 4px;
+    line-height: 1.2;
+  }
+
+  .tags {
+    padding: 0 16px 16px;
+    display: flex;
+    gap: 12px;
+
+    :global {
+      .ant-tag {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .body {
+    padding: 16px;
+    display: none;
+    border-top: 1px solid #ececec;
+
+    &.collapsible {
+      display: block;
+    }
+  }
+}

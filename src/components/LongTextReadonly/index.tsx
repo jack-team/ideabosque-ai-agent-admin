@@ -19,7 +19,17 @@ const LongTextReadonly: FC<LongTextReadonlyProps> = (props) => {
         </div>
       );
     } else {
-      const val = `${props.value ?? ''}` || '-';
+      let val: string = '';
+
+      if (value) {
+        if (typeof value === 'object') {
+          val = JSON.stringify(value, null, 4);
+        } else {
+          val = `${value ?? ''}` || '-';
+        }
+      } else {
+        val = '--';
+      }
       return pre ? <pre>{val}</pre> : val;
     }
   }

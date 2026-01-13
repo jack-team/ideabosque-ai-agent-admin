@@ -51,7 +51,7 @@ const Form: FC<FormProps> = () => {
               <ProFormList
                 name="transform"
                 alwaysShowItemLabel
-                className="custom_form_list"
+                className="custom-form-list"
                 creatorButtonProps={{
                   creatorButtonText: 'Add Transform'
                 }}
@@ -89,7 +89,7 @@ const Form: FC<FormProps> = () => {
                               name="attrs"
                               label="Attributes"
                               alwaysShowItemLabel
-                              className="custom_form_list"
+                              className="custom-form-list"
                               creatorButtonProps={{
                                 disabled: disabled,
                                 creatorButtonText: 'Add Attribute'

@@ -13,7 +13,7 @@ const Detail: FC = () => {
   const closeDetail = useMemoizedFn(() => setOpen(false));
 
   useUpdateEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: number;
     if (detailId) {
       openDetail();
     } else {

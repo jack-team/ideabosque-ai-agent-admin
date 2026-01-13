@@ -38,9 +38,7 @@ const Tools: FC<ToolsProps> = (props) => {
     }
     return (
       <ModalForm
-        centered
         okText="Save"
-        destroyOnHidden
         trigger={trigger}
         formData={formData}
         width={editForm.width}

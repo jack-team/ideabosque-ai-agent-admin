@@ -1,85 +1,40 @@
-import { defineConfig, loadEnv } from 'vite';
-import svgr from "vite-plugin-svgr";
-import autoprefixer from "autoprefixer";
-import { createHtmlPlugin } from "vite-plugin-html";
-import { fileURLToPath, URL } from "node:url";
-import react from '@vitejs/plugin-react';
+import { defineConfig, loadEnv } from 'vite'
+import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr';
+import autoprefixer from 'autoprefixer';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
 export default defineConfig((config) => {
-  const mode = config.mode;
+  const { mode } = config;
   const envDir = './env';
-  const envPrefix = ['ENV'];
+  const envPrefix = 'ENV';
 
-  // 获取环境变量
-  const getEnv = (key: string) => {
+  const getEnvVal = (key: string) => {
     return loadEnv(mode, envDir, envPrefix)[key];
-  };
+  }
 
   return {
+    envDir,
+    envPrefix,
     plugins: [
       react(),
       svgr(),
       createHtmlPlugin({
         inject: {
           data: {
-            appId: getEnv("ENV_SHOPIFY_APP_ID"),
-            title: getEnv("ENV_APP_NAME"),
+            appId: getEnvVal("ENV_SHOPIFY_APP_ID"),
+            title: getEnvVal("ENV_APP_NAME"),
+            sdkUrl: getEnvVal('ENV_AI_SDK_URL')
           }
         }
       })
     ],
-    envDir,
-    envPrefix,
     server: {
+      port: 5999,
       host: '0.0.0.0',
       allowedHosts: true
-    },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: [
-              'react',
-              'react-dom',
-              'react-router',
-              'react-router-dom',
-              'zustand',
-              'ahooks',
-              '@shopify/app-bridge-react'
-            ],
-            utils: [
-              'lodash',
-              'dayjs',
-              'axios',
-              'uuid',
-              'clone-deep'
-            ],
-            ui: [
-              'antd',
-              '@ant-design/icons',
-              '@ant-design/pro-components',
-              '@shopify/polaris-icons'
-            ]
-          },
-          chunkFileNames: (chunkInfo) => {
-            const mid = chunkInfo.facadeModuleId
-            let folder = 'chunks';
-            let fileName = '[name]-[hash].js';
-
-            if (mid?.includes('node_modules')) {
-              folder = 'vendor';
-            }
-            if (mid?.includes('src/components')) {
-              folder = 'components';
-            }
-            if (mid?.includes('src/pages')) {
-              folder = 'pages';
-            }
-            return [folder, fileName].join('/');
-          },
-        }
-      }
     },
     resolve: {
       alias: {
@@ -92,4 +47,4 @@ export default defineConfig((config) => {
       }
     }
   }
-})
+});

@@ -51,7 +51,6 @@ const Nodes: FC<NodesProps> = (props) => {
         if (Form) {
           return (
             <ModalForm
-              centered
               key={nodeType}
               okText="Add Node"
               onSubmit={handleChange}
