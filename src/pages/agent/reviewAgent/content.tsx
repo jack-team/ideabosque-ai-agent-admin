@@ -64,6 +64,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
   return (
     <div className={styles.container}>
+      <div ref={target} className={styles.content} />
       <ProForm
         form={form}
         submitter={false}
@@ -160,7 +161,6 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
           </ProFormDependency>
         </div>
       </ProForm>
-      <div ref={target} className={styles.content} />
     </div>
   );
 }
