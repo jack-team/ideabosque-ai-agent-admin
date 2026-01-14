@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { type FC, type PropsWithChildren } from 'react';
 import { useMount } from 'ahooks';
 import Spinner from '@/components/Spinner'
@@ -8,11 +7,11 @@ const AppWrapper: FC<PropsWithChildren> = (props) => {
   const loading = useAppInstallModel(s => s.loading);
   const appIntsall = useAppInstallModel(s => s.appIntsall);
 
-  // useMount(appIntsall);
+  useMount(appIntsall);
 
-  // if (loading) {
-  //   return <Spinner className="spinner" />;
-  // }
+  if (loading) {
+    return <Spinner className="spinner" />;
+  }
 
   return props.children;
 }
