@@ -10,10 +10,11 @@ import Form from './form';
 const ActionNode: CustomNodeFC = () => {
   const { actions = [] } = useFlowContext();
   const formData = useNodeFormData<ActionFormData>();
+  const actionType = formData?.type;
 
   const action = useMemo(() => {
-    return actions.find(e => formData?.type === e.name);
-  }, [actions, formData?.type]);
+    return actions.find(e => actionType === e.name);
+  }, [actions, actionType]);
 
   return (
     <NodeWrapper
@@ -26,7 +27,7 @@ const ActionNode: CustomNodeFC = () => {
       }}
     >
       <NodeDesc
-        title={action?.name}
+        title={action?.name || actionType}
         desc={formData?.text}
       />
     </NodeWrapper>

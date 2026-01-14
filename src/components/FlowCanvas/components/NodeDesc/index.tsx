@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { Typography } from 'antd';
 import styles from './styles.module.less';
 
 type NodeDescProps = {
@@ -9,8 +10,17 @@ type NodeDescProps = {
 const NodeDesc: FC<NodeDescProps> = (props) => {
   return (
     <div className={styles.node_desc}>
-      <div className={styles.title}>{props.title}</div>
-      <div className={styles.description}>{props.desc}</div>
+      <Typography.Paragraph className={styles.title}>
+        {props.title}
+      </Typography.Paragraph>
+      {props.desc && (
+        <Typography.Paragraph
+          ellipsis={{ rows: 6 }}
+          className={styles.description}
+        >
+          {props.desc}
+        </Typography.Paragraph>
+      )}
     </div>
   );
 }

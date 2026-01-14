@@ -1,50 +1,48 @@
 import { type FC, useRef } from 'react';
+import { Divider } from 'antd';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useMount, useUnmount, useMemoizedFn } from 'ahooks';
-import { ProForm, ProFormSelect } from '@ant-design/pro-components';
-import type { CoordinationDataType } from '@/typings/agent';
+import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
+import type { CoordinationDataType, AgentDataType } from '@/typings/agent';
 import { partId } from '@/env';
+import { renderTemplate } from './helper';
+import integrationCode from './integration.txt?raw';
 import styles from './styles.module.less';
 
 type ReviewAgentProps = {
   record: CoordinationDataType;
 }
 
+const $body = document.body;
+const sdkUrl = import.meta.env.ENV_AI_SDK_URL + '/sdk.iife.js?v=1.0';
+
 const ReviewAgent: FC<ReviewAgentProps> = (props) => {
   const { coordinationUuid, agents = [] } = props.record;
+  const [form] = ProForm.useForm();
   const ref = useRef<HTMLDivElement>(null);
   const agentSdkRef = useRef<AgentSdkInstance>(undefined);
 
-  const options = agents.map(item => {
-    const id = item.agentUuid;
-    const name = item.agentName;
+  const getConfigs = useMemoizedFn((agent: AgentDataType) => {
     return {
-      label: name || id,
-      value: id
+      userId: partId,
+      endpointId: partId,
+      agent: agent.agentUuid,
+      agentName: agent.agentName,
+      coordination: coordinationUuid
     }
   });
-
-  const [laster] = options;
-
-  const getConfigs = useMemoizedFn(
-    (agent, agentName = 'B2B Chat Agent') => {
-      return {
-        agent,
-        agentName,
-        userId: partId,
-        endpointId: partId,
-        coordination: coordinationUuid
-      }
-    }
-  );
 
   useMount(() => {
     agentSdkRef.current = AiChatSdk.createChat({
       openMode: 'window',
       target: ref.current!,
       clientId: 'xxxx',
-      configs: getConfigs(laster?.value, laster?.label)
+      configs: getConfigs(agents[0])
     });
-    agentSdkRef.current.init();
+    agentSdkRef.current.init().then(res => {
+      form.setFieldValue('url', res.data.chatUrl);
+    });
   });
 
   useUnmount(() => {
@@ -53,31 +51,55 @@ const ReviewAgent: FC<ReviewAgentProps> = (props) => {
 
   return (
     <div className={styles.container}>
+      <div ref={ref} className={styles.content} />
       <ProForm
+        form={form}
         submitter={false}
+        className={styles.form}
         initialValues={{
-          agent: laster?.value
+          agent: agents[0]?.agentUuid
         }}
       >
-        <ProFormSelect
+        <ProFormSelect<AgentDataType>
           label="Agent"
           name="agent"
+          options={agents}
           fieldProps={{
-            allowClear: false
+            allowClear: false,
+            fieldNames: {
+              label: 'agentName',
+              value: 'agentUuid'
+            },
+            popupMatchSelectWidth: false,
+            getPopupContainer: () => $body
           }}
-          options={options}
-          onChange={(_, option: any) => {
+          onChange={(_, option: AgentDataType) => {
             const sdk = agentSdkRef.current;
-            sdk?.updateChatConfigs(
-              getConfigs(
-                option?.value,
-                option?.label
-              )
-            );
+            sdk?.updateChatConfigs(getConfigs(option)).then(res => {
+              form.setFieldValue('url', res.data.chatUrl);
+            });
           }}
         />
+        <Divider>Integration</Divider>
+        <ProFormDependency name={['agent']}>
+          {({ agent }) => {
+            const curAgent = agents.find(e => e.agentUuid === agent);
+            return curAgent ? (
+              <div className={styles.integration}>
+                <SyntaxHighlighter
+                  style={dark}
+                  language="javascript"
+                >
+                  {renderTemplate(integrationCode, {
+                    ...getConfigs(curAgent),
+                    sdkUrl
+                  })}
+                </SyntaxHighlighter>
+              </div>
+            ) : null;
+          }}
+        </ProFormDependency>
       </ProForm>
-      <div ref={ref} className={styles.content} />
     </div>
   );
 }

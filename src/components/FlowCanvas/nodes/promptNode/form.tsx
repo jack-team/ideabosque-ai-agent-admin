@@ -27,6 +27,9 @@ const Form: FC<FormProps> = () => {
             <ProFormTextArea
               label={PromptTypesMap[type as Types]}
               name="text"
+              fieldProps={{
+                rows: 12
+              }}
               rules={[
                 { required: true }
               ]}

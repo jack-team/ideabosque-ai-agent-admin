@@ -114,7 +114,7 @@ const CoordinationList: FC = () => {
                 <Space>
                   {agents.length > 0 && (
                     <TriggerModal
-                      width={600}
+                      width="80vw"
                       hasFooter={false}
                       title="Review Agent"
                       trigger={<IconButton icon={EyeCheckMarkIcon} />}

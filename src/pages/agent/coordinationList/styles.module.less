@@ -1,9 +1,32 @@
 .container {
-  padding: 16px 0;
+  height: calc(100vh - 200px);
+  display: flex;
+  gap: 16px;
+}
+
+.form {
+  width: 50%;
+  height: 100%;
+  padding: 16px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .integration {
+    flex: 1;
+    padding-bottom: 16px;
+
+    pre {
+      height: 100%;
+      border-radius: 12px;
+    }
+  }
 }
 
 .content {
-  height: 540px;
   background: #f9f9f9;
   border-radius: 16px;
+  flex: 1;
 }

@@ -52,7 +52,9 @@ type AgentSdkVariables = Record<
     AgentSdkVariableValueType,
     Record<string, any>
   >
->;
+> & {
+  chatUrl: string;
+};
 
 type AgentSdkInitResult = {
   bridge: Record<string, any>;
@@ -72,7 +74,7 @@ type AgentSdkInstance = {
   clearAllHistory: () => void;
   insertHistory: () => void;
   setOpenMode: (mode: string) => void; 
-  updateChatConfigs: (configs: Record<string, any>) => void;
+  updateChatConfigs: (configs: Record<string, any>) => Promise<AgentSdkInitResult>;
 }
 
 declare const AiChatSdk: AiChatSdkFunc;
