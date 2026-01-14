@@ -1,0 +1,22 @@
+  <script type="text/javascript" src="{{sdkUrl}}"></script> 
+  <div id="chat-bot-bubble"></div>  
+                    
+  <script type="text/javascript">  
+    document.addEventListener('DOMContentLoaded', function() {
+      // Bubble Mode
+      const chat = AiChatSdk.createChat({
+        openMode: 'bubble',
+        target: "#chat-bot-bubble",
+        position: "{{position}}"
+        clientId: "{{clientId}}",
+        configs: {
+          userId: "{{userId}}",
+          endpointId: "{{endpointId}}",
+          agent: "{{agent}}",
+          agentName: "{{agentName}}",
+          coordination: "{{coordination}}"    
+        }
+      });
+      chat.init();
+    });
+  </script>

@@ -1,12 +1,14 @@
-  <script type="javascript" src="{{sdkUrl}}"></script> 
-  <div id="chat-bot"></div>
+  <script type="text/javascript" src="{{sdkUrl}}"></script> 
+  <div id="chat-bot-window"></div>
                       
-  <script type="javascript">  
+  <script type="text/javascript">  
     document.addEventListener('DOMContentLoaded', function() {
-      AiChatSdk.createChat({
+      // Window Mode
+      const chat = AiChatSdk.createChat({
         openMode: 'window',
-        target: "#chat-bot",
-        clientId: 'xxxx',
+        target: "#chat-bot-window",
+        position: "{{position}}"
+        clientId: "{{clientId}}",
         configs: {
           userId: "{{userId}}",
           endpointId: "{{endpointId}}",
@@ -15,5 +17,6 @@
           coordination: "{{coordination}}"    
         }
       });
+      chat.init();
     });
   </script>
