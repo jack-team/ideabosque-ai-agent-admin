@@ -16,3 +16,9 @@ export const appId = import.meta.env.ENV_SHOPIFY_APP_ID;
 // app install url
 export const appInstallUrl = import.meta.env.ENV_APP_INSTALL_URL;
 
+//Ai sdk version
+export const sdkVersion = import.meta.env.ENV_AI_SDK_VERSION;
+
+//Ai sdk url
+export const sdkUrl = `${import.meta.env.ENV_AI_SDK_URL}/sdk.iife.js?v=${sdkVersion}`;
+

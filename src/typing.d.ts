@@ -14,7 +14,6 @@ declare type SplitPageParams<Params extends Record<string, any> = {}> = Params &
   pageSize?: string;
 }
 
-
 //sdk
 type AiChatSdkFunc = {
   createChat(options: Record<string, any>): AgentSdkInstance;
@@ -64,6 +63,7 @@ type AgentSdkInitResult = {
 type AgentSdkInstance = {
   init(): Promise<AgentSdkInitResult>;
   variables: AgentSdkInitResult['data'];
+  resultData: AgentSdkInitResult;
   updateThemeConfigs: (values: Record<string, any>) => void;
   bubbleExpand: () => void;
   bubbleCollapse: () => void;

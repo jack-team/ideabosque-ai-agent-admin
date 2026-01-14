@@ -17,6 +17,10 @@ export const routes: RouteObject[] = [
         Component: lazy(() => import('./pages/agent'))
       },
       {
+        path: '/agent/review/:coordinationUuid',
+        Component: lazy(() => import('./pages/agent/reviewAgent'))
+      },
+      {
         path: '/workflow',
         Component: lazy(() => import('./pages/workflow/list'))
       },

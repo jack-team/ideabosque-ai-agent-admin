@@ -1,20 +1,21 @@
 import { type FC, useRef } from 'react';
 import { Space, App } from 'antd';
+import { useNavigate } from 'react-router';
 import { useMemoizedFn } from 'ahooks';
-import { EditIcon, DeleteIcon, EyeCheckMarkIcon } from '@shopify/polaris-icons';
 import { PageContainer, type ActionType } from '@ant-design/pro-components';
-import IconButton from '@/components/IconButton';
+import { EditIcon, DeleteIcon, EyeCheckMarkIcon } from '@shopify/polaris-icons';
+import { coordinationListApi, deleteCoordinationApi } from '@/services/agent';
 import Button from '@/components/Button';
+import IconButton from '@/components/IconButton';
 import TriggerModal from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
 import { formatDate } from '@/utils';
 import Table from '@/components/Table';
-import ReviewAgent from './reviewAgent';
 import EditForm from './edit';
-import { coordinationListApi, deleteCoordinationApi } from '@/services/agent';
 
 const CoordinationList: FC = () => {
   const { modal, message } = App.useApp();
+  const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
   const paramsRef = useRef<Record<string, any>>(null);
 
@@ -113,14 +114,10 @@ const CoordinationList: FC = () => {
               return (
                 <Space>
                   {agents.length > 0 && (
-                    <TriggerModal
-                      width="80vw"
-                      hasFooter={false}
-                      title="Review Agent"
-                      trigger={<IconButton icon={EyeCheckMarkIcon} />}
-                    >
-                      <ReviewAgent record={record} />
-                    </TriggerModal>
+                    <IconButton
+                      icon={EyeCheckMarkIcon}
+                      onClick={() => navigate(`/agent/review/${record.coordinationUuid}`)}
+                    />
                   )}
                   <TriggerModal
                     title="Add Coordination"

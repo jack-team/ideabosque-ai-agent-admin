@@ -1,8 +1,10 @@
-import { type FC, useMemo } from 'react';
-import FlowCanvas from '@/components/FlowCanvas';
+import { type FC, useMemo, lazy, Suspense } from 'react';
 import type { WorkflowDataType } from '@/typings/workflow';
 import { useUiComponents, useActions, useTransformTools } from './hooks';
 import type { FlowInstance, GetDataResult } from '@/components/FlowCanvas/types';
+import Spinner from '@/components/Spinner';
+
+const FlowCanvas = lazy(() => import('@/components/FlowCanvas'));
 
 type DetailContentProps = {
   flow?: FlowInstance;
@@ -25,14 +27,16 @@ const DetailContent: FC<DetailContentProps> = ({ flow, detail }) => {
   }, [frp, uiComponents]);
 
   return (
-    <FlowCanvas
-      flow={flow}
-      actions={actions}
-      uiComponents={uiComponents}
-      transformTools={transformTools}
-      defaultEdges={relationship.edges}
-      defaultNodes={relationship.nodes}
-    />
+    <Suspense fallback={<Spinner className="spinner" />}>
+      <FlowCanvas
+        flow={flow}
+        actions={actions}
+        uiComponents={uiComponents}
+        transformTools={transformTools}
+        defaultEdges={relationship.edges}
+        defaultNodes={relationship.nodes}
+      />
+    </Suspense>
   );
 }
 
