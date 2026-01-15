@@ -13,12 +13,14 @@ type AppInstallModelMethods = {
   appIntsall: () => Promise<void>;
 }
 
+const params: Record<string, any> = {
+  shop,
+  appId,
+  'x-api-key': apiKey
+}
+
 const jumpAuth = () => {
-  const search = qs.stringify({ 
-    shop, 
-    appId,
-    'x-api-key': apiKey
-  });
+  const search = qs.stringify(params);
   const url = `${installBaseUrl}/app_callback?${search}`;
   open(url, '_top');
 }
@@ -36,7 +38,7 @@ export const useAppInstallModel = create<AppInstallModelTypes & AppInstallModelM
       }
 
       // 检查是否已经安装
-      const res = await appInstallApi({ appId, shop });
+      const res = await appInstallApi(params);
 
       // 安装过的直接显示 ui 界面
       if (res.authed) {
