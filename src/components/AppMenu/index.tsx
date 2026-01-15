@@ -23,6 +23,7 @@ const AppMenu: FC = () => {
   return (
     <div className={styles.container}>
       <Menu
+        theme="dark"
         className={styles.menus}
         selectedKeys={selectedKeys}
         items={renderNavs.map(nav => {

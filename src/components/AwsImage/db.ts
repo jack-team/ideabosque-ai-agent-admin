@@ -7,7 +7,7 @@ export type AwsFileInfo = {
   expires: number;
 }
 
-const db = new Dexie('awsFileDatabase') as Dexie & {
+const db = new Dexie('ai-agent-admin') as Dexie & {
   urls: EntityTable<AwsFileInfo, 'id'>;
 };
 
