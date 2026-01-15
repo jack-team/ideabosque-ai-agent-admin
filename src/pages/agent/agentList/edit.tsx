@@ -96,6 +96,9 @@ const EditForm: FC<EditFormProps> = (props) => {
           rules={[
             { required: true }
           ]}
+          fieldProps={{
+            rows: 6
+          }}
         />
         <ProFormSelect
           label="Tool Call Role"

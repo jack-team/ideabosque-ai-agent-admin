@@ -16,7 +16,7 @@ type AppInstallModelMethods = {
 const params: Record<string, any> = {
   shop,
   appId,
-  'x-api-key': apiKey
+  // 'x-api-key': apiKey
 }
 
 const jumpAuth = () => {

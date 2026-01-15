@@ -57,7 +57,7 @@ const AgentList: FC = () => {
       title="Agents"
       extra={
         <TriggerModal
-          width={640}
+          width={800}
           title="Add agent"
           trigger={
             <Button type="primary">
@@ -131,7 +131,7 @@ const AgentList: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={640}
+                    width={800}
                     title="Edit agent"
                     trigger={<IconButton icon={EditIcon} />}
                   >
@@ -141,6 +141,7 @@ const AgentList: FC = () => {
                     />
                   </TriggerModal>
                   <TriggerModal
+                    width={600}
                     title="Versions"
                     okText="Apply"
                     trigger={<IconButton icon={DuplicateIcon} />}

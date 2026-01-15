@@ -70,6 +70,9 @@ const EditForm: FC<EditFormProps> = (props) => {
           label="Coordination Description"
           name="coordinationDescription"
           rules={[{ required: true }]}
+          fieldProps={{
+            rows: 10
+          }}
         />
         <ProFormSelect
           label="Connected agents"
@@ -77,7 +80,6 @@ const EditForm: FC<EditFormProps> = (props) => {
           mode="multiple"
           options={agents}
           fieldProps={{
-            maxTagCount: 2,
             loading: fetchLoading,
             fieldNames: {
               label: 'agentName',

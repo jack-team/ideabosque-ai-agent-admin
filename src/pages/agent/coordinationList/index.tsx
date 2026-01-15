@@ -52,6 +52,7 @@ const CoordinationList: FC = () => {
       title="Coordinations"
       extra={
         <TriggerModal
+          width={800}
           title="Add Coordination"
           trigger={
             <Button type="primary">
@@ -120,7 +121,8 @@ const CoordinationList: FC = () => {
                     />
                   )}
                   <TriggerModal
-                    title="Add Coordination"
+                    width={800}
+                    title="Edt coordination"
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditForm
