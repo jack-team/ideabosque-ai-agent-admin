@@ -13,8 +13,8 @@ export const inShopify = getUrlParams('embedded') === '1';
 //shopify
 export const appId = import.meta.env.ENV_SHOPIFY_APP_ID;
 
-// app install url
-export const appInstallUrl = `${import.meta.env.ENV_APP_INSTALL_URL}/beta/core/${endpointId}`;
+// app install base url
+export const appInstallBaseUrl = `${apiBaseUrl}/beta/core/${endpointId}`;
 
 //Ai sdk version
 export const sdkVersion = import.meta.env.ENV_AI_SDK_VERSION;

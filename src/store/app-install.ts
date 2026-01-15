@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { create } from 'zustand';
-import { appId, shop, appInstallUrl } from '@/env';
+import { appId, shop, appInstallBaseUrl } from '@/env';
 import { appInstallApi } from '@/services/auth';
 
 type AppInstallModelTypes = {
@@ -15,7 +15,7 @@ type AppInstallModelMethods = {
 
 const jumpAuth = () => {
   const search = qs.stringify({ shop, appId });
-  const url = `${appInstallUrl}/app_callback?${search}`;
+  const url = `${appInstallBaseUrl}/app_callback?${search}`;
   open(url, '_top');
 }
 

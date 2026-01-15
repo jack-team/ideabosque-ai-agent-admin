@@ -40,6 +40,10 @@ export class BaseRequest {
     );
   }
 
+  private printError = (error: ResultError) => {
+    console.error(error);
+  }
+
   // 解析成功数据
   private parseSuccess = async (result: AxiosResponse) => {
     const data = result.data as GraphqlResultType;
@@ -62,17 +66,21 @@ export class BaseRequest {
       resultError = resultError.errorMessage;
     }
 
-    return Promise.reject(new ResultError(errorCode, resultError));
+    const error = new ResultError(errorCode, resultError);
+    this.printError(error);
+    return Promise.reject(error);
   };
 
   //解析错误数据
   private parseError = (result: AxiosError) => {
-    if (result.response) {
+    const code = result.status;
+    if (code === 200 && result.response) {
       return this.parseSuccess(result.response);
     } else {
-      const code = result.status;
       const message = result.message;
-      return Promise.reject(new ResultError(code!, message));
+      const error = new ResultError(code!, message); 
+      this.printError(error);
+      return Promise.reject(error);
     }
   };
 
@@ -101,7 +109,7 @@ export class BaseRequest {
     if (camelize) {
       processData = humps.camelizeKeys(data);
     }
-    
+
     console.log('processData:', processData);
     return processData as QueryResult<D>;
   }
