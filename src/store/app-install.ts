@@ -1,4 +1,3 @@
-//@ts-nocheck
 import qs from 'qs';
 import { create } from 'zustand';
 import { appId, shop, installBaseUrl } from '@/env';
@@ -45,8 +44,7 @@ export const useAppInstallModel = create<AppInstallModelTypes & AppInstallModelM
         set({ loading: false });
       } else {
         // 没有安装过的，跳转安装链接
-        // jumpAuth();
-        set({ loading: false });
+        jumpAuth();
       }
     }
   })
