@@ -9,6 +9,10 @@ const AppWrapper: FC<PropsWithChildren> = (props) => {
 
   useMount(appIntsall);
 
+  if (typeof window.shopify !== 'undefined') {
+    console.log(shopify);
+  }
+
   if (loading) {
     return <Spinner className="spinner" />;
   }
