@@ -15,8 +15,7 @@ type AppInstallModelMethods = {
 
 const params: Record<string, any> = {
   shop,
-  appId,
-  // 'x-api-key': apiKey
+  appId
 }
 
 const jumpAuth = () => {
@@ -46,6 +45,7 @@ export const useAppInstallModel = create<AppInstallModelTypes & AppInstallModelM
       } else {
         // 没有安装过的，跳转安装链接
         jumpAuth();
+        set({ loading: false });
       }
     }
   })
