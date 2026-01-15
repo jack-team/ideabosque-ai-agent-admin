@@ -6,12 +6,12 @@ import AppLayout from '@/components/AppLayout';
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Navigate replace to="/agent" />
-  },
-  {
-    path: '/',
     Component: AppLayout,
     children: [
+      {
+        path: '/',
+        Component: lazy(() => import('./pages/agent'))
+      },
       {
         path: '/agent',
         Component: lazy(() => import('./pages/agent'))
@@ -119,14 +119,14 @@ export const routes: RouteObject[] = [
         path: '/theme-editor',
         Component: lazy(() => import('./pages/themeEditor'))
       },
+      {
+        path: '*',
+        element: <Navigate replace to="/404" />
+      },
+      {
+        path: '/404',
+        Component: lazy(() => import('./pages/notFound'))
+      }
     ]
-  },
-  {
-    path: '/404',
-    Component: lazy(() => import('./pages/notFound'))
-  },
-  {
-    path: '*',
-    element: <Navigate replace to="/404" />
   }
 ];
