@@ -5,6 +5,7 @@ import { ConfigProvider, App as AntApp } from 'antd';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AppWrapper from '@/components/AppWrapper';
 import Spinner from '@/components/Spinner';
+import ShopifyNavMenu from '@/components/ShopifyNavMenu';
 import { cssVariables } from '@/variables/css-variables';
 import StyledVariables from '@/components/StyledVariables';
 import { themeConfigs } from './theme';
@@ -20,6 +21,7 @@ const App: FC = () => {
     >
       <AntApp>
         <div className="app-wrapper">
+          <ShopifyNavMenu />
           <AppWrapper>
             <StyledVariables variables={cssVariables} />
             <Suspense fallback={<Spinner className="spinner" />}>
