@@ -1,3 +1,4 @@
+//@ts-nocheck
 import qs from 'qs';
 import { create } from 'zustand';
 import { appId, shop, installBaseUrl } from '@/env';
@@ -24,6 +25,8 @@ const jumpAuth = () => {
   open(url, '_top');
 }
 
+console.log('ssss', shop);
+
 export const useAppInstallModel = create<AppInstallModelTypes & AppInstallModelMethods>(
   (set) => ({
     appId,
@@ -36,15 +39,19 @@ export const useAppInstallModel = create<AppInstallModelTypes & AppInstallModelM
         return;
       }
 
+      console.log('shop......', shop);
+
       // 检查是否已经安装
       const res = await appInstallApi(params);
+
+      console.log('res.....', res);
 
       // 安装过的直接显示 ui 界面
       if (res.authed) {
         set({ loading: false });
       } else {
         // 没有安装过的，跳转安装链接
-        jumpAuth();
+        // jumpAuth();
         set({ loading: false });
       }
     }
