@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { create } from 'zustand';
-import { appId, shop, installBaseUrl, apiKey } from '@/env';
+import { appId, shop, installBaseUrl } from '@/env';
 import { appInstallApi } from '@/services/auth';
 
 type AppInstallModelTypes = {
