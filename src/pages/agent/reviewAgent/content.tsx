@@ -92,8 +92,9 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
               value: 'agentUuid'
             }
           }}
-          onChange={(_, o: AgentDataType) => {
-            sdk?.updateChatConfigs(getConfigs(o));
+          onChange={async (_, o: AgentDataType) => {
+            const result = await sdk?.updateChatConfigs(getConfigs(o));
+            if (result && sdk) sdk.resultData = result;
           }}
         />
         <Divider>Integration</Divider>
