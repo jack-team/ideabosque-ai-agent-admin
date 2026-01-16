@@ -31,7 +31,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     }
   );
 
-  const setOpenMode = useMemoizedFn((mode: string) => {
+  const setOpenMode = useMemoizedFn((mode: OpenModeType) => {
     sdk?.setOpenMode(mode);
   })
 
