@@ -1,9 +1,6 @@
 import { useRef } from 'react';
 import { useMount, useUnmount, useMemoizedFn, useSafeState } from 'ahooks';
 
-export type OpenModeType = 'window' | 'bubble';
-export type DirectionType = 'topLeft' | 'bottomLeft' | 'topRight' | 'bottomRight';
-
 type DefaultConfigs = {
   clientId: string;
   openMode: OpenModeType;

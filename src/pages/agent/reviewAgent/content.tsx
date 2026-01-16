@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ProForm, ProFormSelect, ProFormDependency, ProFormItem } from '@ant-design/pro-components';
-import { useAiSdk, type OpenModeType, type DirectionType } from '@/hooks/useAiSdk';
+import { useAiSdk } from '@/hooks/useAiSdk';
 import SelectButton from '@/components/SelectButton';
 import { modeOptions, positionOptions } from './configs';
 import type { AgentDataType } from '@/typings/agent';
@@ -24,7 +24,7 @@ type ReviewAgentContentProps = {
 type FormDataType = {
   agent: string;
   openMode: OpenModeType;
-  position: DirectionType;
+  position: BubblePositionType;
 }
 
 const clientId = 'xxxxxx';
@@ -36,7 +36,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
   const [form] = ProForm.useForm<FormDataType>();
 
   const openMode = ProForm.useWatch('openMode', form) || 'window';
-  const position = ProForm.useWatch('position', form) || 'bottomRight';
+  const position = ProForm.useWatch('position', form) || 'bottomLeft';
 
   const [lasterAgent] = agents;
 
@@ -61,6 +61,12 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
       sdk?.setOpenMode(openMode);
     }
   }, [openMode]);
+
+  useUpdateEffect(() => {
+    if (position) {
+      sdk?.setBubblePosition(position);
+    }
+  }, [position]);
 
   return (
     <div className={styles.container}>
@@ -122,15 +128,17 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
                         placeholder="Open Mode"
                       />
                     </ProFormItem>
-                    <ProFormItem
-                      noStyle
-                      name="position"
-                    >
-                      <SelectButton
-                        options={positionOptions}
-                        placeholder="Bubble direction"
-                      />
-                    </ProFormItem>
+                    {openMode === 'bubble' && (
+                      <ProFormItem
+                        noStyle
+                        name="position"
+                      >
+                        <SelectButton
+                          options={positionOptions}
+                          placeholder="Bubble direction"
+                        />
+                      </ProFormItem>
+                    )}
                     {!!sdk && (
                       <Button
                         size="small"

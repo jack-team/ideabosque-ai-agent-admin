@@ -60,6 +60,10 @@ type AgentSdkInitResult = {
   data: AgentSdkVariables;
 };
 
+
+type OpenModeType = 'window' | 'bubble';
+type BubblePositionType = 'topLeft' | 'bottomLeft' | 'topRight' | 'bottomRight';
+
 type AgentSdkInstance = {
   init(): Promise<AgentSdkInitResult>;
   variables: AgentSdkInitResult['data'];
@@ -73,7 +77,8 @@ type AgentSdkInstance = {
   resetThemeConfigs: () => void;
   clearAllHistory: () => void;
   insertHistory: () => void;
-  setOpenMode: (mode: string) => void; 
+  setOpenMode: (mode: OpenModeType) => void; 
+  setBubblePosition: (position: BubblePositionType) => void;
   updateChatConfigs: (configs: Record<string, any>) => Promise<AgentSdkInitResult>;
 }
 
