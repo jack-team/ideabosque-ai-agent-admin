@@ -6,20 +6,6 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { fileURLToPath, URL } from 'node:url';
 
-const uiLibs1 = [
-  'antd',
-  'react-dnd',
-  'rc-field-form',
-  '@ant-design/icons'
-];
-
-const uiLibs2 = [
-  '@ant-design/pro-components',
-  '@shopify/polaris-icons',
-  'react-syntax-highlighter',
-  'react-dnd-html5-backend'
-];
-
 // https://vite.dev/config/
 export default defineConfig((config) => {
   const { mode } = config;
@@ -72,14 +58,25 @@ export default defineConfig((config) => {
       rollupOptions: {
         output: {
           manualChunks: (id) => {
+            const uis = [
+              'antd',
+              '@rc-component',
+              '@ant-design/icons',
+              '@shopify/polaris-icons',
+              '@ant-design/pro-components',
+            ];
+
             if (id.includes('node_modules')) {
-              if (uiLibs1.some(v => id.includes(v))) {
-                return 'ui-vendor-1';
+
+              if (uis.some(v => id.includes(v))) {
+                return 'vender-ui';
               }
-              if (uiLibs2.some(v => id.includes(v))) {
-                return 'ui-vendor-2';
+
+              if (id.includes('highlight')) {
+                return 'highlight';
               }
-              return 'vendor';
+
+              return 'vender';
             }
           }
         }
