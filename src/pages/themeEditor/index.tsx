@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { Tabs } from 'antd';
+import classNames from 'classnames';
 import { useMemoizedFn, useSafeState } from 'ahooks';
 import PageContainer from '@/components/PageContainer';
 import { ProForm } from '@ant-design/pro-components';
@@ -49,33 +50,39 @@ const ThemeEditor: FC = () => {
     >
       <SpinBox loading={!agentSdk}>
         <div className={styles.container}>
-          <div className={styles.form}>
-            {agentSdk ? (
-              <Tabs
-                activeKey={activeKey}
-                className={styles.tabs}
-                onChange={handleTabChange}
-                renderTabBar={() => <span />}
-                items={[
-                  {
-                    key: SettingType.NORMAL,
-                    label: 'Appearance Settings',
-                    children: (
-                      <Appearance
-                        sdk={agentSdk}
-                        form={appearanceForm}
-                      />
-                    )
-                  }
-                ]}
-              />
-            ) : null}
+          <div className={
+            classNames(styles.content, {
+              [styles.hide]: !agentSdk
+            })}
+          >
+            <div className={styles.form}>
+              {agentSdk ? (
+                <Tabs
+                  activeKey={activeKey}
+                  className={styles.tabs}
+                  onChange={handleTabChange}
+                  renderTabBar={() => <span />}
+                  items={[
+                    {
+                      key: SettingType.NORMAL,
+                      label: 'Appearance Settings',
+                      children: (
+                        <Appearance
+                          sdk={agentSdk}
+                          form={appearanceForm}
+                        />
+                      )
+                    }
+                  ]}
+                />
+              ) : null}
+            </div>
+            <Preview
+              sdk={agentSdk}
+              ref={targetRef}
+              appearanceForm={appearanceForm}
+            />
           </div>
-          <Preview
-            sdk={agentSdk}
-            ref={targetRef}
-            appearanceForm={appearanceForm}
-          />
         </div>
       </SpinBox>
     </PageContainer>

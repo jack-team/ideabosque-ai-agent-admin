@@ -2,10 +2,20 @@
   height: 100%;
   padding: 16px;
   margin: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   background: #fff;
-  display: flex;
-  gap: 16px;
+
+
+  .content {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+    transition: opacity .5s linear;
+
+    &.hide {
+      opacity: 0;
+    }
+  }
 
   .form {
     height: 100%;

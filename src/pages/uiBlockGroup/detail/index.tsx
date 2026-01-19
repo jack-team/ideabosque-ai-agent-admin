@@ -1,7 +1,7 @@
 import { Space, App } from 'antd';
 import { useNavigate, useParams } from 'react-router';
 import { useSafeState, useMemoizedFn } from 'ahooks';
-import { type FC, useRef, type ReactElement, useEffect } from 'react';
+import { type FC, useRef, type ReactElement, useEffect, useTransition } from 'react';
 import {
   ProForm,
   ProCard,
@@ -25,11 +25,13 @@ import Wizards from './wizards';
 import { partId } from '@/env';
 import styles from './styles.module.less';
 
+
 const UiBlockGroupDetail: FC = () => {
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
   const [confirm] = useConfirm();
   const { message } = App.useApp();
+  const [_, startTransition] = useTransition();
   const { wizardSchemas } = useBlockSchemas();
   const [loading, setLoading] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
@@ -56,9 +58,8 @@ const UiBlockGroupDetail: FC = () => {
 
   const handleSave = useMemoizedFn(async () => {
     const formData = await form.validateFields();
-    const values = processOutputData(formData);
     try {
-      setLoading(true);
+      const values = processOutputData(formData);
       const result = await insertUpdateWizardGroupWithWizards({
         ...values,
         updatedBy: partId
@@ -69,9 +70,15 @@ const UiBlockGroupDetail: FC = () => {
     } catch (err) {
       console.error(err);
       message.success('Save failed.');
-    } finally {
-      setLoading(false);
     }
+  });
+
+  const onSaveProxy = useMemoizedFn(() => {
+    setLoading(true);
+    startTransition(async () => {
+      await handleSave();
+      setLoading(false);
+    });
   });
 
   const onFieldsChange = useMemoizedFn(() => setShouldBlock(true));
@@ -117,7 +124,7 @@ const UiBlockGroupDetail: FC = () => {
             <Button
               loading={loading}
               className="gray-mode"
-              onClick={handleSave}
+              onClick={onSaveProxy}
             >
               Save
             </Button>
