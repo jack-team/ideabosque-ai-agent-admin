@@ -9,7 +9,7 @@ import PageContainer from '@/components/PageContainer';
 import { formatDate } from '@/utils';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
-import { StatusEnum } from '@/constants/enum';
+import { StatusEnum, StatusMap } from '@/constants/enum';
 import TriggerModal from '@/components/TriggerModal';
 import type { WorkflowDataType } from '@/typings/workflow';
 import IconButton, { withIcon } from '@/components/IconButton';
@@ -128,11 +128,12 @@ const WorkflowList: FC = () => {
           {
             title: 'Status',
             dataIndex: 'status',
+            valueEnum: StatusMap,
             hideInSearch: true,
-            render: (_, record) => {
+            render: (val, record) => {
               return (
                 <StatusTag suatus={record.status}>
-                  {record.status}
+                  {val}
                 </StatusTag>
               );
             }

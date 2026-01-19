@@ -5,7 +5,7 @@ import PageContainer from '@/components/PageContainer';
 import { type ActionType } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
 import { formatDate } from '@/utils';
-import { StatusEnum } from '@/constants/enum';
+import { StatusEnum, StatusMap } from '@/constants/enum';
 import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
@@ -100,11 +100,12 @@ const AgentList: FC = () => {
           {
             title: 'Status',
             dataIndex: 'status',
+            valueEnum: StatusMap,
             hideInSearch: true,
-            render: (_, record) => {
+            render: (val, record) => {
               return (
                 <StatusTag suatus={record.status}>
-                  {record.status}
+                  {val}
                 </StatusTag>
               );
             }
