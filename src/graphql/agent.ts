@@ -32,6 +32,9 @@ export const agentListQuery = `
         status
         createdAt
         updatedAt
+        flowSnippet {
+          promptUuid
+        }
       }
     }
   }
@@ -40,21 +43,22 @@ export const agentListQuery = `
 export const agentDetailQuery = `
   query agent($agentUuid: String, $agentVersionUuid: String) {
     agent(agentUuid: $agentUuid, agentVersionUuid: $agentVersionUuid) {
-      agentVersionUuid 
-      agentUuid 
-      agentName 
-      agentDescription 
+      agentUuid
+      agentName
+      agentVersionUuid
+      agentDescription
       llm {
         llmProvider
         llmName
         configurationSchema
       } 
+      variables
       mcpServers
       mcpServerUuids
-      instructions 
+      instructions
       configuration
-      numOfMessages 
-      toolCallRole 
+      numOfMessages
+      toolCallRole
       flowSnippetVersionUuid
       flowSnippet {
         promptUuid

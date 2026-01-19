@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
 import type { UiComponentDataType } from '@/typings/ui';
-import { withSelect } from '@/utils/withSelect';
 import { useUiComponentModel } from './model';
 
 export * from './model';
@@ -40,4 +39,4 @@ const UiComponentSelect: FC<UiComponentSelectProps> = (props) => {
   );
 }
 
-export default withSelect(UiComponentSelect);
+export default UiComponentSelect;

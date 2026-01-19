@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { PageContainer } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
 import { useParams, useNavigate } from 'react-router';
 import SpinBox from '@/components/SpinBox';
 import { useCoordinationDetail } from '../hooks';
@@ -25,8 +25,8 @@ const ReviewAgent: FC = () => {
   return (
     <SpinBox loading={loading}>
       <PageContainer
+        fullScreen
         title="Agent review"
-        className="full-screen"
         onBack={() => navigate(-1)}
       >
         {agents.length > 0 && (

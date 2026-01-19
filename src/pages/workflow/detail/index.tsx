@@ -1,22 +1,20 @@
 import { App } from 'antd';
 import dayjs from 'dayjs';
+import { Fragment } from 'react';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router';
-import { ArrowLeftIcon } from '@shopify/polaris-icons';
 import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
+import PageContainer from '@/components/PageContainer';
 import { workflowApi } from '@/services/workflow';
 import { insertUpdateWorkflowApi } from '@/services/workflow';
 import { useFlowInstance } from '@/components/FlowCanvas';
 import Button from '@/components/Button';
-import { withIcon } from '@/components/IconButton'
 import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
 import { partId } from '@/env';
 import styles from './styles.module.less';
-
-const BackIcon = withIcon(ArrowLeftIcon);
 
 export type EditType = 'new' | 'update';
 
@@ -82,32 +80,30 @@ function WorkflowDetail() {
   }
 
   return (
-    <SpinBox
-      className={styles.page_wrapper}
-      loading={!workflowData || submitLoading}
-    >
-      <div className={styles.page_container}>
-        <div className={styles.header}>
-          <div className={styles.header_left}>
-            <div
-              className={styles.back_btn}
-              onClick={() => navigate(-1)}
+    <SpinBox loading={!workflowData}>
+      <PageContainer
+        fullScreen
+        onBack={() => navigate(-1)}
+        title={
+          <Fragment>
+            {workflowData?.flowName || 'Workflow editor'}
+            <div className={styles.update_time}>
+              {getLastUpdate()}
+            </div>
+          </Fragment>
+        }
+        extra={
+          <div className={styles.extra}>
+            <Button
+              type="primary"
+              onClick={onSave}
+              loading={submitLoading}
             >
-              <BackIcon />
-            </div>
-            <div className={styles.header_left_content}>
-              <div className={styles.page_title}>
-                {workflowData?.flowName || 'Workflow editor'}
-              </div>
-              <div className={styles.update_time}>
-                {getLastUpdate()}
-              </div>
-            </div>
+              Save
+            </Button>
           </div>
-          <div className={styles.header_right}>
-            <Button type="primary" onClick={onSave}>Save</Button>
-          </div>
-        </div>
+        }
+      >
         {workflowData ? (
           <div className={styles.content}>
             <DetailContent
@@ -116,7 +112,7 @@ function WorkflowDetail() {
             />
           </div>
         ) : null}
-      </div>
+      </PageContainer>
     </SpinBox>
   );
 }

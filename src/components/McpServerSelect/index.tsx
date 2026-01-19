@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
 import type { McpServerDataType } from '@/typings/mcp';
-import { withSelect } from '@/utils/withSelect';
 import { useMcpServerModel } from './model';
 
 export * from './model';
@@ -40,4 +39,4 @@ const McpServerSelect: FC<LLMSelectProps> = (props) => {
   );
 }
 
-export default withSelect(McpServerSelect);
+export default McpServerSelect;

@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
 import type { LLMDataType } from '@/typings/llm';
-import { withSelect } from '@/utils/withSelect';
 import { useLlmModel } from './model';
 
 export * from './model';
@@ -38,4 +37,4 @@ const LLMSelect: FC<LLMSelectProps> = (props) => {
   );
 }
 
-export default withSelect(LLMSelect);
+export default LLMSelect;

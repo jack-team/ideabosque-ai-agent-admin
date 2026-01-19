@@ -114,7 +114,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   }, [detail]);
 
   return (
-    <SpinBox loading={loading || submitLoading}>
+    <SpinBox loading={loading}>
       <PageContainer
         title={detail?.promptName || 'Edit template'}
         onBack={() => navigate(-1)}
@@ -122,6 +122,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           <Button
             type="primary"
             onClick={onSave}
+            loading={submitLoading}
           >
             Save
           </Button>

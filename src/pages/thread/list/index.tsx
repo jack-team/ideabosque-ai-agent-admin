@@ -7,7 +7,7 @@ import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import { ViewIcon } from '@shopify/polaris-icons';
-import { PageContainer } from "@ant-design/pro-components";
+import PageContainer from '@/components/PageContainer';
 import { threadListApi } from "@/services/thread";
 import type { ThreadDataType } from '@/typings/thread';
 import { formatDate } from '@/utils';

@@ -21,6 +21,8 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
+    console.log(values);
+    return;
     props.onSubmit?.(values);
   });
 
@@ -165,6 +167,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
           return renderSchema(s, {
             floor: 1,
             parentKey,
+            fullName,
             required: s.required
           });
         }
@@ -181,6 +184,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
             }, {
               floor: 0,
               parentKey,
+              fullName,
               required: s.required
             });
           }

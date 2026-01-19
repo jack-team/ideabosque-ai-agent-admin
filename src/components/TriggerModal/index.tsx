@@ -2,7 +2,7 @@ import { Modal } from 'antd';
 import EventEmitter from 'eventemitter3';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useSafeState, useMemoizedFn, useUnmount, useMount } from 'ahooks';
-import { type FC, type MouseEvent, Fragment, cloneElement, useMemo } from 'react';
+import { type FC, type MouseEvent, Fragment, cloneElement, useMemo, useTransition } from 'react';
 import type { TriggerModalProps, EventType, EventListener } from './types';
 import { TriggerModalContext } from './context';
 import Button from '../Button';
@@ -20,6 +20,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
     ...rest
   } = props;
 
+  const [_, startTransition] = useTransition();
   const [loading, setLoading] = useSafeState(false);
   const [modalOpen, setModalOpen] = useSafeState(false);
   const onTrigger = useMemoizedFn(() => setModalOpen(true));
@@ -54,11 +55,13 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
   });
 
   // 点击确定按钮
-  const onConfirm = useMemoizedFn(async (e: MouseEvent) => {
+  const onConfirm = useMemoizedFn((e: MouseEvent) => {
     setLoading(true);
-    const prevent = await runListeners(getListeners('ok'), e);
-    if (!prevent) requestAnimationFrame(closeModal);
-    setLoading(false);
+    startTransition(async () => {
+      const prevent = await runListeners(getListeners('ok'), e);
+      if (!prevent) requestAnimationFrame(closeModal);
+      setLoading(false);
+    });
   });
 
   // 点击取消按钮
@@ -82,7 +85,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
           >
             {cancelText}
           </Button>
-        ): <span />}
+        ) : <span />}
         <Button
           type="primary"
           loading={loading}
@@ -113,6 +116,7 @@ const TriggerModal: FC<TriggerModalProps> = (props) => {
         closable={!loading}
         onCancel={closeModal}
         footer={renderFooter()}
+        getContainer={() => document.body}
       >
         {children}
       </Modal>

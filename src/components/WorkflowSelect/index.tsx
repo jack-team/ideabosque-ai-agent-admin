@@ -3,7 +3,6 @@ import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
 import type { WorkflowDataType } from '@/typings/workflow';
 import { useWorkflowModel } from './model';
-import { withSelect } from '@/utils/withSelect';
 
 export * from './model';
 
@@ -39,4 +38,4 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
   );
 }
 
-export default withSelect(WorkflowSelect);
+export default WorkflowSelect;

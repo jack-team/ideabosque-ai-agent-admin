@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import IconButton from '@/components/IconButton';
 import { ViewIcon } from '@shopify/polaris-icons';
 import Table from '@/components/Table';
-import { PageContainer } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
 import TriggerModal from '@/components/TriggerModal';
 import { formatDate } from '@/utils';
 import Details from './details';

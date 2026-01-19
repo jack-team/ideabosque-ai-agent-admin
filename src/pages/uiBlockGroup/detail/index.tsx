@@ -5,12 +5,12 @@ import { type FC, useRef, type ReactElement, useEffect } from 'react';
 import {
   ProForm,
   ProCard,
-  PageContainer,
   ProFormDependency,
   type FormListActionType,
 } from '@ant-design/pro-components';
 import SpinBox from '@/components/SpinBox';
 import Button from '@/components/Button';
+import PageContainer from '@/components/PageContainer';
 import TriggerModal from '@/components/TriggerModal';
 import { useLeavePage } from '@/hooks/useLeavePage';
 import BasicForm from './components/BasicForm';
@@ -109,8 +109,8 @@ const UiBlockGroupDetail: FC = () => {
   return (
     <SpinBox loading={detailLoading}>
       <PageContainer
+        fullScreen
         title={detail?.wizardGroupName}
-        className="full-screen"
         onBack={() => navigate(-1)}
         extra={
           <Space>

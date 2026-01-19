@@ -16,7 +16,10 @@ export const useAgentDetail = (params?: {
   agentUuid: string,
   agentVersionUuid: string;
 }, onSuccess?: SuccessFn<AgentDataType>) => useRequest(async () => {
-  const result = await agentDetailApi(params!);
+  const result = await agentDetailApi({
+    agentUuid: params!.agentUuid,
+    agentVersionUuid: params!.agentVersionUuid
+  });
   onSuccess?.(result);
   return result;
 }, {

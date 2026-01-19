@@ -1,7 +1,8 @@
 import { type FC } from 'react';
 import { Tabs } from 'antd';
 import { useMemoizedFn, useSafeState } from 'ahooks';
-import { PageContainer, ProForm } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
+import { ProForm } from '@ant-design/pro-components';
 import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
@@ -38,8 +39,8 @@ const ThemeEditor: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Theme Editor"
-      className="full-screen"
       extra={
         <ShopifyButton type="primary">
           Save

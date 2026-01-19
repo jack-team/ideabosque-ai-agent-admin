@@ -1,7 +1,8 @@
 import { type FC, useRef } from 'react';
 import { Space, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { PageContainer, type ActionType } from '@ant-design/pro-components';
+import PageContainer from '@/components/PageContainer';
+import { type ActionType } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
 import { formatDate } from '@/utils';
 import { StatusEnum } from '@/constants/enum';

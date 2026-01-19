@@ -33,7 +33,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   const { agent } = props;
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
-  const [promptUuid, setPromptUuid] = useSafeState<string>();
+  const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
 
   // 获取 Agent 信息，当编辑的时候
   const { loading } = useAgentDetail(agent, (res) => {
@@ -47,7 +47,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   } = useTemplateDetail(promptUuid, (res) => {
     form.setFieldsValue({
       instructions: res.templateContext,
-      mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid),
+      mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid)
     });
   });
 
@@ -59,7 +59,6 @@ const EditForm: FC<EditFormProps> = (props) => {
       configSchema: e.configurationSchema
     });
   });
-
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
@@ -135,7 +134,10 @@ const EditForm: FC<EditFormProps> = (props) => {
               label="Connected Workflows"
               name="flowSnippetVersionUuid"
             >
-              <WorkflowSelect onItemChange={e => setPromptUuid(e.promptUuid)} />
+              <WorkflowSelect
+                onItemChange={e => setPromptUuid(e.promptUuid)}
+                options={agent?.flowSnippet ? [agent?.flowSnippet] : []}
+              />
             </ProFormItem>
           </Col>
           <Col span={12}>
@@ -179,7 +181,7 @@ const EditForm: FC<EditFormProps> = (props) => {
             const disabled = !!flowSnippetVersionUuid;
 
             return (
-              <SpinBox loading={requestLoading}>
+              <SpinBox loading={!loading && requestLoading}>
                 <ProFormTextArea
                   label="Instructions"
                   name="instructions"
@@ -194,6 +196,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                   <McpServerSelect
                     mode="multiple"
                     disabled={disabled}
+                    options={agent?.mcpServers}
                   />
                 </ProFormItem>
                 {variables.length > 0 && (

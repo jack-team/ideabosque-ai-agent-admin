@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import { useRequest } from 'ahooks';
 import SpinBox from '@/components/SpinBox';
 import { useParams, useNavigate } from 'react-router-dom';
+import PageContainer from '@/components/PageContainer';
 import { threadApi } from '@/services/thread';
-import { PageContainer } from '@ant-design/pro-components';
 import ThreadDetailContent from './content';
 
 const ThreadDetail: FC = () => {
