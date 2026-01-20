@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Dropdown, Space } from 'antd';
+import { Dropdown, Space, type ButtonProps } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 import Button from '@/components/Button';
 
@@ -13,6 +13,8 @@ type SelectButtonProps = {
   onChange?: (value: string) => void;
   options?: OptionType[];
   placeholder?: string;
+  size?: ButtonProps['size'];
+  type?: ButtonProps['type'];
 }
 
 const SelectButton: FC<SelectButtonProps> = (props) => {
@@ -20,6 +22,8 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
     value,
     options,
     onChange,
+    type = 'default',
+    size = 'small',
     placeholder = 'Please select'
   } = props;
 
@@ -33,7 +37,7 @@ const SelectButton: FC<SelectButtonProps> = (props) => {
         onClick: e => onChange?.(e.key)
       }}
     >
-      <Button size="small" >
+      <Button size={size} type={type}>
         <Space>
           <span>{selectdItem?.label || placeholder}</span>
           <CaretDownOutlined />

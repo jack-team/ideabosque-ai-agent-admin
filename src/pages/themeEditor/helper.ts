@@ -12,7 +12,6 @@ export const updateFormData = (form: FormInstance, values: Record<string, any>) 
   form.setFieldsValue(newFormData);
 }
 
-
 // 通过配置或者变量
 export const getVariables = (configs: AgentSdkVariableConfigType[]) => {
   return configs.reduce((v, c) => {

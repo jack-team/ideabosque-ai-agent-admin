@@ -16,7 +16,6 @@ export const useConfirm = () => {
 
   const confirm = useMemoizedFn((options: ConfirmOptions) => {
     const instance = modal.confirm({
-      closable: true,
       title: options.title,
       content: options.content,
       okText: options.okText,

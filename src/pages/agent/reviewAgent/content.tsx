@@ -2,12 +2,10 @@ import { type FC, lazy } from 'react';
 import { Divider, App, Space } from 'antd';
 import copy from 'copy-to-clipboard';
 import Button from '@/components/Button';
-import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useMemoizedFn } from 'ahooks';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { ProForm, ProFormSelect, ProFormDependency, ProFormItem } from '@ant-design/pro-components';
+import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useAiSdk } from '@/hooks/useAiSdk';
-import SelectButton from '@/components/SelectButton';
-import { modeOptions, positionOptions } from './configs';
 import type { AgentDataType } from '@/typings/agent';
 import { partId, sdkUrl } from '@/env';
 import { renderTpl } from './helper';
@@ -35,9 +33,6 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
   const { message } = App.useApp();
   const [form] = ProForm.useForm<FormDataType>();
 
-  const openMode = ProForm.useWatch('openMode', form) || 'window';
-  const position = ProForm.useWatch('position', form) || 'bottomLeft';
-
   const [lasterAgent] = agents;
 
   const getConfigs = useMemoizedFn(
@@ -52,21 +47,9 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
   const { sdk, target } = useAiSdk({
     clientId,
-    openMode,
+    openMode: 'window',
     ...getConfigs(lasterAgent)
   });
-
-  useUpdateEffect(() => {
-    if (openMode) {
-      sdk?.setOpenMode(openMode);
-    }
-  }, [openMode]);
-
-  useUpdateEffect(() => {
-    if (position) {
-      sdk?.setBubblePosition(position);
-    }
-  }, [position]);
 
   return (
     <div className={styles.container}>
@@ -112,34 +95,22 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
               const code = renderTpl(codeTpl, {
                 sdkUrl,
                 clientId,
-                position,
-                openMode,
+                position: 'bottomRight',
+                openMode: 'window',
                 ...getConfigs(curAgent),
               });
 
               return (
                 <div className={styles.integration_content}>
                   <Space>
-                    <ProFormItem
-                      noStyle
-                      name="openMode"
-                    >
-                      <SelectButton
-                        options={modeOptions}
-                        placeholder="Open Mode"
-                      />
-                    </ProFormItem>
-                    {openMode === 'bubble' && (
-                      <ProFormItem
-                        noStyle
-                        name="position"
-                      >
-                        <SelectButton
-                          options={positionOptions}
-                          placeholder="Bubble direction"
-                        />
-                      </ProFormItem>
-                    )}
+                    <Button
+                      size="small"
+                      children="Copy code"
+                      onClick={() => {
+                        copy(code);
+                        message.success('Successfully copied to clipboard.');
+                      }}
+                    />
                     {!!sdk && (
                       <Button
                         size="small"
@@ -150,14 +121,6 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
                         }}
                       />
                     )}
-                    <Button
-                      size="small"
-                      children="Copy code"
-                      onClick={() => {
-                        copy(code);
-                        message.success('Successfully copied to clipboard.');
-                      }}
-                    />
                   </Space>
                   <div className={styles.code_box}>
                     <SyntaxHighlighter style={dark} language="javascript">

@@ -1,32 +1,28 @@
 import { type FC } from 'react';
-import { Tabs } from 'antd';
 import classNames from 'classnames';
-import { useMemoizedFn, useSafeState } from 'ahooks';
 import PageContainer from '@/components/PageContainer';
 import { ProForm } from '@ant-design/pro-components';
 import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import ShopifyButton from '@/components/Button';
-import { SettingType } from './enum';
-import { useAgentSdk } from './hooks';
-import Appearance from './appearance';
+import { useAiSdk } from '@/hooks/useAiSdk';
 import Preview from './preview';
 import styles from './styles.module.less';
 
+type FormDataType = {
+  openMode: OpenModeType;
+  position: BubblePositionType;
+}
+
 const ThemeEditor: FC = () => {
   const [confirm] = useConfirm();
-  const { agentSdk, targetRef } = useAgentSdk();
-  const [appearanceForm] = ProForm.useForm();
-  const [activeKey, setActiveKey] = useSafeState(SettingType.NORMAL);
+  const [baseForm] = ProForm.useForm<FormDataType>();
 
-  const handleTabChange = useMemoizedFn((tabKey) => {
-    setActiveKey(tabKey);
-    agentSdk?.setOpenMode(
-      tabKey === SettingType.NORMAL ?
-        'bubble' :
-        'window'
-    );
+  const { sdk, target } = useAiSdk({
+    clientId: 'xxx',
+    openMode: 'window',
+    enableEditTheme: true,
   });
 
   useLeavePage((blocker) => {
@@ -38,6 +34,11 @@ const ThemeEditor: FC = () => {
     });
   });
 
+  const contentClassName = classNames(
+    styles.content,
+    !sdk && styles.hide
+  );
+
   return (
     <PageContainer
       fullScreen
@@ -48,43 +49,17 @@ const ThemeEditor: FC = () => {
         </ShopifyButton>
       }
     >
-      <SpinBox loading={!agentSdk}>
-        <div className={styles.container}>
-          <div className={
-            classNames(styles.content, {
-              [styles.hide]: !agentSdk
-            })}
-          >
-            <div className={styles.form}>
-              {agentSdk ? (
-                <Tabs
-                  activeKey={activeKey}
-                  className={styles.tabs}
-                  onChange={handleTabChange}
-                  renderTabBar={() => <span />}
-                  items={[
-                    {
-                      key: SettingType.NORMAL,
-                      label: 'Appearance Settings',
-                      children: (
-                        <Appearance
-                          sdk={agentSdk}
-                          form={appearanceForm}
-                        />
-                      )
-                    }
-                  ]}
-                />
-              ) : null}
-            </div>
+      <div className={styles.container}>
+        <SpinBox loading={!sdk} alpha={0}>
+          <div className={contentClassName}>
             <Preview
-              sdk={agentSdk}
-              ref={targetRef}
-              appearanceForm={appearanceForm}
+              sdk={sdk}
+              ref={target}
+              baseForm={baseForm}
             />
           </div>
-        </div>
-      </SpinBox>
+        </SpinBox>
+      </div>
     </PageContainer>
   );
 }

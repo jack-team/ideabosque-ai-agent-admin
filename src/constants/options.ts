@@ -1,15 +1,15 @@
-export const modeOptions = [
+export const ChatModes = [
   {
     key: 'bubble',
-    label: 'Bubble',
+    label: 'Bubble mode',
   },
   {
     key: 'window',
-    label: 'Window'
+    label: 'Window mode'
   }
 ];
 
-export const positionOptions = [
+export const ChatPositions = [
   {
     key: 'topLeft',
     label: 'Left top',

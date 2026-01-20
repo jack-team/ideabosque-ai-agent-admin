@@ -5,12 +5,9 @@ type ComponentProps = {
 }
 
 const Component: FC<ComponentProps> = () => {
-
   return (
     <div>
-
       222
-
     </div>
   )
 }

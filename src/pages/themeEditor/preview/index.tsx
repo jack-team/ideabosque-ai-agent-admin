@@ -1,56 +1,71 @@
 import { forwardRef } from 'react';
-import { Space, App, Dropdown } from 'antd';
-import { useMemoizedFn } from 'ahooks';
 import copy from 'copy-to-clipboard';
-import { CaretDownOutlined } from '@ant-design/icons'
-import type { FormInstance } from '@ant-design/pro-components';
-import ShopifyButton from '@/components/Button';
+import classNames from 'classnames';
+import { Space, App } from 'antd';
+import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { ProForm, type FormInstance, ProFormText, ProFormItem } from '@ant-design/pro-components';
+import Button from '@/components/Button';
+import SelectButton from '@/components/SelectButton';
 import TriggerModal from '@/components/TriggerModal';
+import { ChatModes, ChatPositions } from '@/constants/options';
 import JsonInput from './jsonInput';
+import Appearance from '../appearance';
+import { useConfirm } from '@/hooks/useConfirm';
 import styles from './styles.module.less';
 
 type PreviewProps = {
   sdk?: AgentSdkInstance;
-  appearanceForm: FormInstance;
+  baseForm: FormInstance;
+}
+
+const initialValues = {
+  openMode: 'window',
+  position: 'bottomRight'
 }
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
-  const { sdk, appearanceForm } = props;
-  const { message, modal } = App.useApp();
+  const { sdk, baseForm } = props;
+  const [confirm] = useConfirm();
+  const { message } = App.useApp();
+  const [actionForm] = ProForm.useForm();
+
+  const openMode = ProForm.useWatch('openMode', actionForm);
+  const position = ProForm.useWatch('position', actionForm);
 
   const copyJson = useMemoizedFn(() => {
-    copy(JSON.stringify(appearanceForm.getFieldsValue(true)));
+    copy(JSON.stringify(baseForm.getFieldsValue(true)));
     message.success('Config Json copied to clipboard.');
   });
 
   const loadJson = useMemoizedFn(
     (data: Record<string, any>) => {
       sdk?.updateThemeConfigs(data);
-      appearanceForm.setFieldsValue(data);
+      baseForm.setFieldsValue(data);
       message.success('JSON loaded successfully.');
     }
   );
 
-  const setOpenMode = useMemoizedFn((mode: OpenModeType) => {
-    sdk?.setOpenMode(mode);
-  })
-
   const resetDefaults = useMemoizedFn(() => {
-    modal.confirm({
+    confirm({
       title: 'Are you sure you want to reset all configuration to defaults?',
-      rootClassName: 'shopify',
-      okButtonProps: {
-        className: 'shopify'
-      },
-      cancelButtonProps: {
-        className: 'shopify'
-      },
-      onOk: () => {
+      onConfirm: () => {
         sdk?.resetThemeConfigs();
-        appearanceForm.resetFields();
+        baseForm.resetFields();
       }
     });
   });
+
+  useUpdateEffect(() => {
+    if (openMode) {
+      sdk?.setOpenMode(openMode);
+    }
+  }, [openMode]);
+
+  useUpdateEffect(() => {
+    if (position) {
+      sdk?.setBubblePosition(position);
+    }
+  }, [position]);
 
   return (
     <div className={styles.container}>
@@ -58,65 +73,63 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         <div className={styles.title}>
           Live Preview
         </div>
-        <Space size={16}>
-          <Dropdown
-            rootClassName="shopify"
-            menu={{
-              items: [
-                {
-                  key: 'bubble',
-                  label: 'Bubble',
-                  onClick: () => setOpenMode('bubble')
-                },
-                {
-                  key: 'window',
-                  label: 'Window',
-                  onClick: () => setOpenMode('window')
-                }
-              ]
-            }}
-          >
-            <ShopifyButton
-              type="primary"
+        <ProForm
+          submitter={false}
+          form={actionForm}
+          initialValues={initialValues}
+        >
+          <Space size={16}>
+            <ProFormItem noStyle name="openMode">
+              <SelectButton
+                size="middle"
+                options={ChatModes}
+                placeholder="Open Mode"
+              />
+            </ProFormItem>
+            <ProFormText hidden name="position" noStyle />
+            <Button onClick={copyJson}>
+              Copy Config Json
+            </Button>
+            <TriggerModal
+              width={800}
+              title="Load Config Json"
+              trigger={<Button>Load Config Json</Button>}
             >
-              <Space>
-                <span>Open Mode</span>
-                <CaretDownOutlined />
-              </Space>
-            </ShopifyButton>
-          </Dropdown>
-          <ShopifyButton
-            type="primary"
-            onClick={copyJson}
-          >
-            Copy Config Json
-          </ShopifyButton>
-          <TriggerModal
-            width={800}
-            title="Load Config Json"
-            trigger={
-              <ShopifyButton type="primary">
-                Load Config Json
-              </ShopifyButton>
-            }
-          >
-            <JsonInput onSave={loadJson} />
-          </TriggerModal>
-          <ShopifyButton
-            danger
-            onClick={resetDefaults}
-          >
-            Reset to Defaults
-          </ShopifyButton>
-        </Space>
+              <JsonInput onSave={loadJson} />
+            </TriggerModal>
+            <Button
+              className="gray-mode"
+              onClick={resetDefaults}
+            >
+              Reset to Defaults
+            </Button>
+          </Space>
+        </ProForm>
       </div>
       <div className={styles.content}>
-        <div className={styles.target}>
+        <div className={styles.actions}>
+          {!!sdk && (
+            <Appearance
+              sdk={sdk}
+              form={baseForm}
+            />
+          )}
+        </div>
+        <div className={classNames(styles.target, styles[openMode])}>
+          <div className={styles.position_mode}>
+            <SelectButton
+              size="middle"
+              value={position}
+              options={ChatPositions}
+              placeholder="Bubble direction"
+              onChange={position => actionForm.setFieldsValue({ position })}
+            />
+          </div>
           <div ref={ref} className={styles.ai_agent} />
         </div>
       </div>
     </div>
-  )
-})
+  );
+});
 
 export default Preview;
