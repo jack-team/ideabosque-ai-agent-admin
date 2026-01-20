@@ -10,7 +10,7 @@ const AppWrapper: FC<PropsWithChildren> = (props) => {
   useMount(appIntsall);
 
   if (loading) {
-    return <Spinner className="spinner" />;
+    return <Spinner className="spinner" type="infinity-spin" />;
   }
 
   return props.children;
