@@ -7,6 +7,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
+//@ts-ignore
 export default defineConfig((config) => {
   const { mode } = config;
   const envDir = './env';
