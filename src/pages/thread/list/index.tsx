@@ -21,6 +21,7 @@ const ThreadList: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Message Threads"
       extra={
         <Button

@@ -50,6 +50,7 @@ const WorkflowTemplates: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="UI Block Groups"
       extra={
         <TriggerModal

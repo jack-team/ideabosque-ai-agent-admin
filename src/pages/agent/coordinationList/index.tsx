@@ -50,6 +50,7 @@ const CoordinationList: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Coordinations"
       extra={
         <TriggerModal

@@ -16,6 +16,7 @@ const AsyncTasks: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Async Tasks"
       onBack={() => navigate(-1)}
     >

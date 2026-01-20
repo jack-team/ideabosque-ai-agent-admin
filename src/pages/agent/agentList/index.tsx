@@ -56,6 +56,7 @@ const AgentList: FC = () => {
   return (
     <PageContainer
       title="Agents"
+      fullScreen
       extra={
         <TriggerModal
           width={800}

@@ -39,6 +39,7 @@ const WorkflowTemplates: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Featured templates"
       onBack={() => navigate(-1)}
       extra={

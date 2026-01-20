@@ -45,6 +45,7 @@ const UiComponentList: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="UI Components"
       onBack={() => navigate(-1)}
       extra={

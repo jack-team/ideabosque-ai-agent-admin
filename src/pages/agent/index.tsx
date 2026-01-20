@@ -6,8 +6,12 @@ import styles from './styles.module.less';
 const Agent: FC = () => {
   return (
     <div className={styles.container}>
-      <AgentList />
-      <CoordinationList />
+      <div className={styles.list}>
+        <AgentList />
+      </div>
+      <div className={styles.list}>
+        <CoordinationList />
+      </div>
     </div>
   );
 }

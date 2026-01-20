@@ -42,6 +42,7 @@ const McpServerList: FC = () => {
 
   return (
     <PageContainer
+      fullScreen
       title="Mcp servers"
       onBack={() => navigate(-1)}
       extra={

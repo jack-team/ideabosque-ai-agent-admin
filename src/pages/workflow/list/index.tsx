@@ -76,6 +76,7 @@ const WorkflowList: FC = () => {
   return (
     <PageContainer
       title="Workflows"
+      fullScreen
       extra={
         <Space>
           <Button

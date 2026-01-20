@@ -1,6 +1,70 @@
 .table {
+  height: 100%;
+
   &:not(:root):fullscreen {
     padding: 36px 24px;
+  }
+
+  &.full_screen {
+    display: flex;
+    flex-direction: column;
+
+    &:global {
+      >.ant-pro-card:not(.ant-pro-table-search) {
+        height: 100%;
+
+        .ant-pro-card-body {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .table_inner {
+      flex: 1;
+      overflow: hidden;
+
+      :global {
+        .ant-table-wrapper {
+          height: 100%;
+
+          .ant-spin-nested-loading,
+          .ant-spin-container {
+            height: 100%;
+          }
+
+          .ant-spin-spinning {
+            --ant-spin-content-height: 100%;
+          }
+
+          .ant-spin-container {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .ant-table {
+            flex: 1;
+            overflow: hidden;
+          }
+
+          .ant-table-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .ant-table-body {
+              flex: 1;
+            }
+          }
+
+          .ant-table-content {
+            height: 100%;
+          }
+        }
+      }
+    }
   }
 
   .table_inner {
@@ -8,14 +72,15 @@
 
     &.spinning_mask_opaque {
       :global {
-        .ant-table-content {
-          height: 300px;
-          overflow: hidden !important;
-        }
-
         .ant-spin-blur {
           &::after {
             opacity: 0;
+          }
+        }
+
+        .ant-table-container {
+          .ant-table-body {
+            overflow: hidden !important;
           }
         }
 
@@ -32,17 +97,18 @@
     }
 
     .ant-spin.ant-spin-spinning {
-      --ant-spin-dot-size: 100px;
+      --ant-spin-dot-size: 140px;
 
       .ant-spin-dot {
         display: flex;
         align-items: center;
-        padding: 20px 0 0 20px;
+        justify-content: center;
       }
     }
 
     .ant-pagination {
-      margin: 16px !important;
+      margin: 0 !important;
+      padding: 16px;
     }
 
     .ant-pro-table-list-toolbar-container {
