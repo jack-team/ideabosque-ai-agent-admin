@@ -22,7 +22,7 @@ export const useTableModel = create(
       });
     }
   }), {
-    name: partId,
+    name: `tables-${partId}`,
     storage: createJSONStorage(() => sessionStorage)
   })
 );

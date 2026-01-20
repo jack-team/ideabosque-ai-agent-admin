@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { workflowListApi } from '@/services/workflow';
 import type { WorkflowDataType } from '@/typings/workflow';
+import { partId } from '@/env';
 
 type WorkflowModelTypes = {
   loading?: boolean;
@@ -24,7 +25,7 @@ export const useWorkflowModel = create(persist<WorkflowModelTypes & WorkflowMode
     }
   }),
   {
-    name: 'workflows',
+    name: `${partId}-workflows`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)
