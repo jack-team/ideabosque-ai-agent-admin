@@ -56,7 +56,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   const onLLMChange = useMemoizedFn((e: LLMDataType) => {
     form.setFieldsValue({
       llmName: e.llmName,
-      configSchema: e.configurationSchema
+      configurationSchema: e.configurationSchema
     });
   });
 
