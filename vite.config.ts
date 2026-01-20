@@ -62,9 +62,7 @@ export default defineConfig((config) => {
             const uis = [
               'antd',
               '@rc-component',
-              '@ant-design/icons',
-              '@shopify/polaris-icons',
-              '@ant-design/pro-components',
+              '@ant-design'
             ];
 
             if (id.includes('node_modules')) {
