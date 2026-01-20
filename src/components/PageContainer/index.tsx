@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import classNames from 'classnames';
 import { ArrowLeftIcon } from '@shopify/polaris-icons';
 import { PageContainer as AntPageContainer, type PageContainerProps } from '@ant-design/pro-components';
-import { withIcon } from '@/components/IconButton'
+import { withIcon } from '@/components/IconButton';
 import styles from './styles.module.less';
 
 type Props = PageContainerProps & {
@@ -10,7 +10,6 @@ type Props = PageContainerProps & {
 }
 
 const BackIcon = withIcon(ArrowLeftIcon);
-
 
 const PageContainer: FC<Props> = (props) => {
   const { fullScreen, children, ...rest } = props;

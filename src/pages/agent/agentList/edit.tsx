@@ -179,9 +179,9 @@ const EditForm: FC<EditFormProps> = (props) => {
         <ProFormDependency name={['flowSnippetVersionUuid', 'mcpServerUuids']}>
           {({ flowSnippetVersionUuid, mcpServerUuids = [] }) => {
             const disabled = !!flowSnippetVersionUuid;
-
+            const _loading = !loading && requestLoading;
             return (
-              <SpinBox loading={!loading && requestLoading}>
+              <SpinBox loading={_loading} alpha={.8}>
                 <ProFormTextArea
                   label="Instructions"
                   name="instructions"

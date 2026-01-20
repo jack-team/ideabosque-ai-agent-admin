@@ -1,6 +1,7 @@
-import { ProTable, ProCard, type ProTableProps } from '@ant-design/pro-components';
 import classNames from 'classnames';
+import { ProTable, type ProTableProps } from '@ant-design/pro-components';
 import Spinner from '../Spinner';
+import TableContent from './content';
 import styles from './styles.module.less';
 
 function Table<D extends Record<string, any> = {}>(props: ProTableProps<D, any>) {
@@ -42,12 +43,19 @@ function Table<D extends Record<string, any> = {}>(props: ProTableProps<D, any>)
       defaultData={defaultData}
       toolBarRender={toolBarRender}
       className={classNames(styles.table, className)}
-      loading={{ indicator: <Spinner className={styles.spinner} /> }}
-      tableViewRender={(_, dom) => {
-        if (search === false && toolBarRender === false) {
-          return <ProCard>{dom}</ProCard>;
-        }
-        return dom;
+      loading={{ indicator: <Spinner type="infinity-spin" /> }}
+      tableViewRender={({ loading, dataSource = [] }, dom) => {
+        const hasCard = search === false && toolBarRender === false;
+        const spinning = typeof loading === 'boolean' ? loading : !!loading?.spinning;
+
+        return (
+          <TableContent
+            dom={dom}
+            hasCard={hasCard}
+            spinning={spinning}
+            total={dataSource.length}
+          />
+        );
       }}
     />
   );

@@ -1,6 +1,6 @@
 import { App } from 'antd';
 import dayjs from 'dayjs';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router';
 import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
@@ -35,6 +35,12 @@ function WorkflowDetail() {
   const { data: workflowData } = useRequest(async () => {
     return workflowApi({ flowSnippetUuid, flowSnippetVersionUuid });
   });
+
+  const lastUpdateText = useMemo(() => {
+    if (!workflowData) return null;
+    const updatedAt = workflowData.updatedAt;
+    return `Last updated on ${dayjs(updatedAt).format('YYYY/MM/DD HH:mm:ss')}`;
+  }, [workflowData]);
 
   // 页面退出提示
   useLeavePage((blocker) => {
@@ -73,26 +79,22 @@ function WorkflowDetail() {
     }
   });
 
-  const getLastUpdate = () => {
-    if (!workflowData) return null;
-    const updatedAt = workflowData.updatedAt;
-    return `Last updated on ${dayjs(updatedAt).format('YYYY/MM/DD HH:mm:ss')}`;
-  }
-
   return (
-    <SpinBox loading={!workflowData}>
-      <PageContainer
-        fullScreen
-        onBack={() => navigate(-1)}
-        title={
-          <Fragment>
-            {workflowData?.flowName || 'Workflow editor'}
+    <PageContainer
+      fullScreen
+      onBack={() => navigate(-1)}
+      title={
+        <Fragment>
+          {workflowData?.flowName || 'Workflow editor'}
+          {!!lastUpdateText && (
             <div className={styles.update_time}>
-              {getLastUpdate()}
+              {lastUpdateText}
             </div>
-          </Fragment>
-        }
-        extra={
+          )}
+        </Fragment>
+      }
+      extra={
+        !!workflowData && (
           <div className={styles.extra}>
             <Button
               type="primary"
@@ -102,18 +104,20 @@ function WorkflowDetail() {
               Save
             </Button>
           </div>
-        }
-      >
-        {workflowData ? (
-          <div className={styles.content}>
+        )
+      }
+    >
+      <div className={styles.content}>
+        <SpinBox loading={!workflowData || submitLoading}>
+          {!!workflowData && (
             <DetailContent
               flow={flow}
               detail={workflowData}
             />
-          </div>
-        ) : null}
-      </PageContainer>
-    </SpinBox>
+          )}
+        </SpinBox>
+      </div>
+    </PageContainer>
   );
 }
 

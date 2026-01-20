@@ -3,13 +3,39 @@
     padding: 36px 24px;
   }
 
-  .spinner {
-    font-size: 32px;
+  .table_inner {
+    width: 100%;
+
+    &.spinning_mask_opaque {
+      :global {
+        .ant-spin-blur {
+          opacity: 1;
+
+          &::after {
+            opacity: 0;
+          }
+        }
+
+        .ant-empty {
+          opacity: 0;
+        }
+      }
+    }
   }
 
   :global {
     .ant-pro-card-body {
       padding: 0;
+    }
+
+    .ant-spin.ant-spin-spinning {
+      --ant-spin-dot-size: 110px;
+
+      .ant-spin-dot {
+        display: flex;
+        align-items: center;
+        padding: 20px 0 0 20px;
+      }
     }
 
     .ant-pagination {

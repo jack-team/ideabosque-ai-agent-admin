@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useMemoizedFn } from 'ahooks';
-import { ExitIcon } from '@shopify/polaris-icons';
+import { ArrowLeftIcon } from '@shopify/polaris-icons';
 import IconButton from '@/components/IconButton';
 import { ReactFlowProvider, useReactFlow } from '@xyflow/react';
 import { useFlowContext, useStepData, useCanvasInctance } from '../hooks';
@@ -44,7 +44,7 @@ const Layer: FC = () => {
       <div className={styles.layer_header}>
         <IconButton
           children="Back"
-          icon={ExitIcon}
+          icon={ArrowLeftIcon}
           onClick={closeLayer}
           className={styles.close_btn}
         />

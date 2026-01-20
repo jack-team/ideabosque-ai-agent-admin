@@ -27,7 +27,12 @@ const DetailContent: FC<DetailContentProps> = ({ flow, detail }) => {
   }, [frp, uiComponents]);
 
   return (
-    <Suspense fallback={<Spinner className="spinner" />}>
+    <Suspense fallback={(
+      <Spinner
+        className="spinner"
+        type="infinity-spin"
+      />
+    )}>
       <FlowCanvas
         flow={flow}
         actions={actions}

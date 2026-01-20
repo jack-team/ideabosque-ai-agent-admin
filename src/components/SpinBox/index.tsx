@@ -11,7 +11,7 @@ type SpinBoxProps = {
 }
 
 const SpinBox: FC<PropsWithChildren<SpinBoxProps>> = (props) => {
-  const { loading = false, alpha = .5 } = props;
+  const { loading = false, alpha = .8 } = props;
 
   return (
     <div className={classNames(styles.spin_box, props.className)}>
@@ -24,7 +24,7 @@ const SpinBox: FC<PropsWithChildren<SpinBoxProps>> = (props) => {
       </div>
       {loading && (
         <div className={styles.spin_mask}>
-          <Spinner />
+          <Spinner type="infinity-spin" />
         </div>
       )}
     </div>

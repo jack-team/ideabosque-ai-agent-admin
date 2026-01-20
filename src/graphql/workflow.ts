@@ -81,14 +81,8 @@ query promptTemplateList(
 `;
 
 export const promptTemplateQuery = `
-query promptTemplate(
-  $promptVersionUuid: String
-  $promptUuid: String
-){
-  promptTemplate(
-    promptVersionUuid: $promptVersionUuid, 
-    promptUuid: $promptUuid
-  ) {
+query promptTemplate($promptVersionUuid: String, $promptUuid: String) {
+  promptTemplate(promptVersionUuid: $promptVersionUuid, promptUuid: $promptUuid) {
     partitionKey
     endpointId
     partId
@@ -103,7 +97,13 @@ query promptTemplate(
     updatedBy
     createdAt
     updatedAt
-    mcpServers
+    mcpServers {
+      mcpServerUuid
+      mcpLabel
+      mcpServerUrl
+      headers
+      tools
+    }
     uiComponents
   }
 }
@@ -177,7 +177,13 @@ query flowSnippet(
       updatedBy
       createdAt
       updatedAt
-      mcpServers
+      mcpServers {
+        mcpServerUuid
+        mcpLabel
+        mcpServerUrl
+        headers
+        tools
+      }
       uiComponents
     }
   }
@@ -228,7 +234,9 @@ mutation insertUpdatePromptTemplate(
       updatedBy
       createdAt
       updatedAt
-      mcpServers
+      mcpServers {
+        mcpServerUuid
+      }
       uiComponents
     }
   }

@@ -35,7 +35,7 @@ const Button: FC<ButtonProps> = (props) => {
         className
       )}
     >
-      {loading && <Spinner className={styles.spinner} />}
+      {loading && <Spinner className={styles.spinner} type="rotating-lines"/>}
       <div className={styles.btn_content}>{children}</div>
     </AntButton>
   )

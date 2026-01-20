@@ -24,7 +24,7 @@ const App: FC = () => {
           <ShopifyNavMenu />
           <AppWrapper>
             <StyledVariables variables={cssVariables} />
-            <Suspense fallback={<Spinner className="spinner" />}>
+            <Suspense fallback={<Spinner className="spinner" type="infinity-spin" />}>
               <RouterProvider router={router} />
             </Suspense>
           </AppWrapper>
