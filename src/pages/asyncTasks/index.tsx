@@ -21,8 +21,9 @@ const AsyncTasks: FC = () => {
     >
       <Table<AsyncTaskDataType>
         pagination={{
-          pageSize: 15
+          defaultPageSize: 15
         }}
+        cacheKey="asyncTasks"
         search={false}
         options={false}
         scroll={{ x: 'max-content' }}

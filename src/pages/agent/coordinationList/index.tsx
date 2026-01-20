@@ -67,6 +67,7 @@ const CoordinationList: FC = () => {
     >
       <Table<CoordinationDataType>
         actionRef={actionRef}
+        cacheKey="coordinationList"
         request={params => {
           return coordinationListApi({
             ...params,

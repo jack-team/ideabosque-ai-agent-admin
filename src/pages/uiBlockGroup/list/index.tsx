@@ -66,6 +66,7 @@ const WorkflowTemplates: FC = () => {
     >
       <Table<WizardGroupResultType>
         rowKey="wizardGroupUuid"
+        cacheKey="uiBlockGroups"
         actionRef={actionRef}
         options={false}
         search={false}

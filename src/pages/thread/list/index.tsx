@@ -33,6 +33,7 @@ const ThreadList: FC = () => {
     >
       <Table<ThreadDataType>
         rowKey="threadUuid"
+        cacheKey="threads"
         options={false}
         search={false}
         pagination={{

@@ -72,6 +72,7 @@ const AgentList: FC = () => {
     >
       <Table<AgentDataType>
         actionRef={actionRef}
+        cacheKey="agentList"
         request={params => {
           return agentListApi({
             ...params,

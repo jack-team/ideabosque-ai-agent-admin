@@ -65,6 +65,7 @@ const McpServerList: FC = () => {
             ...params,
           });
         }}
+        cacheKey="mcpServers"
         rowKey="mcpServerUuid"
         columns={[
           {

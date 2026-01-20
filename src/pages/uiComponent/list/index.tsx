@@ -63,6 +63,7 @@ const UiComponentList: FC = () => {
     >
       <Table<UiComponentDataType>
         actionRef={actionRef}
+        cacheKey="uiComponents"
         request={params => {
           return uiComponentListApi({
             ...params,

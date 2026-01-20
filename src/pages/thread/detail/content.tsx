@@ -6,6 +6,7 @@ import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
 import TriggerModal from '@/components/TriggerModal';
 import EditFrom from './components/EditForm';
+import type { ThreadMessageDataType } from '@/typings/thread';
 import styles from './styles.module.less';
 
 type ThreadDetailContentProps = {
@@ -70,8 +71,9 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
         <ProFormDependency name={['messages']}>
           {({ messages }) => {
             return (
-              <Table<any>
+              <Table<ThreadMessageDataType>
                 search={false}
+                rowKey={(_, i) => `key_${i}`}
                 toolBarRender={false}
                 dataSource={messages}
                 columns={[

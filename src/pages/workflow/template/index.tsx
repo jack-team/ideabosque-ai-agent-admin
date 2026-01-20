@@ -72,6 +72,7 @@ const WorkflowTemplates: FC = () => {
       <Table<PromptTemplateDataType>
         className="shopify"
         rowKey="promptUuid"
+        cacheKey="WorkflowTemplates"
         actionRef={actionRef}
         options={false}
         search={false}

@@ -1,14 +1,23 @@
 import classNames from 'classnames';
+import { useMemoizedFn } from 'ahooks';
 import { ProTable, type ProTableProps } from '@ant-design/pro-components';
 import Spinner from '../Spinner';
 import TableContent from './content';
+import { useTableModel } from './model';
 import styles from './styles.module.less';
 
-function Table<D extends Record<string, any> = {}>(props: ProTableProps<D, any>) {
+type TableProps<D> = Omit<ProTableProps<D, any>, 'defaultData'> & {
+  cacheKey?: string;
+}
+
+function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
+  type RequestArgs = Parameters<NonNullable<TableProps<D>['request']>>;
+  
   const {
+    request,
     className,
+    cacheKey,
     toolBarRender,
-    defaultData = [],
     defaultSize = 'small',
     form = {
       layout: 'horizontal',
@@ -31,6 +40,18 @@ function Table<D extends Record<string, any> = {}>(props: ProTableProps<D, any>)
     ...rest
   } = props;
 
+  const setCacheData = useTableModel(s => s.setTableData);
+
+  const tableData = useTableModel(s => {
+    if (cacheKey) return s.tableDatas[cacheKey];
+  });
+
+  const onRequest = useMemoizedFn(async (...args: RequestArgs) => {
+    const result = await request!(...args);
+    if (cacheKey) setCacheData(cacheKey, result.data);
+    return result;
+  });
+
   return (
     <ProTable
       {...rest}
@@ -38,10 +59,11 @@ function Table<D extends Record<string, any> = {}>(props: ProTableProps<D, any>)
       scroll={scroll}
       search={search}
       options={options}
+      defaultData={tableData}
       pagination={pagination}
       defaultSize={defaultSize}
-      defaultData={defaultData}
       toolBarRender={toolBarRender}
+      request={request ? onRequest : undefined}
       className={classNames(styles.table, className)}
       loading={{ indicator: <Spinner type="infinity-spin" /> }}
       tableViewRender={({ loading, dataSource = [] }, dom) => {
