@@ -2,7 +2,7 @@ import { Space } from 'antd';
 import type { FC } from 'react';
 import { useMemoizedFn } from 'ahooks';
 import { DeleteIcon, EditIcon } from '@shopify/polaris-icons';
-import IconButton, { withIcon } from '@/components/IconButton';
+import { withIcon } from '@/components/IconButton';
 import { useReactFlow } from '@xyflow/react';
 import { useNodeWrapperCtx } from '../../hooks';
 import type { ToolsProps } from './types';
