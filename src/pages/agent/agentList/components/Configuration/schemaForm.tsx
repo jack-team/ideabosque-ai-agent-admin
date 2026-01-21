@@ -21,8 +21,6 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
-    console.log(values);
-    return;
     props.onSubmit?.(values);
   });
 
