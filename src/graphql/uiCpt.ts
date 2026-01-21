@@ -34,7 +34,7 @@ export const uiComponentListQuery = `
 
 export const insertUpdateUiComponentQuery = `
 mutation insertUpdateUiComponent(
-    $parameters: [JSON]
+    $parameters: [JSONCamelCase]
     $tagName: String!
     $uiComponentType: String!
     $uiComponentUuid: String

@@ -120,7 +120,7 @@ export const coordinationQuery = `
 
 export const insertUpdateCoordinationQuery = `
   mutation insertUpdateCoordination(
-    $agents: [JSON]
+    $agents: [JSONCamelCase]
     $coordinationDescription: String
     $coordinationName: String
     $coordinationUuid: String
@@ -155,7 +155,7 @@ export const insertUpdateAgentQuery = `
     $agentName: String
     $agentUuid: String
     $agentVersionUuid: String
-    $configuration: JSON
+    $configuration: JSONCamelCase
     $duplicate: Boolean
     $flowSnippetVersionUuid: String
     $instructions: String
@@ -166,7 +166,7 @@ export const insertUpdateAgentQuery = `
     $status: String
     $toolCallRole: String
     $updatedBy: String!
-    $variables: [JSON]
+    $variables: [JSONCamelCase]
   ){
     insertUpdateAgent(
       agentDescription: $agentDescription

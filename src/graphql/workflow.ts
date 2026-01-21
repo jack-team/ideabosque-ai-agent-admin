@@ -193,7 +193,7 @@ query flowSnippet(
 export const insertUpdatePromptTemplateQuery = `
 mutation insertUpdatePromptTemplate(
     $duplicate: Boolean
-    $mcpServers: [JSON]
+    $mcpServers: [JSONCamelCase]
     $promptDescription: String
     $promptName: String!
     $promptType: String!
@@ -201,9 +201,9 @@ mutation insertUpdatePromptTemplate(
     $promptVersionUuid: String
     $status: String
     $templateContext: String!
-    $uiComponents: [JSON]
+    $uiComponents: [JSONCamelCase]
     $updatedBy: String!
-    $variables: [JSON]
+    $variables: [JSONCamelCase]
 ){
   insertUpdatePromptTemplate(
     duplicate: $duplicate

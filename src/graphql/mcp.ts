@@ -32,7 +32,7 @@ query mcpServerList(
 
 export const insertUpdateMcpServerQuery = `
 mutation insertUpdateMcpServer(
-  $headers: JSON
+  $headers: JSONCamelCase
   $mcpLabel: String!
   $mcpServerUrl: String!
   $mcpServerUuid: String

@@ -72,7 +72,7 @@ export const insertUpdateWizardGroupWithWizardsQl = `
     $wizardGroupDescription: String
     $wizardGroupName: String!
     $wizardGroupUuid: String
-    $wizards: [JSON]!
+    $wizards: [JSONCamelCase]!
   ){
     insertUpdateWizardGroupWithWizards(
       updatedBy: $updatedBy
