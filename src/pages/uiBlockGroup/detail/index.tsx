@@ -69,7 +69,9 @@ const UiBlockGroupDetail: FC = () => {
       message.success('Save successfully.');
     } catch (err) {
       console.error(err);
-      message.success('Save failed.');
+      message.error('Save failed.');
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -86,7 +88,7 @@ const UiBlockGroupDetail: FC = () => {
   const renderAddBlockForm = (button: ReactElement<any>) => {
     return (
       <TriggerModal
-        width={400}
+        width={500}
         trigger={button}
         title="New UI Block"
       >

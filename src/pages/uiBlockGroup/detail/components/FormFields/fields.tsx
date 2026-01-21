@@ -38,7 +38,7 @@ type FieldsProps = {
   editFormTitle: string;
 }
 
-const optionsName = ['option_values'];
+const optionsName = ['optionValues'];
 
 const Fields: FC<FieldsProps> = (props) => {
   const {
@@ -154,8 +154,7 @@ const Fields: FC<FieldsProps> = (props) => {
           </DargCard>
         )
       }}
-    </ProFormDependency >
-
+    </ProFormDependency>
   );
 }
 

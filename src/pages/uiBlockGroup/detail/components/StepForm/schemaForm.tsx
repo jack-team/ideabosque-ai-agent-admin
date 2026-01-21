@@ -16,7 +16,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
 
   const renderItem = (item: AttributeType, schemaName: string[]) => {
     const required = item.required;
-    const type = item.attribute_type;
+    const type = item.attributeType;
     const formName = [...schemaName, 'value'];
     const rules: FormItemProps['rules'] = [];
 
@@ -75,14 +75,14 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       {schema.map(item => {
         const col = +(item.col || 24);
         const schemaName = [name, item.name];
-        const key = [item.group_name, item.name].join('.');
+        const key = [item.groupName, item.name].join('.');
         return (
           <Col key={key} span={col}>
             {renderItem(item, schemaName)}
             <ProFormText
               hidden
               name={[...schemaName, 'type']}
-              initialValue={item.attribute_type}
+              initialValue={item.attributeType}
             />
           </Col>
         );

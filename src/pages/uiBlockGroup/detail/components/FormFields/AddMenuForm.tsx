@@ -25,17 +25,17 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
     })?.realData;
 
     let values: Record<string, any> = {
-      element_uuid: element?.elementUuid,
-      element_title: element?.elementTitle || val
+      elementUuid: element?.elementUuid,
+      elementTitle: element?.elementTitle || val
     }
 
     if (element) {
       values = {
         ...values,
         pattern: element.element,
-        data_type: element.dataType,
-        attribute_type: element.attributeType,
-        option_values: element.optionValues || [],
+        dataType: element.dataType,
+        attributeType: element.attributeType,
+        optionValues: element.optionValues || [],
       }
     }
 
@@ -49,12 +49,12 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
       initialValues={formData}
       style={{ padding: '16px 0 0 0' }}
     >
-      <ProFormText name="element_uuid" hidden />
-      <ProFormText name="element_title" hidden />
-      <ProFormText name="option_values" hidden />
+      <ProFormText name="elementUuid" hidden />
+      <ProFormText name="elementTitle" hidden />
+      <ProFormText name="optionValues" hidden />
       {formData ? (
         <ProFormText
-          name="element_title"
+          name="elementTitle"
           label="Name"
           rules={[{ required: true }]}
           extra={!!formData ? (
@@ -66,7 +66,7 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
         />
       ) : (
         <ProFormSelect
-          name="tag_name"
+          name="tagName"
           label="Name"
           mode="tags"
           showSearch
@@ -76,13 +76,13 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
           fieldProps={{ loading, maxCount: 1 }}
         />
       )}
-      <ProFormDependency name={['element_uuid']}>
-        {({ element_uuid }) => {
-          const disabled = !formData && !!element_uuid;
+      <ProFormDependency name={['elementUuid']}>
+        {({ elementUuid }) => {
+          const disabled = !formData && !!elementUuid;
           return (
             <Fragment>
               <ProFormText
-                name="data_type"
+                name="dataType"
                 label="Data type"
                 disabled={disabled}
                 placeholder="Select data type"
@@ -90,7 +90,7 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
               />
               <ProFormSelect
                 disabled={disabled}
-                name="attribute_type"
+                name="attributeType"
                 label="Attribute type"
                 valueEnum={DataTypeMap}
                 placeholder="Select attribute type"

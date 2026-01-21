@@ -19,7 +19,6 @@ const MoreMenu: FC<StepFormProps> = (props) => {
       <Dropdown
         arrow
         placement="bottomRight"
-        overlayClassName="shopify"
         menu={{
           items: [
             {
@@ -42,7 +41,7 @@ const MoreMenu: FC<StepFormProps> = (props) => {
               label: 'Duplicate step',
               onClick: () => {
                 const data = action.getCurrentRowData();
-                action.add({ ...data, wizard_uuid: undefined }, index + 1);
+                action.add({ ...data, wizardUuid: undefined }, index + 1);
               }
             },
             {
@@ -52,8 +51,8 @@ const MoreMenu: FC<StepFormProps> = (props) => {
               onClick: () => {
                 action.setCurrentRowData({
                   schemaFormData: {},
-                  wizard_title: undefined,
-                  wizard_description: undefined
+                  wizardTitle: undefined,
+                  wizardDescription: undefined
                 });
               }
             },

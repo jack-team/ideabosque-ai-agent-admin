@@ -4,15 +4,15 @@ import FormFields, { type FormFieldsProps } from '../FormFields';
 import AddMenuForm from '../FormFields/AddMenuForm';
 
 const fileds = [
-  'element_title',
-  'element_uuid',
-  'data_type',
-  'attribute_type',
-  'attribute_name',
+  'elementTitle',
+  'elementUuid',
+  'dataType',
+  'attributeType',
+  'attributeName',
   'pattern',
   'placeholder',
   'required',
-  'option_values'
+  'optionValues'
 ];
 
 type MenuItemsProps = {
@@ -27,7 +27,7 @@ const MenuItems: FC<MenuItemsProps> = (props) => {
     <FormFields
       fields={fileds}
       name={props.name}
-      titleField="element_title"
+      titleField="elementTitle"
       actionRef={actionRef}
       EditForm={AddMenuForm}
       addFormTitle="Add menu item"

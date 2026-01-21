@@ -17,8 +17,8 @@ export type AttributeGroupType = {
 }
 
 export type AttributeType = {
-  attribute_type: FormFieldType;
-  group_name: string;
+  attributeType: FormFieldType;
+  groupName: string;
   col: string;
   label?: string;
   name: string;
@@ -31,8 +31,6 @@ export type AttributeType = {
 export type WizardSchemaType = {
   wizardSchemaType: string;
   wizardSchemaName: string;
-  wizard_schema_type: string;
-  wizard_schema_name: string;
   wizardSchemaDescription: string;
   updatedAt: string;
   createdAt: string;
@@ -45,7 +43,7 @@ export type FormListAction = Parameters<
 >[2];
 
 export type SchemaFormDataType = Record<string, {
-  type: AttributeType['attribute_type'];
+  type: AttributeType['attributeType'];
   value?: string | ElementOutputType[];
 }>
 
@@ -62,47 +60,47 @@ export type FormOutputType = {
 }
 
 export type ElementOutputType = {
-  element_title: string;
-  attribute_type: string;
-  attribute_name: string;
-  data_type: string;
-  element_uuid?: string
+  elementTitle: string;
+  attributeType: string;
+  attributeName: string;
+  dataType: string;
+  elementUuid?: string
   pattern?: string;
   placeholder?: string;
   required?: boolean;
-  option_values?: AttrItem[];
+  optionValues?: AttrItem[];
 }
 
 export type WizardElementType = {
   required?: boolean;
   placeholder?: string;
   element: {
-    element_uuid?: string;
+    elementUuid?: string;
     priority: number;
     conditions: OptionType[];
     pattern?: string;
-    data_type: string;
-    element_title: string;
-    attribute_name: string;
-    attribute_type: string;
-    option_values: AttrItem[];
+    dataType: string;
+    elementTitle: string;
+    attributeName: string;
+    attributeType: string;
+    optionValues: AttrItem[];
   }
 }
 
 export type WizardType = {
   priority: number;
-  wizard_title: string;
-  wizard_type: string;
-  wizard_uuid: string;
-  wizard_attributes: AttrItem[];
-  wizard_description: string;
-  wizard_elements: WizardElementType[];
-  wizard_schema: {
-    attribute_groups: AttributeGroupType[];
+  wizardTitle: string;
+  wizardType: string;
+  wizardUuid: string;
+  wizardAttributes: AttrItem[];
+  wizardDescription: string;
+  wizardElements: WizardElementType[];
+  wizardSchema: {
+    attributeGroups: AttributeGroupType[];
     attributes: AttributeType[];
-    wizard_schema_description: string;
-    wizard_schema_name: string;
-    wizard_schema_type: string;
+    wizardSchemaDescription: string;
+    wizardSchemaName: string;
+    wizardSchemaType: string;
   }
 }
 
@@ -116,4 +114,5 @@ export type WizardGroupResultType = {
   wizardGroupUuid: string;
   wizardGroupDescription: string;
   wizards: WizardType[];
+  wizardItems: WizardType[];
 }

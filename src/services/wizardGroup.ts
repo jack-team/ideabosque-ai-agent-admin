@@ -18,7 +18,6 @@ import {
 
 export const wizardGroupListApi = (params: SplitPageParams) => {
   return apiCore.graphql<WizardGroupResultType[]>({
-    camelize: false,
     query: wizardGroupListQuery,
     variables: getSplitPageParams(params)
   });
@@ -29,14 +28,12 @@ export const getWizardGroupApi = (params: {
 }) => {
   return apiCore.graphql<WizardGroupResultType>({
     query: wizardGroupQuery,
-    variables: params,
-    camelize: false
+    variables: params
   });
 }
 
 export const insertUpdateWizardGroupApi = (params: Record<string, any>) => {
   return apiCore.graphql<{ wizardGroup: WizardGroupResultType }>({
-    camelize: false,
     query: insertUpdateWizardGroupQuery,
     variables: params
   });
@@ -44,7 +41,6 @@ export const insertUpdateWizardGroupApi = (params: Record<string, any>) => {
 
 export const insertUpdateWizardGroupWithWizards = (params: Record<string, any>) => {
   return apiCore.graphql<{ wizardGroup: WizardGroupResultType }>({
-    camelize: false,
     query: insertUpdateWizardGroupWithWizardsQl,
     variables: params
   });
@@ -52,14 +48,12 @@ export const insertUpdateWizardGroupWithWizards = (params: Record<string, any>) 
 
 export const getWizardSchemaListApi = () => {
   return apiCore.graphql<WizardSchemaType[]>({
-    query: wizardSchemaListQuery,
-    camelize: false,
+    query: wizardSchemaListQuery
   });
 }
 
 export const getElementsApi = async (params: SplitPageParams) => {
   return apiCore.graphql<WizardElementType[]>({
-    camelize: false,
     query: elementListQuery,
     variables: getSplitPageParams(params)
   });
@@ -69,7 +63,6 @@ export const deleteWizardGroupApi = (params: {
   wizardGroupUuid: string;
 }) => {
   return apiCore.graphql<{}>({
-    camelize: false,
     query: deleteWizardGroupQuery,
     variables: params
   });

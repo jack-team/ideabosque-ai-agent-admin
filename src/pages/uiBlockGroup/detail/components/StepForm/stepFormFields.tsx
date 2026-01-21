@@ -19,22 +19,22 @@ const StepFormFields: FC<StepFormProps> = (props) => {
 
   return (
     <>
-      <ProFormText hidden name="wizard_uuid" />
-      <ProFormText hidden name="wizard_type" />
-      <ProFormText hidden name="wizard_schema_type" />
-      <ProFormText hidden name="wizard_schema_name" />
+      <ProFormText hidden name="wizardUuid" />
+      <ProFormText hidden name="wizardType" />
+      <ProFormText hidden name="wizardSchemaType" />
+      <ProFormText hidden name="wizardSchemaName" />
       <ProFormText
-        name="wizard_title"
+        name="wizardTitle"
         label="Step title"
         rules={[{ required: true }]}
       />
       <ProFormText
-        name="wizard_description"
+        name="wizardDescription"
         label="Step description"
         rules={[{ required: true }]}
       />
       {attributeGroups.map(item => {
-        const schema = attributes.filter(attr => attr.group_name === item.name);
+        const schema = attributes.filter(attr => attr.groupName === item.name);
         const [laster] = schema;
 
         const isRequired = schema.length === 1 && laster.required && !laster.label;

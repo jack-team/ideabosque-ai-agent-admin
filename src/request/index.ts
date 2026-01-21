@@ -1,5 +1,4 @@
 import Axios, { type AxiosInstance, type AxiosResponse, type AxiosError } from 'axios';
-import humps from 'humps';
 import type { BaseRequestOptions, GraphqlPayload, GraphqlResultType, QueryResult } from './types';
 import { ResultError } from './result';
 import { getOperationName } from './helper';
@@ -103,15 +102,7 @@ export class BaseRequest {
       delete data[operation];
       delete data['pageNumber'];
     }
-
-    let processData = data;
-
-    if (camelize) {
-      processData = humps.camelizeKeys(data);
-    }
-
-    console.log('processData:', processData);
-    return processData as QueryResult<D>;
+    return data as QueryResult<D>;
   }
 }
 

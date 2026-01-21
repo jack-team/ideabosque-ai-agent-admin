@@ -192,7 +192,24 @@ export const wizardGroupQuery = `
       updatedBy
       createdAt
       updatedAt
-      wizards
+      wizardItems {
+        wizardUuid
+        wizardTitle
+        wizardDescription
+        wizardType
+        wizardSchemaType
+        wizardSchemaName
+        wizardAttributes
+        priority
+        wizardElements
+        wizardSchema {
+          wizardSchemaType
+          wizardSchemaName
+          wizardSchemaDescription
+          attributes
+          attributeGroups
+        }
+      }
     }
   }
 `;
