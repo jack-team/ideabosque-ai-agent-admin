@@ -5,6 +5,7 @@ import { useNodes, useNodeId, useNodesData, useReactFlow } from '@xyflow/react';
 import { useInstance } from '@/hooks/useInstance';
 import { DefaultTargetId } from './constants';
 import { FlowContext, CanvasContext } from './context';
+import { NodeWrapperContext } from './components/NodeWrapper/context';
 import type { StepNodeFormData } from './nodes/stepNode/types';
 import type { SelectResult } from "./components/SelectNodeDrawer/types";
 import type { FlowInstance, CanvasInstance, NormalNodeType } from './types';
@@ -108,4 +109,8 @@ export function useNodeData<T extends {} = {}>() {
 export function useNodeFormData<T extends {} = {}>() {
   const data = useNodeData<T>();
   return data?.formData;
+}
+
+export const useNodeWrapperCtx = () => {
+  return useContext(NodeWrapperContext);
 }

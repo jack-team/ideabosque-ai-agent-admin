@@ -56,7 +56,6 @@ const AgentList: FC = () => {
   return (
     <PageContainer
       title="Agents"
-      fullScreen
       extra={
         <TriggerModal
           width={800}
@@ -72,6 +71,7 @@ const AgentList: FC = () => {
       }
     >
       <Table<AgentDataType>
+        fullScreen={false}
         actionRef={actionRef}
         cacheKey="agentList"
         request={params => {

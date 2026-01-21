@@ -2,6 +2,10 @@
   --handle-size: 20px;
 }
 
+.wrapper {
+  position: relative;
+}
+
 .wrapper:hover {
   .tools {
     visibility: visible;
@@ -10,11 +14,24 @@
 }
 
 .tools {
-  text-align: center;
+  text-align: left;
   visibility: hidden;
   opacity: 0;
   transition: all .2s linear;
   margin-bottom: 4px;
+
+  .tool_btn {
+    padding: 2px;
+    line-height: 0;
+    cursor: pointer;
+    color: #555;
+    border-radius: 4px;
+    font-size: 18px;
+
+    &:hover {
+      background: rgba(0, 0, 0, .05);
+    }
+  }
 }
 
 .inner {
@@ -25,12 +42,52 @@
   min-width: 90px;
   max-width: 256px;
   position: relative;
+
+  :global {
+    .react-flow__handle {
+      z-index: 2;
+    }
+  }
+
+  .enter_next_wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    .enter_next {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      visibility: hidden;
+      border-radius: 8px;
+      display: flex;
+      opacity: 0;
+      transition: all .2s linear;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, .85);
+    }
+
+    .enter_btn {
+      font-size: 32px;
+      color: var(--primaryColor);
+    }
+
+    &:hover {
+      .enter_next {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
 }
 
 .content {
   overflow: hidden;
   width: 100%;
   padding: 16px 20px;
+  position: relative;
+  z-index: 0;
 }
 
 .handle,
@@ -63,6 +120,7 @@
 .branch {
   min-width: 150px;
   padding-bottom: 6px;
+  position: relative;
 
   .branch_item {
     position: relative;

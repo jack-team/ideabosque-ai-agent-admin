@@ -53,7 +53,13 @@ export const agentDetailQuery = `
         configurationSchema
       } 
       variables
-      mcpServers
+      mcpServers {
+        mcpServerUuid
+        mcpLabel
+        mcpServerUrl
+        headers
+        tools
+      }
       mcpServerUuids
       instructions
       configuration

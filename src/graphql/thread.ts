@@ -67,7 +67,13 @@ query thread($threadUuid: String!) {
       updatedBy
       createdAt
       updatedAt
-      mcpServers
+      mcpServers {
+        mcpServerUuid
+        mcpLabel
+        mcpServerUrl
+        headers
+        tools
+      }
     }
     messages
     toolCalls

@@ -80,7 +80,6 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
       className={classNames(styles.table, fullScreen && styles.full_screen, className)}
       tableViewRender={({ dataSource = [] }, dom) => {
         const hasCard = search === false && toolBarRender === false;
-
         return (
           <TableContent
             dom={dom}

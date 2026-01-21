@@ -23,7 +23,6 @@ export type ToolsType = {
 
 export type NodeWrapperProps = BranchProps & {
   enableHandle?: EnableHandleType;
-  children?: ReactElement | ReactElement[];
   onAddNode?: (formData: SelectFormData) => Promise<void>;
 } & Partial<Omit<ToolsProps, 'nodeId'>>;
 
@@ -47,3 +46,8 @@ export type ToolsProps = {
 export type BranchGroupProps = Pick<SelectNodeDrawerProps, 'onChange'> & {
   id: string;
 }
+
+export type NodeWrapperContextTypes = Partial<{
+  openCanvasDetail: () => void;
+  renderEditForm: (trigger: ReactElement<any>) => ReactElement | null;
+}>;

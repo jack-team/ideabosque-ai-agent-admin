@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import { type FC, type SVGProps, useMemo } from 'react';
 import { Button, type ButtonProps } from 'antd';
 import Icon from '@ant-design/icons';
 import classNames from 'classnames';
@@ -21,7 +21,9 @@ const IconButton: FC<IconButtonProps> = (props) => {
     ...rest
   } = props;
 
-  const Icon = withIcon(icon);
+  const Icon = useMemo(() => {
+    return withIcon(icon);
+  },[icon]);
 
   return (
     <Button

@@ -1,4 +1,7 @@
 body {
+  .node_desc {
+    display: inline-block;
+  }
 
   .title,
   .description {
@@ -9,6 +12,19 @@ body {
     font-size: 14px;
     color: #2ab2d9;
     font-weight: bold;
+
+    .edit_btn {
+      color: var(--primaryColor);
+      display: inline-block;
+      padding: 3px;
+      line-height: 0;
+      border-radius: 4px;
+      margin-left: 4px;
+
+      &:hover {
+        background-color: #f6f6f6;
+      }
+    }
   }
 
   .description {
