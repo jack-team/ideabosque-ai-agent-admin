@@ -34,14 +34,14 @@ const WorkflowTemplates: FC = () => {
       promptUuid,
       promptVersionUuid
     });
-    navigate(`/workflow-template/detail?${query}`);
+    navigate(`/workflow/template/detail?${query}`);
   });
 
   return (
     <PageContainer
       fullScreen
       title="Featured templates"
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/workflow', { replace: true })}
       extra={
         <Space size={16}>
           <Button

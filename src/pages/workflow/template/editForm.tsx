@@ -117,7 +117,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     <SpinBox loading={loading}>
       <PageContainer
         title={detail?.promptName || 'Edit template'}
-        onBack={() => navigate(-1)}
+        onBack={() => navigate('/workflow/template', { replace: true })}
         extra={
           <Button
             type="primary"

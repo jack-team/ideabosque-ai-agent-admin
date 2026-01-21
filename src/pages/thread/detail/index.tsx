@@ -28,7 +28,7 @@ const ThreadDetail: FC = () => {
     <SpinBox loading={loading}>
       <PageContainer
         title={`Thread: ${threadUuid}`}
-        onBack={() => navigate(-1)}
+        onBack={() => navigate('/thread', { replace: true })}
       >
         {!!data && <ThreadDetailContent data={data} />}
       </PageContainer>

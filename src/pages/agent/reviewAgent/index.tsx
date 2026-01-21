@@ -27,7 +27,7 @@ const ReviewAgent: FC = () => {
       <PageContainer
         fullScreen
         title="Agent review"
-        onBack={() => navigate(-1)}
+        onBack={() => navigate('/agent', { replace: true })}
       >
         {agents.length > 0 && (
           <ReviewAgentContent

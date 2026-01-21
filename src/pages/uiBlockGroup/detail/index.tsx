@@ -118,7 +118,7 @@ const UiBlockGroupDetail: FC = () => {
       <PageContainer
         fullScreen
         title={detail?.wizardGroupName}
-        onBack={() => navigate(-1)}
+        onBack={() => navigate('/ui-block-group', { replace: true })}
         extra={
           <Space>
             <Button

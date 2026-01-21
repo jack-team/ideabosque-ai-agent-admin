@@ -67,65 +67,14 @@ export const routes: RouteObject[] = [
       {
         path: '/theme-editor',
         Component: lazy(() => import('./pages/themeEditor'))
-      }, {
-        path: '/agent',
-        Component: lazy(() => import('./pages/agent'))
-      },
-      {
-        path: '/workflow',
-        Component: lazy(() => import('./pages/workflow/list'))
-      },
-      {
-        path: '/workflow/detail',
-        Component: lazy(() => import('./pages/workflow/detail'))
-      },
-      {
-        path: '/workflow-template',
-        Component: lazy(() => import('./pages/workflow/template'))
-      },
-      {
-        path: '/workflow-template/detail',
-        Component: lazy(() => import('./pages/workflow/template/editForm'))
-      },
-      {
-        path: '/mcp-server',
-        Component: lazy(() => import('./pages/mcpServer/list'))
-      },
-      {
-        path: '/ui-component',
-        Component: lazy(() => import('./pages/uiComponent/list'))
-      },
-      {
-        path: '/ui-block-group',
-        Component: lazy(() => import('./pages/uiBlockGroup/list'))
-      },
-      {
-        path: '/ui-block-group/:wizardGroupUuid',
-        Component: lazy(() => import('./pages/uiBlockGroup/detail'))
-      },
-      {
-        path: '/thread',
-        Component: lazy(() => import('./pages/thread/list'))
-      },
-      {
-        path: '/thread/:threadUuid',
-        Component: lazy(() => import('./pages/thread/detail'))
-      },
-      {
-        path: '/async-tasks',
-        Component: lazy(() => import('./pages/asyncTasks'))
-      },
-      {
-        path: '/theme-editor',
-        Component: lazy(() => import('./pages/themeEditor'))
-      },
-      {
-        path: '*',
-        element: <Navigate replace to="/404" />
       },
       {
         path: '/404',
         Component: lazy(() => import('./pages/notFound'))
+      },
+      {
+        path: '*',
+        element: <Navigate replace to="/404" />
       }
     ]
   }

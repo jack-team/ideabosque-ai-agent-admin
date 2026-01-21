@@ -54,6 +54,7 @@ const EditForm: FC<EditFormProps> = (props) => {
         form={form}
         initialValues={workflow}
         submitter={false}
+        style={{ padding: '0 6px'}}
       >
         <ProFormText
           label="Workflow name"

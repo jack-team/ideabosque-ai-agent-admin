@@ -47,7 +47,7 @@ const UiComponentList: FC = () => {
     <PageContainer
       fullScreen
       title="UI Components"
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/workflow/template', { replace: true })}
       extra={
         <TriggerModal
           width={640}

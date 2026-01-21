@@ -18,7 +18,7 @@ const AsyncTasks: FC = () => {
     <PageContainer
       fullScreen
       title="Async Tasks"
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/thread', { replace: true })}
     >
       <Table<AsyncTaskDataType>
         pagination={{
@@ -73,7 +73,7 @@ const AsyncTasks: FC = () => {
               return (
                 <Space>
                   <TriggerModal
-                    width={620}
+                    width={760}
                     hasFooter={false}
                     title="Async Task Details"
                      trigger={<IconButton icon={ViewIcon} />}

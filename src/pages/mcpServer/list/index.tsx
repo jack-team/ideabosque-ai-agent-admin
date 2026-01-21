@@ -44,7 +44,7 @@ const McpServerList: FC = () => {
     <PageContainer
       fullScreen
       title="Mcp servers"
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/workflow/template', { replace: true })}
       extra={
         <TriggerModal
           width={640}

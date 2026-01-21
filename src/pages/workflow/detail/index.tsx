@@ -82,7 +82,7 @@ function WorkflowDetail() {
   return (
     <PageContainer
       fullScreen
-      onBack={() => navigate(-1)}
+      onBack={() => navigate('/workflow', { replace: true })}
       title={
         <Fragment>
           {workflowData?.flowName || 'Workflow editor'}
