@@ -56,6 +56,7 @@ export default defineConfig((config) => {
     },
     build: {
       outDir: 'dist',
+      minify: 'terser',
       terserOptions: {
         compress: {
           drop_console: true,
