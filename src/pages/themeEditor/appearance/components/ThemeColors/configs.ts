@@ -42,7 +42,7 @@ export const DarkTheme = {
   cssVariables: {
     floatBubbleBackground: '#2E2E3A',
     floatBubbleTitleTextColor: '#f2f2f2',
-    floatBubbleDescTextColor: '#ccc',
+    floatBubbleSubTitleTextColor: '#ccc',
     floatBubbleBorderColor: '#2E2E3A',
     floatBubbleBoxShadowColor: '#2E2E3A'
   }
