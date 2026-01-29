@@ -34,13 +34,14 @@ export const useAgentDetail = (params?: {
 //获取模板详情
 export const useTemplateDetail = (
   promptUuid?: string,
-  onSuccess?: SuccessFn<PromptTemplateDataType>
+  onSuccess?: SuccessFn<PromptTemplateDataType>,
+  disabled = false
 ) => useRequest(async () => {
   const result = await promptTemplateDetailApi({ promptUuid });
   onSuccess?.(result);
   return result;
 }, {
-  ready: !!promptUuid,
+  ready: !!promptUuid && !disabled,
   refreshDeps: [promptUuid]
 });
 

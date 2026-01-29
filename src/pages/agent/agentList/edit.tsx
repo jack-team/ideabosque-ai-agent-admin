@@ -50,7 +50,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       instructions: res.templateContext,
       mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid)
     });
-  });
+  }, loading);
 
   const variables = template?.variables || [];
 
