@@ -1,31 +1,38 @@
 import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
-import { useMount, useMemoizedFn } from 'ahooks';
+import { useMemoizedFn, useMount } from 'ahooks';
 import type { LLMDataType } from '@/typings/llm';
 import { useLlmModel } from './model';
 
 export * from './model';
 
-type LLMSelectProps = Omit<SelectProps, 'options'> & {
+type LLMSelectProps = SelectProps & {
+  autoFetch?: boolean;
   onItemChange?: (item: LLMDataType) => void;
 };
 
 const LLMSelect: FC<LLMSelectProps> = (props) => {
-  const { onItemChange, ...reset } = props;
+  const { onItemChange, options = [], autoFetch = true, ...reset } = props;
   const s = useLlmModel();
 
-  useMount(s.fetchData);
+  const _options = s.list.length > 0 ? s.list : options;
 
   const handleChange = useMemoizedFn((val: string, item) => {
     onItemChange?.(item);
     props.onChange?.(val, item);
   });
 
+  useMount(() => {
+    if (autoFetch) {
+      s.fetchData();
+    }
+  });
+
   return (
     <Select
       {...reset}
       allowClear
-      options={s.list}
+      options={_options}
       fieldNames={{
         label: 'llmProvider',
         value: 'llmProvider'
@@ -33,6 +40,11 @@ const LLMSelect: FC<LLMSelectProps> = (props) => {
       loading={s.loading}
       onChange={handleChange}
       placeholder="Please select"
+      onOpenChange={open => {
+        if (open && !autoFetch) {
+          s.fetchData();
+        }
+      }}
     />
   );
 }

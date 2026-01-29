@@ -56,9 +56,9 @@ export const agentDetailQuery = `
       mcpServers {
         mcpServerUuid
         mcpLabel
-        mcpServerUrl
-        headers
-        tools
+        #mcpServerUrl
+        #headers
+        #tools
       }
       mcpServerUuids
       instructions
@@ -70,6 +70,7 @@ export const agentDetailQuery = `
         promptUuid
         flowName
         flowSnippetUuid
+        flowSnippetVersionUuid
       }
     }
   }  

@@ -7,26 +7,33 @@ import { useWorkflowModel } from './model';
 export * from './model';
 
 type LLMSelectProps = SelectProps & {
+  autoFetch?: boolean;
   onItemChange?: (item: WorkflowDataType) => void;
 };
 
 const WorkflowSelect: FC<LLMSelectProps> = (props) => {
-  const { onItemChange, options = [], ...reset } = props;
+  const { onItemChange, options = [], autoFetch = true, ...reset } = props;
 
   const s = useWorkflowModel();
 
-  useMount(s.fetchData);
+  const _options = s.list.length > 0 ? s.list : options;
 
   const handleChange = useMemoizedFn((val: string, item) => {
     onItemChange?.(item);
     props.onChange?.(val, item);
   });
 
+  useMount(() => {
+    if (autoFetch) {
+      s.fetchData();
+    }
+  });
+
   return (
     <Select
       {...reset}
       allowClear
-      options={s.list}
+      options={_options}
       fieldNames={{
         label: 'flowName',
         value: 'flowSnippetVersionUuid'
@@ -34,6 +41,11 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
       loading={s.loading}
       onChange={handleChange}
       placeholder="Please select"
+      onOpenChange={open => {
+        if (open && !autoFetch) {
+          s.fetchData()
+        }
+      }}
     />
   );
 }

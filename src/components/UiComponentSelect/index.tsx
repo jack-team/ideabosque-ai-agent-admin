@@ -7,20 +7,25 @@ import { useUiComponentModel } from './model';
 export * from './model';
 
 type UiComponentSelectProps = SelectProps & {
+  autoFetch?: boolean;
   onItemChange?: (item: UiComponentDataType) => void;
 };
 
 const UiComponentSelect: FC<UiComponentSelectProps> = (props) => {
-  const { onItemChange, options = [], ...reset } = props;
+  const { onItemChange, options = [], autoFetch = true, ...reset } = props;
   const s = useUiComponentModel();
 
-  useMount(s.fetchData);
-
-  const _options = options.length > 0 ? options : s.list;
+  const _options = s.list.length > 0 ? s.list : options;
 
   const handleChange = useMemoizedFn((val: string, item) => {
     onItemChange?.(item);
     props.onChange?.(val, item);
+  });
+
+  useMount(() => {
+    if (autoFetch) {
+      s.fetchData();
+    }
   });
 
   return (
@@ -35,6 +40,11 @@ const UiComponentSelect: FC<UiComponentSelectProps> = (props) => {
       loading={s.loading}
       onChange={handleChange}
       placeholder="Please select"
+      onOpenChange={open => {
+        if (open && !autoFetch) {
+          s.fetchData()
+        }
+      }}
     />
   );
 }

@@ -25,7 +25,7 @@ export const useUiComponentModel = create(persist<UiComponentModeTypes & UiCompo
     }
   }),
   {
-    name: `${partId}-uiComponents`,
+    name: `${partId}-ui-components`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)

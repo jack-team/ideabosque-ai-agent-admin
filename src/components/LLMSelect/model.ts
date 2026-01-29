@@ -16,11 +16,11 @@ type LlmModelMethods = {
 export const useLlmModel = create(persist<LlmModelTypes & LlmModelMethods>(
   (set) => ({
     list: [],
-    loading: true,
+    loading: false,
 
     fetchData: async () => {
       set({ loading: true });
-      const result = await llmListApi({})
+      const result = await llmListApi({});
       set({ list: result.data, loading: false });
     }
   }),

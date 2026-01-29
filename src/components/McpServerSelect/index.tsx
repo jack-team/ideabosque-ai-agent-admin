@@ -7,20 +7,25 @@ import { useMcpServerModel } from './model';
 export * from './model';
 
 type LLMSelectProps = SelectProps & {
+  autoFetch?: boolean;
   onItemChange?: (item: McpServerDataType) => void;
 };
 
 const McpServerSelect: FC<LLMSelectProps> = (props) => {
-  const { onItemChange, options = [], ...reset } = props;
+  const { onItemChange, options = [], autoFetch, ...reset } = props;
   const s = useMcpServerModel();
 
-  useMount(s.fetchData);
-
-  const _options = options.length > 0 ? options : s.list;
+  const _options = s.list.length > 0 ? s.list : options;
 
   const handleChange = useMemoizedFn((val: string, item) => {
     onItemChange?.(item);
     props.onChange?.(val, item);
+  });
+
+  useMount(() => {
+    if (autoFetch) {
+      s.fetchData();
+    }
   });
 
   return (
@@ -35,6 +40,11 @@ const McpServerSelect: FC<LLMSelectProps> = (props) => {
       loading={s.loading}
       onChange={handleChange}
       placeholder="Please select"
+      onOpenChange={open => {
+        if (open && !autoFetch) {
+          s.fetchData()
+        }
+      }}
     />
   );
 }

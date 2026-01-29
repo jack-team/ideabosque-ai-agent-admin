@@ -16,7 +16,7 @@ type WorkflowModelMethods = {
 export const useWorkflowModel = create(persist<WorkflowModelTypes & WorkflowModelMethods>(
   (set) => ({
     list: [],
-    loading: true,
+    loading: false,
 
     fetchData: async () => {
       set({ loading: true });

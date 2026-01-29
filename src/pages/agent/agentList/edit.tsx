@@ -30,13 +30,14 @@ type EditFormProps = {
 }
 
 const EditForm: FC<EditFormProps> = (props) => {
-  const { agent } = props;
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
+  const [agent, setAgent] = useSafeState(props.agent);
   const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
 
   // 获取 Agent 信息，当编辑的时候
   const { loading } = useAgentDetail(agent, (res) => {
+    setAgent(res);
     form.setFieldsValue(agentRecordTransformFormData(res));
   });
 
@@ -116,7 +117,10 @@ const EditForm: FC<EditFormProps> = (props) => {
                 { required: true }
               ]}
             >
-              <LLMSelect onItemChange={onLLMChange} />
+              <LLMSelect
+                autoFetch={false}
+                onItemChange={onLLMChange}
+              />
             </ProFormItem>
           </Col>
           <Col span={12}>
@@ -135,6 +139,7 @@ const EditForm: FC<EditFormProps> = (props) => {
               name="flowSnippetVersionUuid"
             >
               <WorkflowSelect
+                autoFetch={false}
                 onItemChange={e => setPromptUuid(e.promptUuid)}
                 options={agent?.flowSnippet ? [agent?.flowSnippet] : []}
               />
@@ -195,6 +200,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                 >
                   <McpServerSelect
                     mode="multiple"
+                    autoFetch={false}
                     disabled={disabled}
                     options={agent?.mcpServers}
                   />

@@ -16,7 +16,7 @@ type McpServerModelMethods = {
 export const useMcpServerModel = create(persist<McpServerModelTypes & McpServerModelMethods>(
   (set) => ({
     list: [],
-    loading: true,
+    loading: false,
 
     fetchData: async () => {
       set({ loading: true });
@@ -25,7 +25,7 @@ export const useMcpServerModel = create(persist<McpServerModelTypes & McpServerM
     }
   }),
   {
-    name: `${partId}-workflows`,
+    name: `${partId}-mcp-servers`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)
