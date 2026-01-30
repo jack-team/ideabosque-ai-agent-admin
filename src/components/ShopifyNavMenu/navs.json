@@ -21,6 +21,10 @@
     "title": "Message Threads"
   },
   {
+    "path": "/mcp-console",
+    "title": "Mcp Console"
+  },
+  {
     "path": "/theme-editor",
     "title": "Theme Editor"
   }

@@ -27,3 +27,9 @@ export const apiMarketing = new BaseRequest(
   'ai_marketing_graphql', 
   baseConfigs
 );
+
+
+export const mcpCore = new BaseRequest(
+  'mcp_core_graphql',
+  baseConfigs
+);
