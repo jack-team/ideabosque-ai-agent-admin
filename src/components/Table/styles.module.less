@@ -9,16 +9,16 @@
     display: flex;
     flex-direction: column;
 
-    &:global {
-      >.ant-pro-card:not(.ant-pro-table-search) {
+    :global {
+      .ant-pro-card:not(.ant-pro-table-search) {
         height: 100%;
+      }
 
-        .ant-pro-card-body {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
+      .ant-pro-card:not(.ant-pro-table-search)>.ant-pro-card-body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       }
     }
 
@@ -47,6 +47,10 @@
           .ant-table {
             flex: 1;
             overflow: hidden;
+
+            &.ant-table-empty .ant-table-body {
+               display: flex;
+            }
           }
 
           .ant-table-container {
@@ -96,10 +100,6 @@
   }
 
   :global {
-    .ant-pro-table-search {
-      margin-block-end: 0;
-    }
-    
     .ant-pro-card-body {
       padding: 0;
     }

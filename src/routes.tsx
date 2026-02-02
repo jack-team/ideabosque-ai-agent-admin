@@ -65,8 +65,12 @@ export const routes: RouteObject[] = [
         Component: lazy(() => import('./pages/asyncTasks'))
       },
       {
-        path: '/theme-editor',
-        Component: lazy(() => import('./pages/themeEditor'))
+        path: '/theme',
+        Component: lazy(() => import('./pages/themeSetting/list'))
+      },
+       {
+        path: '/theme/detail/:id',
+        Component: lazy(() => import('./pages/themeSetting/detail'))
       },
       {
         path: '/mcp-console',

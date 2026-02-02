@@ -24,12 +24,17 @@ export const apiCoordination = new BaseRequest(
 );
 
 export const apiMarketing = new BaseRequest(
-  'ai_marketing_graphql', 
+  'ai_marketing_graphql',
   baseConfigs
 );
 
 
 export const mcpCore = new BaseRequest(
   'mcp_core_graphql',
+  baseConfigs
+);
+
+export const settingCore = new BaseRequest(
+  'setting_core_graphql',
   baseConfigs
 );

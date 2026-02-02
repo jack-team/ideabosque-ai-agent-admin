@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router';
 import PageContainer from '@/components/PageContainer';
 import { ProForm } from '@ant-design/pro-components';
 import { useLeavePage } from '@/hooks/useLeavePage';
@@ -15,14 +16,15 @@ type FormDataType = {
   position: BubblePositionType;
 }
 
-const ThemeEditor: FC = () => {
+const ThemeDetail: FC = () => {
   const [confirm] = useConfirm();
+  const navigate = useNavigate();
   const [baseForm] = ProForm.useForm<FormDataType>();
 
   const { sdk, target } = useAiSdk({
     clientId: 'xxx',
     openMode: 'window',
-    enableEditTheme: true,
+    enableEditTheme: true
   });
 
   useLeavePage((blocker) => {
@@ -43,6 +45,7 @@ const ThemeEditor: FC = () => {
     <PageContainer
       fullScreen
       title="Theme Editor"
+      onBack={() => navigate('/theme', { replace: true })}
       extra={
         <ShopifyButton type="primary">
           Save
@@ -64,4 +67,4 @@ const ThemeEditor: FC = () => {
   );
 }
 
-export default ThemeEditor;
+export default ThemeDetail;
