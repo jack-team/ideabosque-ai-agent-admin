@@ -23,11 +23,10 @@ const EditForm: FC<EditFormProps> = (props) => {
         ...fromData,
         updatedBy: partId
       });
-      props.onSuccess?.(result);
-      
       if (record) {
         message.success('The theme update was successful.');
       }
+      props.onSuccess?.(result);
       return true;
     } catch (err) {
       message.success(record ? 'Updating theme failed.' : 'Failed to create new theme.');
@@ -51,19 +50,20 @@ const EditForm: FC<EditFormProps> = (props) => {
         initialValue="chatbotTheme"
       />
       <ProFormText
-        label="Theme name"
+        label="Theme title"
+        name="themeTitle"
         rules={[{ required: true }]}
-        name={["setting", "themeName"]}
       />
       <ProFormTextArea
         label="Theme description"
+        name="themeDescription"
         rules={[{ required: true }]}
-        name={["setting", "themeDescription"]}
+
       />
       <ProFormText
         hidden
+        name="setting"
         initialValue={{}}
-        name={["setting", "themeJson"]}
       />
     </ProForm>
   );

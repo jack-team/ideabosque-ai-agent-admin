@@ -5,7 +5,7 @@ export const getVariableConfigs = (configs: AgentSdkVariableConfigType[] = [], p
 }
 
 export const updateFormData = (form: FormInstance, values: Record<string, any>) => {
-  const formData = form.getFieldsValue();
+  const formData = form.getFieldsValue(true);
   const newFormData = Object.keys(formData).reduce((obj, key) => {
     return { ...obj, [key]: { ...formData[key], ...values[key] } }
   }, {} as Record<string, any>);

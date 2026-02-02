@@ -69,7 +69,7 @@ export const routes: RouteObject[] = [
         Component: lazy(() => import('./pages/themeSetting/list'))
       },
        {
-        path: '/theme/detail/:id',
+        path: '/theme/detail/:themeUuid',
         Component: lazy(() => import('./pages/themeSetting/detail'))
       },
       {

@@ -10,33 +10,50 @@ import TriggerModal from '@/components/TriggerModal';
 import { ChatModes, ChatPositions } from '@/constants/options';
 import JsonInput from './jsonInput';
 import Appearance from '../appearance';
+import { updateFormData } from '../helper';
 import { useConfirm } from '@/hooks/useConfirm';
+import type { ThemeEditorProps } from '../types';
 import styles from './styles.module.less';
 
-type PreviewProps = {
+type PreviewProps = ThemeEditorProps & {
   sdk?: AgentSdkInstance;
   baseForm: FormInstance;
-}
-
-const initialValues = {
-  openMode: 'window',
-  position: 'bottomRight'
+  actionForm: FormInstance;
 }
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
-  const { sdk, baseForm } = props;
+  const { sdk, baseForm, actionForm, themeData } = props;
   const [confirm] = useConfirm();
   const { message } = App.useApp();
-  const [actionForm] = ProForm.useForm();
 
   const openMode = ProForm.useWatch('openMode', actionForm);
   const position = ProForm.useWatch('position', actionForm);
 
+  // 获取默认主题值
+  const getDefaultTheme = useMemoizedFn(() => {
+    const { chat, bubble } = sdk!.variables;
+    return {
+      uiVariables: bubble.GlobalUiVariables,
+      cssVariables: bubble.GlobalCssVariables,
+      chatUiVariables: chat.GlobalUiVariables,
+      chatCssVariables: chat.GlobalCssVariables
+    }
+  });
+
+  // 设置默认主题值
+  const setDefaultTheme = useMemoizedFn(() => {
+    const theme = getDefaultTheme();
+    updateFormData(baseForm, theme);
+    sdk!.updateThemeConfigs(theme);
+  });
+
+  // 复制主题 Json
   const copyJson = useMemoizedFn(() => {
     copy(JSON.stringify(baseForm.getFieldsValue(true)));
     message.success('Config Json copied to clipboard.');
   });
 
+  // 加载主题 Json
   const loadJson = useMemoizedFn(
     (data: Record<string, any>) => {
       sdk?.updateThemeConfigs(data);
@@ -45,26 +62,20 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     }
   );
 
+  // 重置主题到默认主题
   const resetDefaults = useMemoizedFn(() => {
     confirm({
       title: 'Are you sure you want to reset all configuration to defaults?',
-      onConfirm: () => {
-        sdk?.resetThemeConfigs();
-        baseForm.resetFields();
-      }
+      onConfirm: () => setDefaultTheme()
     });
   });
 
   useUpdateEffect(() => {
-    if (openMode) {
-      sdk?.setOpenMode(openMode);
-    }
+    if (openMode) sdk?.setOpenMode(openMode);
   }, [openMode]);
 
   useUpdateEffect(() => {
-    if (position) {
-      sdk?.setBubblePosition(position);
-    }
+    if (position) sdk?.setBubblePosition(position);
   }, [position]);
 
   return (
@@ -76,7 +87,10 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         <ProForm
           submitter={false}
           form={actionForm}
-          initialValues={initialValues}
+          initialValues={{
+            openMode: themeData.openMode,
+            position: themeData.position
+          }}
         >
           <Space size={16}>
             <ProFormItem noStyle name="openMode">
@@ -112,6 +126,9 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             <Appearance
               sdk={sdk}
               form={baseForm}
+              setDefaultTheme={setDefaultTheme}
+              getDefaultTheme={getDefaultTheme}
+              defaultBasicTheme={themeData.basic}
             />
           )}
         </div>

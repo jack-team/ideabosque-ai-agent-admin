@@ -1,6 +1,6 @@
 import { type FC, useRef, Fragment } from 'react';
 import { useMemoizedFn } from 'ahooks';
-import { type MenuProps, Dropdown } from 'antd';
+import { type MenuProps, Dropdown, App } from 'antd';
 import { type ActionType } from '@ant-design/pro-components';
 import Button from '@/components/Button';
 import { useNavigate } from 'react-router';
@@ -11,7 +11,8 @@ import Table from '@/components/Table';
 import TriggerModal from '@/components/TriggerModal';
 import EditForm from './edit';
 import { formatDate } from '@/utils';
-import { getThemeSettingListApi } from '@/services/themeSetting';
+import type { ThemeSettingDataType } from '@/typings/themeSetting';
+import { getThemeSettingListApi, deleteThemeSettingApi } from '@/services/themeSetting';
 
 const WEditIcon = withIcon(EditIcon);
 const WDeleteIcon = withIcon(DeleteIcon);
@@ -19,11 +20,33 @@ const WAlertCircleIcon = withIcon(AlertCircleIcon);
 
 const ThemeSettings: FC = () => {
   const navigate = useNavigate();
+  const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
     actionRef.current?.reloadAndRest?.();
   });
+
+  const handleArchive = useMemoizedFn(
+    (record: ThemeSettingDataType) => {
+      modal.confirm({
+        title: 'Are you sure you want to delete?',
+        okText: 'Delete',
+        onOk: async () => {
+          try {
+            await deleteThemeSettingApi({
+              themeUuid: record.themeUuid
+            });
+            onRefresh();
+            message.success('Deletion successful.');
+          } catch (err) {
+            message.error('Deletion failed.');
+            return Promise.reject(err);
+          }
+        }
+      });
+    }
+  );
 
   return (
     <PageContainer
@@ -50,18 +73,12 @@ const ThemeSettings: FC = () => {
         request={getThemeSettingListApi}
         columns={[
           {
-            key: 'themeName',
-            title: 'Theme name',
-            render: (_, record) => {
-              return record.setting.themeName;
-            }
+            dataIndex: 'themeTitle',
+            title: 'Theme name'
           },
           {
-            key: 'themeDescription',
-            title: 'Theme description',
-            render: (_, record) => {
-              return record.setting.themeDescription;
-            }
+            dataIndex: 'themeDescription',
+            title: 'Theme description'
           },
           {
             dataIndex: 'updatedAt',
@@ -97,9 +114,7 @@ const ThemeSettings: FC = () => {
                   key: 'delete',
                   label: 'Delete',
                   icon: <WDeleteIcon />,
-                  onClick: () => {
-
-                  }
+                  onClick: () => handleArchive(record)
                 }
               ];
               return (

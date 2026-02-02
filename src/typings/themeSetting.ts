@@ -1,8 +1,18 @@
+type DefaultThemeData = Record<
+  'basic' | 'components',
+  Record<string, any>
+>;
+
+export type SettingDataType = DefaultThemeData & {
+  openMode: OpenModeType;
+  position: BubblePositionType;
+}
+
 export type ThemeSettingDataType = {
+  setting: SettingDataType;
+  themeTitle: string;
+  themeDescription: string;
   createdAt: string;
-  updatedBy: string;
   updatedAt: string;
   themeUuid: string;
-  themeType: string;
-  setting: Record<string, any>;
 }

@@ -1,66 +1,72 @@
-import { type FC } from 'react';
-import classNames from 'classnames';
-import { useNavigate } from 'react-router';
+import { type FC, useRef } from 'react';
+import { App } from 'antd';
+import { useRequest, useMemoizedFn, useSafeState } from 'ahooks';
+import { useNavigate, useParams } from 'react-router';
 import PageContainer from '@/components/PageContainer';
-import { ProForm } from '@ant-design/pro-components';
-import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import ShopifyButton from '@/components/Button';
-import { useAiSdk } from '@/hooks/useAiSdk';
-import Preview from './preview';
+import ThemeEditor from '../themeEditor';
+import type { ThemeEditorActionType } from '../themeEditor/types';
+import { getThemeSettingApi, insertUpdateThemeSettingApi } from '@/services/themeSetting';
+import { partId } from '@/env';
 import styles from './styles.module.less';
 
-type FormDataType = {
-  openMode: OpenModeType;
-  position: BubblePositionType;
-}
-
 const ThemeDetail: FC = () => {
-  const [confirm] = useConfirm();
   const navigate = useNavigate();
-  const [baseForm] = ProForm.useForm<FormDataType>();
+  const { message } = App.useApp();
+  const [submiting, setSubmiting] = useSafeState(false);
+  const actionRef = useRef<ThemeEditorActionType>(null);
+  const { themeUuid } = useParams<{ themeUuid: string }>();
 
-  const { sdk, target } = useAiSdk({
-    clientId: 'xxx',
-    openMode: 'window',
-    enableEditTheme: true
+  const {
+    data,
+    loading,
+  } = useRequest(async () => {
+    return getThemeSettingApi({
+      themeUuid: themeUuid!
+    })
   });
 
-  useLeavePage((blocker) => {
-    confirm({
-      okText: 'Yes',
-      title: 'Are you sure you want to leave?',
-      content: 'The data on this page will be lost after leaving.',
-      onConfirm: () => blocker.proceed()
-    });
-  });
+  const handleSave = useMemoizedFn(async () => {
+    setSubmiting(true);
+    try {
+      await insertUpdateThemeSettingApi({
+        updatedBy: partId,
+        themeUuid: themeUuid!,
+        themeType: 'chatbotTheme',
+        setting: actionRef.current?.getThemeData()
+      });
+      message.success('The theme update was successful.');
+    } catch (err) {
 
-  const contentClassName = classNames(
-    styles.content,
-    !sdk && styles.hide
-  );
+    }
+    setSubmiting(false);
+  });
 
   return (
     <PageContainer
       fullScreen
-      title="Theme Editor"
+      title={data?.themeTitle || 'Theme Editor'}
       onBack={() => navigate('/theme', { replace: true })}
       extra={
-        <ShopifyButton type="primary">
+        <ShopifyButton
+          type="primary"
+          onClick={handleSave}
+          loading={submiting}
+        >
           Save
         </ShopifyButton>
       }
     >
       <div className={styles.container}>
-        <SpinBox loading={!sdk} alpha={0}>
-          <div className={contentClassName}>
-            <Preview
-              sdk={sdk}
-              ref={target}
-              baseForm={baseForm}
+        <SpinBox loading={loading} alpha={0}>
+          {data ? (
+            <ThemeEditor
+              ref={actionRef}
+              themeData={data.setting}
             />
-          </div>
+          ) : null}
         </SpinBox>
       </div>
     </PageContainer>

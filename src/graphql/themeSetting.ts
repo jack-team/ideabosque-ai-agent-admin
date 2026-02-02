@@ -71,3 +71,11 @@ query themeSetting($themeUuid: String!) {
   }
 }
 `;
+
+export const deleteThemeSettingQuery = `
+mutation deleteThemeSetting($themeUuid: String!) {
+  deleteThemeSetting(themeUuid: $themeUuid) {
+    ok
+  }
+}
+`;
