@@ -21,5 +21,5 @@ export const installBaseUrl = `${installApiUrl}/beta/core/${endpointId}`;
 export const sdkVersion = import.meta.env.ENV_AI_SDK_VERSION;
 
 //Ai sdk url
-export const sdkUrl = `${import.meta.env.ENV_AI_SDK_URL}/sdk.iife.js?v=${sdkVersion}`;
+export const sdkUrl = `${import.meta.env.ENV_AI_SDK_URL}/sdk-${sdkVersion}.iife.js`;
 

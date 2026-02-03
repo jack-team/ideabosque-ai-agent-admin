@@ -1,19 +1,14 @@
   <script type="text/javascript" src="{{sdkUrl}}"></script> 
-  <div id="chat-bot-{{openMode}}"></div>  
+  <div id="chat-bot"></div>  
                     
   <script type="text/javascript">  
     document.addEventListener('DOMContentLoaded', function() {
-      // {{openMode}} Mode
       const chat = AiChatSdk.createChat({
-        openMode: "{{openMode}}",
-        target: "#chat-bot-{{openMode}}",
-        position: "{{position}}"
-        clientId: "{{clientId}}",
+        target: "#chat-bot",
         configs: {
-          userId: "{{userId}}",
-          endpointId: "{{endpointId}}",
+          userId: "{{partId}}",
+          partId: "{{partId}}",
           agent: "{{agent}}",
-          agentName: "{{agentName}}",
           coordination: "{{coordination}}"    
         }
       });

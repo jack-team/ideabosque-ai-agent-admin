@@ -2,12 +2,11 @@ import { type FC, lazy } from 'react';
 import { Divider, App, Space } from 'antd';
 import copy from 'copy-to-clipboard';
 import Button from '@/components/Button';
-import { useMemoizedFn } from 'ahooks';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useAiSdk } from '@/hooks/useAiSdk';
 import type { AgentDataType } from '@/typings/agent';
-import { partId, sdkUrl } from '@/env';
+import { sdkUrl, partId } from '@/env';
 import { renderTpl } from './helper';
 import styles from './styles.module.less';
 import codeTpl from './code_tpl.txt?raw';
@@ -25,30 +24,20 @@ type FormDataType = {
   position: BubblePositionType;
 }
 
-const clientId = 'xxxxxx';
 const $body = document.body;
 
 const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
   const { agents, coordinationUuid } = props;
   const { message } = App.useApp();
   const [form] = ProForm.useForm<FormDataType>();
-
   const [lasterAgent] = agents;
 
-  const getConfigs = useMemoizedFn(
-    (agent: AgentDataType) => ({
-      userId: partId,
-      endpointId: partId,
-      agent: agent.agentUuid,
-      agentName: agent.agentName,
-      coordination: coordinationUuid
-    })
-  );
-
   const { sdk, target } = useAiSdk({
-    clientId,
     openMode: 'window',
-    ...getConfigs(lasterAgent)
+    configs: {
+      coordination: coordinationUuid,
+      agent: lasterAgent.agentUuid,
+    }
   });
 
   return (
@@ -75,8 +64,10 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
               value: 'agentUuid'
             }
           }}
-          onChange={async (_, o: AgentDataType) => {
-            const result = await sdk?.updateChatConfigs(getConfigs(o));
+          onChange={async (val) => {
+            const result = await sdk?.updateChatConfigs({
+              agent: val
+            });
             if (result && sdk) sdk.resultData = result;
           }}
         />
@@ -94,10 +85,9 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
               const code = renderTpl(codeTpl, {
                 sdkUrl,
-                clientId,
-                position: 'bottomRight',
-                openMode: 'window',
-                ...getConfigs(curAgent),
+                partId,
+                agent,
+                coordination: coordinationUuid
               });
 
               return (

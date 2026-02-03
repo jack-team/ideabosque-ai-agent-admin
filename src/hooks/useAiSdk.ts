@@ -1,38 +1,44 @@
 import { useRef } from 'react';
 import { useMount, useUnmount, useMemoizedFn, useSafeState } from 'ahooks';
+import { partId } from '@/env';
 
-type DefaultConfigs = {
-  clientId: string;
-  openMode: OpenModeType;
-  enableEditTheme?: boolean;
+type DefaultOptions = {
+  openMode?: OpenModeType;
   position?: BubblePositionType;
+  configs?: {
+    agent: string;
+    question?: string;
+    coordination: string;
+  }
 }
 
-export const useAiSdk = (configs: DefaultConfigs) => {
+export const useAiSdk = (options: DefaultOptions) => {
   const target = useRef<HTMLDivElement>(null);
   const [sdk, setSdk] = useSafeState<AgentSdkInstance>();
 
   const createSdk = useMemoizedFn(async () => {
-    const {
-      openMode,
-      clientId,
-      enableEditTheme,
-      position = 'bottomRight',
-      ...rest
-    } = configs;
+    const { openMode, position, configs } = options;
 
-    const sdk = AiChatSdk.createChat({
-      openMode,
-      clientId,
-      position,
-      configs: rest,
-      enableEditTheme,
-      target: target.current!
-    });
+    const createChatOptions: Record<string, any> = {
+      target: target.current!,
+      defaultOpenMode: openMode,
+      defaultPosition: position,
+    }
+
+    if (configs) {
+      createChatOptions.configs = {
+        partId,
+        userId: partId,
+        ...configs
+      }
+    }
+
+    const sdk = AiChatSdk.createChat(createChatOptions);
 
     const data = await sdk.init();
     sdk.resultData = data;
     sdk.variables = data.data;
+
     setSdk(sdk);
   });
 
