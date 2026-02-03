@@ -12,7 +12,7 @@ import styles from './styles.module.less';
 type AppearanceProps = {
   sdk: AgentSdkInstance;
   form: FormInstance;
-  setDefaultTheme: () => void;
+  resetDefaults: () => void;
   defaultBasicTheme?: Record<string, any>;
   getDefaultTheme: () => Record<string, any>;
 }
@@ -22,7 +22,6 @@ const Appearance: FC<AppearanceProps> = (props) => {
     sdk,
     form,
     defaultBasicTheme,
-    setDefaultTheme,
     getDefaultTheme
   } = props;
 
@@ -57,7 +56,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
         <ThemeColors
           sdk={sdk}
           form={form}
-          setDefaultTheme={setDefaultTheme}
+          resetDefaults={props.resetDefaults}
         />
         <ThemeIcons sdk={sdk} />
         <ThemeTexts sdk={sdk} />

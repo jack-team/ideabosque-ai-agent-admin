@@ -3,7 +3,6 @@ import { App } from 'antd';
 import { useRequest, useMemoizedFn, useSafeState } from 'ahooks';
 import { useNavigate, useParams } from 'react-router';
 import PageContainer from '@/components/PageContainer';
-import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import ShopifyButton from '@/components/Button';
 import ThemeEditor from '../themeEditor';
@@ -25,7 +24,7 @@ const ThemeDetail: FC = () => {
   } = useRequest(async () => {
     return getThemeSettingApi({
       themeUuid: themeUuid!
-    })
+    });
   });
 
   const handleSave = useMemoizedFn(async () => {
@@ -37,39 +36,40 @@ const ThemeDetail: FC = () => {
         themeType: 'chatbotTheme',
         setting: actionRef.current?.getThemeData()
       });
-      message.success('The theme update was successful.');
+      message.success('Theme updated successfully.');
     } catch (err) {
-
+      message.error('Failed to update the theme.');
     }
     setSubmiting(false);
   });
 
   return (
-    <PageContainer
-      fullScreen
-      title={data?.themeTitle || 'Theme Editor'}
-      onBack={() => navigate('/theme', { replace: true })}
-      extra={
-        <ShopifyButton
-          type="primary"
-          onClick={handleSave}
-          loading={submiting}
-        >
-          Save
-        </ShopifyButton>
-      }
-    >
-      <div className={styles.container}>
-        <SpinBox loading={loading} alpha={0}>
+    <SpinBox loading={loading} alpha={.5}>
+      <PageContainer
+        fullScreen
+        title={'Theme Editor'}
+        subTitle={data?.themeTitle ? `(${data?.themeTitle})` : null}
+        onBack={() => navigate('/theme', { replace: true })}
+        extra={
+          <ShopifyButton
+            type="primary"
+            onClick={handleSave}
+            loading={submiting}
+          >
+            Save
+          </ShopifyButton>
+        }
+      >
+        <div className={styles.container}>
           {data ? (
             <ThemeEditor
               ref={actionRef}
               themeData={data.setting}
             />
           ) : null}
-        </SpinBox>
-      </div>
-    </PageContainer>
+        </div>
+      </PageContainer>
+    </SpinBox>
   );
 }
 

@@ -29,24 +29,6 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const openMode = ProForm.useWatch('openMode', actionForm);
   const position = ProForm.useWatch('position', actionForm);
 
-  // 获取默认主题值
-  const getDefaultTheme = useMemoizedFn(() => {
-    const { chat, bubble } = sdk!.variables;
-    return {
-      uiVariables: bubble.GlobalUiVariables,
-      cssVariables: bubble.GlobalCssVariables,
-      chatUiVariables: chat.GlobalUiVariables,
-      chatCssVariables: chat.GlobalCssVariables
-    }
-  });
-
-  // 设置默认主题值
-  const setDefaultTheme = useMemoizedFn(() => {
-    const theme = getDefaultTheme();
-    updateFormData(baseForm, theme);
-    sdk!.updateThemeConfigs(theme);
-  });
-
   // 复制主题 Json
   const copyJson = useMemoizedFn(() => {
     copy(JSON.stringify(baseForm.getFieldsValue(true)));
@@ -62,11 +44,26 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     }
   );
 
+  // 获取默认主题值
+  const getDefaultTheme = useMemoizedFn(() => {
+    const { chat, bubble } = sdk!.variables;
+    return {
+      uiVariables: bubble.GlobalUiVariables,
+      cssVariables: bubble.GlobalCssVariables,
+      chatUiVariables: chat.GlobalUiVariables,
+      chatCssVariables: chat.GlobalCssVariables
+    }
+  });
+
   // 重置主题到默认主题
   const resetDefaults = useMemoizedFn(() => {
     confirm({
       title: 'Are you sure you want to reset all configuration to defaults?',
-      onConfirm: () => setDefaultTheme()
+      onConfirm: () => {
+        const theme = getDefaultTheme();
+        updateFormData(baseForm, theme);
+        sdk!.updateThemeConfigs(theme);
+      }
     });
   });
 
@@ -126,7 +123,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             <Appearance
               sdk={sdk}
               form={baseForm}
-              setDefaultTheme={setDefaultTheme}
+              resetDefaults={resetDefaults}
               getDefaultTheme={getDefaultTheme}
               defaultBasicTheme={themeData.basic}
             />

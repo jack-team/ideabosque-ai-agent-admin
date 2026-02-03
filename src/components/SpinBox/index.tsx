@@ -1,7 +1,6 @@
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren, CSSProperties } from 'react';
 import classNames from 'classnames';
 import Spinner from '../Spinner';
-import StyledVariables from '../StyledVariables';
 import styles from './styles.module.less';
 
 type SpinBoxProps = {
@@ -12,13 +11,15 @@ type SpinBoxProps = {
 
 const SpinBox: FC<PropsWithChildren<SpinBoxProps>> = (props) => {
   const { loading = false, alpha = .8 } = props;
-
+  const cssStyle = { '--alpha': alpha } as CSSProperties;
   return (
-    <div className={classNames(styles.spin_box, props.className)}>
-      <StyledVariables
-        variables={{ alpha }}
-        namespace={styles.spin_box}
-      />
+    <div
+      style={cssStyle}
+      className={classNames(
+        styles.spin_box,
+        props.className
+      )}
+    >
       <div className={styles.spin_box_content}>
         {props.children}
       </div>

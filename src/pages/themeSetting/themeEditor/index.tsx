@@ -31,6 +31,7 @@ const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, 
     return { ...rest, openMode, position };
   }, [themeData]);
 
+  // 初始化 Sdk
   const { sdk, target } = useAiSdk({
     clientId: 'xxx',
     enableEditTheme: true,
