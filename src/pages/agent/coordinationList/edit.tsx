@@ -1,4 +1,4 @@
-import { type FC, useMemo } from 'react';
+import { type FC } from 'react';
 import { App } from 'antd';
 import { useRequest } from 'ahooks';
 
