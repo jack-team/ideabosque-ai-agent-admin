@@ -6,7 +6,9 @@
   "scripts": {
     "r:local": "vite",
     "r:prod": "vite --mode=production",
+    "r:staging": "vite --staging",
     "build:prod": "tsc -b && vite build --mode=production",
+    "build:staging": "tsc -b && vite build --mode=staging",
     "lint": "eslint .",
     "preview": "vite preview"
   },
