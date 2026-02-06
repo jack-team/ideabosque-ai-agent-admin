@@ -2,6 +2,7 @@ import type { AgentDataType } from './agent';
 
 export type ThreadMessageDataType = {
   createdAt: string;
+  msgId: string;
   message: {
     content: string;
     role: 'user' | 'assistant';

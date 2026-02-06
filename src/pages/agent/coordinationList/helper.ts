@@ -1,12 +1,9 @@
+import { partId } from '@/env';
 import type { CoordinationDataType, AgentDataType } from '@/typings/agent';
 
 export const coordinationTransformFormData = (coordination: CoordinationDataType) => {
   const { agents, ...rest } = coordination;
-  
-  return {
-    ...rest,
-    agentUuids: agents.map(e => e.agentUuid)
-  };
+  return { ...rest, agentUuids: agents.map(e => e.agentUuid) };
 }
 
 type ParamsType = {
@@ -15,13 +12,14 @@ type ParamsType = {
 }
 
 export const formDataTransfromParams = (
-  params: ParamsType, 
+  params: ParamsType,
   agentList: AgentDataType[] = []
 ) => {
   const { agentUuids, ...rest } = params;
 
   const agents = agentUuids.map(uuid => {
     const agent = agentList.find(e => e.agentUuid === uuid);
+
     if (agent) {
       return {
         agentName: agent.agentName,
@@ -34,6 +32,6 @@ export const formDataTransfromParams = (
   return {
     ...rest,
     agents,
-    updatedBy: 'Admin'
+    updatedBy: partId
   };
 }

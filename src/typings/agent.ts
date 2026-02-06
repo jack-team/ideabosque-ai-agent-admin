@@ -2,6 +2,7 @@ import type { StatusType } from './common';
 import type { WorkflowDataType } from './workflow';
 import type { LLMDataType } from './llm';
 import type { McpServerDataType } from './mcp';
+import type { ThemeSettingDataType } from './themeSetting';
 
 export type AgentDataType = {
   agentUuid: string;
@@ -31,4 +32,6 @@ export type CoordinationDataType = {
   updatedAt: string;
   updatedBy: string;
   agents: AgentDataType[];
+  themeUuid: string;
+  theme: ThemeSettingDataType;
 }

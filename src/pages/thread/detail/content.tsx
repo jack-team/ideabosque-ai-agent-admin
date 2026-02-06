@@ -74,7 +74,7 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
               <Table<ThreadMessageDataType>
                 search={false}
                 fullScreen={false}
-                rowKey={(_, i) => `key_${i}`}
+                rowKey="msgId"
                 toolBarRender={false}
                 dataSource={messages}
                 scroll={{ x: 'auto' }}

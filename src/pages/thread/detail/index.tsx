@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import * as uuid from 'uuid';
 import { useRequest } from 'ahooks';
 import SpinBox from '@/components/SpinBox';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -12,9 +13,12 @@ const ThreadDetail: FC = () => {
 
   const { loading, data } = useRequest(async () => {
     const thread = await threadApi({ threadUuid: threadUuid! });
-    const messages = (thread.messages || []) as any[];
-    const totalTokensUsed = messages.reduce((acc, { message }) => {
-      return acc + (message.run.total_tokens || 0)
+
+    const messages = thread?.messages?.map(item =>
+      ({ ...item, msgId: uuid.v4() })) || [];
+
+    const totalTokensUsed = messages.reduce((acc, item) => {
+      return acc + (item?.message?.run?.totalTokens || 0)
     }, 0);
 
     return {

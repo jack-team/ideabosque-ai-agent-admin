@@ -1,5 +1,6 @@
-import { type FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { App } from 'antd';
+import { useRequest } from 'ahooks';
 
 import {
   ProForm,
@@ -13,6 +14,7 @@ import { StatusEnum } from '@/constants/enum';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
 import { insertUpdateCoordinationApi } from '@/services/agent';
+import { getThemeSettingListApi } from '@/services/themeSetting';
 import { useAgentList, useCoordinationDetail } from '../hooks'
 import { coordinationTransformFormData, formDataTransfromParams } from './helper';
 
@@ -37,6 +39,18 @@ const EditForm: FC<EditFormProps> = (props) => {
     loading: fetchLoading,
     data: agents = coordinationDetail?.agents,
   } = useAgentList({ statuses: [StatusEnum.Active] });
+
+  const {
+    loading: themesLoading,
+    data: themes = coordinationDetail?.theme ?
+      [coordinationDetail.theme] : []
+  } = useRequest(async () => {
+    const result = await getThemeSettingListApi({
+      current: 1,
+      pageSize: 1000 as any
+    });
+    return result.data;
+  });
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
@@ -75,9 +89,22 @@ const EditForm: FC<EditFormProps> = (props) => {
           }}
         />
         <ProFormSelect
+          label="Connected theme"
+          name="themeUuid"
+          options={themes}
+          fieldProps={{
+            loading: themesLoading,
+            fieldNames: {
+              label: 'themeTitle',
+              value: 'themeUuid'
+            }
+          }}
+        />
+        <ProFormSelect
           label="Connected agents"
           name="agentUuids"
           mode="multiple"
+          allowClear={false}
           options={agents}
           fieldProps={{
             loading: fetchLoading,

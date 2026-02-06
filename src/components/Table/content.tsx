@@ -13,8 +13,6 @@ type TableContentProps = {
 const TableContent: FC<TableContentProps> = (props) => {
   const { spinning, hasCard, total, dom } = props;
 
-  console.log(!total && spinning )
-
   const rootClassName = classNames(
     styles.table_inner,
     { [styles.spinning_mask_opaque]: !total && spinning }

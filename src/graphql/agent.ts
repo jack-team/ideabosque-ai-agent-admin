@@ -112,6 +112,11 @@ export const coordinationQuery = `
       coordinationName
       coordinationDescription
       agents
+      themeUuid
+      theme {
+        themeTitle
+        themeUuid
+      }
       updatedBy
       createdAt
       updatedAt
@@ -120,26 +125,28 @@ export const coordinationQuery = `
 `;
 
 export const insertUpdateCoordinationQuery = `
-  mutation insertUpdateCoordination(
-    $agents: [JSONCamelCase]
-    $coordinationDescription: String
-    $coordinationName: String
-    $coordinationUuid: String
-    $updatedBy: String!
+mutation insertUpdateCoordination(
+  $agents: [JSONCamelCase]
+  $coordinationDescription: String
+  $coordinationName: String
+  $coordinationUuid: String
+  $themeUuid: String
+  $updatedBy: String!
+) {
+  insertUpdateCoordination(
+    agents: $agents
+    coordinationDescription: $coordinationDescription
+    coordinationName: $coordinationName
+    coordinationUuid: $coordinationUuid
+    themeUuid: $themeUuid
+    updatedBy: $updatedBy
   ) {
-    insertUpdateCoordination(
-      agents: $agents
-      coordinationDescription: $coordinationDescription
-      coordinationName: $coordinationName
-      coordinationUuid: $coordinationUuid
-      updatedBy: $updatedBy
-    ) {
-      coordination {
-        coordinationUuid
-        coordinationName
-      }
+    coordination {
+      coordinationName
+      coordinationDescription
     }
   }
+}
 `;
 
 export const deleteCoordinationQuery = `
