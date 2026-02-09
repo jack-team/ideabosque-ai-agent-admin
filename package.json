@@ -9,6 +9,7 @@
     "r:staging": "vite --mode=staging",
     "build:prod": "tsc -b && vite build --mode=production",
     "build:staging": "tsc -b && vite build --mode=staging",
+    "build:mk1": "tsc -b && vite build --mode=mk1",
     "lint": "eslint .",
     "preview": "vite preview"
   },
