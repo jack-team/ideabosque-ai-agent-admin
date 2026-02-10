@@ -1,7 +1,8 @@
-import { type FC, lazy } from 'react';
+import { type FC } from 'react';
 import { Divider, App, Space } from 'antd';
 import copy from 'copy-to-clipboard';
 import Button from '@/components/Button';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useAiSdk } from '@/hooks/useAiSdk';
@@ -10,8 +11,6 @@ import { sdkUrl, partId } from '@/env';
 import { renderTpl } from './helper';
 import styles from './styles.module.less';
 import codeTpl from './code_tpl.txt?raw';
-
-const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 type ReviewAgentContentProps = {
   agents: AgentDataType[];
