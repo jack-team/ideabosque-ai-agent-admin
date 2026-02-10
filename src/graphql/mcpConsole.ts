@@ -106,6 +106,27 @@ query mcpFunctionList(
 }
 `;
 
+export const mcpFunctionQl = `
+query mcpFunction($name: String!) {
+  mcpFunction(name: $name) {
+    partitionKey
+    name
+    mcpType
+    description
+    data
+    annotations
+    moduleName
+    className
+    functionName
+    returnType
+    isAsync
+    updatedBy
+    createdAt
+    updatedAt
+  }
+}
+`;
+
 export const deleteMcpFunctionQl = `
 mutation deleteMcpFunction($name: String!) {
   deleteMcpFunction(name: $name) {

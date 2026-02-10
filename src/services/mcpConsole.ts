@@ -10,7 +10,8 @@ import {
   deleteMcpFunctionCallQl,
   insertUpdateMcpFunctionCallQl,
   listMcpSettingsQl,
-  insertUpdateMcpSettingQl
+  insertUpdateMcpSettingQl,
+  mcpFunctionQl
 } from '@/graphql/mcpConsole';
 
 import type {
@@ -49,6 +50,13 @@ export const getFunctionListApi = async (
 ) => mcpCore.graphql<McpFunctionDataType[]>({
   query: getMcpFunctionListQuery,
   variables: getSplitPageParams(params)
+});
+
+export const getFunctionDetailApi = async (params: {
+  name: string
+}) => mcpCore.graphql<McpFunctionDataType>({
+  query: mcpFunctionQl,
+  variables: params
 });
 
 // 删除函数

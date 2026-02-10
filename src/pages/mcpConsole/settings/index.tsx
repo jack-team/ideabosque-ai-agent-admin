@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
 import { Space } from "antd";
 import { type FC, type ReactElement, useRef } from "react";
-import { type ActionType } from "@ant-design/pro-components";
+import { type ActionType, ProCard } from "@ant-design/pro-components";
 import Table from '@/components/Table';
-import PageContainer from "@/components/PageContainer";
 import IconButton from '@/components/IconButton';
-import { EditIcon } from '@shopify/polaris-icons';
+import { ViewIcon } from '@shopify/polaris-icons';
 import TriggerModal from "@/components/TriggerModal";
 import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
@@ -20,7 +19,7 @@ const Settings: FC = () => {
   ) => {
     return (
       <TriggerModal
-        width={620}
+        width={900}
         trigger={trigger}
         title="view details"
       >
@@ -30,7 +29,7 @@ const Settings: FC = () => {
   };
 
   return (
-    <PageContainer title="Settings" >
+    <ProCard title="Settings" >
       <Table<McpSettingDataType>
         actionRef={actionRef}
         rowKey="settingId"
@@ -61,7 +60,7 @@ const Settings: FC = () => {
               return (
                 <Space>
                   {renderEditModal(
-                    <IconButton icon={EditIcon} />,
+                    <IconButton icon={ViewIcon} />,
                     record
                   )}
                 </Space>
@@ -71,7 +70,7 @@ const Settings: FC = () => {
         ]}
         scroll={{ x: "max-content" }}
       />
-    </PageContainer>
+    </ProCard>
   );
 };
 

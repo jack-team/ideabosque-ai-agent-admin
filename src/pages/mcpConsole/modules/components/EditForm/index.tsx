@@ -45,25 +45,35 @@ const ModuleForm: FC<ModuleFormProps> = ({ onSuccess, formData }) => {
       submitter={false}
       layout="vertical"
       initialValues={formData}
-      className={styles.edit_form}
     >
-      <ProFormText
-        name="moduleName"
-        label="Module Name"
-        rules={[
-          { required: true, message: 'Please input module name' },
-          { pattern: /^[a-zA-Z_]+$/, message: 'Module name can only contain letters and underscores' },
-        ]}
-        disabled={!!formData} // 编辑时禁用模块名称
-      />
-
-      <ProFormText
-        name="packageName"
-        label="Package"
-        rules={[
-          { required: true, message: 'Please input package name' },
-        ]}
-      />
+      <Row gutter={16}>
+        <Col span={12}>
+          <ProFormText
+            name="moduleName"
+            label="Module Name"
+            rules={[
+              { required: true, message: 'Please input module name' },
+              { pattern: /^[a-zA-Z_]+$/, message: 'Module name can only contain letters and underscores' },
+            ]}
+            disabled={!!formData} // 编辑时禁用模块名称
+          />
+        </Col>
+        <Col span={12}>
+          <ProFormText
+            name="packageName"
+            label="Package"
+            rules={[
+              { required: true, message: 'Please input package name' },
+            ]}
+          />
+        </Col>
+        <Col span={24}>
+          <ProFormText
+            name="source"
+            label="Source (Optional)"
+          />
+        </Col>
+      </Row>
       <ProFormList
         name="classes"
         label="Classes"
@@ -90,12 +100,6 @@ const ModuleForm: FC<ModuleFormProps> = ({ onSuccess, formData }) => {
           </Col>
         </Row>
       </ProFormList>
-      <ProFormTextArea
-        name="source"
-        label="Source (Optional)"
-        placeholder="Enter module source code or description"
-        fieldProps={{ rows: 4 }}
-      />
     </ProForm>
   );
 };
