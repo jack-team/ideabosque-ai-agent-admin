@@ -1,8 +1,7 @@
-import { type FC, lazy } from 'react';
+import { type FC } from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import { ProForm, ProFormDependency } from '@ant-design/pro-components';
 import type { McpSettingDataType } from '@/typings/mcpConsole'
-
-const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 type ModuleFormProps = {
   formData?: McpSettingDataType;
