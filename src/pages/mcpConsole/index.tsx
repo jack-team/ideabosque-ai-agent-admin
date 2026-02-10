@@ -1,17 +1,16 @@
-import { type FC, Fragment } from 'react';
+import { type FC } from 'react';
+import PageContainer from '@/components/PageContainer';
 import McpModules from './modules';
-import McpFunctions from './functions';
-import McpFunctionCalls from './functionCalls';
+import McpFunctions from './functions/list';
 import McpSettings from './settings';
 
 const McpConsole: FC = () => {
   return (
-    <Fragment>
-      <McpModules />
+    <PageContainer title="Mcp Console">
       <McpFunctions />
-      <McpFunctionCalls />
+      <McpModules />
       <McpSettings />
-    </Fragment>
+    </PageContainer>
   )
 }
 

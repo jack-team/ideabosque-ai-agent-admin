@@ -1,55 +1,33 @@
-import { Space, App } from "antd";
+import { App, Tag, Space } from "antd";
 import { useMemoizedFn } from "ahooks";
-import { type FC, type ReactElement, useRef } from "react";
-import { type ActionType } from "@ant-design/pro-components";
-import PageContainer from "@/components/PageContainer";
+import { type FC, useRef } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import Table from "@/components/Table";
+import { useConfirm } from '@/hooks/useConfirm';
 import IconButton from '@/components/IconButton';
-import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
-import TriggerModal from "@/components/TriggerModal";
+import { DeleteIcon, EditIcon } from '@shopify/polaris-icons';
+import { type ActionType, ProCard } from "@ant-design/pro-components";
 import { getFunctionListApi, deleteMcpFunctionApi } from "@/services/mcpConsole";
-import EditForm from "./components/EditForm";
 import type { McpFunctionDataType } from '@/typings/mcpConsole';
 import { formatDate } from '@/utils';
+import styles from './styles.module.less';
 
 const Functions: FC = () => {
-  const { modal, message } = App.useApp();
+  const { message } = App.useApp();
+  const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
+  const paramsRef = useRef<Record<string, any>>(null);
+  const [confirm] = useConfirm();
 
   const refreshTable = useMemoizedFn(() => {
     actionRef.current?.reload();
   });
 
-  const renderEditModal = (
-    trigger: ReactElement<any>,
-    record?: McpFunctionDataType
-  ) => {
-    return (
-      <TriggerModal
-        width={700}
-        trigger={trigger}
-        title={`${record ? "Edit" : "Add"} Function`}
-      >
-        <EditForm
-          formData={record}
-          onSuccess={refreshTable}
-        />
-      </TriggerModal>
-    );
-  };
-
   const handleDelete = useMemoizedFn((record: McpFunctionDataType) => {
-    modal.confirm({
-      title: "Are you sure you want to delete this function?",
-      okText: "Delete",
-      cancelButtonProps: {
-        className: "shopify gray",
-      },
-      okButtonProps: {
-        className: "shopify",
-        danger: true
-      },
-      onOk: async () => {
+    confirm({
+      title: 'Are you sure you want to delete this function?',
+      okText: 'Delete',
+      async onConfirm() {
         try {
           await deleteMcpFunctionApi({
             name: record.name
@@ -64,37 +42,62 @@ const Functions: FC = () => {
     });
   });
 
+  const onSearch = useMemoizedFn((val: string) => {
+    paramsRef.current = { functionName: val };
+    refreshTable();
+  });
+
   return (
-    <PageContainer title="Functions">
+    <ProCard
+      title="Functions"
+      subTitle="These are functions using the data from the Connection Modules. These are to perform action tasks within the Workflows."
+    >
       <Table<McpFunctionDataType>
-        actionRef={actionRef}
-        rowKey="functionName"
         options={false}
         search={false}
         fullScreen={false}
+        actionRef={actionRef}
+        rowKey="functionName"
+        request={params => {
+          return getFunctionListApi({
+            ...params,
+            ...paramsRef.current
+          });
+        }}
         cacheKey="mcp-console-functions"
-        request={getFunctionListApi}
+        toolbar={{
+          search: {
+            onSearch,
+            style: { width: 300 },
+            placeholder: 'Function Name',
+          },
+        }}
         columns={[
           {
             dataIndex: "name",
             title: "Function Name",
+            render: (val, record) => {
+              const url = `/mcp-console/function/${record.functionName}`;
+              return <Link to={url} className={styles.func_name}>{val}</Link>
+            }
           },
           {
             dataIndex: "mcpType",
-            title: "Type"
+            title: "Type",
+            render: (val) => <Tag className={styles.type_tag}>{val}</Tag>
           },
           {
             dataIndex: "moduleName",
-            title: "Module / Class",
+            title: "Module/Class",
             render: (_, record) => {
-              return [record.moduleName, record.className].join(' / ');
+              return [record.moduleName, record.className].join('/');
             },
           },
           {
             dataIndex: "isAsync",
             title: "Async",
-            render: (_, record) => {
-              return record.isAsync ? 'ASYNC' : 'SYNC';
+            render: (val) => {
+              return val ? 'ASYNC' : 'SYNC';
             },
           },
           {
@@ -111,17 +114,17 @@ const Functions: FC = () => {
           },
           {
             key: "action",
-            title: "ACTIONS",
+            title: "Actions",
             width: "100px",
             align: "center",
             fixed: "right",
             render: (_, record) => {
               return (
                 <Space>
-                  {renderEditModal(
-                    <IconButton icon={EditIcon} />,
-                    record
-                  )}
+                  <IconButton
+                    icon={EditIcon}
+                    onClick={() => navigate(`/mcp-console/function/${record.functionName}`)}
+                  />
                   <IconButton
                     icon={DeleteIcon}
                     onClick={() => handleDelete(record)}
@@ -133,7 +136,7 @@ const Functions: FC = () => {
         ]}
         scroll={{ x: "max-content" }}
       />
-    </PageContainer>
+    </ProCard>
   );
 };
 

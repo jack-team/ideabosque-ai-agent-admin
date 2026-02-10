@@ -68,13 +68,17 @@ export const routes: RouteObject[] = [
         path: '/theme',
         Component: lazy(() => import('./pages/themeSetting/list'))
       },
-       {
+      {
         path: '/theme/detail/:themeUuid',
         Component: lazy(() => import('./pages/themeSetting/detail'))
       },
       {
         path: '/mcp-console',
         Component: lazy(() => import('./pages/mcpConsole'))
+      },
+      {
+        path: '/mcp-console/function/:name',
+        Component: lazy(() => import('./pages/mcpConsole/functions/detail'))
       },
       {
         path: '/404',

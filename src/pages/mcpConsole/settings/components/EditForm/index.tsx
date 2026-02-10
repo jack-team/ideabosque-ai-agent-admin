@@ -1,12 +1,8 @@
-import { type FC } from 'react';
-import {
-  ProForm,
-  ProFormItem
-} from '@ant-design/pro-components';
-import { useModalOkClick } from '@/components/TriggerModal';
+import { type FC, lazy } from 'react';
+import { ProForm, ProFormDependency } from '@ant-design/pro-components';
 import type { McpSettingDataType } from '@/typings/mcpConsole'
-import LongTextReadonly from '@/components/LongTextReadonly';
-import styles from './styles.module.less';
+
+const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 type ModuleFormProps = {
   formData?: McpSettingDataType;
@@ -14,24 +10,26 @@ type ModuleFormProps = {
 
 const ModuleForm: FC<ModuleFormProps> = ({ formData }) => {
   const [form] = ProForm.useForm();
-
-  // 表单提交处理
-  useModalOkClick(async () => {
-    return true;
-  });
-
   return (
     <ProForm
       form={form}
       submitter={false}
       layout="vertical"
       initialValues={formData}
-      className={styles.edit_form}
     >
 
-      <ProFormItem name={['setting']}>
-        <LongTextReadonly pre/>
-      </ProFormItem>
+      <ProFormDependency name={['setting']}>
+        {({ setting }) => {
+          const val = (() => {
+            try {
+              return JSON.stringify(setting, null, 2);
+            } catch (err) {
+              return '-'
+            }
+          })();
+          return <SyntaxHighlighter>{val}</SyntaxHighlighter>;
+        }}
+      </ProFormDependency>
     </ProForm>
   );
 };

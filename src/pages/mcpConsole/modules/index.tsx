@@ -1,9 +1,9 @@
 import { Space, App } from "antd";
 import { type FC, type ReactElement, useRef } from "react";
-import { type ActionType } from '@ant-design/pro-components';
+import { type ActionType, ProCard } from '@ant-design/pro-components';
 import { useMemoizedFn } from "ahooks";
 import Table from '@/components/Table';
-import PageContainer from "@/components/PageContainer";
+import { useConfirm } from '@/hooks/useConfirm';
 import IconButton from '@/components/IconButton';
 import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import TriggerModal from "@/components/TriggerModal";
@@ -13,8 +13,10 @@ import { formatDate } from '@/utils';
 import type { McpModuleDataType } from '@/typings/mcpConsole';
 
 const Modules: FC = () => {
-  const { modal, message } = App.useApp();
+  const [confirm] = useConfirm();
+  const { message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
+  const paramsRef = useRef<Record<string, any>>(null);
 
   const refreshTable = useMemoizedFn(() => {
     actionRef.current?.reload();
@@ -28,7 +30,11 @@ const Modules: FC = () => {
       <TriggerModal
         width={620}
         trigger={trigger}
-        title={`${record ? "Edit" : "Add"} Module`}
+        title={`${!record ?
+          "Create New Module" :
+          "Connection Module Details"
+          }`
+        }
       >
         <EditForm
           formData={record}
@@ -39,17 +45,10 @@ const Modules: FC = () => {
   };
 
   const handleDelete = useMemoizedFn((record: McpModuleDataType) => {
-    modal.confirm({
+    confirm({
       title: "Are you sure you want to delete this module?",
       okText: "Delete",
-      cancelButtonProps: {
-        className: "shopify gray",
-      },
-      okButtonProps: {
-        className: "shopify",
-        danger: true
-      },
-      onOk: async () => {
+      onConfirm: async () => {
         try {
           await deleteMcpModuleApi({
             moduleName: record.moduleName
@@ -64,8 +63,16 @@ const Modules: FC = () => {
     });
   });
 
+  const onSearch = useMemoizedFn((val: string) => {
+    paramsRef.current = { moduleName: val };
+    refreshTable();
+  });
+
   return (
-    <PageContainer title="Modules">
+    <ProCard
+      title="Connection Modules"
+      subTitle="These are the MCP connections that the functions use to carry out their specific tasks."
+    >
       <Table<McpModuleDataType>
         actionRef={actionRef}
         rowKey="moduleName"
@@ -73,7 +80,19 @@ const Modules: FC = () => {
         search={false}
         fullScreen={false}
         cacheKey="mcp-console-modules"
-        request={getModuleListApi}
+        request={params=> {
+          return getModuleListApi({
+            ...params,
+            ...paramsRef.current
+          })
+        }}
+        toolbar={{
+          search: {
+            onSearch,
+            style: { width: 300 },
+            placeholder: 'Module Name',
+          },
+        }}
         columns={[
           {
             dataIndex: "moduleName",
@@ -126,7 +145,7 @@ const Modules: FC = () => {
         ]}
         scroll={{ x: "max-content" }}
       />
-    </PageContainer>
+    </ProCard>
   );
 };
 
