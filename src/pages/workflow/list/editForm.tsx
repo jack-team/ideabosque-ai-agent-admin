@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { App } from 'antd';
 import {
   ProForm,
@@ -12,6 +12,7 @@ import { StatusEnum } from '@/constants/enum';
 import type { WorkflowDataType } from '@/typings/workflow';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { workflowListApi, insertUpdateWorkflowApi } from '@/services/workflow';
+import { formatDate } from '@/utils';
 
 type EditFormProps = {
   workflow: WorkflowDataType;
@@ -29,9 +30,18 @@ const EditForm: FC<EditFormProps> = (props) => {
   } = useRequest(async (params) => {
     return workflowListApi({
       ...params,
-      statuses: [StatusEnum.Active]
+      flowSnippetUuid: workflow.flowSnippetUuid
     });
   });
+
+  const options = useMemo(() => {
+    return (workflows?.data || [workflow]).map(item => {
+      return {
+        ...item,
+        createdAt: formatDate(item.createdAt)
+      }
+    });
+  }, [workflows, workflow]);
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
@@ -54,7 +64,7 @@ const EditForm: FC<EditFormProps> = (props) => {
         form={form}
         initialValues={workflow}
         submitter={false}
-        style={{ padding: '0 6px'}}
+        style={{ padding: '0 6px' }}
       >
         <ProFormText
           label="Workflow name"
@@ -69,10 +79,10 @@ const EditForm: FC<EditFormProps> = (props) => {
         <ProFormSelect
           label="Version"
           name="flowSnippetVersionUuid"
-          options={workflows?.data || [workflow]}
+          options={options}
           fieldProps={{
             fieldNames: {
-              label: 'flowName',
+              label: 'createdAt',
               value: 'flowSnippetVersionUuid'
             }
           }}
