@@ -3,13 +3,11 @@ import {
   ProForm,
   ProFormText,
   ProFormList,
-  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { App, Row, Col } from 'antd';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpModuleApi } from '@/services/mcpConsole';
 import type { McpModuleDataType } from '@/typings/mcpConsole';
-import styles from './styles.module.less';
 
 type ModuleFormProps = {
   onSuccess?: () => void;
