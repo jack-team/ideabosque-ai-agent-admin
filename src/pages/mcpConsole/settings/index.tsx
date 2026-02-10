@@ -9,6 +9,7 @@ import TriggerModal from "@/components/TriggerModal";
 import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
 import type { McpSettingDataType } from '@/typings/mcpConsole';
+import { formatDate } from '@/utils';
 
 const Settings: FC = () => {
   const actionRef = useRef<ActionType>(null);
@@ -46,9 +47,7 @@ const Settings: FC = () => {
           {
             dataIndex: "updatedAt",
             title: "LAST UPDATED",
-            render: (_, record) => {
-              return dayjs(record.updatedAt).format('YYYY-MM-DD HH:mm:ss');
-            },
+            render: (val) => formatDate(val),
           },
           {
             key: "action",

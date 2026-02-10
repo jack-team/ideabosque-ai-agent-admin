@@ -5,6 +5,7 @@ import { type FC, useRef, Fragment, lazy } from 'react';
 import { type ActionType } from '@ant-design/pro-components';
 import { getFunctionCallListApi } from '@/services/mcpConsole';
 import type { McpFunctionCallDataType } from '@/typings/mcpConsole';
+import { formatDate } from '@/utils';
 import styles from './styles.module.less';
 
 type FunctionCallsProps = {
@@ -85,9 +86,7 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
           width: '160px',
           dataIndex: "createdAt",
           title: "Time stamp",
-          render: (_, record) => {
-            return dayjs(record.createdAt).format('YYYY-MM-DD HH:mm:ss');
-          },
+          render: (val) => formatDate(val)
         }
       ]}
       scroll={{ x: "max-content" }}
