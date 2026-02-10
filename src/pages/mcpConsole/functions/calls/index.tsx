@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 import { Tag } from "antd";
 import Table from '@/components/Table';
-import { type FC, useRef, Fragment, lazy } from 'react';
+import { type FC, useRef, Fragment } from 'react';
 import { type ActionType } from '@ant-design/pro-components';
 import { getFunctionCallListApi } from '@/services/mcpConsole';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import type { McpFunctionCallDataType } from '@/typings/mcpConsole';
 import { formatDate } from '@/utils';
 import styles from './styles.module.less';
@@ -11,8 +12,6 @@ import styles from './styles.module.less';
 type FunctionCallsProps = {
   funcName: string;
 }
-
-const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
 const FunctionCalls: FC<FunctionCallsProps> = (props) => {
   const { funcName } = props;
@@ -26,7 +25,7 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
       search={false}
       fullScreen={false}
       pagination={{ defaultPageSize: 5 }}
-      cacheKey="mcp-console-function-calls"
+      cacheKey={`mcp-console-function-calls-${funcName}`}
       request={params => {
         return getFunctionCallListApi({
           ...params,
