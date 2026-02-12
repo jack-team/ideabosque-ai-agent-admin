@@ -7,7 +7,9 @@ export const themeConfigs: ThemeConfig = {
     colorLink: cssVariables.primaryColor,
     colorPrimary: cssVariables.primaryColor,
     colorBgContainer: '#fff',
-    colorBorder: cssVariables.borderColor
+    colorBorder: cssVariables.borderColor,
+    fontFamily: cssVariables.fontFamily,
+    fontFamilyCode: cssVariables.fontFamily
   },
   components: {
     Input: {
