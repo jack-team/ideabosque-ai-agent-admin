@@ -30,7 +30,6 @@ export const useAgentDetail = (params?: {
   ]
 });
 
-
 //获取模板详情
 export const useTemplateDetail = (
   promptUuid?: string,
@@ -52,9 +51,6 @@ export const useAgentList = (params?: {
 }) => useRequest(async () => {
   const result = await agentListApi(params);
   return result.data || [];
-}, {
-  cacheTime: 60 * 1000,
-  cacheKey: `agents-${params ? JSON.stringify(params) : 'default'}`
 });
 
 export const useCoordinationList = (params: {
@@ -63,9 +59,6 @@ export const useCoordinationList = (params: {
 }) => useRequest(async () => {
   const result = await coordinationListApi(params);
   return result.data || [];
-}, {
-  cacheTime: 60 * 1000,
-  cacheKey: `coordinations-${params ? JSON.stringify(params) : 'default'}`
 });
 
 export const useCoordinationDetail = (
