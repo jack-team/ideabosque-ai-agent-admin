@@ -1,4 +1,5 @@
-import { type FC } from 'react';
+import { type FC, useMemo } from 'react';
+import dayjs from 'dayjs';
 import { App } from 'antd';
 import { formatDate } from '@/utils';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
@@ -22,21 +23,26 @@ const Versions: FC<VersionsProps> = (props) => {
     data = [agent]
   } = useAgentList({ agentUuid: agent.agentUuid });
 
-  const options = data.map(item => {
-    return {
-      label: formatDate(item.createdAt),
-      value: item.agentVersionUuid
-    }
-  });
+  const options = useMemo(() => {
+    return data.sort((a, b) => {
+      return dayjs(b.createdAt).valueOf() -
+        dayjs(a.createdAt).valueOf();
+    }).map(item => (
+      {
+        label: formatDate(item.createdAt),
+        value: item.agentVersionUuid
+      }
+    ));
+  }, [data]);
 
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
     try {
-      await insertUpdateAgentApi({ 
-        ...values, 
+      await insertUpdateAgentApi({
+        ...values,
         status: 'active',
-        updatedBy: 'Admin' 
+        updatedBy: 'Admin'
       });
       props.onSaveSuccess?.();
       message.success(`Application version successfully applied.`);
