@@ -66,7 +66,7 @@ const AgentList: FC = () => {
             </Button>
           }
         >
-          <EditForm />
+          <EditForm onSaveSuccess={onRefresh} />
         </TriggerModal>
       }
     >

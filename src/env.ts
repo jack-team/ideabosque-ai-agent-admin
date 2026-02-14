@@ -6,7 +6,7 @@ export const endpointId = import.meta.env.ENV_API_ENDPOINT_ID;
 
 // url params
 export const shop = getUrlParams('shop');
-export const partId = shop?.split('.')?.[0] || 'neprodai';
+export const partId = shop?.split('.')?.[0] || import.meta.env.ENV_DEFAULT_PART_ID;
 // 是否在 shopify 中打开
 export const inShopify = getUrlParams('embedded') === '1';
 
