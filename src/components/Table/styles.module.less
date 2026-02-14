@@ -79,7 +79,14 @@
     width: 100%;
 
     &.spinning_mask_opaque {
+      height: 280px;
+
       :global {
+        .ant-table-wrapper,
+        .ant-spin {
+          height: 100%;
+        }
+
         .ant-spin-blur {
           &::after {
             opacity: 0;

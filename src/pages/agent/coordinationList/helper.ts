@@ -17,7 +17,7 @@ export const formDataTransfromParams = (
 ) => {
   const { agentUuids, ...rest } = params;
 
-  const agents = agentUuids.map(uuid => {
+  const agents = agentUuids?.map(uuid => {
     const agent = agentList.find(e => e.agentUuid === uuid);
 
     if (agent) {

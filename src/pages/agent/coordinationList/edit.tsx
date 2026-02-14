@@ -1,14 +1,12 @@
 import { type FC } from 'react';
 import { App } from 'antd';
 import { useRequest } from 'ahooks';
-
 import {
   ProForm,
   ProFormText,
   ProFormSelect,
   ProFormTextArea
 } from '@ant-design/pro-components';
-
 import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
 import { useModalOkClick } from '@/components/TriggerModal';
