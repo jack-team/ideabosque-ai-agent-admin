@@ -73,6 +73,15 @@ const WorkflowList: FC = () => {
     message.success('Operation successful');
   });
 
+  const toDetail = useMemoizedFn((data: WorkflowDataType, isNew = true) => {
+    const query = qs.stringify({
+      editType: isNew ? 'new' : 'update',
+      flowSnippetUuid: data.flowSnippetUuid,
+      flowSnippetVersionUuid: data.flowSnippetVersionUuid
+    });
+    navigate(`/workflow/detail?${query}`);
+  });
+
   return (
     <PageContainer
       title="Workflows"
@@ -95,7 +104,7 @@ const WorkflowList: FC = () => {
               </Button>
             }
           >
-            <CreateForm />
+            <CreateForm onSaveSuccess={toDetail} />
           </TriggerModal>
         </Space>
       }
@@ -165,13 +174,7 @@ const WorkflowList: FC = () => {
                   key: 'edit',
                   icon: <WEditIcon />,
                   label: 'Edit workflow',
-                  onClick: () => {
-                    const query = qs.stringify({
-                      flowSnippetUuid: record.flowSnippetUuid,
-                      flowSnippetVersionUuid: record.flowSnippetVersionUuid
-                    });
-                    navigate(`/workflow/detail?${query}`);
-                  }
+                  onClick: () => toDetail(record, false)
                 },
                 {
                   key: 'details',

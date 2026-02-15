@@ -12,7 +12,13 @@ type LLMSelectProps = SelectProps & {
 };
 
 const WorkflowSelect: FC<LLMSelectProps> = (props) => {
-  const { onItemChange, options = [], autoFetch = true, ...reset } = props;
+  const {
+    value,
+    onItemChange,
+    options = [],
+    autoFetch = true,
+    ...reset
+  } = props;
 
   const s = useWorkflowModel();
 
@@ -20,7 +26,7 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
 
   const handleChange = useMemoizedFn((val: string, item) => {
     onItemChange?.(item);
-    props.onChange?.(val, item);
+    props.onChange?.(val || '', item);
   });
 
   useMount(() => {
@@ -29,10 +35,15 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
     }
   });
 
+  const handleOpen = useMemoizedFn((open = false) => {
+    if (open && !autoFetch) s.fetchData();
+  });
+
   return (
     <Select
       {...reset}
       allowClear
+
       options={_options}
       fieldNames={{
         label: 'flowName',
@@ -40,12 +51,9 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
       }}
       loading={s.loading}
       onChange={handleChange}
+      value={value || undefined}
       placeholder="Please select"
-      onOpenChange={open => {
-        if (open && !autoFetch) {
-          s.fetchData()
-        }
-      }}
+      onOpenChange={handleOpen}
     />
   );
 }

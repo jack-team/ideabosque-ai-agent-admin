@@ -8,11 +8,12 @@ import { useRequest } from 'ahooks';
 import { partId } from '@/env';
 import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
+import type { WorkflowDataType } from '@/typings/workflow';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { promptTemplateListApi, insertUpdateWorkflowApi } from '@/services/workflow';
- 
+
 type CreateFormProps = {
-  onSaveSuccess?: () => void;
+  onSaveSuccess?: (data: WorkflowDataType) => void;
 }
 
 const CreateForm: FC<CreateFormProps> = (props) => {
@@ -30,13 +31,13 @@ const CreateForm: FC<CreateFormProps> = (props) => {
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
-    await insertUpdateWorkflowApi({
+    const result = await insertUpdateWorkflowApi({
       ...values,
       updatedBy: partId,
       flowContext: JSON.stringify({}),
       flowRelationship: JSON.stringify({})
     });
-    props.onSaveSuccess?.();
+    props.onSaveSuccess?.(result.flowSnippet);
   });
 
   return (

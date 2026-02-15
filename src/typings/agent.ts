@@ -13,6 +13,7 @@ export type AgentDataType = {
   status: StatusType;
   agentType: string;
   updatedAt: string;
+  instructions: string;
   configuration: Record<string, any>;
   flowSnippet: WorkflowDataType | null;
   llm: LLMDataType | null;

@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useRef } from 'react';
 import { Col, Row, App, InputNumber } from 'antd';
 
 import {
@@ -32,6 +32,7 @@ type EditFormProps = {
 const EditForm: FC<EditFormProps> = (props) => {
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
+  const isFirst = useRef(true);
   const [agent, setAgent] = useSafeState(props.agent);
   const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
 
@@ -47,9 +48,12 @@ const EditForm: FC<EditFormProps> = (props) => {
     loading: requestLoading
   } = useTemplateDetail(promptUuid, (res) => {
     form.setFieldsValue({
-      instructions: res.templateContext,
-      mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid)
+      mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid),
+      instructions: isFirst.current ?
+        agent?.instructions :
+        res.templateContext
     });
+    isFirst.current = false;
   }, loading);
 
   const variables = template?.variables || [];
@@ -59,6 +63,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       llmName: e.llmName,
       configurationSchema: e.configurationSchema
     });
+    form.resetFields(['configuration']);
   });
 
   useModalOkClick(async () => {
@@ -140,7 +145,7 @@ const EditForm: FC<EditFormProps> = (props) => {
             >
               <WorkflowSelect
                 autoFetch={false}
-                onItemChange={e => setPromptUuid(e.promptUuid)}
+                onItemChange={e => setPromptUuid(e?.promptUuid)}
                 options={agent?.flowSnippet ? [agent?.flowSnippet] : []}
               />
             </ProFormItem>

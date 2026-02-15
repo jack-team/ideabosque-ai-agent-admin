@@ -48,14 +48,14 @@ export const promptTemplateDetailApi = (params: {
 });
 
 export const insertUpdateWorkflowApi = (params: Record<string, any>) => {
-  return apiCore.graphql<PromptTemplateDataType>({
+  return apiCore.graphql<{ flowSnippet: WorkflowDataType }>({
     query: insertUpdateWorkflowQuery,
     variables: params
   });
 }
 
 export const insertUpdatePromptTemplateApi = (params: Record<string, any>) => {
-  return apiCore.graphql<PromptTemplateDataType>({
+  return apiCore.graphql<{ promptTemplate: PromptTemplateDataType }>({
     query: insertUpdatePromptTemplateQuery,
     variables: params
   });
