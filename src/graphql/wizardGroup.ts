@@ -83,18 +83,8 @@ export const insertUpdateWizardGroupWithWizardsQl = `
       wizards: $wizards
     ) {
       wizardGroup {
-        partitionKey
-        endpointId
-        partId
         wizardGroupUuid
         wizardGroupName
-        wizardGroupDescription
-        weight
-        wizardUuids
-        updatedBy
-        createdAt
-        updatedAt
-        wizards
       }
     }
   }

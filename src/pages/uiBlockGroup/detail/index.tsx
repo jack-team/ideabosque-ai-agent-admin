@@ -60,12 +60,11 @@ const UiBlockGroupDetail: FC = () => {
     const formData = await form.validateFields();
     try {
       const values = processOutputData(formData);
-      const result = await insertUpdateWizardGroupWithWizards({
+      await insertUpdateWizardGroupWithWizards({
         ...values,
         updatedBy: partId
       });
       setShouldBlock(false);
-      updateFromData(result.wizardGroup);
       message.success('Save successfully.');
     } catch (err) {
       console.error(err);
@@ -78,7 +77,9 @@ const UiBlockGroupDetail: FC = () => {
   const onSaveProxy = useMemoizedFn(() => {
     setLoading(true);
     startTransition(async () => {
-      await handleSave();
+      try {
+        await handleSave();
+      } catch (err) { }
       setLoading(false);
     });
   });
