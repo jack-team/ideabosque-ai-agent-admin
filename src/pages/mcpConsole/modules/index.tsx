@@ -19,7 +19,7 @@ const Modules: FC = () => {
   const paramsRef = useRef<Record<string, any>>(null);
 
   const refreshTable = useMemoizedFn(() => {
-    actionRef.current?.reload();
+    actionRef.current?.reload(true);
   });
 
   const renderEditModal = (

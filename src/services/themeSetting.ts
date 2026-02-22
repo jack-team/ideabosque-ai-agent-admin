@@ -21,7 +21,7 @@ export const getThemeSettingListApi = (
 
 export const insertUpdateThemeSettingApi = (
   params: Record<string, any>
-) => settingCore.graphql<ThemeSettingDataType>({
+) => settingCore.graphql<{themeSetting:ThemeSettingDataType}>({
   query: insertUpdateThemeSettingQuery,
   variables: params
 });

@@ -1,5 +1,5 @@
 import { useMemoizedFn, useSafeState } from 'ahooks'
-import { Space, Modal } from 'antd';
+import { Space } from 'antd';
 import Iocn from '@ant-design/icons';
 import classNames from 'classnames';
 import { type FC, useRef } from 'react';
@@ -53,7 +53,6 @@ const Fields: FC<FieldsProps> = (props) => {
 
   const isTop = floor === 0;
   const enableSub = isTop && showAddBtn;
-  const [modal, contextHolder] = Modal.useModal();
   const [showSubItems, setShowSubItems] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
 
@@ -62,19 +61,7 @@ const Fields: FC<FieldsProps> = (props) => {
   });
 
   const handleDelete = useMemoizedFn(() => {
-    modal.confirm({
-      okText: 'Delete',
-      okButtonProps: { danger: true, },
-      cancelButtonProps: { className: 'shopify' },
-      title: 'Are you sure you want to delete it?',
-      content: (
-        <div style={{ paddingTop: 6 }}>
-          <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system.
-          To avoid making global changes, make a new item from th Edit UI Block Group page.
-        </div>
-      ),
-      onOk: () => action.remove(index)
-    });
+    action.remove(index);
   });
 
   return (
@@ -93,7 +80,6 @@ const Fields: FC<FieldsProps> = (props) => {
             moveCard={action.move}
             className={styles.form_field_wrapper}
           >
-            {contextHolder}
             {fields.map(f => <ProFormText key={f} hidden name={f} />)}
             <div className={styles.form_field}>
               <div className={styles.drag_handle}>

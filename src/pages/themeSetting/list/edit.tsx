@@ -26,7 +26,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       if (record) {
         message.success('The theme update was successful.');
       }
-      props.onSuccess?.(result);
+      props.onSuccess?.(result.themeSetting);
       return true;
     } catch (err) {
       message.success(record ? 'Updating theme failed.' : 'Failed to create new theme.');

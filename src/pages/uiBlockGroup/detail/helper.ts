@@ -86,6 +86,7 @@ export const processOutputData = (output: FormOutputType) => {
 
   return {
     ...output,
+    weight: +output.weight,
     wizards
   }
 }

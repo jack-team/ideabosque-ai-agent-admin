@@ -48,6 +48,12 @@ const ThemeSettings: FC = () => {
     }
   );
 
+  const toDetail = useMemoizedFn(
+    (data: ThemeSettingDataType) => {
+      navigate(`/theme/detail/${data.themeUuid}`);
+    }
+  );
+
   return (
     <PageContainer
       fullScreen
@@ -61,7 +67,7 @@ const ThemeSettings: FC = () => {
             </Button>
           }
         >
-          <EditForm />
+          <EditForm onSuccess={toDetail} />
         </TriggerModal>
       }
     >

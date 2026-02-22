@@ -3,12 +3,12 @@ import { useMemoizedFn } from 'ahooks';
 
 type ConfirmOptions = {
   title: string;
-  content?: string;
+  content?: any;
   okText?: string;
   cancelText?: string;
   onClose?: () => void;
   onCancel?: () => void;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
 }
 
 export const useConfirm = () => {
@@ -16,12 +16,14 @@ export const useConfirm = () => {
 
   const confirm = useMemoizedFn((options: ConfirmOptions) => {
     const instance = modal.confirm({
+      closable: false,
       title: options.title,
       content: options.content,
       okText: options.okText,
       cancelText: options.cancelText,
-      onOk: () => {
-        options.onConfirm?.();
+      onOk: async () => {
+        // @ts-ignore
+        await options.onConfirm?.();
         instance.destroy();
       },
       cancelButtonProps: {

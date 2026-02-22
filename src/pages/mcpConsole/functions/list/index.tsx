@@ -20,7 +20,7 @@ const Functions: FC = () => {
   const [confirm] = useConfirm();
 
   const refreshTable = useMemoizedFn(() => {
-    actionRef.current?.reload();
+    actionRef.current?.reload(true);
   });
 
   const handleDelete = useMemoizedFn((record: McpFunctionDataType) => {

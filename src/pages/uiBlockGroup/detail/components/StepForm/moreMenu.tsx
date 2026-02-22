@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import { Dropdown, Modal } from 'antd';
+import { Dropdown } from 'antd';
 import { MenuHorizontalIcon, ArrowUpIcon, ArrowDownIcon, DuplicateIcon, DeleteIcon, ReplayIcon } from '@shopify/polaris-icons';
 import IconButton, { withIcon } from '@/components/IconButton';
+import { useConfirm } from '@/hooks/useConfirm';
 import type { StepFormProps } from '.';
 
 const UpIcon = withIcon(ArrowUpIcon);
@@ -12,7 +13,7 @@ const WReplayIcon = withIcon(ReplayIcon);
 
 const MoreMenu: FC<StepFormProps> = (props) => {
   const { index, count, action } = props;
-  const [modal, contextHolder] = Modal.useModal();
+  const [confirm] = useConfirm();
   const isLast = count - 1 === index;
   return (
     <>
@@ -62,16 +63,16 @@ const MoreMenu: FC<StepFormProps> = (props) => {
               icon: <WDeleteIcon />,
               label: 'Delete UI Block',
               onClick: () => {
-                modal.confirm({
+                confirm({
                   okText: 'Delete',
-                  cancelButtonProps: { className: 'shopify' },
                   title: 'Are you sure you want to delete it?',
+                  onConfirm: () => action.remove(index),
                   content: (
-                    <span>
-                      <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system. To avoid making global changes, make a new item from the Edit UI Block Group page.
-                    </span>
-                  ),
-                  onOk: () => action.remove(index)
+                    <>
+                      <strong>Warning: </strong>
+                      Changes made to menu items are global and affect all instances across the system. To avoid making global changes, make a new item from the Edit UI Block Group page.
+                    </>
+                  )
                 });
               }
             }
@@ -82,7 +83,6 @@ const MoreMenu: FC<StepFormProps> = (props) => {
           icon={MenuHorizontalIcon}
         />
       </Dropdown>
-      {contextHolder}
     </>
   );
 }

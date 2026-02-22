@@ -19,9 +19,10 @@ const UiComponentList: FC = () => {
   const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
+  const paramsRef = useRef<Record<string, any>>(null);
 
   const onRefresh = useMemoizedFn(() => {
-    actionRef.current?.reloadAndRest?.();
+    actionRef.current?.reload?.(true);
   });
 
   const onDeleteAgent = useMemoizedFn((record: UiComponentDataType) => {
@@ -41,6 +42,11 @@ const UiComponentList: FC = () => {
         }
       }
     });
+  });
+
+  const onSearch = useMemoizedFn((val: string) => {
+    paramsRef.current = { tagName: val };
+    onRefresh();
   });
 
   return (
@@ -63,18 +69,28 @@ const UiComponentList: FC = () => {
       }
     >
       <Table<UiComponentDataType>
+        search={false}
         actionRef={actionRef}
         cacheKey="uiComponents"
         request={params => {
           return uiComponentListApi({
             ...params,
+            ...paramsRef.current,
           });
         }}
         rowKey="uiComponentUuid"
+        toolbar={{
+          search: {
+            onSearch,
+            style: { width: 300 },
+            placeholder: 'Tag name',
+          },
+        }}
         columns={[
           {
             title: 'Tag name',
             dataIndex: 'tagName',
+            hideInSearch: true
           },
           {
             title: 'Component Type',

@@ -1,9 +1,10 @@
 import { Space } from "antd";
+import { useMemoizedFn } from 'ahooks';
 import { type FC, type ReactElement, useRef } from "react";
 import { type ActionType, ProCard } from "@ant-design/pro-components";
 import Table from '@/components/Table';
 import IconButton from '@/components/IconButton';
-import { ViewIcon } from '@shopify/polaris-icons';
+import { EditIcon } from '@shopify/polaris-icons';
 import TriggerModal from "@/components/TriggerModal";
 import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
@@ -13,17 +14,24 @@ import { formatDate } from '@/utils';
 const Settings: FC = () => {
   const actionRef = useRef<ActionType>(null);
 
+  const onRefresh = useMemoizedFn(() => {
+    actionRef.current?.reload(true);
+  })
+
   const renderEditModal = (
     trigger: ReactElement<any>,
     record: McpSettingDataType
   ) => {
     return (
       <TriggerModal
-        width={900}
+        width={800}
         trigger={trigger}
         title="view details"
       >
-        <EditForm formData={record} />
+        <EditForm
+          formData={record}
+          onSaved={onRefresh}
+        />
       </TriggerModal>
     );
   };
@@ -58,7 +66,7 @@ const Settings: FC = () => {
               return (
                 <Space>
                   {renderEditModal(
-                    <IconButton icon={ViewIcon} />,
+                    <IconButton icon={EditIcon} />,
                     record
                   )}
                 </Space>

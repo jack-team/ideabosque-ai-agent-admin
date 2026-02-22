@@ -1,5 +1,6 @@
 import { type FC, memo } from 'react';
-import { ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { InputNumber } from 'antd';
+import { ProFormText, ProFormTextArea, ProFormItem } from '@ant-design/pro-components';
 
 const BasicForm: FC = () => {
   return (
@@ -29,15 +30,19 @@ const BasicForm: FC = () => {
           { required: true }
         ]}
       />
-      <ProFormText
+      <ProFormItem
         name="weight"
         label="Weight"
         initialValue={0}
-        placeholder="Weight"
         rules={[
           { required: true }
         ]}
-      />
+      >
+        <InputNumber
+          placeholder="Weight"
+          style={{ width: '100%' }}
+        />
+      </ProFormItem>
     </>
   );
 }

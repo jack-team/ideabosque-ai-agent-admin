@@ -64,7 +64,6 @@ const UiBlockGroupDetail: FC = () => {
         ...values,
         updatedBy: partId
       });
-      setShouldBlock(false);
       message.success('Save successfully.');
     } catch (err) {
       console.error(err);
@@ -79,6 +78,7 @@ const UiBlockGroupDetail: FC = () => {
     startTransition(async () => {
       try {
         await handleSave();
+        setShouldBlock(false);
       } catch (err) { }
       setLoading(false);
     });
@@ -107,9 +107,9 @@ const UiBlockGroupDetail: FC = () => {
       content: 'The form will not be saved after leaving.',
       okText: 'Save',
       cancelText: 'Leave',
-      onConfirm: () => {
-        handleSave();
-        blocker.reset();
+      onConfirm: async () => {
+        await handleSave();
+        blocker.proceed();
       },
       onClose: () => blocker.reset(),
       onCancel: () => blocker.proceed()

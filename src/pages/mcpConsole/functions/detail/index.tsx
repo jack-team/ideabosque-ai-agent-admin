@@ -75,6 +75,7 @@ const FunctionDetail: FC = () => {
             <Row gutter={16}>
               <Col span={12}>
                 <ProFormText
+                  disabled
                   label="Function name"
                   name="name"
                   rules={[
@@ -145,7 +146,7 @@ const FunctionDetail: FC = () => {
               <Col span={24}>
                 <ProFormSwitch
                   label="Is Async?"
-                  name="returnType"
+                  name="isAsync"
                 />
               </Col>
             </Row>

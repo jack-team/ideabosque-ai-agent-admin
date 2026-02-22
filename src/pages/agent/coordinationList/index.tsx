@@ -26,7 +26,7 @@ const CoordinationList: FC = () => {
 
   const onSearch = useMemoizedFn((val: string) => {
     paramsRef.current = { coordinationName: val };
-    actionRef.current?.reload();
+    actionRef.current?.reload(true);
   });
 
   const onDelete = useMemoizedFn((record: CoordinationDataType) => {

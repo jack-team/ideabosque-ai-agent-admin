@@ -24,7 +24,7 @@ const WorkflowTemplates: FC = () => {
   const actionRef = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
-    actionRef.current?.reload();
+    actionRef.current?.reload(true);
   });
 
   const toDetail = useMemoizedFn((record: PromptTemplateDataType, editType = 'new') => {

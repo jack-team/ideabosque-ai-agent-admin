@@ -194,6 +194,7 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
   return (
     <ProForm
       form={form}
+      preserve={false}
       submitter={false}
       initialValues={formData}
       className={styles.schema_form}
