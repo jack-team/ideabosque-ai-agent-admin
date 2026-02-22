@@ -1,4 +1,4 @@
-import { Row, Col, App, Divider } from 'antd';
+import { Row, Col, App } from 'antd';
 import { type FC, type Key, Fragment } from 'react';
 import { ProForm, ProFormSwitch, ProFormText, ProCard } from '@ant-design/pro-components';
 import type { McpSettingDataType } from '@/typings/mcpConsole';
