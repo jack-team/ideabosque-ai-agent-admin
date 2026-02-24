@@ -22,6 +22,7 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
   const defaultPagination: TableProps<D>['pagination'] = {
     simple: { readOnly: true },
     defaultPageSize: 5,
+    showSizeChanger: false,
     nextIcon: <NextIcon />,
     prevIcon: <PrevIocn />
   }
@@ -63,7 +64,6 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
 
   const setCacheData = useTableModel(s => s.setTableData);
   const [spinning, setSpinning] = useSafeState(!!request);
-  const [showPagination, setShowPagination] = useSafeState(false);
 
   const tableData = useTableModel(s => {
     if (cacheKey) return s.tableDatas[cacheKey];
@@ -74,15 +74,6 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
     try {
       const result = await request!(...args);
       if (cacheKey) setCacheData(cacheKey, result.data);
-
-      const total = result.total || 0;
-      const pageSize = result.pageSize || 0;
-
-      if (result) {
-        const pageTotal = Math.ceil(total / pageSize);
-        if (pageTotal > 1) setShowPagination(true);
-      }
-
       return result;
     } catch (err) {
       console.log('表格获取数据失败:', err);
@@ -126,7 +117,6 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
       className={classNames(
         styles.table,
         fullScreen && styles.full_screen,
-        !showPagination && styles.no_pagination,
         className
       )}
       tableViewRender={({ dataSource = [] }, dom) => {
