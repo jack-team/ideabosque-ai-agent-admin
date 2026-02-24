@@ -112,7 +112,6 @@ const WorkflowList: FC = () => {
       <Table<WorkflowDataType>
         actionRef={actionRef}
         cacheKey="WorkflowList"
-        
         pagination={{
           defaultPageSize: 15
         }}

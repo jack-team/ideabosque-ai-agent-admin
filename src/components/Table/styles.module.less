@@ -81,6 +81,14 @@
     }
   }
 
+  &.no_pagination {
+    :global {
+      .ant-pagination {
+        opacity: 1;
+      }
+    }
+  }
+
   .table_inner {
     width: 100%;
 
@@ -88,7 +96,6 @@
       height: 280px;
 
       :global {
-
         .ant-table-wrapper,
         .ant-spin {
           height: 100%;
@@ -207,7 +214,7 @@
         tr.ant-table-row>td.ant-table-cell {
           padding: 6px 12px;
           font-size: 12px;
-          font-weight: 550;
+          font-weight: 500;
           color: var(--primaryColor);
         }
       }
