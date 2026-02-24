@@ -15,6 +15,7 @@ export const withIcon = (icon: FC<SVGProps<SVGSVGElement>>) => {
 const IconButton: FC<IconButtonProps> = (props) => {
   const {
     icon,
+    disabled,
     className,
     type = 'text',
     size = 'small',
@@ -23,14 +24,19 @@ const IconButton: FC<IconButtonProps> = (props) => {
 
   const Icon = useMemo(() => {
     return withIcon(icon);
-  },[icon]);
+  }, [icon]);
 
   return (
     <Button
       {...rest}
       type={type}
       icon={<Icon />}
-      className={classNames(styles.icon_btn, className)}
+      disabled={disabled}
+      className={classNames(
+        styles.icon_btn,
+        disabled && styles.icon_disabled,
+        className
+      )}
     />
   );
 }

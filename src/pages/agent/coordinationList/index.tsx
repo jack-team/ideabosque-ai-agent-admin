@@ -118,12 +118,11 @@ const CoordinationList: FC = () => {
               const { agents = [] } = record;
               return (
                 <Space>
-                  {agents.length > 0 && (
-                    <IconButton
-                      icon={EyeCheckMarkIcon}
-                      onClick={() => navigate(`/agent/review/${record.coordinationUuid}`)}
-                    />
-                  )}
+                  <IconButton
+                    disabled={!agents.length}
+                    icon={EyeCheckMarkIcon}
+                    onClick={() => navigate(`/agent/review/${record.coordinationUuid}`)}
+                  />
                   <TriggerModal
                     width={800}
                     title="Edt coordination"

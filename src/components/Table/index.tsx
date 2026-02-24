@@ -1,10 +1,15 @@
 import classNames from 'classnames';
 import { useMemoizedFn, useSafeState } from 'ahooks';
 import { ProTable, type ProTableProps } from '@ant-design/pro-components';
+import { ChevronLeftIcon, ChevronRightIcon } from '@shopify/polaris-icons';
+import { withIcon } from '@/components/IconButton';
 import Spinner from '../Spinner';
 import TableContent from './content';
 import { useTableModel } from './model';
 import styles from './styles.module.less';
+
+const NextIcon = withIcon(ChevronRightIcon);
+const PrevIocn = withIcon(ChevronLeftIcon);
 
 type TableProps<D> = Omit<ProTableProps<D, any>, 'defaultData'> & {
   cacheKey?: string;
@@ -14,32 +19,45 @@ type TableProps<D> = Omit<ProTableProps<D, any>, 'defaultData'> & {
 function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
   type RequestArgs = Parameters<NonNullable<TableProps<D>['request']>>;
 
+  const defaultPagination: TableProps<D>['pagination'] = {
+    simple: { readOnly: true },
+    defaultPageSize: 5,
+    nextIcon: <NextIcon />,
+    prevIcon: <PrevIocn />
+  }
+
+  const defaultOptions: TableProps<D>['options'] = {
+    setting: false,
+    density: false,
+    fullScreen: false
+  }
+
+  const defaultForm: TableProps<D>['form'] = {
+    layout: 'horizontal',
+    labelWidth: 'auto'
+  }
+
+  const defaultSearch: TableProps<D>['search'] = {
+    searchText: 'Search'
+  }
+
+  const defaultScroll: TableProps<D>['scroll'] = {
+    x: 'max-content',
+    y: '100vh'
+  }
+
   const {
     request,
-    className,
+    form,
+    options,
+    search,
+    scroll,
     cacheKey,
+    className,
+    pagination,
     toolBarRender,
     fullScreen = true,
     defaultSize = 'small',
-    form = {
-      layout: 'horizontal',
-      labelWidth: 'auto'
-    },
-    options = {
-      setting: false,
-      density: false,
-      fullScreen: false
-    },
-    search = {
-      searchText: 'Search'
-    },
-    pagination = {
-      defaultPageSize: 5
-    },
-    scroll = {
-      x: 'max-content',
-      y: '100vh'
-    },
     ...rest
   } = props;
 
@@ -67,12 +85,27 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
   return (
     <ProTable
       {...rest}
-      form={form}
-      scroll={scroll}
-      search={search}
-      options={options}
+      form={{
+        ...defaultForm,
+        ...form
+      }}
+      scroll={{
+        ...defaultScroll,
+        ...scroll
+      }}
+      search={search !== false && {
+        ...defaultSearch,
+        ...search
+      }}
+      options={options !== false && {
+        ...defaultOptions,
+        ...options
+      }}
+      pagination={pagination !== false && {
+        ...defaultPagination,
+        ...pagination
+      }}
       defaultData={tableData}
-      pagination={pagination}
       defaultSize={defaultSize}
       toolBarRender={toolBarRender}
       request={request ? onRequest : undefined}

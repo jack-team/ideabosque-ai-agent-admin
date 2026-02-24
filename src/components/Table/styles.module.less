@@ -138,6 +138,41 @@
     .ant-pagination {
       margin: 0 !important;
       padding: 16px;
+      gap: 8px;
+
+      --li-height: 26px;
+
+      .ant-pagination-total-text {
+        font-size: 13px;
+        height: var(--li-height);
+        line-height: var(--li-height);
+      }
+
+      .ant-pagination-simple-pager {
+        height: var(--li-height);
+        font-size: 13px;
+      }
+
+      .ant-pagination-prev,
+      .ant-pagination-next {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        height: var(--li-height);
+        line-height: var(--li-height);
+        padding: 0 6px;
+
+        .anticon {
+          font-size: 18px;
+        }
+
+        &.ant-pagination-disabled {
+          .anticon {
+            color: #ccc;
+          }
+        }
+      }
     }
 
     .ant-pro-table-list-toolbar-container {
@@ -151,28 +186,30 @@
   }
 
   :global {
-    thead.ant-table-thead {
-      tr>th.ant-table-cell {
-        padding: 6px 16px !important;
-        border-color: #E3E3E3;
-        background: #F7F7F7;
-        font-size: 12px;
-        color: #616161;
-        font-weight: 550;
-        border-radius: 0 !important;
+    .ant-table-container {
+      thead.ant-table-thead {
+        tr>th.ant-table-cell {
+          padding: 8px 12px;
+          border-color: #e3e3e3;
+          background: #f7f7f7;
+          font-size: 12px;
+          color: #616161;
+          font-weight: 550;
+          border-radius: 0;
 
-        &::before {
-          display: none;
+          &::before {
+            display: none;
+          }
         }
       }
-    }
 
-    tbody.ant-table-tbody {
-      tr>td.ant-table-cell {
-        padding: 10px 16px !important;
-        font-size: 12px;
-        font-weight: 550;
-        color: var(--primaryColor);
+      tbody.ant-table-tbody {
+        tr.ant-table-row>td.ant-table-cell {
+          padding: 6px 12px;
+          font-size: 12px;
+          font-weight: 550;
+          color: var(--primaryColor);
+        }
       }
     }
 
