@@ -1,12 +1,11 @@
 import { Space, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
-import { type FC, useRef } from 'react';
-import PageContainer from '@/components/PageContainer';
-import { type ActionType } from '@ant-design/pro-components';
-import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
+import { type FC, useRef, type RefObject } from 'react';
+import { type ActionType, ProCard } from '@ant-design/pro-components';
+import { EditIcon, DeleteIcon, DuplicateIcon, PlusIcon } from '@shopify/polaris-icons';
 import { StatusEnum, StatusMap } from '@/constants/enum';
 import { formatDate } from '@/utils';
-import IconButton from '@/components/IconButton';
+import IconButton, { withIcon } from '@/components/IconButton';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import StatusTag from '@/components/StatusTag';
@@ -19,7 +18,13 @@ import { useLang } from '@/hooks/useLang';
 import EditForm from './edit';
 import Versions from './versions';
 
-const AgentList: FC = () => {
+const WPlusIcon = withIcon(PlusIcon);
+
+type AgentListProps = {
+  addRef?: RefObject<HTMLDivElement | null>;
+}
+
+const AgentList: FC<AgentListProps> = (props) => {
   const { t } = useLang();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
@@ -56,14 +61,15 @@ const AgentList: FC = () => {
   });
 
   return (
-    <PageContainer
-      title={t('agent.agents')}
+    <ProCard
+      title={t('agent.Individual Agents')}
+      subTitle={t('agent.Individual Agents desc')}
       extra={
         <TriggerModal
           width={800}
           title={t('agent.addAgent')}
           trigger={
-            <Button type="primary">
+            <Button type="link" icon={<WPlusIcon />} ref={props.addRef}>
               {t('agent.addAgent')}
             </Button>
           }
@@ -83,8 +89,10 @@ const AgentList: FC = () => {
             statuses: [StatusEnum.Active]
           });
         }}
+        options={false}
         search={false}
-        toolbar={{
+        //@ts-ignore
+        toolbar={ false && {
           search: {
             onSearch,
             style: { width: 300 },
@@ -166,7 +174,7 @@ const AgentList: FC = () => {
           }
         ]}
       />
-    </PageContainer>
+    </ProCard>
   );
 }
 

@@ -86,6 +86,10 @@
   "agent": {
     "chooseAgent": "Agent",
     "agents": "Agents",
+    "Individual Agents": "Individual Agents",
+    "Individual Agents desc": "Standalone agents focused on solving a single task.",
+    "Agent Coordinations": "Agent Coordinations",
+    "Agent Coordinations desc": "These call upon multiple agents in tandem to carry out actions within a workflow.",
     "addAgent": "Add agent",
     "agentName": "Agent name",
     "agentUuid": "Agent UUID",
@@ -98,7 +102,7 @@
     "editConfig": "Edit Config",
     "instructions": "Instructions",
     "coordinations": "Coordinations",
-    "addCoordination": "Add coordination",
+    "addCoordination": "Add Agent Coordination",
     "coordinationUuid": "Coordination UUID",
     "coordinationName": "Coordination Name",
     "coordinationDescription": "Coordination description",
@@ -108,7 +112,9 @@
     "agentReview": "Agent review",
     "integration": "Integration",
     "copyCode": "Copy code",
-    "CopyChatUrl": "Copy chat url"
+    "CopyChatUrl": "Copy chat url",
+    "Setting up Agents": "Setting up Agents",
+    "Setting up Agents desc": "We have grouped agents into two categories; Individual Agents and Agent Coordinations. Agents should be focused on handling a specific task, like onboarding or creating a quote. Agent Coordinations, like the name implies, coordinate those agents together so they can respond to the specific needs the user has during the flow."
   },
   "workflow": {
     "workflow": "Workflow",

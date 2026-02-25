@@ -85,7 +85,11 @@
   },
   "agent": {
     "chooseAgent": "智能体",
+    "Agent Coordinations": "智能体协调",
+    "Agent Coordinations desc": "这些调用多个智能体协同工作，在流程中执行操作。",
     "agents": "智能体",
+    "Individual Agents": "独立智能体",
+    "Individual Agents desc": "专注于解决单一任务的独立代理。专注于解决单一任务的独立智能体。",
     "addAgent": "添加智能体",
     "agentName": "智能体名称",
     "agentUuid": "智能体UUID",
@@ -98,7 +102,7 @@
     "editConfig": "编辑配置",
     "instructions": "指令",
     "coordinations": "协同体",
-    "addCoordination": "添加协同体",
+    "addCoordination": "添加智能体协调",
     "coordinationUuid": "协同体UUID",
     "coordinationName": "协同体名称",
     "coordinationDescription": "协同体描述",
@@ -108,7 +112,9 @@
     "agentReview": "智能体审核",
     "integration": "集成",
     "copyCode": "复制代码",
-    "CopyChatUrl": "复制聊天链接"
+    "CopyChatUrl": "复制聊天链接",
+    "Setting up Agents": "设置智能体",
+    "Setting up Agents desc": "我们将智能体分为两类：独立智能体和智能体协调者。智能体应专注于处理特定任务，如入职或创建报价。智能体协调者，顾名思义，负责协调这些智能体，以便它们能够响应用户在流程中的具体需求。"
   },
   "workflow": {
     "workflow": "工作流",

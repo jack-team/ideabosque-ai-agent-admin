@@ -85,7 +85,11 @@
   },
   "agent": {
     "chooseAgent": "智慧體",
+    "Agent Coordinations": "智慧體協調",
+    "Agent Coordinations desc": "這些調用多個智慧體協同工作，在流程中執行操作。",
     "agents": "智慧體",
+    "Individual Agents": "獨立智慧體",
+    "Individual Agents desc": "專注於解决單一任務的獨立代理。 專注於解决單一任務的獨立智慧體。",
     "addAgent": "新增智慧體",
     "agentName": "智慧體名稱",
     "agentUuid": "智慧體UUID",
@@ -98,7 +102,7 @@
     "editConfig": "編輯設定",
     "instructions": "指令",
     "coordinations": "協同體",
-    "addCoordination": "新增協同體",
+    "addCoordination": "添加智慧體協調",
     "coordinationUuid": "協同體UUID",
     "coordinationName": "協同體名稱",
     "coordinationDescription": "協同體描述",
@@ -108,7 +112,9 @@
     "agentReview": "智慧體審核",
     "integration": "整合",
     "copyCode": "複製程式碼",
-    "CopyChatUrl": "複製聊天連結"
+    "CopyChatUrl": "複製聊天連結",
+    "Setting up Agents": "設定智慧體",
+    "Setting up Agents desc": "我們將智慧體分為兩類：獨立智慧體和智慧體協調者。智慧體應專注於處理特定任務，如入職或創建報價。智慧體協調者，顧名思義，負責協調這些智慧體，以便它們能够響應用戶在流程中的具體需求。"
   },
   "workflow": {
     "workflow": "工作流程",

@@ -1,13 +1,12 @@
-import { type FC, useRef } from 'react';
+import { type FC, useRef, type RefObject } from 'react';
 import { Space, App } from 'antd';
 import { useNavigate } from 'react-router';
 import { useMemoizedFn } from 'ahooks';
-import PageContainer from '@/components/PageContainer';
-import { type ActionType } from '@ant-design/pro-components';
-import { EditIcon, DeleteIcon, EyeCheckMarkIcon } from '@shopify/polaris-icons';
+import { type ActionType, ProCard } from '@ant-design/pro-components';
+import { EditIcon, DeleteIcon, EyeCheckMarkIcon, PlusIcon } from '@shopify/polaris-icons';
 import { coordinationListApi, deleteCoordinationApi } from '@/services/agent';
 import Button from '@/components/Button';
-import IconButton from '@/components/IconButton';
+import IconButton, { withIcon } from '@/components/IconButton';
 import TriggerModal from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
 import { useLang } from '@/hooks/useLang';
@@ -15,7 +14,13 @@ import { formatDate } from '@/utils';
 import Table from '@/components/Table';
 import EditForm from './edit';
 
-const CoordinationList: FC = () => {
+const WPlusIcon = withIcon(PlusIcon);
+
+type CoordinationListProps = {
+  addRef?: RefObject<HTMLDivElement | null>;
+}
+
+const CoordinationList: FC<CoordinationListProps> = (props) => {
   const { t } = useLang();
   const { modal, message } = App.useApp();
   const navigate = useNavigate();
@@ -51,15 +56,15 @@ const CoordinationList: FC = () => {
   });
 
   return (
-    <PageContainer
-      fullScreen
-      title={t('agent.coordinations')}
+    <ProCard
+      title={t('agent.Agent Coordinations')}
+      subTitle={t('agent.Agent Coordinations desc')}
       extra={
         <TriggerModal
           width={800}
           title={t('agent.addCoordination')}
           trigger={
-            <Button type="primary">
+            <Button type="link" icon={<WPlusIcon />} ref={props.addRef}>
               {t('agent.addCoordination')}
             </Button>
           }
@@ -79,8 +84,10 @@ const CoordinationList: FC = () => {
           });
         }}
         search={false}
+        options={false}
         rowKey="coordinationUuid"
-        toolbar={{
+        //@ts-ignore
+        toolbar={false && {
           search: {
             onSearch,
             style: { width: 300 },
@@ -145,7 +152,7 @@ const CoordinationList: FC = () => {
           }
         ]}
       />
-    </PageContainer>
+    </ProCard>
   );
 }
 

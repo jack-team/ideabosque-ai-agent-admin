@@ -1,4 +1,4 @@
-import { type FC, memo } from 'react';
+import { type FC, forwardRef } from 'react';
 import classNames from 'classnames';
 import { useMemoizedFn } from 'ahooks';
 import { Button as AntButton, type ButtonProps as AntButtonProps } from 'antd';
@@ -10,7 +10,7 @@ type ButtonProps = Omit<AntButtonProps, 'loading'> & {
   gray?: boolean;
 }
 
-const Button: FC<ButtonProps> = (props) => {
+const Button = forwardRef<any, ButtonProps>((props, ref) => {
   const {
     gray,
     onClick,
@@ -27,6 +27,7 @@ const Button: FC<ButtonProps> = (props) => {
   return (
     <AntButton
       {...reset}
+      ref={ref}
       onClick={handleClick}
       className={classNames(
         styles.bth,
@@ -39,6 +40,6 @@ const Button: FC<ButtonProps> = (props) => {
       <div className={styles.btn_content}>{children}</div>
     </AntButton>
   )
-}
+});
 
-export default memo(Button);
+export default Button;
