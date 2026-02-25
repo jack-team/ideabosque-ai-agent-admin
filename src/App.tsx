@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Suspense, useMemo } from 'react';
+import { Suspense } from 'react';
 import enUS from 'antd/es/locale/en_US';
 import zhTW from 'antd/es/locale/zh_TW';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -18,22 +18,19 @@ import { routes } from './routes';
 const router = createBrowserRouter(routes);
 
 const locales: Record<string, Locale> = {
-  'zh-CN': zhCN,
-  'zh-TW': zhTW,
-  'en-US': enUS
+  'ZH-CN': zhCN,
+  'ZH-TW': zhTW,
+  'EN-US': enUS
 }
 
 const App: FC = () => {
   const { i18n } = useTranslation();
-
-  const locale = useMemo(() => {
-    return locales[i18n.language] || enUS;
-  }, [i18n.language]);
-
+  const lng = i18n.language.toLocaleUpperCase();
+ 
   return (
     <ConfigProvider
-      locale={locale}
       theme={themeConfigs}
+      locale={locales[lng] || enUS}
     >
       <AntApp>
         <div className="app-wrapper">

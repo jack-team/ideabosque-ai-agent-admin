@@ -23,3 +23,6 @@ export const sdkVersion = import.meta.env.ENV_AI_SDK_VERSION;
 //Ai sdk url
 export const sdkUrl = `${import.meta.env.ENV_AI_SDK_URL}/sdk-${sdkVersion}.iife.js`;
 
+//语言
+export const lng = getUrlParams('locale');
+

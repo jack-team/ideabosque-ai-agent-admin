@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Dropdown, Space, type ButtonProps } from 'antd';
+import { useLang } from '@/hooks/useLang';
 import { CaretDownOutlined } from '@ant-design/icons';
 import Button from '@/components/Button';
 
@@ -18,17 +19,18 @@ type SelectButtonProps = {
 }
 
 const SelectButton: FC<SelectButtonProps> = (props) => {
+  const { t } = useLang();
   const {
     value,
     options,
     onChange,
     type = 'default',
     size = 'small',
-    placeholder = 'Please select'
+    placeholder = t('common.Please select')
   } = props;
 
   const selectdItem = options?.find(e => e.key === value);
-  
+
   return (
     <Dropdown
       menu={{

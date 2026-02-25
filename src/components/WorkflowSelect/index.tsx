@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
+import { useLang } from '@/hooks/useLang';
 import type { WorkflowDataType } from '@/typings/workflow';
 import { useWorkflowModel } from './model';
 
@@ -21,6 +22,7 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
   } = props;
 
   const s = useWorkflowModel();
+  const { t } = useLang();
 
   const _options = s.list.length > 0 ? s.list : options;
 
@@ -52,7 +54,7 @@ const WorkflowSelect: FC<LLMSelectProps> = (props) => {
       loading={s.loading}
       onChange={handleChange}
       value={value || undefined}
-      placeholder="Please select"
+      placeholder={t('common.Please select')}
       onOpenChange={handleOpen}
     />
   );

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMemoizedFn, useMount } from 'ahooks';
+import { useLang } from '@/hooks/useLang';
 import type { LLMDataType } from '@/typings/llm';
 import { useLlmModel } from './model';
 
@@ -14,6 +15,7 @@ type LLMSelectProps = SelectProps & {
 const LLMSelect: FC<LLMSelectProps> = (props) => {
   const { onItemChange, options = [], autoFetch = true, ...reset } = props;
   const s = useLlmModel();
+  const { t } = useLang();
 
   const _options = s.list.length > 0 ? s.list : options;
 
@@ -39,7 +41,7 @@ const LLMSelect: FC<LLMSelectProps> = (props) => {
       }}
       loading={s.loading}
       onChange={handleChange}
-      placeholder="Please select"
+      placeholder={t('common.Please select')}
       onOpenChange={open => {
         if (open && !autoFetch) {
           s.fetchData();

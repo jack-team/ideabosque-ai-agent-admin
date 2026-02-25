@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useLang } from '@/hooks/useLang';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
 import type { UiComponentDataType } from '@/typings/ui';
@@ -13,6 +14,7 @@ type UiComponentSelectProps = SelectProps & {
 
 const UiComponentSelect: FC<UiComponentSelectProps> = (props) => {
   const { onItemChange, options = [], autoFetch = true, ...reset } = props;
+  const { t } = useLang();
   const s = useUiComponentModel();
 
   const _options = s.list.length > 0 ? s.list : options;
@@ -39,7 +41,7 @@ const UiComponentSelect: FC<UiComponentSelectProps> = (props) => {
       }}
       loading={s.loading}
       onChange={handleChange}
-      placeholder="Please select"
+      placeholder={t('common.Please select')}
       onOpenChange={open => {
         if (open && !autoFetch) {
           s.fetchData()

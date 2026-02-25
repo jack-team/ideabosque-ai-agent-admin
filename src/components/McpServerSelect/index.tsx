@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Select, type SelectProps } from 'antd';
 import { useMount, useMemoizedFn } from 'ahooks';
+import { useLang } from '@/hooks/useLang';
 import type { McpServerDataType } from '@/typings/mcp';
 import { useMcpServerModel } from './model';
 
@@ -14,6 +15,7 @@ type LLMSelectProps = SelectProps & {
 const McpServerSelect: FC<LLMSelectProps> = (props) => {
   const { onItemChange, options = [], autoFetch, ...reset } = props;
   const s = useMcpServerModel();
+  const { t } = useLang();
 
   const _options = s.list.length > 0 ? s.list : options;
 
@@ -39,7 +41,7 @@ const McpServerSelect: FC<LLMSelectProps> = (props) => {
       }}
       loading={s.loading}
       onChange={handleChange}
-      placeholder="Please select"
+      placeholder={t('common.Please select')}
       onOpenChange={open => {
         if (open && !autoFetch) {
           s.fetchData()

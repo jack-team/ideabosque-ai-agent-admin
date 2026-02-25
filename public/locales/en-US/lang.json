@@ -80,7 +80,8 @@
     "Accepts": "Accepts",
     "File uploaded successfully": "File uploaded successfully.",
     "File upload failed": "File upload failed.",
-    "At most xxx files can be selected": "最多可选择{{maxCount}}个文件"
+    "At most xxx files can be selected": "最多可选择{{maxCount}}个文件",
+    "Please select": "Please select"
   },
   "agent": {
     "chooseAgent": "Agent",
