@@ -1,6 +1,6 @@
 body {
   .node_desc {
-    display: inline-block;
+    display: block;
   }
 
   .title,
@@ -11,7 +11,13 @@ body {
   .title {
     font-size: 14px;
     color: #2ab2d9;
-    font-weight: bold;
+    font-weight: 500;
+    position: relative;
+    width: 100%;
+
+    &.has_icon {
+      padding-right: 40px;
+    }
 
     .edit_btn {
       color: var(--primaryColor);
@@ -25,11 +31,23 @@ body {
         background-color: #f6f6f6;
       }
     }
+
+    .title_icon {
+      height: 16px;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      
+      img {
+        height: 100%;
+      }
+    }
   }
 
   .description {
-    font-size: 12px;
-    color: #999;
-    margin-top: 12px;
+    font-size: 16px;
+    color: #0D082C;
+    margin-top: 4px;
   }
 }

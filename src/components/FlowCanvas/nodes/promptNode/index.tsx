@@ -6,6 +6,7 @@ import { useNodeFormData } from '../../hooks';
 import type { PromptNodeFormData } from './types';
 import { PromptTypesMap } from './enum';
 import type { CustomNodeFC } from '../types';
+import textIcon from '../../icons/text-icon.svg';
 import Form from './form';
 
 const PromptNode: CustomNodeFC = () => {
@@ -26,6 +27,7 @@ const PromptNode: CustomNodeFC = () => {
       <NodeDesc
         title={promptType && t(PromptTypesMap[promptType])}
         desc={formData?.text}
+        titleIcon={<img src={textIcon} />}
       />
     </NodeWrapper>
   );

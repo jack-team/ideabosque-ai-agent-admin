@@ -76,7 +76,7 @@ const Canvas: FC<CanvasProps> = (props) => {
         <Background
           size={2}
           color="#ccc"
-          bgColor="#f6f6f6"
+          bgColor="#fff"
         />
         <Controls />
         <AddNodeButton />

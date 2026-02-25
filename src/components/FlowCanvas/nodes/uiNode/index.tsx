@@ -6,6 +6,7 @@ import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
+import uiIcon from '../../icons/ui-icon.svg';
 
 const UiNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -29,6 +30,7 @@ const UiNode: CustomNodeFC = () => {
       <NodeDesc
         title={component?.componentName}
         desc={formData?.text}
+        titleIcon={<img src={uiIcon} />}
       />
     </NodeWrapper>
   );

@@ -3,7 +3,7 @@
     "action": "操作",
     "actionDesc": "執行業務操作。",
     "text": "文字",
-    "start": "開始",
+    "start": "初次對話",
     "startDesc": "工作流程的起始節點。",
     "step": "步驟",
     "stepDesc": "根據創建的不同分支執行對應的流程。",
@@ -11,7 +11,7 @@
     "uiDesc": "AI助手內部的UI元件，可作為資料來源取得資料。",
     "branch": "分支",
     "branchDesc": "根據創建的不同分支執行對應的流程。",
-    "prompt": "提示",
+    "prompt": "提示詞",
     "promptDesc": "提示AI要做什麼或說什麼。",
     "transform": "轉換",
     "transformDesc": "轉換輸入資料。",
@@ -33,7 +33,10 @@
     "value": "值",
     "editBranchNode": "編輯分支節點",
     "editActionNode": "編輯操作節點",
-    "editNode": "編輯節點"
+    "editNode": "編輯節點",
+    "nextBrach": "下一個",
+    "Step node": "步驟節點",
+    "Branch node": "分支節點"
   },
   "common": {
     "name": "名稱",

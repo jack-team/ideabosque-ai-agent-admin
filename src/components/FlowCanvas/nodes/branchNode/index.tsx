@@ -6,6 +6,7 @@ import NodeDesc from '../../components/NodeDesc';
 import type { BranchFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
+import brachIcon from '../../icons/brach-icon.svg';
 
 const BranchNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -25,6 +26,7 @@ const BranchNode: CustomNodeFC = () => {
       <NodeDesc 
         title={formData?.name}
         desc={formData?.text}
+        titleIcon={<img src={brachIcon} />}
       />
     </NodeWrapper>
   );

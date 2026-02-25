@@ -3,7 +3,7 @@
     "action": "Action",
     "actionDesc": "Perform some business actions.",
     "text": "Text",
-    "start": "Start",
+    "start": "Initial conversation",
     "startDesc": "The starting node of a workflow.",
     "step": "Step",
     "stepDesc": "Execute the corresponding process according to the different branches created.",
@@ -33,7 +33,10 @@
     "value": "Value",
     "editBranchNode": "Edit Branch Node",
     "editActionNode": "Edit Action Node",
-    "editNode": "Edit Node"
+    "editNode": "Edit Node",
+    "nextBrach": "Next",
+    "Step node": "Step node",
+    "Branch node": "Branch node"
   },
   "common": {
     "name": "Name",

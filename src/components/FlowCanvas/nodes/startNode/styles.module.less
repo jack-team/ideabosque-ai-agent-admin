@@ -1,18 +1,41 @@
 .container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+  position: relative;
+  margin: 0 -16px 0 -20px;
 
-  .icon {
+  .title {
+    position: relative;
     font-size: 14px;
+    font-weight: 500;
     color: #2ab2d9;
-    margin-right: 4px;
   }
 
-  .text {
-    font-size: 14px;
-    font-weight: bold;
-    color: #2ab2d9;
+  .icon,
+  .step_icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    left: -10px;
+  }
+
+  .step_icon {
+    width: 16px;
+    right: 16px;
+  }
+
+  .desc {
+    font-size: 16px;
+    color: #0D082C;
+    margin-top: 6px;
+  }
+
+  .title,
+  .desc {
+    padding: 0 16px 0 20px;
   }
 }

@@ -1,19 +1,20 @@
 import type { FC } from 'react';
+import { useLang } from '@/hooks/useLang';
 import { DefaultSourceId } from '../../constants';
 import BranchGroup from './branchGroup';
 import type { BranchProps } from './types';
 import styles from './styles.module.less';
 
 const Branch: FC<BranchProps> = (props) => {
-  const { branch = [], onChange } = props;
+  let { branch = [], onChange } = props;
+  const { t } = useLang();
 
   if (!branch.length) {
-    return (
-      <BranchGroup
-        id={DefaultSourceId}
-        onChange={onChange}
-      />
-    );
+    branch = [{
+      id: DefaultSourceId,
+      value: DefaultSourceId,
+      label: t('flowCanvas.nextBrach')
+    }];
   }
 
   return (

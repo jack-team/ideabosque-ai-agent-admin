@@ -5,6 +5,7 @@ import NodeDesc from '../../components/NodeDesc';
 import { useNodeFormData } from '../../hooks';
 import type { StepNodeFormData } from './types';
 import type { CustomNodeFC } from '../types';
+import stepIcon from '../../icons/step-icon.svg';
 import Form from './form';
 
 const StepNode: CustomNodeFC = () => {
@@ -23,8 +24,9 @@ const StepNode: CustomNodeFC = () => {
       }}
     >
       <NodeDesc
-        title={formData?.name}
-        desc={formData?.description}
+        title={t('flowCanvas.Step node')}
+        desc={formData?.name}
+        titleIcon={<img src={stepIcon} />}
       />
     </NodeWrapper>
   );

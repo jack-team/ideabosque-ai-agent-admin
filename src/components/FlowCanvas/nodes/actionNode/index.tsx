@@ -6,6 +6,7 @@ import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { ActionFormData } from './types';
 import type { CustomNodeFC } from '../types';
+import actionIcon from '../../icons/action-icon.svg';
 import Form from './form';
 
 const ActionNode: CustomNodeFC = () => {
@@ -30,7 +31,8 @@ const ActionNode: CustomNodeFC = () => {
     >
       <NodeDesc
         title={action?.name || actionType}
-        desc={formData?.text}
+        desc={formData?.text || action?.description}
+        titleIcon={<img src={actionIcon} />}
       />
     </NodeWrapper>
   );
