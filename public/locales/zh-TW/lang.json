@@ -1,0 +1,13 @@
+{
+  "common": {
+    "status": "状态",
+    "archive": "归档",
+    "Are you sure you want to archive?": "确定要归档吗？"
+  },
+  "agent": {
+    "agents": "代理列表",
+    "addAgent": "新建代理",
+    "agentName": "代理名称",
+    "agentUuid": "代理 UUID"
+  }
+}

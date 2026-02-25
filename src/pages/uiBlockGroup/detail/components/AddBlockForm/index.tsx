@@ -8,6 +8,7 @@ import {
   CalendarIcon,
   StatusActiveIcon
 } from '@shopify/polaris-icons';
+import { useLang, useExists } from '@/hooks/useLang';
 import { withIcon } from '@/components/IconButton';
 import type { WizardSchemaType } from '../../types';
 import styles from './styles.module.less';
@@ -41,6 +42,8 @@ const sortFields = [
 const AddBlockForm: FC<AddBlockFormProps> = (props) => {
   const [form] = ProForm.useForm();
   const { wizardSchemaList, onChange } = props;
+  const { t } = useLang();
+  const [exists] = useExists();
 
   useModalOkClick(async () => {
     const formData = await form.validateFields();
@@ -58,8 +61,12 @@ const AddBlockForm: FC<AddBlockFormProps> = (props) => {
   const options = sortFields.map(field => {
     return wizardSchemaList.find(e => e.wizardSchemaName === field);
   }).filter(v => v).map(item => {
+    let label = item?.wizardSchemaDescription;
+    const tKey = `uiBlockGroup.${label}`;
+    if (exists(tKey)) label = t(tKey);
+
     return {
-      label: item?.wizardSchemaDescription,
+      label,
       value: item?.wizardSchemaName
     }
   });
@@ -72,7 +79,7 @@ const AddBlockForm: FC<AddBlockFormProps> = (props) => {
     >
       <ProFormSelect<OptionType>
         name="name"
-        label="UI Block type"
+        label={t('uiBlockGroup.UI Block type')}
         rules={[
           { required: true }
         ]}

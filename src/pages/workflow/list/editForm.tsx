@@ -13,6 +13,7 @@ import type { WorkflowDataType } from '@/typings/workflow';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { workflowListApi, insertUpdateWorkflowApi } from '@/services/workflow';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 
 type EditFormProps = {
   workflow: WorkflowDataType;
@@ -21,6 +22,7 @@ type EditFormProps = {
 
 const EditForm: FC<EditFormProps> = (props) => {
   const { workflow } = props;
+  const { t } = useLang();
   const { message } = App.useApp();
   const [form] = ProForm.useForm();
 
@@ -52,9 +54,9 @@ const EditForm: FC<EditFormProps> = (props) => {
         status: StatusEnum.Active
       });
       props.onSaveSuccess?.();
-      message.success('The version has been applied successfully.');
+      message.success(t('common.Version successfully applied'));
     } catch (err) {
-      message.error('The version application failed.');
+      message.error(t('common.Failed to apply for the version, please contact the administrator'));
     }
   });
 
@@ -67,17 +69,17 @@ const EditForm: FC<EditFormProps> = (props) => {
         style={{ padding: '0 6px' }}
       >
         <ProFormText
-          label="Workflow name"
+          label={t('workflow.workflowName')}
           name="flowName"
           rules={[{ required: true }]}
         />
         <ProFormText
           disabled
-          label="Workflow UUID"
+          label={t('workflow.WorkflowUuid')}
           name="flowSnippetUuid"
         />
         <ProFormSelect
-          label="Version"
+          label={t('common.version')}
           name="flowSnippetVersionUuid"
           options={options}
           fieldProps={{

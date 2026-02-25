@@ -5,9 +5,11 @@ import SpinBox from '@/components/SpinBox';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageContainer from '@/components/PageContainer';
 import { threadApi } from '@/services/thread';
+import { useLang } from '@/hooks/useLang';
 import ThreadDetailContent from './content';
 
 const ThreadDetail: FC = () => {
+  const { t } = useLang();
   const { threadUuid } = useParams<{ threadUuid: string }>();
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ const ThreadDetail: FC = () => {
   return (
     <SpinBox loading={loading}>
       <PageContainer
-        title={`Thread: ${threadUuid}`}
+        title={`${t('thread.Thread')}: ${threadUuid}`}
         onBack={() => navigate('/thread', { replace: true })}
       >
         {!!data && <ThreadDetailContent data={data} />}

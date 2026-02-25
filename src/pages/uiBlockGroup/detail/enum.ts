@@ -16,9 +16,9 @@ export enum DataTypeEnum {
 }
 
 export const DataTypeMap = {
-  [DataTypeEnum.String]: 'Text',
-  [DataTypeEnum.Array]: 'List',
-  [DataTypeEnum.File]: 'File'
+  [DataTypeEnum.String]: 'dataTypes.Text',
+  [DataTypeEnum.Array]: 'dataTypes.List',
+  [DataTypeEnum.File]: 'dataTypes.File'
 }
 
 // 表单原子类型
@@ -40,8 +40,8 @@ export enum ValidateType {
 }
 
 export const ValidateTypeMap = {
-  [ValidateType.None]: 'None', 
-  [ValidateType.Email]: 'Email',
-  [ValidateType.Number]: 'Number',
-  [ValidateType.Telephone]: 'Telephone'
+  [ValidateType.None]: 'dataTypes.None', 
+  [ValidateType.Email]: 'dataTypes.Email',
+  [ValidateType.Number]: 'dataTypes.Number',
+  [ValidateType.Telephone]: 'dataTypes.Telephone'
 }

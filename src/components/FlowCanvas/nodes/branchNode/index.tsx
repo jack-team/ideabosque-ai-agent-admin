@@ -1,4 +1,5 @@
 import { BranchesOutlined } from '@ant-design/icons';
+import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import { useNodeFormData } from '../../hooks';
 import NodeDesc from '../../components/NodeDesc';
@@ -7,6 +8,7 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const BranchNode: CustomNodeFC = () => {
+  const { t } = useLang();
   const formData = useNodeFormData<BranchFormData>();
 
   return (
@@ -15,7 +17,7 @@ const BranchNode: CustomNodeFC = () => {
       tools={{
         editForm: {
           width: BranchNode.modalWdith,
-          title: 'Edit Branch node',
+          title: t('flowCanvas.editBranchNode'),
           Component: Form
         }
       }}

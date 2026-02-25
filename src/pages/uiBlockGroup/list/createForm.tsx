@@ -6,6 +6,7 @@ import {
   ProFormTextArea
 } from '@ant-design/pro-components';
 import { App, InputNumber } from 'antd';
+import { useLang } from '@/hooks/useLang';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { WizardGroupResultType } from '@/typings/wizardGroup';
 import { insertUpdateWizardGroupApi } from '@/services/wizardGroup';
@@ -18,6 +19,7 @@ type CreateFormProps = {
 const CreateForm: FC<CreateFormProps> = (props) => {
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
+  const { t } = useLang();
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
@@ -27,9 +29,9 @@ const CreateForm: FC<CreateFormProps> = (props) => {
         updatedBy: partId
       });
       props.onSuccess?.(result.wizardGroup);
-      message.success(`UI Block Group created successfully.`);
+      message.success(t('common.Saved successfully'));
     } catch {
-      message.error(`Failed to create UI Block Group.`);
+      message.error(t('common.Failed to save, please contact the administrator'));
     }
   });
 
@@ -39,21 +41,21 @@ const CreateForm: FC<CreateFormProps> = (props) => {
       submitter={false}
     >
       <ProFormText
-        label="UI Block Group name"
+        label={t('uiBlockGroup.UI Block Group name')}
         name="wizardGroupName"
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="UI Block Group description"
+        label={t('uiBlockGroup.UI Block Group description')}
         name="wizardGroupDescription"
         rules={[
           { required: true }
         ]}
       />
       <ProFormItem
-        label="Weight"
+        label={t('uiBlockGroup.Weight')}
         name="weight"
         rules={[
           {

@@ -5,6 +5,7 @@ import type { McpSettingDataType } from '@/typings/mcpConsole';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpSettingApi } from '@/services/mcpConsole';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 type ModuleFormProps = {
@@ -14,6 +15,7 @@ type ModuleFormProps = {
 
 const ModuleForm: FC<ModuleFormProps> = ({ formData, onSaved }) => {
   const [form] = ProForm.useForm();
+  const { t } = useLang();
   const { message } = App.useApp();
   const setting = formData?.setting || {};
 
@@ -27,9 +29,9 @@ const ModuleForm: FC<ModuleFormProps> = ({ formData, onSaved }) => {
         settingId: formData.settingId
       });
       onSaved();
-      message.success(`Saved successfully.`);
+      message.success(t('common.Saved successfully'));
     } catch (err) {
-      message.error(`Failed to save, please contact the administrator.`);
+      message.error(t('common.Failed to save, please contact the administrator'));
       return Promise.reject(err);
     }
   });

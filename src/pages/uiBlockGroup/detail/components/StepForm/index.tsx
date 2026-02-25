@@ -1,6 +1,7 @@
 import { type FC, memo } from 'react';
 import { ProCard } from '@ant-design/pro-components';
 import { useMemoizedFn } from 'ahooks';
+import { useLang, useExists } from '@/hooks/useLang';
 import StepFormFields from './stepFormFields';
 import type { FormListAction, WizardSchemaType } from '@/typings/wizardGroup';
 import MoreMenu from './moreMenu';
@@ -14,20 +15,31 @@ export type StepFormProps = {
 
 const StepForm: FC<StepFormProps> = (props) => {
   const { action, index } = props;
+  const { t } = useLang();
+  const [exists] = useExists();
 
   const getRowData = useMemoizedFn(() => {
     return action.getCurrentRowData() as WizardSchemaType;
   });
 
-  const title = ` Block - ${getRowData().wizardSchemaDescription}`;
+  let desc = getRowData().wizardSchemaDescription;
+  const tkey = `uiBlockGroup.${desc}`;
+
+  if (exists(tkey)) desc = t(tkey);
 
   return (
     <ProCard
       className={styles.step_card}
       extra={<MoreMenu {...props} />}
-      title={<span className={styles.step_num}>{`Step ${index + 1}`}</span>}
+      title={(
+        <span className={styles.step_num}>
+          {`${t('uiBlockGroup.Step')} ${index + 1}`}
+        </span>
+      )}
     >
-      <div className={styles.group_title}>{title}</div>
+      <div className={styles.group_title}>
+        {[t('uiBlockGroup.Block'), desc].join(' - ')}
+      </div>
       <StepFormFields getRowData={getRowData} />
     </ProCard>
   );

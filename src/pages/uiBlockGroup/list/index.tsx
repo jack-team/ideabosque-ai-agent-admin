@@ -13,10 +13,12 @@ import PageContainer from '@/components/PageContainer';
 import { wizardGroupListApi, deleteWizardGroupApi } from "@/services/wizardGroup";
 import type { WizardGroupResultType } from '@/typings/wizardGroup';
 import { StatusEnum } from '@/constants/enum';
+import { useLang } from '@/hooks/useLang';
 import { formatDate } from '@/utils';
 import CreateForm from './createForm';
 
 const WorkflowTemplates: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
@@ -31,17 +33,17 @@ const WorkflowTemplates: FC = () => {
 
   const handleArchive = useMemoizedFn((record: WizardGroupResultType) => {
     modal.confirm({
-      title: 'Are you sure you want to delete?',
-      okText: 'Delete',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await deleteWizardGroupApi({
             wizardGroupUuid: record.wizardGroupUuid
           });
           onRefresh();
-          message.success('Deletion successful.');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Deletion failed.');
+          message.error(t('common.Failed to delete'));
           return Promise.reject(err);
         }
       }
@@ -51,13 +53,13 @@ const WorkflowTemplates: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="UI Block Groups"
+      title={t('uiBlockGroup.uiBlockGroups')}
       extra={
         <TriggerModal
-          title="Create new UI Block Group"
+          title={t('uiBlockGroup.Create new UI Block Group')}
           trigger={
             <Button type="primary">
-              Create new UI Block Group
+              {t('uiBlockGroup.Create new UI Block Group')}
             </Button>
           }
         >
@@ -78,28 +80,28 @@ const WorkflowTemplates: FC = () => {
           {
             width: '25%',
             dataIndex: "wizardGroupName",
-            title: "UI Block Group name",
+            title: t('uiBlockGroup.UI Block Group name'),
           },
           {
             dataIndex: "wizardGroupUuid",
-            title: "UI Block Group UUID",
+            title: t('uiBlockGroup.UI Block Group UUID'),
             hideInSearch: true,
           },
           {
             dataIndex: "createdAt",
-            title: "Created at",
+            title: t('common.createdAt'),
             hideInSearch: true,
             render: (val) => formatDate(val),
           },
           {
             dataIndex: "updatedAt",
-            title: "Last updated",
+            title: t('common.updatedAt'),
             hideInSearch: true,
             render: (val) => formatDate(val),
           },
           {
             key: "action",
-            title: "Action",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             hideInSearch: true,

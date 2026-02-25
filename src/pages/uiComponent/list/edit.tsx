@@ -6,6 +6,7 @@ import {
   ProFormText,
   ProFormSelect,
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import type { UiComponentDataType } from '@/typings/ui';
 import {  useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateUiComponentApi } from '@/services/uiCpt';
@@ -18,7 +19,7 @@ type EditFormProps = {
 }
 
 const EditForm: FC<EditFormProps> = (props) => {
-  const { formData } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
 
@@ -29,9 +30,8 @@ const EditForm: FC<EditFormProps> = (props) => {
         ...values,
         updatedBy: partId,
       });
-
       props.onSaveSuccess?.();
-      message.success(`Successfully ${formData ? "updated" : "created"} UI component.`);
+      message.success(t('common.Saved successfully'));
     } catch (err: any) {
       message.error(err.message);
       return Promise.reject(err);
@@ -46,23 +46,23 @@ const EditForm: FC<EditFormProps> = (props) => {
     >
       <ProFormText hidden name="uiComponentUuid" />
       <ProFormText
-        label="Tag name"
+        label={t('workflow.tagName')}
         name="tagName"
         rules={[{ required: true }]}
       />
       <ProFormSelect
         name="uiComponentType"
-        label="Component type"
+        label={t('workflow.componentType')}
         rules={[{ required: true }]}
         valueEnum={ComponentTypeMap}
       />
       <ProFormText
         name="waitFor"
-        label="Wait for"
+        label={t('workflow.waitFor')}
         rules={[{ required: true }]}
       />
       <ProFormList
-        label="Parameters"
+        label={t('workflow.parameters')}
         name="parameters"
         alwaysShowItemLabel
         className="custom-form-list"
@@ -71,7 +71,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           {
             validator: (_, value = [], callback) => {
               if (!value.length) {
-                callback("Please add parameter");
+                callback(t('workflow.pleaseAddParameter'));
                 return;
               }
               callback();
@@ -83,14 +83,14 @@ const EditForm: FC<EditFormProps> = (props) => {
           <Col span={12}>
             <ProFormText
               name="name"
-              label="Name"
+              label={t('common.name')}
               rules={[{ required: true }]}
             />
           </Col>
           <Col span={12}>
             <ProFormText
               name="parameter"
-              label="Parameter"
+              label={t('workflow.parameter')}
               rules={[{ required: true }]}
             />
           </Col>

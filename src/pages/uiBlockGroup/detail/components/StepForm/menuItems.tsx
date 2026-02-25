@@ -1,5 +1,6 @@
 import { type FC, useRef } from 'react';
 import { type FormListActionType } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import FormFields, { type FormFieldsProps } from '../FormFields';
 import AddMenuForm from '../FormFields/AddMenuForm';
 
@@ -21,6 +22,7 @@ type MenuItemsProps = {
 };
 
 const MenuItems: FC<MenuItemsProps> = (props) => {
+  const { t } = useLang();
   const actionRef = useRef<FormListActionType>(undefined);
 
   return (
@@ -30,8 +32,8 @@ const MenuItems: FC<MenuItemsProps> = (props) => {
       titleField="elementTitle"
       actionRef={actionRef}
       EditForm={AddMenuForm}
-      addFormTitle="Add menu item"
-      editFormTitle="Menu Item Details"
+      addFormTitle={t('uiBlockGroup.Add menu item')}
+      editFormTitle={t('uiBlockGroup.Menu Item Details')}
       {...props}
     />
   );

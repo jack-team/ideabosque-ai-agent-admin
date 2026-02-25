@@ -4,5 +4,5 @@ export enum TemplateTypeEnum {
 }
 
 export const TemplateTypeMap = {
-  [TemplateTypeEnum.SystemPrompt]: 'System prompt'
+  [TemplateTypeEnum.SystemPrompt]: 'workflow.systemPrompt'
 }

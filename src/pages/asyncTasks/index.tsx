@@ -1,4 +1,4 @@
-import { type FC  } from 'react';
+import { type FC } from 'react';
 import { Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@/components/IconButton';
@@ -7,17 +7,19 @@ import Table from '@/components/Table';
 import PageContainer from '@/components/PageContainer';
 import TriggerModal from '@/components/TriggerModal';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 import Details from './details';
 import type { AsyncTaskDataType } from '@/typings/asyncTask';
 import { asyncTaskListApi } from '@/services/asyncTasks';
 
 const AsyncTasks: FC = () => {
   const navigate = useNavigate();
+  const { t } = useLang();
 
   return (
     <PageContainer
       fullScreen
-      title="Async Tasks"
+      title={t('thread.Async Tasks')}
       onBack={() => navigate('/thread', { replace: true })}
     >
       <Table<AsyncTaskDataType>
@@ -31,33 +33,33 @@ const AsyncTasks: FC = () => {
         rowKey="asyncTaskUuid"
         className="shopify"
         request={async (params) => {
-         return asyncTaskListApi(params);
+          return asyncTaskListApi(params);
         }}
         columns={[
           {
-            title: 'Async Task UUID',
+            title: t('thread.Async Task UUID'),
             dataIndex: 'asyncTaskUuid'
           },
           {
-            title: 'Function Name',
+            title: t('thread.Function Name'),
             dataIndex: 'functionName'
           },
           {
-            title: 'Status',
+            title: t('common.status'),
             dataIndex: 'status'
           },
           {
-            title: 'Time Spent',
+            title: t('thread.Time Spent'),
             dataIndex: 'timeSpent'
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.createdAt)
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: (_, record) => formatDate(record.updatedAt)
@@ -65,7 +67,7 @@ const AsyncTasks: FC = () => {
           {
             width: '80px',
             key: 'action',
-            title: 'Action',
+            title: t('common.actions'),
             align: 'center',
             hideInSearch: true,
             fixed: 'right',
@@ -75,8 +77,8 @@ const AsyncTasks: FC = () => {
                   <TriggerModal
                     width={760}
                     hasFooter={false}
-                    title="Async Task Details"
-                     trigger={<IconButton icon={ViewIcon} />}
+                    title={t('thread.Async Task Details')}
+                    trigger={<IconButton icon={ViewIcon} />}
                   >
                     <Details formData={record} />
                   </TriggerModal>

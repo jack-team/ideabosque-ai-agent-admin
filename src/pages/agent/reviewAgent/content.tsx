@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { Divider, App, Space } from 'antd';
 import copy from 'copy-to-clipboard';
 import Button from '@/components/Button';
+import { useLang } from '@/hooks/useLang';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
@@ -28,6 +29,7 @@ const $body = document.body;
 const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
   const { agents, coordinationUuid } = props;
   const { message } = App.useApp();
+  const { t } = useLang();
   const [form] = ProForm.useForm<FormDataType>();
   const [lasterAgent] = agents;
 
@@ -51,7 +53,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
         }}
       >
         <ProFormSelect<AgentDataType>
-          label="Agent"
+          label={t('agent.chooseAgent')}
           name="agent"
           options={agents}
           fieldProps={{
@@ -70,7 +72,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
             if (result && sdk) sdk.resultData = result;
           }}
         />
-        <Divider>Integration</Divider>
+        <Divider>{t('agent.integration')}</Divider>
         <div className={styles.integration}>
           <ProFormDependency name={['agent']}>
             {({ agent }) => {
@@ -94,19 +96,19 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
                   <Space>
                     <Button
                       size="small"
-                      children="Copy code"
+                      children={t('agent.copyCode')}
                       onClick={() => {
                         copy(code);
-                        message.success('Successfully copied to clipboard.');
+                        message.success(t('common.Successfully copied to clipboard'));
                       }}
                     />
                     {!!sdk && (
                       <Button
                         size="small"
-                        children="Copy chat url"
+                        children={t('agent.CopyChatUrl')}
                         onClick={() => {
                           copy(sdk.resultData.data.chatUrl);
-                          message.success('Successfully copied to clipboard.');
+                          message.success(t('common.Successfully copied to clipboard'));
                         }}
                       />
                     )}

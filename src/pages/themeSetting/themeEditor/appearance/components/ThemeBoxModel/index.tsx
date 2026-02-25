@@ -1,5 +1,6 @@
 import { type FC, useMemo } from 'react';
 import { ProFormItem } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import { getVariableConfigs } from '../../../helper';
 import SliderInput from '../SliderInput';
 import CustomCollapse from '../CustomCollapse';
@@ -11,6 +12,7 @@ type ThemeBoxModelProps = {
 
 const ThemeBoxModel: FC<ThemeBoxModelProps> = (props) => {
   const { sdk } = props;
+  const { t } = useLang();
   const { bubble, chat } = sdk.variables;
 
   const configs = useMemo(() => ([
@@ -25,9 +27,9 @@ const ThemeBoxModel: FC<ThemeBoxModelProps> = (props) => {
   ]), [bubble, chat]);
 
   return (
-    <CustomCollapse 
-    title="Box Model"
-     desc="Set the box model, such as container size, padding, margin, etc."
+    <CustomCollapse
+      title={t('theme.Box Model')}
+      desc={t('theme.Set the box model, such as container size, padding, margin, etc')}
     >
       <div className={styles.container}>
         {configs.map(item => {

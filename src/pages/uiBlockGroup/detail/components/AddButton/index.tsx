@@ -1,6 +1,7 @@
 import type { FC, CSSProperties } from 'react';
 import Icon from '@ant-design/icons';
 import { PlusCircleIcon } from '@shopify/polaris-icons';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 type AddButtonProps = {
@@ -10,7 +11,8 @@ type AddButtonProps = {
 }
 
 const AddButton: FC<AddButtonProps> = (props) => {
-  const { text = 'Add new block' } = props;
+  const { t } = useLang();
+  const { text = t('uiBlockGroup.Add new block') } = props;
   return (
     <div
       style={props.style}

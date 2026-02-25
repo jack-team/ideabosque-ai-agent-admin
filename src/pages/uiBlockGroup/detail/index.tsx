@@ -23,10 +23,12 @@ import type { WizardGroupResultType, WizardSchemaType } from './types';
 import { insertUpdateWizardGroupWithWizards } from '@/services/wizardGroup';
 import Wizards from './wizards';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 
 const UiBlockGroupDetail: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
   const [confirm] = useConfirm();
@@ -64,10 +66,10 @@ const UiBlockGroupDetail: FC = () => {
         ...values,
         updatedBy: partId
       });
-      message.success('Save successfully.');
+      message.success(t('common.Saved successfully'));
     } catch (err) {
       console.error(err);
-      message.error('Save failed.');
+      message.error(t('common.Failed to save, please contact the administrator'));
     } finally {
       setLoading(false);
     }
@@ -91,7 +93,7 @@ const UiBlockGroupDetail: FC = () => {
       <TriggerModal
         width={500}
         trigger={button}
-        title="New UI Block"
+        title={t('uiBlockGroup.New UI Block')}
       >
         <AddBlockForm
           onChange={handleAddItem}
@@ -103,10 +105,10 @@ const UiBlockGroupDetail: FC = () => {
 
   useLeavePage((blocker) => {
     confirm({
-      title: 'Are you sure you want to leave this page?',
-      content: 'The form will not be saved after leaving.',
-      okText: 'Save',
-      cancelText: 'Leave',
+      title: t('common.Are you sure you want to leave'),
+      content: t('common.The data on this page will be lost after leaving'),
+      okText: t('common.save'),
+      cancelText: t('common.leave'),
       onConfirm: async () => {
         await handleSave();
         blocker.proceed();
@@ -129,11 +131,11 @@ const UiBlockGroupDetail: FC = () => {
               className="gray-mode"
               onClick={onSaveProxy}
             >
-              Save
+              {t('common.save')}
             </Button>
             {renderAddBlockForm(
               <Button type="primary">
-                Add new block
+                {t('uiBlockGroup.Add new block')}
               </Button>
             )}
           </Space>
@@ -146,7 +148,7 @@ const UiBlockGroupDetail: FC = () => {
           className={styles.page_content}
         >
           <ProCard
-            title="UI Block Group"
+            title={t('uiBlockGroup.UI Block Group')}
             style={{ marginBottom: 24 }}
           >
             <BasicForm />

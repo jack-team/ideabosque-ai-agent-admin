@@ -1,11 +1,11 @@
-import { type FC, useRef } from 'react';
 import { Space, App } from 'antd';
 import { useMemoizedFn } from 'ahooks';
+import { type FC, useRef } from 'react';
 import PageContainer from '@/components/PageContainer';
 import { type ActionType } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, DuplicateIcon } from '@shopify/polaris-icons';
-import { formatDate } from '@/utils';
 import { StatusEnum, StatusMap } from '@/constants/enum';
+import { formatDate } from '@/utils';
 import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
@@ -14,11 +14,13 @@ import TriggerModal from '@/components/TriggerModal';
 import { agentListApi } from '@/services/agent';
 import type { AgentDataType } from '@/typings/agent';
 import { insertUpdateAgentApi } from '@/services/agent';
+import { useLang } from '@/hooks/useLang';
 
 import EditForm from './edit';
 import Versions from './versions';
 
 const AgentList: FC = () => {
+  const { t } = useLang();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
   const paramsRef = useRef<Record<string, any>>(null);
@@ -29,8 +31,8 @@ const AgentList: FC = () => {
 
   const onDeleteAgent = useMemoizedFn((record: AgentDataType) => {
     modal.confirm({
-      title: 'Are you sure you want to archive?',
-      okText: 'Archive',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await insertUpdateAgentApi({
@@ -40,9 +42,9 @@ const AgentList: FC = () => {
             updatedBy: 'Admin'
           });
           onRefresh();
-          message.success('Archiving succeeded');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Archiving failed');
+          message.error('common.Failed to delete');
         }
       }
     });
@@ -55,14 +57,14 @@ const AgentList: FC = () => {
 
   return (
     <PageContainer
-      title="Agents"
+      title={t('agent.agents')}
       extra={
         <TriggerModal
           width={800}
-          title="Add agent"
+          title={t('agent.addAgent')}
           trigger={
             <Button type="primary">
-              Add agent
+              {t('agent.addAgent')}
             </Button>
           }
         >
@@ -86,46 +88,45 @@ const AgentList: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Agent Name',
+            placeholder: t('agent.agentName'),
           },
         }}
         rowKey="agentUuid"
         columns={[
           {
-            title: 'Agent UUID',
+            title: t('agent.agentUuid'),
             dataIndex: 'agentUuid',
           },
           {
-            title: 'Agent Name',
+            title: t('agent.agentName'),
             dataIndex: 'agentName'
           },
           {
-            title: 'Status',
+            title: t('common.status'),
             dataIndex: 'status',
-            valueEnum: StatusMap,
             hideInSearch: true,
-            render: (val, record) => {
+            render: (_, record) => {
               return (
                 <StatusTag suatus={record.status}>
-                  {val}
+                  {t(StatusMap[record.status])}
                 </StatusTag>
               );
             }
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Actions',
+            title: t('common.actions'),
             key: 'actions',
             align: 'center',
             fixed: 'right',
@@ -136,7 +137,7 @@ const AgentList: FC = () => {
                 <Space>
                   <TriggerModal
                     width={800}
-                    title="Edit agent"
+                    title={t('agent.editAgent')}
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditForm
@@ -146,8 +147,8 @@ const AgentList: FC = () => {
                   </TriggerModal>
                   <TriggerModal
                     width={600}
-                    title="Versions"
-                    okText="Apply"
+                    title={t('common.versions')}
+                    okText={t('common.apply')}
                     trigger={<IconButton icon={DuplicateIcon} />}
                   >
                     <Versions

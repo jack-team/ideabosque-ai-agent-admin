@@ -6,26 +6,26 @@
   },
   {
     "path": "/agent",
-    "title": "Agents"
+    "title": "agent.agents"
   },
   {
     "path": "/workflow",
-    "title": "Workflows"
+    "title": "workflow.workflows"
   },
   {
     "path": "/ui-block-group",
-    "title": "UI Block Groups"
+    "title": "uiBlockGroup.uiBlockGroups"
   },
   {
     "path": "/thread",
-    "title": "Message Threads"
+    "title": "thread.Message Threads"
   },
   {
     "path": "/mcp-console",
-    "title": "Mcp Console"
+    "title": "mcpConsole.Mcp Console"
   },
   {
     "path": "/theme",
-    "title": "Themes"
+    "title": "theme.Themes"
   }
 ]

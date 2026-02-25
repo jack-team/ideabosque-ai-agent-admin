@@ -7,6 +7,7 @@ import type { AgentDataType } from '@/typings/agent';
 import { insertUpdateAgentApi } from '@/services/agent';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { useAgentList } from '../hooks';
+import { useLang } from '@/hooks/useLang';
 
 type VersionsProps = {
   agent: AgentDataType;
@@ -15,6 +16,7 @@ type VersionsProps = {
 
 const Versions: FC<VersionsProps> = (props) => {
   const { agent } = props;
+  const { t } = useLang();
   const { message } = App.useApp();
   const [form] = ProForm.useForm();
 
@@ -35,7 +37,6 @@ const Versions: FC<VersionsProps> = (props) => {
     ));
   }, [data]);
 
-
   useModalOkClick(async () => {
     const values = await form.validateFields();
     try {
@@ -45,9 +46,9 @@ const Versions: FC<VersionsProps> = (props) => {
         updatedBy: 'Admin'
       });
       props.onSaveSuccess?.();
-      message.success(`Application version successfully applied.`);
+      message.success(t('common.Version successfully applied'));
     } catch (err) {
-      message.error(`Failed to apply for the version, please contact the administrator.`);
+      message.error(t('common.Failed to apply for the version, please contact the administrator'));
       return Promise.reject(err);
     }
   });
@@ -64,7 +65,7 @@ const Versions: FC<VersionsProps> = (props) => {
       />
       <ProFormSelect
         options={options}
-        label="Current version"
+        label={t('common.currentVersion')}
         name="agentVersionUuid"
         fieldProps={{ loading }}
         rules={[{ required: true }]}

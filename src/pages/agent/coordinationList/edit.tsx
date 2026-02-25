@@ -8,6 +8,7 @@ import {
   ProFormTextArea
 } from '@ant-design/pro-components';
 import SpinBox from '@/components/SpinBox';
+import { useLang } from '@/hooks/useLang';
 import { StatusEnum } from '@/constants/enum';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
@@ -23,6 +24,7 @@ type EditFormProps = {
 
 const EditForm: FC<EditFormProps> = (props) => {
   const { coordination } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
 
@@ -56,9 +58,9 @@ const EditForm: FC<EditFormProps> = (props) => {
       const params = formDataTransfromParams(values, agents);
       await insertUpdateCoordinationApi(params);
       props.onSaveSuccess?.();
-      message.success(`Saved successfully.`);
+      message.success(t('common.Saved successfully'));
     } catch (err) {
-      message.error(`Failed to save, please contact the administrator.`);
+      message.error(t('common.Failed to save, please contact the administrator'));
       return Promise.reject(err);
     }
   });
@@ -74,12 +76,12 @@ const EditForm: FC<EditFormProps> = (props) => {
           name="coordinationUuid"
         />
         <ProFormText
-          label="Coordination Name"
+          label={t('agent.coordinationName')}
           name="coordinationName"
           rules={[{ required: true }]}
         />
         <ProFormTextArea
-          label="Coordination Description"
+          label={t('agent.coordinationDescription')}
           name="coordinationDescription"
           rules={[{ required: true }]}
           fieldProps={{
@@ -87,7 +89,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           }}
         />
         <ProFormSelect
-          label="Connected theme"
+          label={t('agent.connectedTheme')}
           name="themeUuid"
           options={themes}
           fieldProps={{
@@ -99,7 +101,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           }}
         />
         <ProFormSelect
-          label="Connected agents"
+          label={t('agent.connectedAgents')}
           name="agentUuids"
           mode="multiple"
           allowClear={false}

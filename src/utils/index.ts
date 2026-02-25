@@ -62,3 +62,13 @@ export const getAiSdkStaticUrl = (path: string) => {
 export const pathToObj = <T>(name: string[], val: T) => {
   return name.reduceRight<Record<string, any>>((acc, key) => ({ [key]: acc }), val as any);
 }
+
+export const objectIteration = (obj: Record<string, any>, callback: (val: any) => string) => {
+  return Object.keys(obj).reduce((acc, key) => {
+    return { ...acc, [key]: callback(obj[key]) }
+  }, {} as Record<string, string>);
+}
+
+export function arrayIteration<T> (array: T[], callback: (d:T) => T) {
+  return array.map(callback);
+}

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { BlockOutlined } from '@ant-design/icons';
+import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
@@ -8,6 +9,7 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const TransformNode: CustomNodeFC = () => {
+  const { t } = useLang();
   const { transformTools = [] } = useFlowContext();
   const formData = useNodeFormData<TransformNodeFormData>();
 
@@ -20,7 +22,7 @@ const TransformNode: CustomNodeFC = () => {
       tools={{
         editForm: {
           width: TransformNode.modalWdith,
-          title: 'Edit Transform node',
+          title: t('flowCanvas.editTransformNode'),
           Component: Form
         }
       }}

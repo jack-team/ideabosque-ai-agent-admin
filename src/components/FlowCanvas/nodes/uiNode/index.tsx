@@ -1,4 +1,5 @@
 import { KubernetesOutlined } from '@ant-design/icons';
+import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
@@ -7,6 +8,7 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const UiNode: CustomNodeFC = () => {
+  const { t } = useLang();
   const formData = useNodeFormData<UiFormData>();
   const { uiComponents = [] } = useFlowContext();
 
@@ -19,7 +21,7 @@ const UiNode: CustomNodeFC = () => {
       tools={{
         editForm: {
           Component: Form,
-          title: 'Edit Ui node',
+          title: t('flowCanvas.editUiNode'),
           width: UiNode.modalWdith
         }
       }}

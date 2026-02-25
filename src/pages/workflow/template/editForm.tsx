@@ -20,6 +20,8 @@ import { useUiComponentModel } from '@/components/UiComponentSelect';
 import { useRequest, useUpdateEffect, useMemoizedFn, useSafeState } from 'ahooks';
 import { promptTemplateDetailApi, insertUpdatePromptTemplateApi } from '@/services/workflow';
 import { TemplateTypeMap } from './enum';
+import { useLang } from '@/hooks/useLang';
+import { objectIteration } from '@/utils'
 import { partId } from '@/env';
 
 type EditFormProps = {
@@ -37,6 +39,7 @@ type EditType = 'update' | 'new';
 
 const EditForm: FC<EditFormProps> = (props) => {
   const { workflow } = props;
+  const { t } = useLang();
   const { message } = App.useApp();
   const [search] = useSearchParams();
   const navigate = useNavigate();
@@ -96,9 +99,9 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       setSubmitLoading(true);
       await insertUpdatePromptTemplateApi(params);
-      message.success("Template saved successfully.");
+      message.success(t('common.Saved successfully'));
     } catch (err) {
-      message.success("Template save failed.");
+      message.success(t('common.Failed to save, please contact the administrator'));
     } finally {
       setSubmitLoading(false);
     }
@@ -116,7 +119,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   return (
     <SpinBox loading={loading}>
       <PageContainer
-        title={detail?.promptName || 'Edit template'}
+        title={detail?.promptName || t('workflow.editTemplate')}
         onBack={() => navigate('/workflow/template', { replace: true })}
         extra={
           <Button
@@ -124,7 +127,7 @@ const EditForm: FC<EditFormProps> = (props) => {
             onClick={onSave}
             loading={submitLoading}
           >
-            Save
+            {t('common.save')}
           </Button>
         }
       >
@@ -136,25 +139,25 @@ const EditForm: FC<EditFormProps> = (props) => {
           >
             <ProFormText hidden name="promptUuid" />
             <ProFormText
-              label="Template Name"
+              label={t('workflow.templateName')}
               name="promptName"
               rules={[{ required: true }]}
             />
             <ProFormSelect
-              label="Type"
+              label={t('workflow.templateType')}
               name="promptType"
-              valueEnum={TemplateTypeMap}
+              valueEnum={objectIteration(TemplateTypeMap, t)}
               rules={[{ required: true }]}
             />
             <ProFormItem
-              label="Mcp Servers"
+              label={t('common.mcpServers')}
               name="mcpServerUuids"
               rules={[{ required: true }]}
             >
               <McpServerSelect mode="multiple" />
             </ProFormItem>
             <ProFormItem
-              label="Ui Components"
+              label={t('common.uiComponents')}
               name="uiComponentUuids"
               rules={[{ required: true }]}
             >
@@ -162,18 +165,18 @@ const EditForm: FC<EditFormProps> = (props) => {
             </ProFormItem>
             <ProFormTextArea
               name="promptDescription"
-              label="Prompt description"
+              label={t('workflow.promptDescription')}
               fieldProps={{ rows: 6 }}
               rules={[{ required: true }]}
             />
             <ProFormTextArea
               name="templateContext"
-              label="Prompt context"
+              label={t('workflow.promptContext')}
               rules={[{ required: true }]}
               fieldProps={{ rows: 6 }}
             />
             <ProFormList
-              label="Variables"
+              label={t('common.variables')}
               name="variables"
               alwaysShowItemLabel
               className="custom-form-list"
@@ -182,7 +185,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                 <Col span={24}>
                   <ProFormText
                     name="name"
-                    label="Variable Name"
+                    label={t('common.variableName')}
                     rules={[{ required: true }]}
                   />
                 </Col>

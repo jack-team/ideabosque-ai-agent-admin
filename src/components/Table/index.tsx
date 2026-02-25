@@ -43,8 +43,7 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
   }
 
   const defaultScroll: TableProps<D>['scroll'] = {
-    x: 'max-content',
-    y: '100vh'
+    x: 'max-content'
   }
 
   const {
@@ -61,6 +60,10 @@ function Table<D extends Record<string, any> = {}>(props: TableProps<D>) {
     defaultSize = 'small',
     ...rest
   } = props;
+
+  if (fullScreen) {
+    defaultScroll.y = '100vh';
+  }
 
   const setCacheData = useTableModel(s => s.setTableData);
   const [spinning, setSpinning] = useSafeState(!!request);

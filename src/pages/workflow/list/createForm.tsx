@@ -6,6 +6,7 @@ import {
 } from '@ant-design/pro-components';
 import { useRequest } from 'ahooks';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
 import type { WorkflowDataType } from '@/typings/workflow';
@@ -17,6 +18,7 @@ type CreateFormProps = {
 }
 
 const CreateForm: FC<CreateFormProps> = (props) => {
+  const { t } = useLang();
   const [form] = ProForm.useForm();
 
   const {
@@ -47,12 +49,12 @@ const CreateForm: FC<CreateFormProps> = (props) => {
         submitter={false}
       >
         <ProFormText
-          label="Workflow name"
+          label={t('workflow.workflowName')}
           name="flowName"
           rules={[{ required: true }]}
         />
         <ProFormSelect
-          label="Template"
+          label={t('workflow.template')}
           name="promptUuid"
           options={templates?.data}
           fieldProps={{

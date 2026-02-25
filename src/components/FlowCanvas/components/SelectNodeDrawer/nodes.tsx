@@ -1,5 +1,6 @@
 import { type FC, Fragment } from 'react';
 import { useNodes } from '@xyflow/react';
+import { useLang } from '@/hooks/useLang';
 import AtomNode from '../AtomNode';
 import ModalForm from '../ModalForm';
 import { useCanvasContext } from '../../hooks';
@@ -14,6 +15,7 @@ const Nodes: FC<NodesProps> = (props) => {
   } = props;
 
   const nodes = useNodes();
+  const { t } = useLang();
   const { top } = useCanvasContext();
 
   return (
@@ -52,10 +54,10 @@ const Nodes: FC<NodesProps> = (props) => {
           return (
             <ModalForm
               key={nodeType}
-              okText="Add Node"
+              okText={t('flowCanvas.addNode')}
               onSubmit={handleChange}
               width={Component.modalWdith}
-              title={`Add ${reset.title} Node`}
+              title={t('flowCanvas.addOneNode', { name: t(reset.title) })}
               children={form => <Form form={form} />}
               trigger={<AtomNode {...reset} Icon={Icon} />}
             />

@@ -8,6 +8,7 @@ import { EditIcon, DeleteIcon, PlusCircleIcon, DragHandleIcon, ChevronDownIcon, 
 import { ProFormText, type ProFormListProps, type FormListActionType, ProFormDependency } from '@ant-design/pro-components';
 import IconButton from '@/components/IconButton';
 import TriggerModal from '@/components/TriggerModal';
+import { useLang } from '@/hooks/useLang';
 import AddOptionForm from './AddOptionForm';
 import FormFields from '.';
 import { getNestedValue } from '../../helper';
@@ -53,6 +54,7 @@ const Fields: FC<FieldsProps> = (props) => {
 
   const isTop = floor === 0;
   const enableSub = isTop && showAddBtn;
+  const { t } = useLang();
   const [showSubItems, setShowSubItems] = useSafeState(false);
   const actionRef = useRef<FormListActionType>(undefined);
 
@@ -98,7 +100,7 @@ const Fields: FC<FieldsProps> = (props) => {
                       />
                     )}
                     <TriggerModal
-                      title="Add option"
+                      title={t('uiBlockGroup.Add option')}
                       trigger={<IconButton icon={PlusCircleIcon} />}
                     >
                       <AddOptionForm onSubmit={handleAdd} />
@@ -133,7 +135,7 @@ const Fields: FC<FieldsProps> = (props) => {
                   actionRef={actionRef}
                   EditForm={AddOptionForm}
                   fields={["name", "value"]}
-                  editFormTitle="Option details"
+                  editFormTitle={t('uiBlockGroup.Option details')}
                 />
               </div>
             )}

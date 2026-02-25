@@ -8,6 +8,7 @@ import {
 import type { McpServerDataType } from '@/typings/mcp';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpServerApi } from '@/services/mcp';
+import { useLang } from '@/hooks/useLang';
 import { partId } from '@/env';
 
 type EditFormProps = {
@@ -37,9 +38,9 @@ const optionsToObject = (options: OptionType[]) => {
   }, {});
 }
 
-
 const EditForm: FC<EditFormProps> = (props) => {
   const { formData } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm<FormDataType>();
   const { message } = App.useApp();
 
@@ -75,13 +76,13 @@ const EditForm: FC<EditFormProps> = (props) => {
     >
       <ProFormText hidden name="mcpServerUuid" />
       <ProFormText
-        label="Mcp label"
+        label={t('workflow.mcpLabel')}
         name="mcpLabel"
         rules={[{ required: true }]}
       />
       <ProFormText
         name="mcpServerUrl"
-        label="Mcp server url"
+        label={t('workflow.mcpServerUrl')}
         rules={[{ required: true, type: "url" }]}
       />
       <ProFormList
@@ -91,13 +92,13 @@ const EditForm: FC<EditFormProps> = (props) => {
         alwaysShowItemLabel
         className="custom-form-list"
         creatorButtonProps={{
-          creatorButtonText: "Add Header"
+          creatorButtonText: t('workflow.addHeader')
         }}
         rules={[
           {
             validator: (_, value = [], callback) => {
               if (!value.length) {
-                callback("Please add Header");
+                callback(t('workflow.pleaseAddHeader'));
                 return;
               }
               callback();

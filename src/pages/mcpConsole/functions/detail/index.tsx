@@ -10,6 +10,7 @@ import {
 import Button from '@/components/Button';
 import { useRequest, useUpdateEffect, useSafeState, useMemoizedFn } from 'ahooks';
 import { useNavigate, useParams } from 'react-router';
+import { useLang } from '@/hooks/useLang';
 import PageContainer from '@/components/PageContainer';
 import SpinBox from '@/components/SpinBox';
 import FunctionCalls from '../calls';
@@ -18,6 +19,7 @@ import { insertUpdateMcpFunctionApi } from '@/services/mcpConsole';
 import { partId } from '@/env';
 
 const FunctionDetail: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
@@ -44,9 +46,9 @@ const FunctionDetail: FC = () => {
         updatedBy: partId,
       };
       await insertUpdateMcpFunctionApi(params);
-      message.success(`Function updated successfully.`);
+      message.success(t('common.Saved successfully'));
     } catch (error) {
-      message.error('Failed to update function');
+      message.error(t('common.Failed to save, please contact the administrator'));
       console.error('Function form error:', error);
     }
     setSubmitLoading(false);
@@ -55,7 +57,7 @@ const FunctionDetail: FC = () => {
   return (
     <SpinBox loading={loading}>
       <PageContainer
-        title={`Function Details${data ? `: ${data.name}` : ''}`}
+        title={`${t('mcpConsole.Function Details')}${data ? `: ${data.name}` : ''}`}
         onBack={() => navigate('/mcp-console', { replace: true })}
         extra={
           <Button
@@ -63,11 +65,11 @@ const FunctionDetail: FC = () => {
             onClick={handleSave}
             loading={submitLoading}
           >
-            Save
+            {t('common.save')}
           </Button>
         }
       >
-        <ProCard title="Function Details">
+        <ProCard title={t('mcpConsole.Function Details')}>
           <ProForm
             form={form}
             submitter={false}
@@ -76,7 +78,7 @@ const FunctionDetail: FC = () => {
               <Col span={12}>
                 <ProFormText
                   disabled
-                  label="Function name"
+                  label={t('mcpConsole.Function Name')}
                   name="name"
                   rules={[
                     { required: true }
@@ -85,7 +87,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={12}>
                 <ProFormText
-                  label="Type"
+                  label={t('mcpConsole.type')}
                   name="mcpType"
                   rules={[
                     { required: true }
@@ -94,7 +96,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={24}>
                 <ProFormTextArea
-                  label="Description"
+                  label={t('mcpConsole.description')}
                   name="description"
                   rules={[
                     { required: true }
@@ -103,7 +105,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={12}>
                 <ProFormText
-                  label="Module name"
+                  label={t('mcpConsole.Module name')}
                   name="moduleName"
                   rules={[
                     { required: true }
@@ -112,7 +114,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={12}>
                 <ProFormText
-                  label="Class name"
+                  label={t('mcpConsole.Class name')}
                   name="className"
                   rules={[
                     { required: true }
@@ -121,7 +123,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={12}>
                 <ProFormText
-                  label="Function name (Method)"
+                  label={t('mcpConsole.Function name (Method)')}
                   name="functionName"
                   rules={[
                     { required: true }
@@ -130,7 +132,7 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={12}>
                 <ProFormText
-                  label="Return type"
+                  label={t('mcpConsole.Return Type')}
                   name="returnType"
                   rules={[
                     { required: true }
@@ -139,13 +141,13 @@ const FunctionDetail: FC = () => {
               </Col>
               <Col span={24}>
                 <ProFormText
-                  label="Annotations"
+                  label={t('mcpConsole.Annotations')}
                   name="annotations"
                 />
               </Col>
               <Col span={24}>
                 <ProFormSwitch
-                  label="Is Async?"
+                  label={t('mcpConsole.Is Async?')}
                   name="isAsync"
                 />
               </Col>
@@ -154,8 +156,8 @@ const FunctionDetail: FC = () => {
         </ProCard>
         {!!data && (
           <ProCard
-            title="Function calls"
-            subTitle="These are all instances of this specific function across Workflows."
+            title={t('mcpConsole.Function calls')}
+            subTitle={t('mcpConsole.Function calls desc')}
           >
             <FunctionCalls funcName={name!} />
           </ProCard>

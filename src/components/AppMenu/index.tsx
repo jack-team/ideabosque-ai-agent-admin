@@ -1,5 +1,6 @@
 import { type FC, useMemo } from 'react';
 import { Menu } from 'antd';
+import { useLang } from '@/hooks/useLang';
 import { pathToRegexp } from 'path-to-regexp';
 import { useNavigate, useLocation } from 'react-router-dom';
 import navs from '../ShopifyNavMenu/navs.json';
@@ -8,6 +9,7 @@ import styles from './styles.module.less';
 const renderNavs = navs.filter(nav => !nav.rel);
 
 const AppMenu: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -29,7 +31,7 @@ const AppMenu: FC = () => {
         items={renderNavs.map(nav => {
           return {
             key: nav.path,
-            label: nav.title,
+            label: t(nav.title),
             onClick: () => {
               navigate(nav.path);
             }

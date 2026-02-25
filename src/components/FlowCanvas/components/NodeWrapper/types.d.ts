@@ -22,6 +22,7 @@ export type ToolsType = {
 }
 
 export type NodeWrapperProps = BranchProps & {
+  hasDetail?: boolean;
   enableHandle?: EnableHandleType;
   onAddNode?: (formData: SelectFormData) => Promise<void>;
 } & Partial<Omit<ToolsProps, 'nodeId'>>;

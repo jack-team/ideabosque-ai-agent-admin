@@ -5,12 +5,14 @@ import {
   ProFormTextArea,
   ProFormDependency
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import InputPramsFormItems from '../../components/InputPramsFormItems';
 import { useFlowContext } from '../../hooks';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = (props) => {
+  const { t } = useLang();
   const { uiComponents = [] } = useFlowContext();
 
   const options = uiComponents.map(e => {
@@ -35,7 +37,7 @@ const Form: FC<FormProps> = (props) => {
   return (
     <Fragment>
       <ProFormSelect
-        label="Component"
+        label={t('flowCanvas.component')}
         name="name"
         options={options}
         rules={[
@@ -46,7 +48,7 @@ const Form: FC<FormProps> = (props) => {
         }}
       />
       <ProFormTextArea
-        label="Text"
+        label={t('flowCanvas.text')}
         name="text"
         rules={[
           { required: true }

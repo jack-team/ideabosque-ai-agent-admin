@@ -10,9 +10,11 @@ import TriggerModal from "@/components/TriggerModal";
 import { getModuleListApi, deleteMcpModuleApi } from '@/services/mcpConsole';
 import EditForm from './components/EditForm';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 import type { McpModuleDataType } from '@/typings/mcpConsole';
 
 const Modules: FC = () => {
+  const { t } = useLang();
   const [confirm] = useConfirm();
   const { message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
@@ -31,8 +33,8 @@ const Modules: FC = () => {
         width={620}
         trigger={trigger}
         title={`${!record ?
-          "Create New Module" :
-          "Connection Module Details"
+          t('mcpConsole.Create New Module') :
+          t('mcpConsole.Connection Module Details')
           }`
         }
       >
@@ -46,17 +48,17 @@ const Modules: FC = () => {
 
   const handleDelete = useMemoizedFn((record: McpModuleDataType) => {
     confirm({
-      title: "Are you sure you want to delete this module?",
-      okText: "Delete",
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onConfirm: async () => {
         try {
           await deleteMcpModuleApi({
             moduleName: record.moduleName
           });
-          message.success('Module deleted successfully.');
+          message.success(t('common.Deleted successfully'));
           refreshTable();
         } catch (error) {
-          message.error('Failed to delete module.');
+          message.error(t('common.Failed to delete'));
           console.error('Delete module error:', error);
         }
       },
@@ -70,8 +72,8 @@ const Modules: FC = () => {
 
   return (
     <ProCard
-      title="Connection Modules"
-      subTitle="These are the MCP connections that the functions use to carry out their specific tasks."
+      title={t('mcpConsole.Connection Modules')}
+      subTitle={t('mcpConsole.Connection Modules desc')}
     >
       <Table<McpModuleDataType>
         actionRef={actionRef}
@@ -90,40 +92,40 @@ const Modules: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Module Name',
+            placeholder: t('mcpConsole.Module name'),
           },
         }}
         columns={[
           {
             dataIndex: "moduleName",
-            title: "Module Name",
+            title: t('mcpConsole.Module name')
           },
           {
             dataIndex: "packageName",
-            title: "Package",
+            title: t('mcpConsole.Package'),
           },
           {
             dataIndex: "classes",
-            title: "Classes",
+            title: t('mcpConsole.Classes'),
             render: (_, { classes }) => {
               return classes?.map(e => e.className)?.join(', ');
             },
           },
           {
             dataIndex: "source",
-            title: "Source",
+            title: t('mcpConsole.Source'),
             render: (_, { source }) => {
               return source || '-';
             },
           },
           {
             dataIndex: "updatedAt",
-            title: "Last updated",
+            title: t('common.updatedAt'),
             render: (val) => formatDate(val),
           },
           {
             key: "action",
-            title: "Actions",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             fixed: "right",

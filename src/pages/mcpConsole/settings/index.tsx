@@ -6,12 +6,14 @@ import Table from '@/components/Table';
 import IconButton from '@/components/IconButton';
 import { EditIcon } from '@shopify/polaris-icons';
 import TriggerModal from "@/components/TriggerModal";
+import { useLang } from '@/hooks/useLang';
 import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
 import type { McpSettingDataType } from '@/typings/mcpConsole';
 import { formatDate } from '@/utils';
 
 const Settings: FC = () => {
+  const { t } = useLang();
   const actionRef = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
@@ -26,7 +28,7 @@ const Settings: FC = () => {
       <TriggerModal
         width={800}
         trigger={trigger}
-        title="view details"
+        title={t('mcpConsole.View details')}
       >
         <EditForm
           formData={record}
@@ -37,7 +39,7 @@ const Settings: FC = () => {
   };
 
   return (
-    <ProCard title="Settings" >
+    <ProCard title={t('mcpConsole.Settings')} >
       <Table<McpSettingDataType>
         actionRef={actionRef}
         rowKey="settingId"
@@ -49,16 +51,16 @@ const Settings: FC = () => {
         columns={[
           {
             dataIndex: "settingId",
-            title: "Setting Id",
+            title: t('mcpConsole.Setting id'),
           },
           {
             dataIndex: "updatedAt",
-            title: "LAST UPDATED",
+            title: t('common.updatedAt'),
             render: (val) => formatDate(val),
           },
           {
             key: "action",
-            title: "ACTIONS",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             fixed: "right",

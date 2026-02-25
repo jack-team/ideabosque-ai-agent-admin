@@ -2,6 +2,7 @@ import { type FC, memo } from 'react';
 import { Row, Col, type FormItemProps, Form } from 'antd';
 import { ProFormText, ProFormSelect, ProFormItem } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';
+import { useLang, useExists } from '@/hooks/useLang';
 import MenuItems from './menuItems';
 import { FormFieldType } from '../../enum';
 import type { AttributeType } from '../../types';
@@ -13,12 +14,15 @@ type SchemaFormProps = {
 
 const SchemaForm: FC<SchemaFormProps> = (props) => {
   const { schema, name } = props;
+  const { t } = useLang();
+  const [exists] = useExists();
 
   const renderItem = (item: AttributeType, schemaName: string[]) => {
     const required = item.required;
     const type = item.attributeType;
     const formName = [...schemaName, 'value'];
     const rules: FormItemProps['rules'] = [];
+    const tkey = `uiBlockGroup.${item.label}`;
 
     if (required) {
       rules.push({ required: true });
@@ -32,8 +36,8 @@ const SchemaForm: FC<SchemaFormProps> = (props) => {
       rules,
       required,
       name: formName,
-      label: item.label,
-      extra: item.extra
+      extra: item.extra,
+      label: exists(tkey) ? t(tkey) : item.label
     };
 
     switch (type) {

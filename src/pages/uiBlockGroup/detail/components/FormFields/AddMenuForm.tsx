@@ -3,13 +3,16 @@ import { Checkbox, Form } from 'antd';
 import { useMemoizedFn } from 'ahooks';
 import { ProFormText, ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useModalOkClick } from '@/components/TriggerModal';
+import { useLang } from '@/hooks/useLang';
 import { DataTypeMap, ValidateTypeMap, ValidateType } from '../../enum';
 import { useElements } from '../../hooks'
 import type { EditFormProps } from './fields';
+import { objectIteration } from '@/utils';
 import styles from './styles.module.less';
 
 const AddMenuForm: FC<EditFormProps> = (props) => {
   const { formData } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm();
   const { elementOptions, loading } = useElements();
 
@@ -55,19 +58,18 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
       {formData ? (
         <ProFormText
           name="elementTitle"
-          label="Name"
+          label={t('common.name')}
           rules={[{ required: true }]}
           extra={!!formData ? (
             <div className={styles.name_tip}>
-              <strong>Warning:</strong> Changes made to menu items are global and affect all instances across the system.
-              To avoid making global changes, make a new item from th Edit UI Block Group page.
+              <strong>{t('uiBlockGroup.Warning')}:</strong> {t('uiBlockGroup.menuItemEditTip')}
             </div>
           ) : null}
         />
       ) : (
         <ProFormSelect
           name="tagName"
-          label="Name"
+          label={t('common.name')}
           mode="tags"
           showSearch
           onChange={handleChange}
@@ -83,24 +85,24 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
             <Fragment>
               <ProFormText
                 name="dataType"
-                label="Data type"
+                label={t('uiBlockGroup.Data type')}
                 disabled={disabled}
-                placeholder="Select data type"
+                placeholder={t('uiBlockGroup.Select data type')}
                 rules={[{ required: true }]}
               />
               <ProFormSelect
                 disabled={disabled}
                 name="attributeType"
-                label="Attribute type"
-                valueEnum={DataTypeMap}
-                placeholder="Select attribute type"
+                label={t('uiBlockGroup.Attribute type')}
+                valueEnum={objectIteration(DataTypeMap, t)}
+                placeholder={t('uiBlockGroup.Select attribute type')}
                 rules={[{ required: true }]}
               />
               <ProFormSelect
                 name="pattern"
                 disabled={disabled}
                 label="Validate type"
-                valueEnum={ValidateTypeMap}
+                valueEnum={objectIteration(ValidateTypeMap,t)}
                 initialValue={ValidateType.None}
                 tooltip="Defines the required format for the data entered"
               />
@@ -109,11 +111,11 @@ const AddMenuForm: FC<EditFormProps> = (props) => {
         }}
       </ProFormDependency>
       <Form.Item
-        label="Required status"
+        label={t('uiBlockGroup.Required status')}
         name="required"
         valuePropName="checked"
       >
-        <Checkbox>Required</Checkbox>
+        <Checkbox>{t('uiBlockGroup.Required')}</Checkbox>
       </Form.Item>
     </ProForm>
   );

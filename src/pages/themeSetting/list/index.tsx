@@ -11,6 +11,7 @@ import Table from '@/components/Table';
 import TriggerModal from '@/components/TriggerModal';
 import EditForm from './edit';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 import type { ThemeSettingDataType } from '@/typings/themeSetting';
 import { getThemeSettingListApi, deleteThemeSettingApi } from '@/services/themeSetting';
 
@@ -19,6 +20,7 @@ const WDeleteIcon = withIcon(DeleteIcon);
 const WAlertCircleIcon = withIcon(AlertCircleIcon);
 
 const ThemeSettings: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
@@ -30,17 +32,17 @@ const ThemeSettings: FC = () => {
   const handleArchive = useMemoizedFn(
     (record: ThemeSettingDataType) => {
       modal.confirm({
-        title: 'Are you sure you want to delete?',
-        okText: 'Delete',
+        title: t('common.Are you sure you want to delete'),
+        okText: t('common.delete'),
         onOk: async () => {
           try {
             await deleteThemeSettingApi({
               themeUuid: record.themeUuid
             });
             onRefresh();
-            message.success('Deletion successful.');
+            message.success(t('common.Deleted successfully'));
           } catch (err) {
-            message.error('Deletion failed.');
+            message.error(t('common.Failed to delete'));
             return Promise.reject(err);
           }
         }
@@ -57,13 +59,13 @@ const ThemeSettings: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="Themes"
+      title={t('theme.Themes')}
       extra={
         <TriggerModal
-          title="Create new theme"
+          title={t('theme.Create new theme')}
           trigger={
             <Button type="primary">
-              Create New theme
+              {t('theme.Create new theme')}
             </Button>
           }
         >
@@ -80,21 +82,21 @@ const ThemeSettings: FC = () => {
         columns={[
           {
             dataIndex: 'themeTitle',
-            title: 'Theme name'
+            title: t('theme.Theme name')
           },
           {
             dataIndex: 'themeDescription',
-            title: 'Theme description'
+            title: t('theme.Theme description')
           },
           {
             dataIndex: 'updatedAt',
-            title: 'Last Updated',
+            title: t('common.updatedAt'),
             render: val => formatDate(val)
           },
           {
             width: '100px',
             dataIndex: 'actions',
-            title: 'Actions',
+            title: t('common.actions'),
             render: (_, record) => {
               let detailTrigger: HTMLSpanElement | null = null;
 
@@ -102,14 +104,14 @@ const ThemeSettings: FC = () => {
                 {
                   key: 'edit',
                   icon: <WEditIcon />,
-                  label: 'Edit Theme',
+                  label: t('theme.Edit Theme'),
                   onClick: () => navigate(`/theme/detail/${record.themeUuid}`)
                 },
                 {
                   key: 'details',
                   label: (
                     <span>
-                      View details
+                      {t('mcpConsole.View details')}
                     </span>
                   ),
                   icon: <WAlertCircleIcon />,
@@ -118,7 +120,7 @@ const ThemeSettings: FC = () => {
                 {
                   danger: true,
                   key: 'delete',
-                  label: 'Delete',
+                  label: t('common.delete'),
                   icon: <WDeleteIcon />,
                   onClick: () => handleArchive(record)
                 }
@@ -129,7 +131,7 @@ const ThemeSettings: FC = () => {
                     <IconButton icon={MenuHorizontalIcon} />
                   </Dropdown>
                   <TriggerModal
-                    title="Theme details"
+                    title={t('theme.Theme details')}
                     trigger={<span ref={e => { detailTrigger = e }} />}
                   >
                     <EditForm record={record} onSuccess={onRefresh} />

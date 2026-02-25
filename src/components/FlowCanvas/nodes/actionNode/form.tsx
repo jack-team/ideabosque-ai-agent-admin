@@ -7,11 +7,13 @@ import {
   ProFormText,
   ProFormDependency
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import type { FormProps } from '../types';
 import { useFlowContext } from '../../hooks';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
+  const { t } = useLang();
   const { actions = [], transformTools } = useFlowContext();
 
   const options = useMemo(() => {
@@ -28,7 +30,7 @@ const Form: FC<FormProps> = () => {
   return (
     <Fragment>
       <ProFormSelect
-        label="Action"
+        label={t('flowCanvas.action')}
         name="type"
         options={options}
         rules={[
@@ -36,7 +38,7 @@ const Form: FC<FormProps> = () => {
         ]}
       />
       <ProFormTextArea
-        label="Text"
+        label={t('flowCanvas.text')}
         name="text"
         rules={[
           { required: false }
@@ -69,7 +71,7 @@ const Form: FC<FormProps> = () => {
                         fieldProps={{
                           onChange(value) {
                             const tool = getTool(value as string);
-                            action.setCurrentRowData({ 
+                            action.setCurrentRowData({
                               attrs: [],
                               value: tool?.subValue,
                             });

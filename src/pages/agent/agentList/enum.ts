@@ -4,6 +4,6 @@ export enum ToolCallEnum {
 }
 
 export const ToolCallMap = {
-  [ToolCallEnum.Assistant]: 'Assistant',
-  [ToolCallEnum.Developer]: 'Developer'
+  [ToolCallEnum.Assistant]: 'common.assistant',
+  [ToolCallEnum.Developer]: 'common.developer'
 }

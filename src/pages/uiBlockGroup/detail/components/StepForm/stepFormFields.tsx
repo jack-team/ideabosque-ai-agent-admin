@@ -1,5 +1,6 @@
 import { type FC, memo } from 'react';
 import classNames from 'classnames';
+import { useLang, useExists } from '@/hooks/useLang';
 import { ProFormText } from '@ant-design/pro-components';
 import SchemaForm from './schemaForm';
 import type { WizardSchemaType } from '../../types';
@@ -17,6 +18,9 @@ const StepFormFields: FC<StepFormProps> = (props) => {
     attributeGroups,
   } = getRowData();
 
+  const { t } = useLang();
+  const [exists] = useExists();
+
   return (
     <>
       <ProFormText hidden name="wizardUuid" />
@@ -25,12 +29,12 @@ const StepFormFields: FC<StepFormProps> = (props) => {
       <ProFormText hidden name="wizardSchemaName" />
       <ProFormText
         name="wizardTitle"
-        label="Step title"
+        label={t('uiBlockGroup.Step title')}
         rules={[{ required: true }]}
       />
       <ProFormText
         name="wizardDescription"
-        label="Step description"
+        label={t('uiBlockGroup.Step description')}
         rules={[{ required: true }]}
       />
       {attributeGroups.map(item => {
@@ -40,12 +44,16 @@ const StepFormFields: FC<StepFormProps> = (props) => {
         const isRequired = schema.length === 1 && laster.required && !laster.label;
         const className = classNames(styles.group_title, isRequired && styles.required);
 
+        const tKey = `uiBlockGroup.${item.label}`;
+
         return (
           <div
             key={item.name}
             className={styles.group}
           >
-            <div className={className}>{item.label}</div>
+            <div className={className}>
+              {exists(tKey) ? t(tKey) : item.label}
+            </div>
             <div className={styles.group_content}>
               <SchemaForm name="schemaFormData" schema={schema} />
             </div>

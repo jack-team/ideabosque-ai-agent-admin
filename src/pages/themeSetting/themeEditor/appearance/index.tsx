@@ -60,8 +60,8 @@ const Appearance: FC<AppearanceProps> = (props) => {
         />
         <ThemeIcons sdk={sdk} />
         <ThemeTexts sdk={sdk} />
-        <ThemeBoxModel sdk={sdk} />
         <ThemeFont sdk={sdk} />
+        <ThemeBoxModel sdk={sdk} />
       </ProForm>
     </div>
   );

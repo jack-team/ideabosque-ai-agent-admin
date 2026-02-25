@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useSafeState, useMemoizedFn, useUnmount, useMount } from 'ahooks';
 import { type FC, type MouseEvent, Fragment, cloneElement, useMemo, useTransition } from 'react';
+import { useLang } from '@/hooks/useLang';
 import type { TriggerModalProps, EventType, EventListener } from './types';
 import { TriggerModalContext } from './context';
 import Button from '../Button';
@@ -10,13 +11,15 @@ import Button from '../Button';
 export * from './hooks';
 
 const TriggerModal: FC<TriggerModalProps> = (props) => {
+  const { t } = useLang();
+
   const {
     trigger,
     children,
     showCancel = true,
     hasFooter = true,
-    okText = "Save",
-    cancelText = "Back",
+    okText = t('common.save'),
+    cancelText = t('common.back'),
     ...rest
   } = props;
 

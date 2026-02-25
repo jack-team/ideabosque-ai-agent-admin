@@ -15,6 +15,7 @@ import type { WorkflowDataType } from '@/typings/workflow';
 import IconButton, { withIcon } from '@/components/IconButton';
 import { workflowListApi, insertUpdateWorkflowApi } from '@/services/workflow';
 import StatusTag from '@/components/StatusTag';
+import { useLang } from '@/hooks/useLang';
 import CreateForm from './createForm';
 import EditForm from './editForm';
 import { partId } from '@/env';
@@ -25,6 +26,7 @@ const WDuplicateIcon = withIcon(DuplicateIcon);
 const WAlertCircleIcon = withIcon(AlertCircleIcon);
 
 const WorkflowList: FC = () => {
+  const { t } = useLang();
   const { modal, message } = App.useApp();
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
@@ -42,8 +44,8 @@ const WorkflowList: FC = () => {
   // 删除一条记录
   const onDeleteWorkflow = useMemoizedFn((record: WorkflowDataType) => {
     modal.confirm({
-      title: 'Are you sure you want to archive?',
-      okText: 'Archive',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await insertUpdateWorkflowApi({
@@ -52,9 +54,9 @@ const WorkflowList: FC = () => {
             flowSnippetUuid: record.flowSnippetUuid,
           });
           onRefresh();
-          message.success('Archiving succeeded');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Archiving failed');
+          message.error('common.Failed to delete');
         }
       }
     });
@@ -62,15 +64,15 @@ const WorkflowList: FC = () => {
 
   // 复制一条记录
   const onDuplicate = useMemoizedFn(async (record: WorkflowDataType) => {
-    const closeLoading = message.loading('Loading..');
+    const closeLoading = message.loading(t('common.loading'));
     await insertUpdateWorkflowApi({
       duplicate: true,
       updatedBy: partId,
       flowSnippetUuid: record.flowSnippetUuid,
     });
-    closeLoading();
     onRefresh();
-    message.success('Operation successful');
+    closeLoading();
+    message.success(t('common.Operation successful'));
   });
 
   const toDetail = useMemoizedFn((data: WorkflowDataType, isNew = true) => {
@@ -84,7 +86,7 @@ const WorkflowList: FC = () => {
 
   return (
     <PageContainer
-      title="Workflows"
+      title={t('workflow.workflows')}
       fullScreen
       extra={
         <Space>
@@ -92,15 +94,15 @@ const WorkflowList: FC = () => {
             className="gray-mode"
             onClick={() => navigate('/workflow/template')}
           >
-            Featured templates
+            {t('workflow.featuredTemplates')}
           </Button>
           <TriggerModal
             width={500}
             okText="Create"
-            title="Create workflow"
+            title={t('workflow.createWorkflow')}
             trigger={
               <Button type="primary">
-                Create workflow
+                {t('workflow.createWorkflow')}
               </Button>
             }
           >
@@ -127,42 +129,41 @@ const WorkflowList: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Workflow',
+            placeholder: t('workflow.workflow'),
           },
         }}
         rowKey="flowSnippetUuid"
         columns={[
           {
-            title: 'Workflow',
+            title: t('workflow.workflow'),
             dataIndex: 'flowName',
           },
           {
-            title: 'Status',
+            title: t('common.status'),
             dataIndex: 'status',
-            valueEnum: StatusMap,
             hideInSearch: true,
-            render: (val, record) => {
+            render: (_, record) => {
               return (
                 <StatusTag suatus={record.status}>
-                  {val}
+                  {t(StatusMap[record.status])}
                 </StatusTag>
               );
             }
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Actions',
+            title: t('common.actions'),
             key: 'actions',
             align: 'center',
             fixed: 'right',
@@ -173,15 +174,15 @@ const WorkflowList: FC = () => {
                 {
                   key: 'edit',
                   icon: <WEditIcon />,
-                  label: 'Edit workflow',
+                  label: t('workflow.editWorkflow'),
                   onClick: () => toDetail(record, false)
                 },
                 {
                   key: 'details',
                   label: (
                     <TriggerModal
-                      title="Workflow details"
-                      trigger={<span>View details</span>}
+                      title={t('workflow.workflowDetails')}
+                      trigger={<span>{t('workflow.viewDetails')}</span>}
                     >
                       <EditForm
                         workflow={record}
@@ -193,14 +194,14 @@ const WorkflowList: FC = () => {
                 },
                 {
                   key: 'duplicate',
-                  label: 'Duplicate',
+                  label: t('workflow.duplicate'),
                   icon: <WDuplicateIcon />,
                   onClick: () => onDuplicate(record)
                 },
                 {
                   danger: true,
                   key: 'delete',
-                  label: 'Delete',
+                  label: t('common.delete'),
                   icon: <WDeleteIcon />,
                   onClick: () => onDeleteWorkflow(record)
                 }

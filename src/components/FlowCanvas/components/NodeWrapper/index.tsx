@@ -3,6 +3,7 @@ import { EnterIcon } from '@shopify/polaris-icons';
 import { type FC, type ReactElement, type PropsWithChildren } from 'react';
 import { Handle, Position, useNodeId, useReactFlow } from "@xyflow/react";
 import { withIcon } from '@/components/IconButton';
+import { useLang } from '@/hooks/useLang';
 import Tools from './tools';
 import Branch from './branch';
 import ModalForm from '../ModalForm';
@@ -15,7 +16,8 @@ import styles from './styles.module.less';
 const WEnterIcon = withIcon(EnterIcon);
 
 const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
-  const { tools, branch = [], enableHandle } = props;
+  const { tools, branch = [], enableHandle, hasDetail= true } = props;
+  const { t } = useLang();
 
   const editForm = tools?.editForm;
   const enableSource = enableHandle?.source ?? true;
@@ -44,12 +46,12 @@ const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
     }
     return (
       <ModalForm
-        okText="Save"
+        okText={t('common.save')}
         trigger={trigger}
         formData={formData}
         width={editForm.width}
         onSubmit={onSaveNodeData}
-        title={editForm.title || 'Edit Node'}
+        title={editForm.title || t('flowCanvas.editNode')}
         children={form => <editForm.Component form={form} />}
       />
     );
@@ -90,7 +92,7 @@ const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
               onChange={addNode}
             />
           )}
-          {top && (
+          {top && !!hasDetail && (
             <div className={styles.enter_next_wrapper}>
               <div className={styles.enter_next}>
                 <div

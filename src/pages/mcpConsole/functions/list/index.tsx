@@ -3,6 +3,7 @@ import { useMemoizedFn } from "ahooks";
 import { type FC, useRef } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Table from "@/components/Table";
+import { useLang } from '@/hooks/useLang';
 import { useConfirm } from '@/hooks/useConfirm';
 import IconButton from '@/components/IconButton';
 import { DeleteIcon, EditIcon } from '@shopify/polaris-icons';
@@ -13,6 +14,7 @@ import { formatDate } from '@/utils';
 import styles from './styles.module.less';
 
 const Functions: FC = () => {
+  const { t } = useLang();
   const { message } = App.useApp();
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
@@ -25,17 +27,17 @@ const Functions: FC = () => {
 
   const handleDelete = useMemoizedFn((record: McpFunctionDataType) => {
     confirm({
-      title: 'Are you sure you want to delete this function?',
-      okText: 'Delete',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       async onConfirm() {
         try {
           await deleteMcpFunctionApi({
             name: record.name
           });
-          message.success('Function deleted successfully.');
+          message.success(t('common.Deleted successfully'));
           refreshTable();
         } catch (error) {
-          message.error('Failed to delete function.');
+          message.error(t('common.Failed to delete'));
           console.error('Delete function error:', error);
         }
       },
@@ -49,8 +51,8 @@ const Functions: FC = () => {
 
   return (
     <ProCard
-      title="Functions"
-      subTitle="These are functions using the data from the Connection Modules. These are to perform action tasks within the Workflows."
+      title={t('mcpConsole.Functions')}
+      subTitle={t('mcpConsole.FunctionsDesc')}
     >
       <Table<McpFunctionDataType>
         options={false}
@@ -69,13 +71,13 @@ const Functions: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Function Name',
+            placeholder: t('mcpConsole.Function Name'),
           },
         }}
         columns={[
           {
             dataIndex: "name",
-            title: "Function Name",
+            title: t('mcpConsole.Function Name'),
             render: (val, record) => {
               const url = `/mcp-console/function/${record.functionName}`;
               return <Link to={url} className={styles.func_name}>{val}</Link>
@@ -83,38 +85,38 @@ const Functions: FC = () => {
           },
           {
             dataIndex: "mcpType",
-            title: "Type",
+            title: t('mcpConsole.type'),
             render: (val) => <Tag className={styles.type_tag}>{val}</Tag>
           },
           {
             dataIndex: "moduleName",
-            title: "Module/Class",
+            title: t('mcpConsole.Module/Class'),
             render: (_, record) => {
               return [record.moduleName, record.className].join('/');
             },
           },
           {
             dataIndex: "isAsync",
-            title: "Async",
+            title: t('mcpConsole.Async'),
             render: (val) => {
               return val ? 'ASYNC' : 'SYNC';
             },
           },
           {
             dataIndex: "returnType",
-            title: "Return Type",
+            title: t('mcpConsole.Return Type'),
             render: (_, record) => {
               return record.returnType || '-';
             },
           },
           {
             dataIndex: "updatedAt",
-            title: "Last Updated",
+            title: t('common.updatedAt'),
             render: (val) => formatDate(val),
           },
           {
             key: "action",
-            title: "Actions",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             fixed: "right",

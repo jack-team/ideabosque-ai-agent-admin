@@ -1,11 +1,13 @@
 import { type FC } from 'react';
 import { Row, Col } from 'antd';
+import { useLang } from '@/hooks/useLang';
 import { ProFormText, ProForm } from '@ant-design/pro-components';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { EditFormProps } from './fields';
 
 const AddOptionForm: FC<EditFormProps> = (props) => {
   const [form] = ProForm.useForm();
+  const { t } = useLang();
 
   useModalOkClick(async () => {
     const formData = await form.validateFields();
@@ -23,7 +25,7 @@ const AddOptionForm: FC<EditFormProps> = (props) => {
         <Col span={24}>
           <ProFormText
             name="name"
-            label="Name"
+            label={t('common.name')}
             rules={[
               { required: true }
             ]}
@@ -32,7 +34,7 @@ const AddOptionForm: FC<EditFormProps> = (props) => {
         <Col span={24}>
           <ProFormText
             name="value"
-            label="Value"
+            label={t('common.value')}
             rules={[
               { required: true }
             ]}

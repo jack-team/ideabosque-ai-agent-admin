@@ -14,12 +14,14 @@ import PageContainer from '@/components/PageContainer';
 import { promptTemplateListApi } from "@/services/workflow";
 import type { PromptTemplateDataType } from '@/typings/workflow';
 import { StatusEnum } from '@/constants/enum';
-import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
+import { formatDate, objectIteration } from '@/utils';
 import CreateForm from './createForm';
 import Versions from './versions';
 import { TemplateTypeMap } from './enum';
 
 const WorkflowTemplates: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
 
@@ -40,7 +42,7 @@ const WorkflowTemplates: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="Featured templates"
+      title={t('workflow.featuredTemplates')}
       onBack={() => navigate('/workflow', { replace: true })}
       extra={
         <Space size={16}>
@@ -48,20 +50,20 @@ const WorkflowTemplates: FC = () => {
             className="gray-mode"
             onClick={() => navigate('/workflow/template/mcp-server')}
           >
-            Mcp Servers
+            {t('common.mcpServers')}
           </Button>
           <Button
             className="gray-mode"
             onClick={() => navigate('/workflow/template/ui-component')}
           >
-            Components
+            {t('common.components')}
           </Button>
           <TriggerModal
             width={400}
-            title="Create template"
+            title={t('workflow.createTemplate')}
             trigger={
               <Button type="primary">
-                Create Template
+                {t('workflow.createTemplate')}
               </Button>
             }
           >
@@ -84,34 +86,34 @@ const WorkflowTemplates: FC = () => {
           {
             width: '25%',
             dataIndex: "promptName",
-            title: "Template",
+            title: t('workflow.template'),
             fixed: "left",
           },
           {
             hideInSearch: true,
             dataIndex: "promptType",
-            title: "Type",
-            valueEnum: TemplateTypeMap
+            title: t('flowCanvas.type'),
+            valueEnum: objectIteration(TemplateTypeMap, t)
           },
           {
             dataIndex: "promptDescription",
-            title: "Description",
+            title: t('flowCanvas.description'),
             hideInSearch: true,
           },
           {
             dataIndex: "updatedAt",
-            title: "Updated at",
+            title: t('common.updatedAt'),
             hideInSearch: true,
-            render: (val) => formatDate(val),
+            render: (val) => formatDate(val)
           },
           {
             dataIndex: "updatedBy",
-            title: "Updated by",
+            title: t('common.updatedBy'),
             hideInSearch: true,
           },
           {
             key: "action",
-            title: "Action",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             hideInSearch: true,
@@ -125,8 +127,8 @@ const WorkflowTemplates: FC = () => {
                   />
                   <TriggerModal
                     width={400}
-                    title="Versions"
-                    okText="Apply"
+                    title={t('common.versions')}
+                    okText={t('common.apply')}
                     trigger={<IconButton icon={DuplicateIcon} />
                     }
                   >

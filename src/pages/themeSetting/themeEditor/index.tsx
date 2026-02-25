@@ -6,6 +6,7 @@ import { ProForm } from '@ant-design/pro-components';
 import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import { useAiSdk } from '@/hooks/useAiSdk';
+import { useLang } from '@/hooks/useLang';
 import Preview from './preview';
 import type { ThemeEditorActionType, ThemeEditorProps } from './types';
 import styles from './styles.module.less';
@@ -22,6 +23,7 @@ type ActionFormData = {
 
 const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, ref) => {
   const { themeData } = props;
+  const { t } = useLang();
   const [confirm] = useConfirm();
   const [actionForm] = ProForm.useForm<ActionFormData>();
   const [baseForm] = ProForm.useForm<BaseFormDataType>();
@@ -39,9 +41,9 @@ const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, 
 
   useLeavePage((blocker) => {
     confirm({
-      okText: 'Yes',
-      title: 'Are you sure you want to leave?',
-      content: 'The data on this page will be lost after leaving.',
+      okText: t('common.yes'),
+      title: t('common.Are you sure you want to leave'),
+      content: t('common.The data on this page will be lost after leaving'),
       onConfirm: () => blocker.proceed()
     });
   });

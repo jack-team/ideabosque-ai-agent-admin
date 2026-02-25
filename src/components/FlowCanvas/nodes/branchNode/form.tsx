@@ -7,35 +7,37 @@ import {
   ProFormTextArea,
   type FormListActionType
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
+  const { t } = useLang();
   const actionRef = useRef<FormListActionType>(undefined);
 
   return (
     <Fragment>
       <ProFormText
         name="name"
-        label="Name"
+        label={t('flowCanvas.name')}
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="Text"
+        label={t('flowCanvas.text')}
         name="text"
         rules={[
           { required: false }
         ]}
       />
       <ProFormList
-        label="Condition"
+        label={t('flowCanvas.condition')}
         name="branch"
         copyIconProps={false}
         actionRef={actionRef}
         alwaysShowItemLabel
-        className="custom_form_list"
+        className="custom-form-list"
         actionGuard={{
           beforeAddRow: () => {
             const id = uuid.v4();
@@ -44,11 +46,11 @@ const Form: FC<FormProps> = () => {
           }
         }}
       >
-        <ProFormText name="id" hidden/>
+        <ProFormText name="id" hidden />
         <Row gutter={16}>
           <Col span={12}>
             <ProFormText
-              label="Label"
+              label={t('flowCanvas.label')}
               name="label"
               rules={[
                 { required: true }
@@ -57,7 +59,7 @@ const Form: FC<FormProps> = () => {
           </Col>
           <Col span={12}>
             <ProFormText
-              label="Value"
+              label={t('flowCanvas.value')}
               name="value"
               rules={[
                 { required: true }

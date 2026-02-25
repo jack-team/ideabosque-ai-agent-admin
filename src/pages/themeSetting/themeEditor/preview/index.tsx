@@ -8,6 +8,8 @@ import Button from '@/components/Button';
 import SelectButton from '@/components/SelectButton';
 import TriggerModal from '@/components/TriggerModal';
 import { ChatModes, ChatPositions } from '@/constants/options';
+import { useLang } from '@/hooks/useLang';
+import { arrayIteration } from '@/utils';
 import JsonInput from './jsonInput';
 import Appearance from '../appearance';
 import { updateFormData } from '../helper';
@@ -23,6 +25,7 @@ type PreviewProps = ThemeEditorProps & {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const { sdk, baseForm, actionForm, themeData } = props;
+  const { t } = useLang();
   const [confirm] = useConfirm();
   const { message } = App.useApp();
 
@@ -32,7 +35,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   // 复制主题 Json
   const copyJson = useMemoizedFn(() => {
     copy(JSON.stringify(baseForm.getFieldsValue(true)));
-    message.success('Config Json copied to clipboard.');
+    message.success(t('theme.Config Json copied to clipboard'));
   });
 
   // 加载主题 Json
@@ -40,7 +43,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     (data: Record<string, any>) => {
       sdk?.updateThemeConfigs(data);
       baseForm.setFieldsValue(data);
-      message.success('JSON loaded successfully.');
+      message.success(t('theme.JSON loaded successfully'));
     }
   );
 
@@ -58,7 +61,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   // 重置主题到默认主题
   const resetDefaults = useMemoizedFn(() => {
     confirm({
-      title: 'Are you sure you want to reset all configuration to defaults?',
+      title: t('theme.Are you sure you want to reset all configuration to defaults'),
       onConfirm: () => {
         const theme = getDefaultTheme();
         updateFormData(baseForm, theme);
@@ -79,7 +82,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.title}>
-          Live Preview
+          {t('theme.Live Preview')}
         </div>
         <ProForm
           submitter={false}
@@ -93,18 +96,20 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             <ProFormItem noStyle name="openMode">
               <SelectButton
                 size="middle"
-                options={ChatModes}
-                placeholder="Open Mode"
+                options={arrayIteration(ChatModes,
+                  e => ({ ...e, label: t(e.label) })
+                )}
+                placeholder={t('theme.Open Mode')}
               />
             </ProFormItem>
             <ProFormText hidden name="position" noStyle />
             <Button onClick={copyJson}>
-              Copy Config Json
+              {t('theme.Copy Config Json')}
             </Button>
             <TriggerModal
               width={800}
-              title="Load Config Json"
-              trigger={<Button>Load Config Json</Button>}
+              title={t('theme.Load Config Json')}
+              trigger={<Button>{t('theme.Load Config Json')}</Button>}
             >
               <JsonInput onSave={loadJson} />
             </TriggerModal>
@@ -112,7 +117,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
               className="gray-mode"
               onClick={resetDefaults}
             >
-              Reset to Defaults
+              {t('theme.Reset to Defaults')}
             </Button>
           </Space>
         </ProForm>
@@ -134,7 +139,9 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             <SelectButton
               size="middle"
               value={position}
-              options={ChatPositions}
+              options={arrayIteration(ChatPositions,
+                e => ({ ...e, label: t(e.label) })
+              )}
               placeholder="Bubble direction"
               onChange={position => actionForm.setFieldsValue({ position })}
             />

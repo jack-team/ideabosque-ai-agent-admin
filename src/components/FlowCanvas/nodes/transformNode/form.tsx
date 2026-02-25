@@ -6,24 +6,26 @@ import {
   ProFormText,
   ProFormTextArea
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import { useFlowContext } from '../../hooks';
 import type { FormProps } from '../types';
 
 // 该组建可以提供给外部使用
 const Form: FC<FormProps> = () => {
+  const { t } = useLang();
   const { transformTools = [] } = useFlowContext();
   return (
     <Fragment>
       <ProFormSelect
         options={transformTools}
-        label="Type"
+        label={t('flowCanvas.type')}
         name="type"
         rules={[
           { required: true }
         ]}
       />
       <ProFormTextArea
-        label="Text"
+        label={t('flowCanvas.text')}
         name="text"
         rules={[
           { required: true }
@@ -31,9 +33,10 @@ const Form: FC<FormProps> = () => {
       />
       <ProFormList
         name="attrs"
-        label="Attributes"
+        className="custom-form-list"
+        label={t('flowCanvas.attributes')}
         creatorButtonProps={{
-          creatorButtonText: 'Add Attribute'
+          creatorButtonText: t('flowCanvas.addAttribute')
         }}
       >
         <Row gutter={16}>

@@ -1,4 +1,5 @@
 import { SendOutlined } from '@ant-design/icons';
+import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useNodeFormData } from '../../hooks';
@@ -8,6 +9,7 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const PromptNode: CustomNodeFC = () => {
+  const { t } = useLang();
   const formData = useNodeFormData<PromptNodeFormData>();
   const promptType = formData?.type;
 
@@ -16,13 +18,13 @@ const PromptNode: CustomNodeFC = () => {
       tools={{
         editForm: {
           width: PromptNode.modalWdith,
-          title: 'Edit Prompt node',
+          title: t('flowCanvas.editPromptNode'),
           Component: Form
         }
       }}
     >
       <NodeDesc
-        title={promptType && PromptTypesMap[promptType]}
+        title={promptType && t(PromptTypesMap[promptType])}
         desc={formData?.text}
       />
     </NodeWrapper>

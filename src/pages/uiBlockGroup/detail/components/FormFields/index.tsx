@@ -6,6 +6,7 @@ import { ProFormList, type FormListActionType, ProFormDependency, type ProFormIt
 import AddButton from '../AddButton';
 import AddMenuForm from './AddMenuForm';
 import TriggerModal from '@/components/TriggerModal';
+import { useLang } from '@/hooks/useLang';
 import { getNestedValue } from '../../helper';
 import Fields, { type EditFormProps } from './fields';
 import styles from './styles.module.less';
@@ -35,6 +36,8 @@ const FormFields: FC<FormFieldsProps> = (props) => {
     showAddBtn = true,
   } = props;
 
+  const { t } = useLang();
+
   const handleAdd = useMemoizedFn(
     (data: Record<string, any>) => {
       actionRef.current?.add(data);
@@ -54,7 +57,7 @@ const FormFields: FC<FormFieldsProps> = (props) => {
         rules={[{
           validator(_, value, callback) {
             if (!floor && !value?.length) {
-              callback('Please add menu item');
+              callback(t('uiBlockGroup.Please add menu item'));
               return;
             }
             callback();

@@ -12,45 +12,45 @@ export const customNodes: CustomNodeConfig[] = [
     limit: 1,
     top: true,
     type: 'start',
-    title: 'Start',
-    desc: 'The starting node of a workflow.',
+    title: 'flowCanvas.start',
+    desc: 'flowCanvas.startDesc',
     Component: StartNode
   },
   {
     top: true,
     type: 'step',
-    title: 'Step',
-    desc: 'Execute the corresponding process according to the different branches created.',
+    title: 'flowCanvas.step',
+    desc: 'flowCanvas.stepDesc',
     Component: StepNode
   },
   {
     type: 'ui',
-    title: 'UI',
-    desc: 'The UI components within the AI assistant can be used as a data source to obtain data.',
+    title: 'flowCanvas.ui',
+    desc: 'flowCanvas.uiDesc',
     Component: UiNode
   },
   {
     type: 'branch',
-    title: 'Branch',
-    desc: 'Execute the corresponding process according to the different branches created.',
+    title: 'flowCanvas.branch',
+    desc: 'flowCanvas.branchDesc',
     Component: BranchNode
   },
   {
     type: 'message',
-    title: 'Prompt',
-    desc: 'Prompt the AI what to do or say.',
+    title: 'flowCanvas.prompt',
+    desc: 'flowCanvas.promptDesc',
     Component: PromptNode
   },
   {
     type: 'action',
-    title: 'Action',
-    desc: 'Execute the corresponding process according to the different branches created.',
+    title: 'flowCanvas.action',
+    desc: 'flowCanvas.actionDesc',
     Component: ActionNode
   },
   {
     type: 'transform',
-    title: 'Transform',
-    desc: 'Convert the input data.',
+    title: 'flowCanvas.transform',
+    desc: 'flowCanvas.transformDesc',
     Component: TransformNode
   }
 ];

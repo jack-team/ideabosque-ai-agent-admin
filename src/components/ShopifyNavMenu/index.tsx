@@ -1,8 +1,11 @@
 import type { FC } from 'react';
+import { useLang } from '@/hooks/useLang';
 import { NavMenu } from '@shopify/app-bridge-react';
 import navs from './navs.json';
 
 const ShopifyNavMenu: FC = () => {
+  const { t } = useLang();
+  
   return (
     <span style={{ display: 'none' }}>
       <NavMenu>
@@ -13,7 +16,7 @@ const ShopifyNavMenu: FC = () => {
               rel={nav.rel}
               href={nav.path}
             >
-              {nav.title}
+              {t(nav.title)}
             </a>
           );
         })}

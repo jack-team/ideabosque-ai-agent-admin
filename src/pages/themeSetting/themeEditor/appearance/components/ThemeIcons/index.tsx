@@ -1,6 +1,7 @@
 import { type FC, useMemo, memo } from 'react';
 import { ProFormItem } from '@ant-design/pro-components';
 import UploadInput from '@/components/UploadInput';
+import { useLang } from '@/hooks/useLang';
 import { getVariableConfigs } from '../../../helper';
 import CustomCollapse from '../CustomCollapse';
 import styles from './styles.module.less';
@@ -11,6 +12,7 @@ type ThemeIconsProps = {
 
 const ThemeIcons: FC<ThemeIconsProps> = (props) => {
   const { sdk } = props;
+  const { t } = useLang();
   const { bubble, chat } = sdk.variables;
 
   const configs = useMemo(() => ([
@@ -26,8 +28,8 @@ const ThemeIcons: FC<ThemeIconsProps> = (props) => {
 
   return (
     <CustomCollapse
-      title="Icons"
-      desc="Upload icon image"
+      title={t('theme.Icons')}
+      desc={t('theme.Upload icon image')}
     >
       <div className={styles.container}>
         {configs.map(item => {

@@ -4,6 +4,7 @@ import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-component
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateThemeSettingApi } from '@/services/themeSetting';
 import type { ThemeSettingDataType } from '@/typings/themeSetting';
+import { useLang } from '@/hooks/useLang';
 import { partId } from '@/env';
 
 type EditFormProps = {
@@ -13,6 +14,7 @@ type EditFormProps = {
 
 const EditForm: FC<EditFormProps> = (props) => {
   const { record } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
 
@@ -23,13 +25,15 @@ const EditForm: FC<EditFormProps> = (props) => {
         ...fromData,
         updatedBy: partId
       });
+
       if (record) {
-        message.success('The theme update was successful.');
+        message.success(t('common.Saved successfully'));
       }
+
       props.onSuccess?.(result.themeSetting);
       return true;
     } catch (err) {
-      message.success(record ? 'Updating theme failed.' : 'Failed to create new theme.');
+      message.error('common.Failed to save, please contact the administrator');
       return false;
     }
   });
@@ -50,12 +54,12 @@ const EditForm: FC<EditFormProps> = (props) => {
         initialValue="chatbotTheme"
       />
       <ProFormText
-        label="Theme title"
+        label={t('theme.Theme name')}
         name="themeTitle"
         rules={[{ required: true }]}
       />
       <ProFormTextArea
-        label="Theme description"
+        label={t('theme.Theme description')}
         name="themeDescription"
         rules={[{ required: true }]}
 

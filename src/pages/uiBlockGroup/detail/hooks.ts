@@ -36,7 +36,7 @@ export const useElements = () => {
         value: item.elementUuid
       }
     }
-  ) || []
+  ) || [];
 
   return {
     loading,

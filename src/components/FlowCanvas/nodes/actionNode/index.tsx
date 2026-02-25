@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { FunctionOutlined } from '@ant-design/icons';
+import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
@@ -8,6 +9,7 @@ import type { CustomNodeFC } from '../types';
 import Form from './form';
 
 const ActionNode: CustomNodeFC = () => {
+  const { t } = useLang();
   const { actions = [] } = useFlowContext();
   const formData = useNodeFormData<ActionFormData>();
   const actionType = formData?.type;
@@ -21,7 +23,7 @@ const ActionNode: CustomNodeFC = () => {
       tools={{
         editForm: {
           Component: Form,
-          title: 'Edit Action node',
+          title: t('flowCanvas.editActionNode'),
           width: ActionNode.modalWdith
         }
       }}

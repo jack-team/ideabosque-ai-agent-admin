@@ -4,6 +4,7 @@ import { ProForm, ProFormText, ProFormDependency, ProCard } from '@ant-design/pr
 import { ViewIcon } from '@shopify/polaris-icons';
 import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
+import { useLang } from '@/hooks/useLang';
 import TriggerModal from '@/components/TriggerModal';
 import EditFrom from './components/EditForm';
 import type { ThreadMessageDataType } from '@/typings/thread';
@@ -15,24 +16,26 @@ type ThreadDetailContentProps = {
 
 const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
   const { data } = props;
+  const { t } = useLang();
+
   return (
     <ProForm
       initialValues={data}
       submitter={false}
       className={styles.container}
     >
-      <ProCard title="Thread details">
+      <ProCard title={t('thread.Thread details')}>
         <Row gutter={24}>
           <Col span={12}>
             <ProFormText
-              label="Agent name"
+              label={t('agent.agentName')}
               name={["agent", "agentName"]}
               fieldProps={{ readOnly: true }}
             />
           </Col>
           <Col span={12}>
             <ProFormText
-              label="Agent UUID"
+              label={t('agent.agentUuid')}
               name={["agent", "agentUuid"]}
               fieldProps={{ readOnly: true }}
             />
@@ -40,20 +43,20 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
           <Col span={12}>
             <ProFormText
               name="userId"
-              label="User name"
+              label={t('thread.User name')}
               fieldProps={{ readOnly: true }}
             />
           </Col>
           <Col span={12}>
             <ProFormText
               name="userId"
-              label="User UUID"
+              label={t('thread.User UUID')}
               fieldProps={{ readOnly: true }}
             />
           </Col>
           <Col span={24}>
             <ProFormText
-              label="Agent Description"
+              label={t('agent.agentDescription')}
               name={["agent", "agentDescription"]}
               fieldProps={{ readOnly: true }}
             />
@@ -62,12 +65,12 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
             <ProFormText
               disabled
               name="totalTokensUsed"
-              label="Total tokens used"
+              label={t('thread.Total tokens used')}
             />
           </Col>
         </Row>
       </ProCard>
-      <ProCard title="Message thread">
+      <ProCard title={t('thread.Message Threads')}>
         <ProFormDependency name={['messages']}>
           {({ messages }) => {
             return (
@@ -81,29 +84,31 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
                 columns={[
                   {
                     key: 'message',
-                    title: 'Message',
+                    title: t('thread.Message'),
                     render: (_, record) => {
                       return record.message.content;
                     }
                   },
                   {
                     key: 'sender',
-                    title: 'Sender',
+                    title: t('thread.Sender'),
                     render: (_, record) => {
-                      return <Tag className={styles.tag}>{record.message.role}</Tag>;
+                      return <Tag className={styles.tag}>
+                        {record.message.role}
+                      </Tag>;
                     }
                   },
                   {
                     width: 100,
                     key: 'actions',
-                    title: 'Actions',
+                    title: t('common.actions'),
                     render: (_, record) => {
                       return (
                         <TriggerModal
                           width={620}
                           okText="Close"
                           showCancel={false}
-                          title="Message thread details"
+                          title={t('thread.Message thread details')}
                           trigger={<IconButton icon={ViewIcon} />}
                         >
                           <EditFrom formData={record} />

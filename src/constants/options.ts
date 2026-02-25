@@ -1,29 +1,29 @@
 export const ChatModes = [
   {
     key: 'bubble',
-    label: 'Bubble mode',
+    label: 'theme.Bubble mode',
   },
   {
     key: 'window',
-    label: 'Window mode'
+    label: 'theme.Window mode'
   }
 ];
 
 export const ChatPositions = [
   {
     key: 'topLeft',
-    label: 'Left top',
+    label: 'theme.Left top',
   },
   {
     key: 'bottomLeft',
-    label: 'Left bottom'
+    label: 'theme.Left bottom'
   },
   {
     key: 'topRight',
-    label: 'Right top'
+    label: 'theme.Right top'
   },
   {
     key: 'bottomRight',
-    label: 'Right bottom'
+    label: 'theme.Right bottom'
   }
 ];

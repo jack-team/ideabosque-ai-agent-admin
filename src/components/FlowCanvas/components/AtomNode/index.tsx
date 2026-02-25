@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 type AtomNodeProps = {
@@ -10,6 +11,7 @@ type AtomNodeProps = {
 
 const AtomNode: FC<AtomNodeProps> = (props) => {
   const { Icon, ...rest } = props;
+  const { t } = useLang();
   return (
     <div
       onClick={props.onClick}
@@ -20,10 +22,10 @@ const AtomNode: FC<AtomNodeProps> = (props) => {
       </div>
       <div className={styles.atom_content}>
         <div className={styles.atom_title}>
-          {rest.title}
+          {t(rest.title)}
         </div>
         <div className={styles.atom_desc}>
-          {rest.desc}
+          {t(rest.desc)}
         </div>
       </div>
     </div>

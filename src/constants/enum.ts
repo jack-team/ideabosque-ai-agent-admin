@@ -4,6 +4,6 @@ export enum StatusEnum {
 }
 
 export const StatusMap = {
-  [StatusEnum.Active]: 'Active',
-  [StatusEnum.Inactive]: 'Inactive'
+  [StatusEnum.Active]: 'common.active',
+  [StatusEnum.Inactive]: 'common.inactive'
 }

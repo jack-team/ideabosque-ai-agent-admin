@@ -8,6 +8,7 @@ import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components'
 import { promptTemplateListApi, insertUpdatePromptTemplateApi } from '@/services/workflow';
 import type { PromptTemplateDataType } from '@/typings/workflow';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 
 type VersionsProps = {
   workflow: PromptTemplateDataType;
@@ -18,6 +19,7 @@ const Versions: FC<VersionsProps> = (props) => {
   const { workflow } = props;
   const { message } = App.useApp();
   const [form] = ProForm.useForm();
+  const { t } = useLang();
 
   const {
     data,
@@ -44,9 +46,9 @@ const Versions: FC<VersionsProps> = (props) => {
         updatedBy: partId
       });
       props.onSaveSuccess?.();
-      message.success(`Template version successfully applied.`);
+      message.success(t('common.Version successfully applied'));
     } catch (err) {
-      message.error(`Failed to apply for the version, please contact the administrator.`);
+      message.error(t('common.Failed to apply for the version, please contact the administrator'));
       return Promise.reject(err);
     }
   });
@@ -75,7 +77,7 @@ const Versions: FC<VersionsProps> = (props) => {
       />
       <ProFormSelect
         options={options}
-        label="Current version"
+        label={t('common.currentVersion')}
         name="promptVersionUuid"
         fieldProps={{ loading }}
         rules={[{ required: true }]}

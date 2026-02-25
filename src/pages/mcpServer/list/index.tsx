@@ -12,13 +12,16 @@ import Button from '@/components/Button';
 import TriggerModal from '@/components/TriggerModal';
 import type { McpServerDataType } from '@/typings/mcp';
 import { mcpServerListApi, deleteMcpServerApi } from '@/services/mcp';
+import { useLang } from '@/hooks/useLang';
 
 import EditForm from './edit';
 
 const McpServerList: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
+  const paramsRef = useRef<Record<string, any>>(null);
 
   const onRefresh = useMemoizedFn(() => {
     actionRef.current?.reloadAndRest?.();
@@ -26,32 +29,37 @@ const McpServerList: FC = () => {
 
   const onDeleteAgent = useMemoizedFn((record: McpServerDataType) => {
     modal.confirm({
-      title: 'Are you sure you want to archive?',
-      okText: 'Archive',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await deleteMcpServerApi({ mcpServerUuid: record.mcpServerUuid });
           onRefresh();
-          message.success('Archiving succeeded');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Archiving failed');
+          message.error(t('common.Failed to delete'));
         }
       }
     });
   });
 
+  const onSearch = useMemoizedFn((val: string) => {
+    paramsRef.current = { agentName: val };
+    onRefresh();
+  });
+
   return (
     <PageContainer
       fullScreen
-      title="Mcp servers"
+      title={t('common.mcpServers')}
       onBack={() => navigate('/workflow/template', { replace: true })}
       extra={
         <TriggerModal
           width={640}
-          title="Add mcp server"
+          title={t('workflow.addMcpServer')}
           trigger={
             <Button type="primary">
-              Add mcp server
+              {t('workflow.addMcpServer')}
             </Button>
           }
         >
@@ -64,34 +72,43 @@ const McpServerList: FC = () => {
         request={params => {
           return mcpServerListApi({
             ...params,
+            ...paramsRef.current,
           });
         }}
+        search={false}
         cacheKey="mcpServers"
         rowKey="mcpServerUuid"
+        toolbar={{
+          search: {
+            onSearch,
+            style: { width: 300 },
+            placeholder: t('workflow.mcpLabel'),
+          },
+        }}
         columns={[
           {
-            title: 'Mcp label',
+            title: t('workflow.mcpLabel'),
             dataIndex: 'mcpLabel',
           },
           {
-            title: 'Mcp Server Url',
+            title: t('workflow.mcpServerUrl'),
             dataIndex: 'mcpServerUrl',
             hideInSearch: true
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Actions',
+            title: t('common.actions'),
             key: 'actions',
             align: 'center',
             fixed: 'right',
@@ -102,7 +119,7 @@ const McpServerList: FC = () => {
                 <Space>
                   <TriggerModal
                     width={640}
-                    title="Edit mcp server"
+                    title={t('workflow.editMcpServer')}
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditForm

@@ -2,6 +2,7 @@ import { useMemo, Fragment, type FC } from 'react';
 import { useMemoizedFn } from 'ahooks';
 import { InboxOutlined } from '@ant-design/icons';
 import { type UploadFile, Upload, message } from 'antd';
+import { useLang } from '@/hooks/useLang';
 import type { BeforeUpload } from './types';
 import { uploadFile } from './helper';
 import styles from './styles.module.less';
@@ -28,9 +29,11 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
     accept = '.png,.jpg,.jpeg,.svg'
   } = props;
 
+  const { t } = useLang();
+
   const hintText = useMemo(() => {
     const acceptText = accept.split(',').join(' ');
-    return `Accepts ${acceptText}`;
+    return `${t('common.Accepts')} ${acceptText}`;
   }, [accept]);
 
   const beforeUpload: BeforeUpload = useMemoizedFn((file) => {
@@ -40,7 +43,7 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
       if (files.length < maxCount) {
         files = [...files, file];
       } else {
-        const error = `At most ${maxCount} files can be selected.`;
+        const error = t('common.At most xxx files can be selected', { maxCount });
         message.error(error);
         return false;
       }
@@ -74,7 +77,7 @@ const ProUploadFile: FC<UploadFileProps> = (props) => {
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">
-            Click or drag to add file.
+            {t('common.Click or drag to add file')}
           </p>
           <p className="ant-upload-hint">
             {hintText}

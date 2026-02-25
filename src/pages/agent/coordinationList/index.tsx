@@ -10,11 +10,13 @@ import Button from '@/components/Button';
 import IconButton from '@/components/IconButton';
 import TriggerModal from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
+import { useLang } from '@/hooks/useLang';
 import { formatDate } from '@/utils';
 import Table from '@/components/Table';
 import EditForm from './edit';
 
 const CoordinationList: FC = () => {
+  const { t } = useLang();
   const { modal, message } = App.useApp();
   const navigate = useNavigate();
   const actionRef = useRef<ActionType>(null);
@@ -31,17 +33,17 @@ const CoordinationList: FC = () => {
 
   const onDelete = useMemoizedFn((record: CoordinationDataType) => {
     modal.confirm({
-      title: 'Are you sure you want to delete?',
-      okText: 'Delete',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await deleteCoordinationApi({
             coordinationUuid: record.coordinationUuid
           });
           onRefresh();
-          message.success('Deletion successful.');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Deletion failed.');
+          message.error('common.Failed to delete');
           return Promise.reject(err);
         }
       }
@@ -51,14 +53,14 @@ const CoordinationList: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="Coordinations"
+      title={t('agent.coordinations')}
       extra={
         <TriggerModal
           width={800}
-          title="Add Coordination"
+          title={t('agent.addCoordination')}
           trigger={
             <Button type="primary">
-              Add coordination
+              {t('agent.addCoordination')}
             </Button>
           }
         >
@@ -82,33 +84,33 @@ const CoordinationList: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Coordination Name',
+            placeholder: t('agent.coordinationName'),
           },
         }}
         columns={[
           {
-            title: 'Coordination UUID',
+            title: t('agent.coordinationUuid'),
             dataIndex: 'coordinationUuid',
             hideInSearch: true
           },
           {
-            title: 'Coordination Name',
+            title: t('agent.coordinationName'),
             dataIndex: 'coordinationName'
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Actions',
+            title: t('common.actions'),
             key: 'actions',
             align: 'center',
             fixed: 'right',
@@ -125,7 +127,7 @@ const CoordinationList: FC = () => {
                   />
                   <TriggerModal
                     width={800}
-                    title="Edt coordination"
+                    title={t('agent.edtCoordination')}
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditForm

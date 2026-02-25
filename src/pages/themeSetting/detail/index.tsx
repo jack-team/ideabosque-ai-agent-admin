@@ -9,10 +9,12 @@ import ThemeEditor from '../themeEditor';
 import type { ThemeEditorActionType } from '../themeEditor/types';
 import { getThemeSettingApi, insertUpdateThemeSettingApi } from '@/services/themeSetting';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 const ThemeDetail: FC = () => {
   const navigate = useNavigate();
+  const { t } = useLang();
   const { message } = App.useApp();
   const [submiting, setSubmiting] = useSafeState(false);
   const actionRef = useRef<ThemeEditorActionType>(null);
@@ -36,9 +38,9 @@ const ThemeDetail: FC = () => {
         themeType: 'chatbotTheme',
         setting: actionRef.current?.getThemeData()
       });
-      message.success('Theme updated successfully.');
+      message.success(t('common.Saved successfully'));
     } catch (err) {
-      message.error('Failed to update the theme.');
+      message.error(t('common.Failed to save, please contact the administrator'));
     }
     setSubmiting(false);
   });
@@ -47,7 +49,7 @@ const ThemeDetail: FC = () => {
     <SpinBox loading={loading} alpha={.5}>
       <PageContainer
         fullScreen
-        title={'Theme Editor'}
+        title={t('theme.Theme Editor')}
         subTitle={data?.themeTitle ? `(${data?.themeTitle})` : null}
         onBack={() => navigate('/theme', { replace: true })}
         extra={
@@ -56,7 +58,7 @@ const ThemeDetail: FC = () => {
             onClick={handleSave}
             loading={submiting}
           >
-            Save
+            {t('common.save')}
           </ShopifyButton>
         }
       >

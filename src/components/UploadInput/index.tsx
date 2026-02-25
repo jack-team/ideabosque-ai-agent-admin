@@ -3,6 +3,7 @@ import { type UploadFile, App } from 'antd';
 import { useSafeState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { getAwsFileUrl } from '../AwsImage/helper';
 import { openUrl, isURL } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 import ProUploadFile, { uploadFile } from '@/components/UploadFile';
 import { AwsImage } from '../AwsImage';
 import styles from './styles.module.less';
@@ -16,6 +17,7 @@ type UploadInputProps = {
 
 const UploadInput: FC<UploadInputProps> = (props) => {
   const { message } = App.useApp();
+  const { t } = useLang();
   const { value, onChange, namespace, reviewImg = false } = props;
   const [loading, setLoading] = useSafeState(false);
 
@@ -41,10 +43,10 @@ const UploadInput: FC<UploadInputProps> = (props) => {
       file.status = 'done';
       file.url = objectKey;
       onChange?.(objectKey);
-      message.success('File uploaded successfully.');
+      message.success(t('common.File uploaded successfully'));
     } catch (err) {
       file.status = 'error';
-      message.error('File upload failed.');
+      message.error(t('common.File upload failed'));
     } finally {
       setFiles([file]);
       setLoading(false);

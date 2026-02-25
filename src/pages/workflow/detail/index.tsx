@@ -14,11 +14,13 @@ import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
 import { partId } from '@/env';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 export type EditType = 'new' | 'update';
 
 function WorkflowDetail() {
+  const { t } = useLang();
   const { message } = App.useApp();
   const [flow] = useFlowInstance();
   const [search] = useSearchParams();
@@ -38,16 +40,16 @@ function WorkflowDetail() {
 
   const lastUpdateText = useMemo(() => {
     if (!workflowData) return null;
-    const updatedAt = workflowData.updatedAt;
-    return `Last updated on ${dayjs(updatedAt).format('YYYY/MM/DD HH:mm:ss')}`;
-  }, [workflowData]);
+    const updatedAt = dayjs(workflowData.updatedAt).format('YYYY/MM/DD HH:mm:ss');
+    return t('workflow.lastUpdateOn', { updateTime: updatedAt });
+  }, [workflowData, t]);
 
   // 页面退出提示
   useLeavePage((blocker) => {
     confirm({
-      okText: 'Yes',
-      title: 'Are you sure you want to leave?',
-      content: 'The data on this page will be lost after leaving.',
+      okText: t('common.yes'),
+      title: t('common.Are you sure you want to leave'),
+      content: t('common.The data on this page will be lost after leaving'),
       onConfirm: () => blocker.proceed()
     });
   });
@@ -71,9 +73,9 @@ function WorkflowDetail() {
     try {
       setSubmitLoading(true);
       await insertUpdateWorkflowApi(params);
-      message.success('Workflow saved successfully.');
+      message.success(t('workflow.Workflow saved successfully'));
     } catch (err) {
-      message.error('Failed to save.');
+      message.error(t('common.Failed to save, please contact the administrator'));
     } finally {
       setSubmitLoading(false);
     }
@@ -85,7 +87,7 @@ function WorkflowDetail() {
       onBack={() => navigate('/workflow', { replace: true })}
       title={
         <Fragment>
-          {workflowData?.flowName || 'Workflow editor'}
+          {workflowData?.flowName || t('workflow.WorkflowEditor')}
           {!!lastUpdateText && (
             <div className={styles.update_time}>
               {lastUpdateText}
@@ -101,7 +103,7 @@ function WorkflowDetail() {
               onClick={onSave}
               loading={submitLoading}
             >
-              Save
+              {t('common.save')}
             </Button>
           </div>
         )

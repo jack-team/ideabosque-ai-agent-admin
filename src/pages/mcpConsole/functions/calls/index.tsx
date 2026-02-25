@@ -6,6 +6,7 @@ import { getFunctionCallListApi } from '@/services/mcpConsole';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import type { McpFunctionCallDataType } from '@/typings/mcpConsole';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
 type FunctionCallsProps = {
@@ -14,6 +15,7 @@ type FunctionCallsProps = {
 
 const FunctionCalls: FC<FunctionCallsProps> = (props) => {
   const { funcName } = props;
+  const { t } = useLang();
   const actionRef = useRef<ActionType>(null);
 
   return (
@@ -34,7 +36,7 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
       columns={[
         {
           dataIndex: "name",
-          title: "UUID/Function",
+          title: "Function/UUID",
           render: (_, record) => {
             return (
               <Fragment>
@@ -48,7 +50,7 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
         },
         {
           dataIndex: "arguments",
-          title: "Arguments",
+          title: t('thread.Arguments'),
           render: (json) => {
             const val = (() => {
               try {
@@ -66,7 +68,7 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
         },
         {
           dataIndex: "status",
-          title: "Status",
+          title: t('common.status'),
           render: (val) => {
             return (
               <Tag className={styles.status_tag}>{val}</Tag>
@@ -75,15 +77,14 @@ const FunctionCalls: FC<FunctionCallsProps> = (props) => {
         },
         {
           dataIndex: "timeSpent",
-          title: "Time spent",
+          title: t('thread.Time Spent'),
           render: (_, record) => {
             return `${record.timeSpent || 0}ms`;
           },
         },
         {
-          width: '160px',
           dataIndex: "createdAt",
-          title: "Time stamp",
+          title: t('mcpConsole.Time stamp'),
           render: (val) => formatDate(val)
         }
       ]}

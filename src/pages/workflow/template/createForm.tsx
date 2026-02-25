@@ -4,11 +4,13 @@ import {
   ProFormText,
   ProFormSelect,
 } from '@ant-design/pro-components';
+import { useLang } from '@/hooks/useLang';
 import { partId } from '@/env';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdatePromptTemplateApi } from '@/services/workflow';
 import type { PromptTemplateDataType } from '@/typings/workflow';
 import { TemplateTypeMap } from './enum';
+import { objectIteration } from '@/utils';
 
 type CreateFormProps = {
   onSaveSuccess?: (record: PromptTemplateDataType) => void;
@@ -16,6 +18,7 @@ type CreateFormProps = {
 
 const CreateForm: FC<CreateFormProps> = (props) => {
   const [form] = ProForm.useForm();
+  const { t } = useLang();
 
   useModalOkClick(async () => {
     const values = await form.validateFields();
@@ -33,15 +36,15 @@ const CreateForm: FC<CreateFormProps> = (props) => {
       submitter={false}
     >
       <ProFormText
-        label="Template name"
+        label={t('workflow.templateName')}
         name="promptName"
         rules={[{ required: true }]}
       />
       <ProFormSelect
-        label="Template type"
+        label={t('workflow.templateType')}
         name="promptType"
         rules={[{ required: true }]}
-        valueEnum={TemplateTypeMap}
+        valueEnum={objectIteration(TemplateTypeMap, t)}
         fieldProps={{ allowClear: false }}
       />
     </ProForm>

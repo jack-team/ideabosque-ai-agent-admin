@@ -12,6 +12,7 @@ import {
 } from '@ant-design/pro-components';
 import { useSafeState, useMemoizedFn } from 'ahooks';
 import { useModalOkClick } from '@/components/TriggerModal';
+import { useLang } from '@/hooks/useLang';
 import SpinBox from '@/components/SpinBox';
 import LLMSelect from '@/components/LLMSelect';
 import type { LLMDataType } from '@/typings/llm';
@@ -23,6 +24,7 @@ import Configuration from './components/Configuration';
 import { agentRecordTransformFormData } from './helper';
 import { useAgentDetail, useTemplateDetail } from '../hooks';
 import { ToolCallMap } from './enum';
+import { objectIteration } from '@/utils';
 
 type EditFormProps = {
   agent?: AgentDataType;
@@ -30,11 +32,14 @@ type EditFormProps = {
 }
 
 const EditForm: FC<EditFormProps> = (props) => {
+  const { t } = useLang();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
   const isFirst = useRef(true);
   const [agent, setAgent] = useSafeState(props.agent);
   const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
+
+  const schema = agent?.llm?.configurationSchema;
 
   // 获取 Agent 信息，当编辑的时候
   const { loading } = useAgentDetail(agent, (res) => {
@@ -47,23 +52,22 @@ const EditForm: FC<EditFormProps> = (props) => {
     data: template,
     loading: requestLoading
   } = useTemplateDetail(promptUuid, (res) => {
-    form.setFieldsValue({
-      mcpServerUuids: res.mcpServers.map(e => e.mcpServerUuid),
-      instructions: isFirst.current ?
-        agent?.instructions :
-        res.templateContext
-    });
+    const mcpServerUuids = res.mcpServers.map(e => e.mcpServerUuid);
+    const instructions = isFirst.current ? agent?.instructions : res.templateContext;
+    form.setFieldsValue({ mcpServerUuids, instructions });
     isFirst.current = false;
   }, loading);
 
   const variables = template?.variables || [];
 
   const onLLMChange = useMemoizedFn((e: LLMDataType) => {
-    form.setFieldsValue({
-      llmName: e.llmName,
-      configurationSchema: e.configurationSchema
-    });
+    form.setFieldsValue({ llmName: e.llmName });
     form.resetFields(['configuration']);
+
+    if (agent) {
+      agent.llm = e;
+      setAgent({ ...agent });
+    }
   });
 
   useModalOkClick(async () => {
@@ -71,9 +75,9 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       await insertUpdateAgentApi({ ...values, updatedBy: 'Admin' });
       props.onSaveSuccess?.();
-      message.success(`Saved successfully.`);
+      message.success(t('common.Saved successfully'));
     } catch (err) {
-      message.error(`Failed to save, please contact the administrator.`);
+      message.error(`common.Failed to save, please contact the administrator`);
       return Promise.reject(err);
     }
   });
@@ -89,14 +93,14 @@ const EditForm: FC<EditFormProps> = (props) => {
           name="agentUuid"
         />
         <ProFormText
-          label="Agent Name"
+          label={t('agent.agentName')}
           name="agentName"
           rules={[
             { required: true }
           ]}
         />
         <ProFormTextArea
-          label="Agent Description"
+          label={t('agent.agentDescription')}
           name="agentDescription"
           rules={[
             { required: true }
@@ -106,9 +110,9 @@ const EditForm: FC<EditFormProps> = (props) => {
           }}
         />
         <ProFormSelect
-          label="Tool Call Role"
+          label={t('agent.toolCallRole')}
           name="toolCallRole"
-          valueEnum={ToolCallMap}
+          valueEnum={objectIteration(ToolCallMap, t)}
           rules={[
             { required: true }
           ]}
@@ -116,7 +120,7 @@ const EditForm: FC<EditFormProps> = (props) => {
         <Row gutter={16}>
           <Col span={12}>
             <ProFormItem
-              label="LLM Provider"
+              label={t('common.llmProvider')}
               name="llmProvider"
               rules={[
                 { required: true }
@@ -130,7 +134,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           </Col>
           <Col span={12}>
             <ProFormText
-              label="LLM Name"
+              label={t('common.llmName')}
               name="llmName"
               disabled
               rules={[
@@ -140,7 +144,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           </Col>
           <Col span={12}>
             <ProFormItem
-              label="Connected Workflows"
+              label={t('agent.connectedWorkflows')}
               name="flowSnippetVersionUuid"
             >
               <WorkflowSelect
@@ -152,7 +156,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           </Col>
           <Col span={12}>
             <ProFormItem
-              label="Num of Messages"
+              label={t('agent.numOfMessages')}
               name="numOfMessages"
               rules={[
                 { required: true }
@@ -167,25 +171,18 @@ const EditForm: FC<EditFormProps> = (props) => {
               />
             </ProFormItem>
           </Col>
+          {!!schema && (
+            <Col span={24}>
+              <ProFormItem
+                name="configuration"
+                label={t('agent.configuration')}
+                rules={[{ required: true }]}
+              >
+                <Configuration schema={schema} />
+              </ProFormItem>
+            </Col>
+          )}
         </Row>
-        <ProFormDependency name={['configurationSchema']}>
-          {({ configurationSchema: schema }) => {
-            if (!schema) {
-              return null;
-            }
-            return (
-              <Col span={24}>
-                <ProFormItem
-                  label="Configuration"
-                  name="configuration"
-                  rules={[{ required: true }]}
-                >
-                  <Configuration schema={schema} />
-                </ProFormItem>
-              </Col>
-            );
-          }}
-        </ProFormDependency>
         <ProFormDependency name={['flowSnippetVersionUuid', 'mcpServerUuids']}>
           {({ flowSnippetVersionUuid, mcpServerUuids = [] }) => {
             const disabled = !!flowSnippetVersionUuid;
@@ -193,13 +190,13 @@ const EditForm: FC<EditFormProps> = (props) => {
             return (
               <SpinBox loading={_loading} alpha={.8}>
                 <ProFormTextArea
-                  label="Instructions"
+                  label={t('agent.instructions')}
                   name="instructions"
                   disabled={disabled}
                   fieldProps={{ rows: 6 }}
                 />
                 <ProFormItem
-                  label="MCP Servers"
+                  label={t('common.mcpServers')}
                   name="mcpServerUuids"
                   hidden={disabled && !mcpServerUuids?.length}
                 >
@@ -212,7 +209,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                 </ProFormItem>
                 {variables.length > 0 && (
                   <ProFormList
-                    label="Variables"
+                    label={t('common.variables')}
                     name="variables"
                     alwaysShowItemLabel
                     className="custom-form-list"
@@ -226,7 +223,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                       <Col span={12}>
                         <ProFormSelect
                           name="name"
-                          label="Variable"
+                          label={t('common.variable')}
                           options={variables}
                           fieldProps={{
                             fieldNames: {
@@ -242,7 +239,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                       <Col span={12}>
                         <ProFormText
                           name="value"
-                          label="Value"
+                          label={t('common.value')}
                           rules={[
                             { required: true }
                           ]}

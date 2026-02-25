@@ -12,10 +12,12 @@ import Button from '@/components/Button';
 import TriggerModal from '@/components/TriggerModal';
 import type { UiComponentDataType } from '@/typings/ui';
 import { uiComponentListApi, deleteUiComponentApi } from '@/services/uiCpt';
+import { useLang } from '@/hooks/useLang';
 
 import EditForm from './edit';
 
 const UiComponentList: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
   const { modal, message } = App.useApp();
   const actionRef = useRef<ActionType>(null);
@@ -27,8 +29,8 @@ const UiComponentList: FC = () => {
 
   const onDeleteAgent = useMemoizedFn((record: UiComponentDataType) => {
     modal.confirm({
-      title: 'Are you sure you want to archive?',
-      okText: 'Archive',
+      title: t('common.Are you sure you want to delete'),
+      okText: t('common.delete'),
       onOk: async () => {
         try {
           await deleteUiComponentApi({
@@ -36,9 +38,9 @@ const UiComponentList: FC = () => {
             uiComponentUuid: record.uiComponentType
           });
           onRefresh();
-          message.success('Archiving succeeded');
+          message.success(t('common.Deleted successfully'));
         } catch (err) {
-          message.error('Archiving failed');
+          message.error(t('common.Failed to delete'));
         }
       }
     });
@@ -52,15 +54,15 @@ const UiComponentList: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="UI Components"
+      title={t('common.uiComponents')}
       onBack={() => navigate('/workflow/template', { replace: true })}
       extra={
         <TriggerModal
           width={640}
-          title="Add component"
+          title={t('workflow.addComponent')}
           trigger={
             <Button type="primary">
-              Add Component
+              {t('workflow.addComponent')}
             </Button>
           }
         >
@@ -83,34 +85,34 @@ const UiComponentList: FC = () => {
           search: {
             onSearch,
             style: { width: 300 },
-            placeholder: 'Tag name',
+            placeholder: t('workflow.tagName'),
           },
         }}
         columns={[
           {
-            title: 'Tag name',
+            title: t('workflow.tagName'),
             dataIndex: 'tagName',
             hideInSearch: true
           },
           {
-            title: 'Component Type',
+            title: t('workflow.componentType'),
             dataIndex: 'uiComponentType',
             hideInSearch: true
           },
           {
-            title: 'Create at',
+            title: t('common.createdAt'),
             dataIndex: 'createdAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Last updated',
+            title: t('common.updatedAt'),
             dataIndex: 'updatedAt',
             hideInSearch: true,
             render: formatDate
           },
           {
-            title: 'Actions',
+            title: t('common.actions'),
             key: 'actions',
             align: 'center',
             fixed: 'right',
@@ -121,7 +123,7 @@ const UiComponentList: FC = () => {
                 <Space>
                   <TriggerModal
                     width={640}
-                    title="Edit component"
+                    title={t('workflow.editComponent')}
                     trigger={<IconButton icon={EditIcon} />}
                   >
                     <EditForm

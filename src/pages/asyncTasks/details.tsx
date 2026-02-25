@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { Divider } from 'antd';
 import { ProForm, ProCard } from '@ant-design/pro-components';
 import LongTextReadonly from '@/components/LongTextReadonly';
+import { useLang } from '@/hooks/useLang';
 
 type DetailsProps = {
   onSuccess?: () => void;
@@ -10,6 +11,7 @@ type DetailsProps = {
 
 const Details: FC<DetailsProps> = (props) => {
   const { formData } = props;
+  const { t } = useLang();
   const [form] = ProForm.useForm();
 
   return (
@@ -19,60 +21,62 @@ const Details: FC<DetailsProps> = (props) => {
       initialValues={formData}
     >
       <ProForm.Item
-        label="Function Name"
+        label={t('thread.Function Name')}
         name="functionName"
       >
         <LongTextReadonly />
       </ProForm.Item>
       <ProForm.Item
-        label="Status"
+        label={t('common.status')}
         name="status"
       >
         <LongTextReadonly />
       </ProForm.Item>
       <ProForm.Item
-        label="Time Spent"
+        label={t('thread.Time Spent')}
         name="timeSpent"
       >
         <LongTextReadonly />
       </ProForm.Item>
-      <Divider orientation="horizontal">Arguments</Divider>
+      <Divider orientation="horizontal">
+        {t('thread.Arguments')}
+      </Divider>
       <ProCard style={{ marginBottom: 24 }}>
         <ProForm.Item
-          label="Agent UUID"
+          label={t('agent.agentUuid')}
           name={["arguments", "agentUuid"]}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
-          label="Run UUID"
+          label={t('thread.Run UUID')}
           name={["arguments", "runUuid"]}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
-          label="Stream"
+          label={t('thread.Stream')}
           name={["arguments", "stream"]}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
-          label="Thread UUID"
+          label={t('thread.Thread UUID')}
           name={["arguments", "threadUuid"]}
         >
           <LongTextReadonly />
         </ProForm.Item>
         <ProForm.Item
-          label="User Query"
+          label={t('thread.User Query')}
           name={["arguments", "userQuery"]}
         >
           <LongTextReadonly pre />
         </ProForm.Item>
       </ProCard>
-      <ProForm.Item name="notes" label="Notes">
+      <ProForm.Item name="notes" label={t('thread.Notes')}>
         <LongTextReadonly />
       </ProForm.Item>
-      <ProForm.Item name="result" label="Result">
+      <ProForm.Item name="result" label={t('thread.Result')}>
         <LongTextReadonly />
       </ProForm.Item>
     </ProForm>

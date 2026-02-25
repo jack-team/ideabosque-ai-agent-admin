@@ -11,8 +11,10 @@ import PageContainer from '@/components/PageContainer';
 import { threadListApi } from "@/services/thread";
 import type { ThreadDataType } from '@/typings/thread';
 import { formatDate } from '@/utils';
+import { useLang } from '@/hooks/useLang';
 
 const ThreadList: FC = () => {
+  const { t } = useLang();
   const navigate = useNavigate();
 
   const toDetail = useMemoizedFn((record: ThreadDataType) => {
@@ -22,13 +24,13 @@ const ThreadList: FC = () => {
   return (
     <PageContainer
       fullScreen
-      title="Message Threads"
+      title={t('thread.Message Threads')}
       extra={
         <Button
           className="gray-mode"
           onClick={() => navigate('/thread/async-tasks')}
         >
-          Async Tasks
+          {t('thread.Async Tasks')}
         </Button>
       }
     >
@@ -42,15 +44,15 @@ const ThreadList: FC = () => {
         }}
         columns={[
           {
-            title: 'Contact name',
+            title: t('thread.Contact name'),
             dataIndex: 'userId'
           },
           {
-            title: 'Thread UUID',
+            title: t('thread.Thread UUID'),
             dataIndex: 'threadUuid'
           },
           {
-            title: 'Agent',
+            title: t('thread.Agent'),
             key: 'agentUuid',
             render: (_, record) => {
               const agent = record.agent;
@@ -60,13 +62,13 @@ const ThreadList: FC = () => {
           },
           {
             dataIndex: "createdAt",
-            title: "Created at",
+            title: t('common.createdAt'),
             hideInSearch: true,
             render: (val) => formatDate(val),
           },
           {
             key: "action",
-            title: "Action",
+            title: t('common.actions'),
             width: "100px",
             align: "center",
             hideInSearch: true,
