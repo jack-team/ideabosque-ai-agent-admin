@@ -62,7 +62,8 @@ const Canvas: FC<CanvasProps> = (props) => {
     <CanvasContext value={{ top }}>
       <ReactFlow<NormalNodeType>
         fitView
-        minZoom={0.5}
+        minZoom={0.2}
+        maxZoom={5}
         nodes={nodes}
         edges={computedEdages}
         edgeTypes={edgeTypes}
@@ -75,7 +76,7 @@ const Canvas: FC<CanvasProps> = (props) => {
       >
         <Background
           size={2}
-          color="#ccc"
+          color="#aaa"
           bgColor="#fff"
         />
         <Controls />

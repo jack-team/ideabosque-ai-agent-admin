@@ -39,7 +39,8 @@
     "Step node": "Step node",
     "Branch node": "Branch node",
     "Action function": "Action function",
-    "Step name": "Step name"
+    "Step name": "Step name",
+    "Start node": "Start node"
   },
   "common": {
     "name": "Name",

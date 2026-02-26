@@ -28,7 +28,7 @@ const StartNode: CustomNodeFC = () => {
               <StepIcon />
             </div>
           )}
-          {t('flowCanvas.Step node')}
+          {t(`flowCanvas.${top ? 'Step' : 'Start'} node`)}
         </div>
         <div className={styles.desc}>
           {t('flowCanvas.start')}

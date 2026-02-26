@@ -39,7 +39,8 @@
     "Step node": "步骤节点",
     "Branch node": "分支节点",
     "Action function": "操作函数",
-    "Step name": "步骤名称"
+    "Step name": "步骤名称",
+    "Start node": "起始节点"
   },
   "common": {
     "name": "名称",
