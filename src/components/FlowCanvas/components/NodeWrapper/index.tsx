@@ -10,13 +10,13 @@ import ModalForm from '../ModalForm';
 import type { NodeWrapperProps } from './types';
 import { DefaultTargetId } from '../../constants';
 import { NodeWrapperContext } from './context';
-import { useAddNode, useNodeFormData, useCanvasContext, useFlowContext } from '../../hooks';
+import { useAddNode, useNodeFormData, useNodeData, useCanvasContext, useFlowContext } from '../../hooks';
 import styles from './styles.module.less';
 
 const WEnterIcon = withIcon(EnterIcon);
 
 const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
-  const { tools, branch = [], enableHandle, hasDetail= true } = props;
+  const { tools, branch = [], enableHandle, hasDetail = true } = props;
   const { t } = useLang();
 
   const editForm = tools?.editForm;
@@ -24,11 +24,15 @@ const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
   const enableTarget = enableHandle?.target ?? true;
 
   const nodeId = useNodeId();
+  const nodeData = useNodeData();
   const [addNode] = useAddNode();
   const formData = useNodeFormData();
   const { top } = useCanvasContext();
   const { openDetail } = useFlowContext();
   const { updateNodeData } = useReactFlow();
+
+  // 步骤 node 下面的 task数量
+  const taskCount = nodeData?.details?.nodes?.length;
 
   const onSaveNodeData = useMemoizedFn(
     async (formData: Record<string, any>) => {
@@ -91,6 +95,11 @@ const NodeWrapper: FC<PropsWithChildren<NodeWrapperProps>> = (props) => {
               branch={branch}
               onChange={addNode}
             />
+          )}
+          {!!taskCount && (
+            <div className={styles.task_count}>
+              {taskCount} task{taskCount > 1 ? 's' : ''}
+            </div>
           )}
           {top && !!hasDetail && (
             <div className={styles.enter_next_wrapper}>

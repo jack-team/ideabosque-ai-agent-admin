@@ -39,8 +39,7 @@
   border-radius: 10px;
   background: #fff;
   border: 2px solid #0143EC;
-  min-width: 90px;
-  max-width: 262px;
+  width: 262px;
   position: relative;
 
   :global {
@@ -97,6 +96,11 @@
   color: #fff;
 }
 
+.handle {
+  top: 20px;
+  border: 2px solid #fff;
+}
+
 .handle_source {
 
   &::before,
@@ -120,6 +124,7 @@
   min-width: 150px;
   padding-bottom: 6px;
   position: relative;
+  padding-left: 76px;
 
   .branch_item {
     position: relative;
@@ -146,4 +151,12 @@
       margin-top: 4px;
     }
   }
+}
+
+.task_count {
+  position: absolute;
+  left: 20px;
+  bottom: 6px;
+  font-size: 12px;
+  color: #9CA3AF;
 }
