@@ -1,4 +1,4 @@
-import { type FC, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { useMemoizedFn } from 'ahooks';
 import { Button as AntButton, type ButtonProps as AntButtonProps } from 'antd';
