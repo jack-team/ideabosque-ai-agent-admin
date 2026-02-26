@@ -1,12 +1,11 @@
-import { BranchesOutlined } from '@ant-design/icons';
 import { useLang } from '@/hooks/useLang';
-import NodeWrapper from '../../components/NodeWrapper';
 import { useNodeFormData } from '../../hooks';
 import NodeDesc from '../../components/NodeDesc';
+import NodeWrapper from '../../components/NodeWrapper';
 import type { BranchFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-import brachIcon from '../../icons/brach-icon.svg';
+import BrachIcon from '../../icons/brach-icon.svg?react';
 
 const BranchNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -24,9 +23,9 @@ const BranchNode: CustomNodeFC = () => {
       }}
     >
       <NodeDesc 
-        title={formData?.name}
-        desc={formData?.text}
-        titleIcon={<img src={brachIcon} />}
+        title={t('flowCanvas.Branch node')}
+        desc={formData?.name}
+        titleIcon={<BrachIcon />}
       />
     </NodeWrapper>
   );
@@ -36,4 +35,4 @@ export default BranchNode;
 
 BranchNode.Form = Form;
 BranchNode.modalWdith = 560;
-BranchNode.Icon = BranchesOutlined;
+BranchNode.Icon = BrachIcon;

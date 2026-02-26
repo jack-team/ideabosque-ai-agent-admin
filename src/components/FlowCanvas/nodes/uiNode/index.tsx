@@ -1,4 +1,3 @@
-import { KubernetesOutlined } from '@ant-design/icons';
 import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
@@ -6,7 +5,7 @@ import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { UiFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
-import uiIcon from '../../icons/ui-icon.svg';
+import UiIcon from '../../icons/ui-icon.svg?react';
 
 const UiNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -30,7 +29,7 @@ const UiNode: CustomNodeFC = () => {
       <NodeDesc
         title={component?.componentName}
         desc={formData?.text}
-        titleIcon={<img src={uiIcon} />}
+        titleIcon={<UiIcon />}
       />
     </NodeWrapper>
   );
@@ -40,4 +39,4 @@ export default UiNode;
 
 UiNode.Form = Form;
 UiNode.modalWdith = 560;
-UiNode.Icon = KubernetesOutlined;
+UiNode.Icon = UiIcon;

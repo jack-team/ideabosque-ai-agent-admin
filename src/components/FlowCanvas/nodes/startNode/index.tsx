@@ -2,8 +2,8 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import { useCanvasContext } from '../../hooks';
-import startIcon from '../../icons/start.svg';
-import stepIcon from '../../icons/step-icon.svg';
+import StartIcon from '../../icons/start.svg?react';
+import StepIcon from '../../icons/step-icon.svg?react';
 import type { CustomNodeFC } from '../types';
 import styles from './styles.module.less';
 
@@ -20,15 +20,13 @@ const StartNode: CustomNodeFC = () => {
     >
       <div className={styles.container}>
         <div className={styles.title}>
-          <img
-            src={startIcon}
-            className={styles.icon}
-          />
+          <div className={styles.icon}>
+            <StartIcon />
+          </div>
           {top && (
-            <img
-              src={stepIcon}
-              className={styles.step_icon}
-            />
+            <div className={styles.step_icon}>
+              <StepIcon />
+            </div>
           )}
           {t('flowCanvas.Step node')}
         </div>

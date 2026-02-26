@@ -23,7 +23,7 @@ const NodeDesc: FC<NodeDescProps> = (props) => {
       </Typography.Paragraph>
       {props.desc && (
         <Typography.Paragraph
-          ellipsis={{ rows: 3 }}
+          ellipsis={{ rows: 2 }}
           className={styles.description}
         >
           {props.desc}

@@ -5,5 +5,5 @@ export enum PromptTypes {
 
 export const PromptTypesMap = {
   [PromptTypes.Prompt]: 'flowCanvas.prompt',
-  [PromptTypes.Text]: 'flowCanvas.text'
+  [PromptTypes.Text]: 'flowCanvas.Text response'
 }

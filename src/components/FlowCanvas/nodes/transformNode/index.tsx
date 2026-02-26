@@ -1,12 +1,15 @@
 import { useMemo } from 'react';
-import { BlockOutlined } from '@ant-design/icons';
+import { ArrowsInHorizontalIcon } from '@shopify/polaris-icons';
 import { useLang } from '@/hooks/useLang';
+import { withIcon } from '@/components/IconButton';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { TransformNodeFormData } from './types';
 import type { CustomNodeFC } from '../types';
 import Form from './form';
+
+const WArrowsInHorizontalIcon = withIcon(ArrowsInHorizontalIcon);
 
 const TransformNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -30,6 +33,7 @@ const TransformNode: CustomNodeFC = () => {
       <NodeDesc 
         title={tool?.label}
         desc={formData?.text}
+        titleIcon={<WArrowsInHorizontalIcon />}
       />
     </NodeWrapper>
   );
@@ -39,4 +43,4 @@ export default TransformNode;
 
 TransformNode.Form = Form;
 TransformNode.modalWdith = 560;
-TransformNode.Icon = BlockOutlined;
+TransformNode.Icon = WArrowsInHorizontalIcon;

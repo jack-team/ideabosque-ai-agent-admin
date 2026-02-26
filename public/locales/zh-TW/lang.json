@@ -3,6 +3,7 @@
     "action": "操作",
     "actionDesc": "執行業務操作。",
     "text": "文字",
+    "Text response": "文字回復",
     "start": "初次對話",
     "startDesc": "工作流程的起始節點。",
     "step": "步驟",
@@ -36,7 +37,8 @@
     "editNode": "編輯節點",
     "nextBrach": "下一個",
     "Step node": "步驟節點",
-    "Branch node": "分支節點"
+    "Branch node": "分支節點",
+    "Action function": "操作函數"
   },
   "common": {
     "name": "名稱",

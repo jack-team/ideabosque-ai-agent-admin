@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
-import { FunctionOutlined } from '@ant-design/icons';
 import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
 import { useFlowContext, useNodeFormData } from '../../hooks';
 import type { ActionFormData } from './types';
 import type { CustomNodeFC } from '../types';
-import actionIcon from '../../icons/action-icon.svg';
 import Form from './form';
+import ActionIcon from '../../icons/action-icon.svg?react';
 
 const ActionNode: CustomNodeFC = () => {
   const { t } = useLang();
@@ -30,9 +29,9 @@ const ActionNode: CustomNodeFC = () => {
       }}
     >
       <NodeDesc
-        title={action?.name || actionType}
-        desc={formData?.text || action?.description}
-        titleIcon={<img src={actionIcon} />}
+        titleIcon={<ActionIcon />}
+        title={t('flowCanvas.Action function')}
+        desc={action?.name || actionType}
       />
     </NodeWrapper>
   );
@@ -42,4 +41,4 @@ export default ActionNode;
 
 ActionNode.Form = Form;
 ActionNode.modalWdith = 560;
-ActionNode.Icon = FunctionOutlined;
+ActionNode.Icon = ActionIcon;

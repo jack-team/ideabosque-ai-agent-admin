@@ -3,6 +3,7 @@
     "action": "操作",
     "actionDesc": "执行业务操作。",
     "text": "文本",
+    "Text response": "文本回复",
     "start": "初次对话",
     "startDesc": "工作流的起始节点。",
     "step": "步骤",
@@ -36,7 +37,8 @@
     "editNode": "编辑节点",
     "nextBrach": "下一个",
     "Step node": "步骤节点",
-    "Branch node": "分支节点"
+    "Branch node": "分支节点",
+    "Action function": "操作函数"
   },
   "common": {
     "name": "名称",

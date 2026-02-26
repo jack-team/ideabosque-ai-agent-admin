@@ -1,4 +1,3 @@
-import { SendOutlined } from '@ant-design/icons';
 import { useLang } from '@/hooks/useLang';
 import NodeWrapper from '../../components/NodeWrapper';
 import NodeDesc from '../../components/NodeDesc';
@@ -6,7 +5,7 @@ import { useNodeFormData } from '../../hooks';
 import type { PromptNodeFormData } from './types';
 import { PromptTypesMap } from './enum';
 import type { CustomNodeFC } from '../types';
-import textIcon from '../../icons/text-icon.svg';
+import TextIcon from '../../icons/text-icon.svg?react';
 import Form from './form';
 
 const PromptNode: CustomNodeFC = () => {
@@ -27,7 +26,7 @@ const PromptNode: CustomNodeFC = () => {
       <NodeDesc
         title={promptType && t(PromptTypesMap[promptType])}
         desc={formData?.text}
-        titleIcon={<img src={textIcon} />}
+        titleIcon={<TextIcon />}
       />
     </NodeWrapper>
   );
@@ -37,4 +36,4 @@ export default PromptNode;
 
 PromptNode.Form = Form;
 PromptNode.modalWdith = 560;
-PromptNode.Icon = SendOutlined;
+PromptNode.Icon = TextIcon;

@@ -3,6 +3,7 @@
     "action": "Action",
     "actionDesc": "Perform some business actions.",
     "text": "Text",
+    "Text response": "Text response",
     "start": "Initial conversation",
     "startDesc": "The starting node of a workflow.",
     "step": "Step",
@@ -36,7 +37,8 @@
     "editNode": "Edit Node",
     "nextBrach": "Next",
     "Step node": "Step node",
-    "Branch node": "Branch node"
+    "Branch node": "Branch node",
+    "Action function": "Action function"
   },
   "common": {
     "name": "Name",
