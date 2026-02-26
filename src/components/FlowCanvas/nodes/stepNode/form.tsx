@@ -10,7 +10,7 @@ const Form: FC<FormProps> = () => {
   return (
     <Fragment>
       <ProFormText
-        label={t('flowCanvas.name')}
+        label={t('flowCanvas.Step name')}
         name="name"
         rules={[
           { required: true }
