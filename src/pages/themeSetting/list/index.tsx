@@ -78,6 +78,9 @@ const ThemeSettings: FC = () => {
         rowKey="themeUuid"
         actionRef={actionRef}
         toolBarRender={false}
+        pagination={{
+          defaultPageSize: 20
+        }}
         request={getThemeSettingListApi}
         columns={[
           {
