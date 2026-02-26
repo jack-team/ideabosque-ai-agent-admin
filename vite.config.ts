@@ -62,30 +62,6 @@ export default defineConfig((config) => {
           drop_console: true,
           drop_debugger: true
         }
-      },
-      rollupOptions: {
-        output: {
-          manualChunks: (id) => {
-            const uis = [
-              'antd',
-              '@rc-component',
-              '@ant-design'
-            ];
-
-            if (id.includes('node_modules')) {
-
-              if (uis.some(v => id.includes(v))) {
-                return 'vender-ui';
-              }
-
-              if (id.includes('highlight')) {
-                return 'highlight';
-              }
-
-              return 'vender';
-            }
-          }
-        }
       }
     }
   }
