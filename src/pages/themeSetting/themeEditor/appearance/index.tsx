@@ -1,6 +1,6 @@
 import { type FC, memo, useMemo } from 'react';
 import { useMemoizedFn, useMount } from 'ahooks';
-import { ProForm, type FormInstance } from '@ant-design/pro-components';
+import { ProForm, type FormInstance, ProFormText } from '@ant-design/pro-components';
 import ThemeColors from './components/ThemeColors';
 import ThemeIcons from './components/ThemeIcons';
 import ThemeTexts from './components/ThemeTexts';
@@ -22,6 +22,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
   const {
     sdk,
     form,
+    resetDefaults,
     resetThemeAction,
     defaultBasicTheme,
     getDefaultTheme
@@ -46,8 +47,6 @@ const Appearance: FC<AppearanceProps> = (props) => {
     sdk.updateThemeConfigs(initialValues);
   });
 
-  console.log(sdk)
-
   return (
     <div className={styles.container}>
       <ProForm
@@ -60,13 +59,14 @@ const Appearance: FC<AppearanceProps> = (props) => {
         <ThemeColors
           sdk={sdk}
           form={form}
+          resetDefaults={resetDefaults}
           resetThemeAction={resetThemeAction}
-          resetDefaults={props.resetDefaults}
         />
         <ThemeIcons sdk={sdk} />
         <ThemeTexts sdk={sdk} />
         <ThemeFont sdk={sdk} />
         <ThemeBoxModel sdk={sdk} />
+        <ProFormText hidden name="chatOverrides"/>
       </ProForm>
     </div>
   );

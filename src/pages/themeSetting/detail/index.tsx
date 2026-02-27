@@ -30,13 +30,14 @@ const ThemeDetail: FC = () => {
   });
 
   const handleSave = useMemoizedFn(async () => {
-    setSubmiting(true);
+    const settingData = actionRef.current?.getThemeData();
     try {
+      setSubmiting(true);
       await insertUpdateThemeSettingApi({
         updatedBy: partId,
         themeUuid: themeUuid!,
         themeType: 'chatbotTheme',
-        setting: actionRef.current?.getThemeData()
+        setting: settingData
       });
       message.success(t('common.Saved successfully'));
     } catch (err) {

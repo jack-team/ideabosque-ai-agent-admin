@@ -50,10 +50,25 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   // 获取默认主题值
   const getDefaultTheme = useMemoizedFn(() => {
     const { chat, bubble } = sdk!.variables;
+
+    const getVariables = (source: VariableConfigsType) => {
+      return {
+        uiVariables: source.GlobalUiVariables,
+        cssVariables: source.GlobalCssVariables,
+      }
+    }
+
+    const _chatOverrides = chat.chatOverrides;
+    const _keys = Object.keys(_chatOverrides);
+
+    const chatOverrides = _keys.reduce((acc, key) => {
+      const val = chat.chatOverrides[key]
+      return { ...acc, [key]: getVariables(val) };
+    }, {} as Record<string, any>);
+
     return {
-      chatOverrides: chat.chatOverrides,
-      uiVariables: bubble.GlobalUiVariables,
-      cssVariables: bubble.GlobalCssVariables,
+      ...getVariables(bubble),
+      chatOverrides: chatOverrides,
       chatUiVariables: chat.chatBase.GlobalUiVariables,
       chatCssVariables: chat.chatBase.GlobalCssVariables
     }

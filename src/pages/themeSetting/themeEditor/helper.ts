@@ -9,6 +9,7 @@ export const updateFormData = (form: FormInstance, values: Record<string, any>) 
   const newFormData = Object.keys(formData).reduce((obj, key) => {
     return { ...obj, [key]: { ...formData[key], ...values[key] } }
   }, {} as Record<string, any>);
+
   form.setFieldsValue(newFormData);
 }
 
