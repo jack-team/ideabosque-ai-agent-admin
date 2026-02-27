@@ -21,7 +21,7 @@ const ThemeFont: FC<ThemeFontProps> = (props) => {
       'cssVariables'
     ),
     ...getVariableConfigs(
-      chat.FontSizeConfigs,
+      chat.chatBase.FontSizeConfigs,
       'chatCssVariables'
     )
   ]), [bubble, chat]);

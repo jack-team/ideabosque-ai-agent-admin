@@ -1,49 +1,74 @@
 import { getAiSdkStaticUrl } from '@/utils';
 
-const avatarImg = getAiSdkStaticUrl('/avatar-dark.svg');
+const whiteAvatar = getAiSdkStaticUrl('/avatar-white.svg');
 
 export const DarkTheme = {
   uiVariables: {
-    avatarImg: avatarImg,
-    closeImg: getAiSdkStaticUrl('/close-dark.svg'),
-    sendImg: getAiSdkStaticUrl('/send-dark.svg'),
+    closeImg: getAiSdkStaticUrl('/close-white.svg')
   },
   chatUiVariables: {
-    avatar: avatarImg,
-    headerIcon: avatarImg,
-    welcomeImg: getAiSdkStaticUrl('/welcome-dark.svg')
+    agentAvatar: whiteAvatar,
+    headerIcon: whiteAvatar,
+    welcomeImg: whiteAvatar
   },
   chatCssVariables: {
-    primaryColor: '#fff',
-    headerBgColor: '#2E2E3A',
-    headerBorderColor: '#444',
-    headerTitleTextColor: '#edebe7',
-    contentBgColor: '#2E2E3A',
+    // common
+    primaryColor: '#FFFFFF',
+    borderColor: '#0F0E0D',
 
-    // welcome
-    welcomeTitleTextColor: '#f0f0f0',
-    welcomeSubTitleTextColor: '#ccc',
+    // antd text input
+    antdInputBgColor: '#34322E',
+    antdInputTextColor: '#fff',
 
-    // bubble
-    userBubbleBgColor: '#f0f0f0',
-    userBubbleTextColor: '#2E2E3A',
-    assistantBubbleBgColor: '#fff',
-    assistantBubbleTextColor: '#2E2E3A',
-    agentNameColor: '#aaa',
+    //antd button
+    defaultButtonBgColor: 'rgba(0,0,0,0)',
+    primaryButtonTextColor: '#34322E',
 
-    // sender
-    footerBgColor: '#2E2E3A',
-    footerBorderColor: '#444',
-    footerInputBgColor: '#484848',
-    footerInputBorderColor: '#444',
-    footerSubmitBtnActiveBgColor: '#fff',
-    footerSubmitBtnDisabledBgColor: '#888',
+    // container
+    agentChatContainerBgColor: '#34322E',
+    contentWrpperInnerBgColor: '#1C1B19',
+    contentWrpperInnerBorderWidth: 0,
+
+    // 聊天气泡
+    userBubbleTextColor: '#000',
+    assistantBubbleBgColor: '#34322E',
+    chatBubbleCreateAtTextColor: '#707070',
+
+    // input 
+    footerInputBgColor: '#34322E',
+    footerInputPlaceholderColor: '#707070',
+    footerSubmitBtnDisabledBgColor: '#1C1B19'
   },
-  cssVariables: {
-    floatBubbleBackground: '#2E2E3A',
-    floatBubbleTitleTextColor: '#f2f2f2',
-    floatBubbleSubTitleTextColor: '#ccc',
-    floatBubbleBorderColor: '#2E2E3A',
-    floatBubbleBoxShadowColor: '#2E2E3A'
+  chatOverrides: {
+    googlePlace: {
+      cssVariables: {
+        googlePlaceContainerBgColor: '#34322E',
+        googlePlaceItemBgColor: '#444',
+        googlePlaceItemHoverBgColor: '#484848',
+        googlePlaceItemNavIconColor: '#f0f0f0'
+      }
+    },
+    wizardGroup: {
+      cssVariables: {
+        uiBlockGroupBackground: '#34322E',
+        uiBlockGroupFormItemBackground: '#34322E'
+      }
+    }
   }
+}
+
+export const StandardTheme = {
+  uiVariables: {
+    closeImg: getAiSdkStaticUrl('/close-white.svg')
+  },
+  chatUiVariables: {
+    headerIcon: whiteAvatar
+  },
+  chatCssVariables: {
+    // container
+    agentChatContainerBgColor: '#34322E',
+    //header 
+    headerTitleColor: '#FFFFFF'
+  },
+  chatOverrides: { }
 }

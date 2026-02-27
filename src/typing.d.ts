@@ -42,24 +42,27 @@ type AgentSdkVariableValueType =
   'GlobalCssVariables' |
   'GlobalUiVariables';
 
-type AgentSdkVariables = Record<
-  'chat' | 'bubble',
-  Record<
-    AgentSdkVariableType,
-    AgentSdkVariableConfigType[]
-  > & Record<
-    AgentSdkVariableValueType,
-    Record<string, any>
-  >
-> & {
+type VariableConfigsType = Record<
+  AgentSdkVariableType,
+  AgentSdkVariableConfigType[]
+> & Record<
+  AgentSdkVariableValueType,
+  Record<string, any>
+>;
+
+type AgentSdkVariables = {
   chatUrl: string;
+  bubble: VariableConfigsType;
+  chat: {
+    chatBase: VariableConfigsType;
+    chatOverrides: Record<string, VariableConfigsType>;
+  }
 };
 
 type AgentSdkInitResult = {
   bridge: Record<string, any>;
   data: AgentSdkVariables;
 };
-
 
 type OpenModeType = 'window' | 'bubble';
 type BubblePositionType = 'topLeft' | 'bottomLeft' | 'topRight' | 'bottomRight';
@@ -77,7 +80,7 @@ type AgentSdkInstance = {
   resetThemeConfigs: () => void;
   clearAllHistory: () => void;
   insertHistory: () => void;
-  setOpenMode: (mode: OpenModeType) => void; 
+  setOpenMode: (mode: OpenModeType) => void;
   setBubblePosition: (position: BubblePositionType) => void;
   updateChatConfigs: (configs: Record<string, any>) => Promise<AgentSdkInitResult>;
 }

@@ -13,6 +13,7 @@ type AppearanceProps = {
   sdk: AgentSdkInstance;
   form: FormInstance;
   resetDefaults: () => void;
+  resetThemeAction: () => void;
   defaultBasicTheme?: Record<string, any>;
   getDefaultTheme: () => Record<string, any>;
 }
@@ -21,6 +22,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
   const {
     sdk,
     form,
+    resetThemeAction,
     defaultBasicTheme,
     getDefaultTheme
   } = props;
@@ -44,6 +46,8 @@ const Appearance: FC<AppearanceProps> = (props) => {
     sdk.updateThemeConfigs(initialValues);
   });
 
+  console.log(sdk)
+
   return (
     <div className={styles.container}>
       <ProForm
@@ -56,6 +60,7 @@ const Appearance: FC<AppearanceProps> = (props) => {
         <ThemeColors
           sdk={sdk}
           form={form}
+          resetThemeAction={resetThemeAction}
           resetDefaults={props.resetDefaults}
         />
         <ThemeIcons sdk={sdk} />

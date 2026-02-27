@@ -21,7 +21,7 @@ const ThemeBoxModel: FC<ThemeBoxModelProps> = (props) => {
       'cssVariables'
     ),
     ...getVariableConfigs(
-      chat.BoxModelConfigs,
+      chat.chatBase.BoxModelConfigs,
       'chatCssVariables'
     )
   ]), [bubble, chat]);

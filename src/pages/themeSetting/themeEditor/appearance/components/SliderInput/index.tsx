@@ -17,7 +17,11 @@ const ColorPickerInput: FC<ColorPickerInputProps> = (props) => {
 
   const newVal = useMemo(() => {
     const reg = new RegExp(unit);
-    const val = value.replace(reg, '');
+    
+    const val = typeof value === 'string' ?
+      value.replace(reg, '') :
+      value;
+
     if (val) return +val;
   }, [value]);
 

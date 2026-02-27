@@ -51,22 +51,25 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const getDefaultTheme = useMemoizedFn(() => {
     const { chat, bubble } = sdk!.variables;
     return {
+      chatOverrides: chat.chatOverrides,
       uiVariables: bubble.GlobalUiVariables,
       cssVariables: bubble.GlobalCssVariables,
-      chatUiVariables: chat.GlobalUiVariables,
-      chatCssVariables: chat.GlobalCssVariables
+      chatUiVariables: chat.chatBase.GlobalUiVariables,
+      chatCssVariables: chat.chatBase.GlobalCssVariables
     }
+  });
+
+  const resetThemeAction = useMemoizedFn(() => {
+    const theme = getDefaultTheme();
+    updateFormData(baseForm, theme);
+    sdk!.updateThemeConfigs(theme);
   });
 
   // 重置主题到默认主题
   const resetDefaults = useMemoizedFn(() => {
     confirm({
       title: t('theme.Are you sure you want to reset all configuration to defaults'),
-      onConfirm: () => {
-        const theme = getDefaultTheme();
-        updateFormData(baseForm, theme);
-        sdk!.updateThemeConfigs(theme);
-      }
+      onConfirm: () => resetThemeAction()
     });
   });
 
@@ -129,6 +132,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
               sdk={sdk}
               form={baseForm}
               resetDefaults={resetDefaults}
+              resetThemeAction={resetThemeAction}
               getDefaultTheme={getDefaultTheme}
               defaultBasicTheme={themeData.basic}
             />

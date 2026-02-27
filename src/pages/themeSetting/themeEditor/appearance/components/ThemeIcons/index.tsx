@@ -21,7 +21,7 @@ const ThemeIcons: FC<ThemeIconsProps> = (props) => {
       'uiVariables'
     ),
     ...getVariableConfigs(
-      chat.IconConfigs,
+      chat.chatBase.IconConfigs,
       'chatUiVariables'
     )
   ]), [bubble, chat]);

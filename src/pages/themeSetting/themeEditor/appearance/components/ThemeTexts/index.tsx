@@ -20,7 +20,7 @@ const ThemeTexts: FC<ThemeTextsProps> = (props) => {
       'uiVariables'
     ),
     ...getVariableConfigs(
-      chat.TextConfigs,
+      chat.chatBase.TextConfigs,
       'chatUiVariables'
     )
   ]), [bubble, chat]);
