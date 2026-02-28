@@ -43,7 +43,9 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
   return (
     <div className={styles.container}>
-      <div ref={target} className={styles.content} />
+      <div className={styles.review_box}>
+        <div ref={target} className={styles.content} />
+      </div>
       <ProForm
         form={form}
         submitter={false}

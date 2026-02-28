@@ -322,6 +322,8 @@
     "Box Model": "Box Model",
     "Set the box model, such as container size, padding, margin, etc": "Set the box model, such as container size, padding, margin, etc.",
     "Text font": "Text font",
-    "Set text size, such as bubble title text, welcome message, etc": "Set text size, such as bubble title text, welcome message, etc."
+    "Set text size, such as bubble title text, welcome message, etc": "Set text size, such as bubble title text, welcome message, etc.",
+    "UI switch": "UI switch",
+    "Show or hide some UI elements": "Show or hide some UI elements."
   }
 }

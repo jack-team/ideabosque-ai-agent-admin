@@ -323,6 +323,8 @@
     "Box Model": "盒模型",
     "Set the box model, such as container size, padding, margin, etc": "設定盒模型，例如容器尺寸、內距、外距等。",
     "Text font": "文字字型",
-    "Set text size, such as bubble title text, welcome message, etc": "設定文字尺寸，例如氣泡標題文字、歡迎訊息等。"
+    "Set text size, such as bubble title text, welcome message, etc": "設定文字尺寸，例如氣泡標題文字、歡迎訊息等。",
+    "UI switch": "UI開關",
+    "Show or hide some UI elements": "設定一些UI的顯示與隱藏。"
   }
 }

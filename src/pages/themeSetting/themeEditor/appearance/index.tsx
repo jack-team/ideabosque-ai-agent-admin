@@ -6,6 +6,7 @@ import ThemeIcons from './components/ThemeIcons';
 import ThemeTexts from './components/ThemeTexts';
 import ThemeFont from './components/ThemeFont';
 import ThemeBoxModel from './components/ThemeBoxModel';
+import ThemeUISwitch from './components/ThemeUISwitch';
 import { pathToObj } from '@/utils';
 import styles from './styles.module.less';
 
@@ -47,6 +48,8 @@ const Appearance: FC<AppearanceProps> = (props) => {
     sdk.updateThemeConfigs(initialValues);
   });
 
+  console.log(sdk)
+
   return (
     <div className={styles.container}>
       <ProForm
@@ -66,7 +69,8 @@ const Appearance: FC<AppearanceProps> = (props) => {
         <ThemeTexts sdk={sdk} />
         <ThemeFont sdk={sdk} />
         <ThemeBoxModel sdk={sdk} />
-        <ProFormText hidden name="chatOverrides"/>
+        <ThemeUISwitch sdk={sdk}/>
+        <ProFormText hidden name="chatOverrides" />
       </ProForm>
     </div>
   );

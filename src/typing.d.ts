@@ -36,7 +36,9 @@ type AgentSdkVariableType =
   'FontSizeConfigs' |
   'TextConfigs' |
   'IconConfigs' |
-  'TextConfigs';
+  'TextConfigs' |
+  'UiSwitchConfigs'
+  ;
 
 type AgentSdkVariableValueType =
   'GlobalCssVariables' |

@@ -25,12 +25,24 @@ const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, 
   const { themeData } = props;
   const { t } = useLang();
   const [confirm] = useConfirm();
+  // 气泡模式和气泡位置表单
   const [actionForm] = ProForm.useForm<ActionFormData>();
+  // 左侧表单
   const [baseForm] = ProForm.useForm<BaseFormDataType>();
 
   const defaultTheme = useMemo(() => {
-    const { openMode = 'window', position = 'bottomRight', ...rest } = themeData;
-    return { ...rest, openMode, position };
+    //增加打开模式和气泡位置的默认值
+    const {
+      openMode = 'window',
+      position = 'bottomRight',
+      ...rest
+    } = themeData;
+
+    return {
+      ...rest,
+      openMode,
+      position
+    };
   }, [themeData]);
 
   // 初始化 Sdk
@@ -39,6 +51,7 @@ const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, 
     position: defaultTheme.position
   });
 
+  // 离开页面回调函数
   useLeavePage((blocker) => {
     confirm({
       okText: t('common.yes'),
@@ -48,19 +61,17 @@ const ThemeEditor = forwardRef<ThemeEditorActionType, ThemeEditorProps>((props, 
     });
   });
 
+  // 或者 Theme 数据
   const getThemeData = useMemoizedFn(() => ({
     components: {},
     basic: baseForm.getFieldsValue(true),
     ...actionForm.getFieldsValue(true)
   }));
 
-  useImperativeHandle(ref, () => {
-    return { getThemeData };
-  });
+  useImperativeHandle(ref, () => ({ getThemeData }));
 
   const contentClassName = classNames(
-    styles.content,
-    { [styles.hide]: !sdk }
+    styles.content,{ [styles.hide]: !sdk }
   );
 
   return (

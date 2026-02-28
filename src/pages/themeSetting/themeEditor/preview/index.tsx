@@ -88,10 +88,12 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     });
   });
 
+  // 切换 chatbot 打开方式
   useUpdateEffect(() => {
     if (openMode) sdk?.setOpenMode(openMode);
   }, [openMode]);
 
+  // 切换气泡位置
   useUpdateEffect(() => {
     if (position) sdk?.setBubblePosition(position);
   }, [position]);
@@ -147,8 +149,8 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
               sdk={sdk}
               form={baseForm}
               resetDefaults={resetDefaults}
-              resetThemeAction={resetThemeAction}
               getDefaultTheme={getDefaultTheme}
+              resetThemeAction={resetThemeAction}
               defaultBasicTheme={themeData.basic}
             />
           )}
@@ -158,11 +160,9 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             <SelectButton
               size="middle"
               value={position}
-              options={arrayIteration(ChatPositions,
-                e => ({ ...e, label: t(e.label) })
-              )}
               placeholder="Bubble direction"
               onChange={position => actionForm.setFieldsValue({ position })}
+              options={arrayIteration(ChatPositions, e => ({ ...e, label: t(e.label) }))}
             />
           </div>
           <div ref={ref} className={styles.ai_agent} />
