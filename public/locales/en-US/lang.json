@@ -285,7 +285,8 @@
     "Source (Optional)": "Source (Optional)",
     "Setting id": "Setting ID",
     "View details": "View details",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "type": "Type"
   },
   "theme": {
     "Themes": "Themes",

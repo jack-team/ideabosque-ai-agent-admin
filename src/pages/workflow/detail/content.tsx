@@ -17,9 +17,9 @@ const DetailContent: FC<DetailContentProps> = ({ flow, detail }) => {
     flowRelationship: frp,
   } = detail;
 
-  const actions = useActions(tpl.mcpServers);
+  const actions = useActions(tpl?.mcpServers);
   const transformTools = useTransformTools();
-  const uiComponents = useUiComponents(tpl.uiComponents);
+  const uiComponents = useUiComponents(tpl?.uiComponents);
 
   const relationship = useMemo(() => {
     const result = frp ? JSON.parse(frp) : {};

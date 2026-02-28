@@ -285,7 +285,8 @@
     "Source (Optional)": "原始碼（可選）",
     "Setting id": "設定ID",
     "View details": "檢視詳情",
-    "Settings": "設定"
+    "Settings": "設定",
+    "type": "類型"
   },
   "theme": {
     "Themes": "主題",

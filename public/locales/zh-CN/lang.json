@@ -285,7 +285,8 @@
     "Source (Optional)": "源码（可选）",
     "Setting id": "设置ID",
     "View details": "查看详情",
-    "Settings": "设置"
+    "Settings": "设置",
+    "type": "类型"
   },
   "theme": {
     "Themes": "主题",

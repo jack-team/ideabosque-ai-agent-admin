@@ -2,7 +2,7 @@ import type { UiComponentType, ActionFunctionType, OptionType } from "@/componen
 import type { UiComponentDataType } from '@/typings/ui';
 import type { McpServerDataType, McpServerToolDataType } from '@/typings/mcp';
 
-export const useUiComponents = (data: UiComponentDataType[]) => {
+export const useUiComponents = (data: UiComponentDataType[] = []) => {
   return data.map<UiComponentType>(item => {
 
     const parameters = [
@@ -34,7 +34,7 @@ export const useUiComponents = (data: UiComponentDataType[]) => {
   });
 }
 
-export const useActions = (data: McpServerDataType[]) => {
+export const useActions = (data: McpServerDataType[] = []) => {
   const tools = data.reduce((pre, current) => {
     return [...pre, ...current?.tools || []];
   }, [] as McpServerToolDataType[]);

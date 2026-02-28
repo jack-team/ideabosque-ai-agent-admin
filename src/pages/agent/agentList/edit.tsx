@@ -35,11 +35,11 @@ const EditForm: FC<EditFormProps> = (props) => {
   const { t } = useLang();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
+  // 标识是否为第一次请求模版
   const isFirst = useRef(true);
   const [agent, setAgent] = useSafeState(props.agent);
+  const [schema, setSchema] = useSafeState(agent?.llm?.configurationSchema);
   const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
-
-  const schema = agent?.llm?.configurationSchema;
 
   // 获取 Agent 信息，当编辑的时候
   const { loading } = useAgentDetail(agent, (res) => {
@@ -63,11 +63,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   const onLLMChange = useMemoizedFn((e: LLMDataType) => {
     form.setFieldsValue({ llmName: e.llmName });
     form.resetFields(['configuration']);
-
-    if (agent) {
-      agent.llm = e;
-      setAgent({ ...agent });
-    }
+    setSchema(e.configurationSchema);
   });
 
   useModalOkClick(async () => {
@@ -204,7 +200,7 @@ const EditForm: FC<EditFormProps> = (props) => {
                     mode="multiple"
                     autoFetch={false}
                     disabled={disabled}
-                    options={agent?.mcpServers}
+                    options={agent?.mcpServers?.filter(v => v)}
                   />
                 </ProFormItem>
                 {variables.length > 0 && (
