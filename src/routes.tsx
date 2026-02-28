@@ -2,11 +2,13 @@ import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router';
 import AppLayout from '@/components/AppLayout';
+import RouteError from './components/RouteError';
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     Component: AppLayout,
+    errorElement: <RouteError />,
     children: [
       {
         path: '/',

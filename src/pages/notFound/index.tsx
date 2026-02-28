@@ -1,16 +1,27 @@
-import type { FC } from 'react';
+import { Result, Button } from 'antd';
+import { useNavigate } from 'react-router';
+import { useMemoizedFn } from 'ahooks';
+import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
-const NotFound: FC = () => {
+const notFound = () => {
+  const navigate = useNavigate();
+  const { t } = useLang();
+
+  const backHomePage = useMemoizedFn(() => {
+    navigate('/', { replace: true });
+  });
+
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.status}>404</div>
-        <div className={styles.divider} />
-        <div className={styles.message}>This page could not be found.</div>
-      </div>
+      <Result
+        status="404"
+        title={t('common.Oops, the page is missing')}
+        subTitle={t(`common.The little server pony has temporarily lost its way, and we're working hard to find it`)}
+        extra={<Button type="primary" onClick={backHomePage}>{t('common.Return to Home')}</Button>}
+      />
     </div>
   );
-}
+};
 
-export default NotFound;
+export default notFound;

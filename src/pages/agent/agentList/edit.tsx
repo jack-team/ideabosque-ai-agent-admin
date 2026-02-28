@@ -15,7 +15,7 @@ import { useModalOkClick } from '@/components/TriggerModal';
 import { useLang } from '@/hooks/useLang';
 import SpinBox from '@/components/SpinBox';
 import LLMSelect from '@/components/LLMSelect';
-import type { LLMDataType } from '@/typings/llm';
+import type { LLMDataType, SchemaType } from '@/typings/llm';
 import type { AgentDataType } from '@/typings/agent';
 import WorkflowSelect from '@/components/WorkflowSelect';
 import McpServerSelect from '@/components/McpServerSelect';
@@ -38,12 +38,13 @@ const EditForm: FC<EditFormProps> = (props) => {
   // 标识是否为第一次请求模版
   const isFirst = useRef(true);
   const [agent, setAgent] = useSafeState(props.agent);
-  const [schema, setSchema] = useSafeState(agent?.llm?.configurationSchema);
+  const [schema, setSchema] = useSafeState<SchemaType>();
   const [promptUuid, setPromptUuid] = useSafeState(agent?.flowSnippet?.promptUuid);
 
   // 获取 Agent 信息，当编辑的时候
   const { loading } = useAgentDetail(agent, (res) => {
     setAgent(res);
+    setSchema(res.llm?.configurationSchema);
     form.setFieldsValue(agentRecordTransformFormData(res));
   });
 
