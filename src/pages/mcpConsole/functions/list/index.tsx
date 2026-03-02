@@ -1,7 +1,8 @@
 import { App, Tag, Space } from "antd";
 import { useMemoizedFn } from "ahooks";
 import { type FC, useRef } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from '@/components/Link';
+import { useNavigate } from '@/hooks/useNavigate';
 import Table from "@/components/Table";
 import { useLang } from '@/hooks/useLang';
 import { useConfirm } from '@/hooks/useConfirm';

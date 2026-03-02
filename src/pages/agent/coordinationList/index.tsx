@@ -1,6 +1,6 @@
 import { type FC, useRef, type RefObject } from 'react';
 import { Space, App } from 'antd';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '@/hooks/useNavigate';
 import { useMemoizedFn } from 'ahooks';
 import { type ActionType, ProCard } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, EyeCheckMarkIcon, PlusIcon } from '@shopify/polaris-icons';

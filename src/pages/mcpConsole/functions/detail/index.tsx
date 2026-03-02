@@ -9,7 +9,8 @@ import {
 } from '@ant-design/pro-components';
 import Button from '@/components/Button';
 import { useRequest, useUpdateEffect, useSafeState, useMemoizedFn } from 'ahooks';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
+import { useNavigate } from '@/hooks/useNavigate';
 import { useLang } from '@/hooks/useLang';
 import PageContainer from '@/components/PageContainer';
 import SpinBox from '@/components/SpinBox';

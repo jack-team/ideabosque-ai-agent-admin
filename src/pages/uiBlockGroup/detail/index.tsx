@@ -1,5 +1,5 @@
 import { Space, App } from 'antd';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useSafeState, useMemoizedFn } from 'ahooks';
 import { type FC, useRef, type ReactElement, useEffect, useTransition } from 'react';
 import {
@@ -8,6 +8,7 @@ import {
   ProFormDependency,
   type FormListActionType,
 } from '@ant-design/pro-components';
+import { useNavigate } from '@/hooks/useNavigate';
 import SpinBox from '@/components/SpinBox';
 import Button from '@/components/Button';
 import PageContainer from '@/components/PageContainer';

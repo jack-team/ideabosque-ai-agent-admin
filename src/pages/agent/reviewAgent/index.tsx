@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import PageContainer from '@/components/PageContainer';
-import { useParams, useNavigate } from 'react-router';
+import { useParams } from 'react-router';
+import { useNavigate } from '@/hooks/useNavigate';
 import SpinBox from '@/components/SpinBox';
 import { useCoordinationDetail } from '../hooks';
 import ReviewAgentContent from './content';

@@ -1,9 +1,9 @@
 import { App } from 'antd';
 import dayjs from 'dayjs';
 import { Fragment, useMemo } from 'react';
-import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router';
 import { useMemoizedFn, useSafeState, useRequest } from 'ahooks';
+import { useNavigate } from '@/hooks/useNavigate';
 import PageContainer from '@/components/PageContainer';
 import { workflowApi } from '@/services/workflow';
 import { insertUpdateWorkflowApi } from '@/services/workflow';

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Space } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/hooks/useNavigate';
 import IconButton from '@/components/IconButton';
 import { ViewIcon } from '@shopify/polaris-icons';
 import Table from '@/components/Table';

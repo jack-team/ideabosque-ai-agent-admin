@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { App, Row, Col } from 'antd';
-import { useSearchParams, useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router';
+
 import {
   ProForm,
   ProCard,
@@ -13,6 +14,7 @@ import {
 } from '@ant-design/pro-components';
 import Button from '@/components/Button';
 import SpinBox from '@/components/SpinBox';
+import { useNavigate } from '@/hooks/useNavigate';
 import type { WorkflowDataType } from '@/typings/workflow';
 import McpServerSelect from '@/components/McpServerSelect';
 import UiComponentSelect from '@/components/UiComponentSelect';

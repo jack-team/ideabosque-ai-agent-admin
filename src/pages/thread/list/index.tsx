@@ -2,7 +2,7 @@
 import { Space } from 'antd';
 import { type FC } from 'react';
 import { useMemoizedFn } from 'ahooks';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/hooks/useNavigate';
 import IconButton from '@/components/IconButton';
 import Table from '@/components/Table';
 import Button from '@/components/Button';

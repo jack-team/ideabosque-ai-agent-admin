@@ -1,6 +1,6 @@
 import { Result, Button } from 'antd';
-import { useNavigate } from 'react-router';
 import { useMemoizedFn } from 'ahooks';
+import { useNavigate } from '@/hooks/useNavigate';
 import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 

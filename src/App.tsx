@@ -26,7 +26,7 @@ const locales: Record<string, Locale> = {
 const App: FC = () => {
   const { i18n } = useTranslation();
   const lng = i18n.language.toLocaleUpperCase();
- 
+
   return (
     <ConfigProvider
       theme={themeConfigs}
@@ -37,7 +37,14 @@ const App: FC = () => {
           <ShopifyNavMenu />
           <AppWrapper>
             <StyledVariables variables={cssVariables} />
-            <Suspense fallback={<Spinner className="spinner" type="infinity-spin" />}>
+            <Suspense
+              fallback={
+                <Spinner
+                  className="spinner"
+                  type="infinity-spin"
+                />
+              }
+            >
               <RouterProvider router={router} />
             </Suspense>
           </AppWrapper>

@@ -2,7 +2,8 @@ import { type FC, useMemo } from 'react';
 import { Menu } from 'antd';
 import { useLang } from '@/hooks/useLang';
 import { pathToRegexp } from 'path-to-regexp';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from '@/hooks/useNavigate';
 import navs from '../ShopifyNavMenu/navs.json';
 import styles from './styles.module.less';
 

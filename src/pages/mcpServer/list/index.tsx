@@ -1,7 +1,7 @@
 import { type FC, useRef } from 'react';
 import { Space, App } from 'antd';
-import { useNavigate } from 'react-router';
 import { useMemoizedFn } from 'ahooks';
+import { useNavigate } from '@/hooks/useNavigate';
 import PageContainer from '@/components/PageContainer';
 import { EditIcon, DeleteIcon } from '@shopify/polaris-icons';
 import { type ActionType } from '@ant-design/pro-components';

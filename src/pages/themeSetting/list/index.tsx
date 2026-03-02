@@ -3,7 +3,7 @@ import { useMemoizedFn } from 'ahooks';
 import { type MenuProps, Dropdown, App } from 'antd';
 import { type ActionType } from '@ant-design/pro-components';
 import Button from '@/components/Button';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '@/hooks/useNavigate';
 import IconButton, { withIcon } from '@/components/IconButton';
 import { EditIcon, DeleteIcon, AlertCircleIcon, MenuHorizontalIcon } from '@shopify/polaris-icons';
 import PageContainer from '@/components/PageContainer';

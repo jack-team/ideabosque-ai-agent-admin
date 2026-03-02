@@ -1,7 +1,8 @@
 import { type FC, useRef } from 'react';
 import { App } from 'antd';
 import { useRequest, useMemoizedFn, useSafeState } from 'ahooks';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
+import { useNavigate } from '@/hooks/useNavigate';
 import PageContainer from '@/components/PageContainer';
 import SpinBox from '@/components/SpinBox';
 import ShopifyButton from '@/components/Button';

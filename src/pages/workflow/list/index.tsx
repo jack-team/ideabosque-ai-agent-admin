@@ -1,11 +1,11 @@
 import qs from 'qs';
 import { type FC, useRef } from 'react';
-import { useNavigate } from 'react-router';
 import { useMemoizedFn } from 'ahooks';
 import { App, Dropdown, type MenuProps, Space } from 'antd';
 import { type ActionType } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, DuplicateIcon, AlertCircleIcon, MenuHorizontalIcon } from '@shopify/polaris-icons';
 import PageContainer from '@/components/PageContainer';
+import { useNavigate } from '@/hooks/useNavigate';
 import { formatDate } from '@/utils';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
