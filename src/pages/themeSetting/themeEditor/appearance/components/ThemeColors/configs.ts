@@ -1,5 +1,4 @@
 import { getAiSdkStaticUrl } from '@/utils';
-
 const whiteAvatar = getAiSdkStaticUrl('/avatar-white.svg');
 
 export const DarkTheme = {
@@ -9,7 +8,8 @@ export const DarkTheme = {
   chatUiVariables: {
     agentAvatar: whiteAvatar,
     headerIcon: whiteAvatar,
-    welcomeImg: whiteAvatar
+    welcomeImg: whiteAvatar,
+    sendBtnDisabledIcon: getAiSdkStaticUrl('/chat-send-disabled.svg')
   },
   chatCssVariables: {
     // common
@@ -37,7 +37,8 @@ export const DarkTheme = {
     // input 
     footerInputBgColor: '#34322E',
     footerInputPlaceholderColor: '#707070',
-    footerSubmitBtnDisabledBgColor: '#1C1B19'
+    footerSubmitBtnDisabledBgColor: '#1C1B19',
+    footerSubmitBtnActiveBgColor:  '#1C1B19'
   },
   chatOverrides: {
     googlePlace: {
