@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import enUS from 'antd/es/locale/en_US';
 import zhTW from 'antd/es/locale/zh_TW';
 import zhCN from 'antd/es/locale/zh_CN';
+import jaJP from 'antd/es/locale/ja_JP';
 import type { Locale } from 'antd/es/locale';
 import { useTranslation } from "react-i18next";
 import { ConfigProvider, App as AntApp } from 'antd';
@@ -20,7 +21,8 @@ const router = createBrowserRouter(routes);
 const locales: Record<string, Locale> = {
   'ZH-CN': zhCN,
   'ZH-TW': zhTW,
-  'EN-US': enUS
+  'EN-US': enUS,
+  'JA': jaJP
 }
 
 const App: FC = () => {
