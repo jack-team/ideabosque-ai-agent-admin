@@ -63,7 +63,7 @@ const ThreadDetailContent: FC<ThreadDetailContentProps> = (props) => {
           </Col>
           <Col span={24}>
             <ProFormText
-              disabled
+              fieldProps={{ readOnly: true }}
               name="totalTokensUsed"
               label={t('thread.Total tokens used')}
             />
