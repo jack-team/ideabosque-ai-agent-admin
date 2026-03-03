@@ -11,18 +11,25 @@ import type { McpModuleDataType } from '@/typings/mcpConsole';
 import { useLang } from '@/hooks/useLang';
 import { partId } from '@/env';
 
+
 type ModuleFormProps = {
   onSuccess?: () => void;
   formData?: McpModuleDataType;
+  onSaveBefore?: () => Promise<void>;
 };
 
-const ModuleForm: FC<ModuleFormProps> = ({ onSuccess, formData }) => {
+const ModuleForm: FC<ModuleFormProps> = ({
+  onSuccess,
+  formData,
+  onSaveBefore
+}) => {
   const { message } = App.useApp();
   const { t } = useLang();
   const [form] = ProForm.useForm();
 
   // 表单提交处理
   useModalOkClick(async () => {
+    await onSaveBefore?.();
     try {
       const values = await form.validateFields();
       const params = {

@@ -11,9 +11,14 @@ import styles from './styles.module.less';
 type ModuleFormProps = {
   formData: McpSettingDataType;
   onSaved: () => void;
+  onSaveBefore?: () => Promise<void>;
 }
 
-const ModuleForm: FC<ModuleFormProps> = ({ formData, onSaved }) => {
+const ModuleForm: FC<ModuleFormProps> = ({ 
+  formData, 
+  onSaved, 
+  onSaveBefore 
+}) => {
   const [form] = ProForm.useForm();
   const { t } = useLang();
   const { message } = App.useApp();
@@ -21,6 +26,7 @@ const ModuleForm: FC<ModuleFormProps> = ({ formData, onSaved }) => {
 
 
   useModalOkClick(async () => {
+    await onSaveBefore?.();
     const values = await form.validateFields();
     try {
       await insertUpdateMcpSettingApi({

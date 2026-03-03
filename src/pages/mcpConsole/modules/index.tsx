@@ -41,6 +41,17 @@ const Modules: FC = () => {
         <EditForm
           formData={record}
           onSuccess={refreshTable}
+          onSaveBefore={() => {
+            return new Promise((resolve, reject) => {
+              confirm({
+                staticFn: true,
+                enableConfirm: true,
+                title: t('common.updateTipText'),
+                onConfirm: async () => resolve(),
+                onCancel: reject
+              });
+            })
+          }}
         />
       </TriggerModal>
     );
@@ -48,7 +59,9 @@ const Modules: FC = () => {
 
   const handleDelete = useMemoizedFn((record: McpModuleDataType) => {
     confirm({
+      enableConfirm: true,
       title: t('common.Are you sure you want to delete'),
+      content: t('common.updateTipText'),
       okText: t('common.delete'),
       onConfirm: async () => {
         try {
@@ -82,7 +95,7 @@ const Modules: FC = () => {
         search={false}
         fullScreen={false}
         cacheKey="mcp-console-modules"
-        request={params=> {
+        request={params => {
           return getModuleListApi({
             ...params,
             ...paramsRef.current

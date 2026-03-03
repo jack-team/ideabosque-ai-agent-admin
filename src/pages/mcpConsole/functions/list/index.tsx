@@ -28,7 +28,9 @@ const Functions: FC = () => {
 
   const handleDelete = useMemoizedFn((record: McpFunctionDataType) => {
     confirm({
+      enableConfirm: true,
       title: t('common.Are you sure you want to delete'),
+      content: t('common.updateTipText'),
       okText: t('common.delete'),
       async onConfirm() {
         try {

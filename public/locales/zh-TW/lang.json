@@ -94,7 +94,9 @@
     "Return to Home": "返回首頁",
     "Refresh the page": "重新整理頁面",
     "Oops, the server is down": "哎呀，伺服器出錯了",
-    "We apologize for the inconvenience You can take the following actions": "很抱歉給您帶來不便, 您可以執行以下操作"
+    "We apologize for the inconvenience You can take the following actions": "很抱歉給您帶來不便, 您可以執行以下操作",
+    "updateTipText": "修改這些設置可能會導致不可預知的問題。請確保您了解操作的後果。確認更改？",
+    "inputConfirmTipText": "“確認此操作，請輸入“confirm”"
   },
   "agent": {
     "chooseAgent": "選擇智能體",

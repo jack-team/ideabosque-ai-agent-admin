@@ -12,6 +12,7 @@ import { useRequest, useUpdateEffect, useSafeState, useMemoizedFn } from 'ahooks
 import { useParams } from 'react-router';
 import { useNavigate } from '@/hooks/useNavigate';
 import { useLang } from '@/hooks/useLang';
+import { useConfirm } from '@/hooks/useConfirm';
 import PageContainer from '@/components/PageContainer';
 import SpinBox from '@/components/SpinBox';
 import FunctionCalls from '../calls';
@@ -21,6 +22,7 @@ import { partId } from '@/env';
 
 const FunctionDetail: FC = () => {
   const { t } = useLang();
+  const [confirm] = useConfirm();
   const navigate = useNavigate();
   const [form] = ProForm.useForm();
   const { message } = App.useApp();
@@ -38,21 +40,27 @@ const FunctionDetail: FC = () => {
     if (data) form.setFieldsValue(data);
   }, [data]);
 
-  const handleSave = useMemoizedFn(async () => {
-    const values = await form.validateFields();
-    setSubmitLoading(true);
-    try {
-      const params = {
-        ...values,
-        updatedBy: partId,
-      };
-      await insertUpdateMcpFunctionApi(params);
-      message.success(t('common.Saved successfully'));
-    } catch (error) {
-      message.error(t('common.Failed to save, please contact the administrator'));
-      console.error('Function form error:', error);
-    }
-    setSubmitLoading(false);
+  const handleSave = useMemoizedFn(() => {
+    confirm({
+      title: t('common.updateTipText'),
+      enableConfirm: true,
+      onConfirm: async () => {
+        const values = await form.validateFields();
+        setSubmitLoading(true);
+        try {
+          const params = {
+            ...values,
+            updatedBy: partId,
+          };
+          await insertUpdateMcpFunctionApi(params);
+          message.success(t('common.Saved successfully'));
+        } catch (error) {
+          message.error(t('common.Failed to save, please contact the administrator'));
+          console.error('Function form error:', error);
+        }
+        setSubmitLoading(false);
+      }
+    });
   })
 
   return (

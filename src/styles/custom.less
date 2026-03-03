@@ -160,7 +160,7 @@
   .ant-form-item-label {
     font-weight: 500;
     --ant-form-label-font-size: 12px;
-    --ant-form-label-color: #303030; 
+    --ant-form-label-color: #303030;
 
     >label {
       &.ant-form-item-required {
@@ -228,6 +228,25 @@
       &+.ant-dropdown-menu-item {
         border-top: 1px solid #f0f0f0;
       }
+    }
+  }
+}
+
+.ant-modal-wrap.global-confirm-wrapper {
+  .ant-modal-confirm-btns {
+    .ant-btn-default:hover {
+      color: var(--primaryColor);
+    }
+
+    .ant-btn-primary {
+      color: #fff;
+      background: var(--primaryColor);
+    }
+
+    .ant-btn-primary:disabled {
+      color: var(--ant-color-text-disabled);
+      background: var(--ant-btn-bg-color-disabled);
+      border-color: var(--ant-button-border-color-disabled);
     }
   }
 }

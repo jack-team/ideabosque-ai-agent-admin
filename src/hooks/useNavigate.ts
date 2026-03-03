@@ -38,7 +38,8 @@ export const useNavigate = () => {
   const navigate = _useNavigate();
 
   return useMemoizedFn((to: To, options?: NavigateOptions) => {
-    if (inShopify) to = getTo(to);
-    navigate(to, options);
+    navigate(inShopify ? getTo(to) : to, options);
   });
 }
+
+export default useNavigate;

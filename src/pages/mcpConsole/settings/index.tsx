@@ -7,6 +7,7 @@ import IconButton from '@/components/IconButton';
 import { EditIcon } from '@shopify/polaris-icons';
 import TriggerModal from "@/components/TriggerModal";
 import { useLang } from '@/hooks/useLang';
+import { useConfirm } from '@/hooks/useConfirm';
 import { getListMcpSettingsApi } from "@/services/mcpConsole";
 import EditForm from "./components/EditForm";
 import type { McpSettingDataType } from '@/typings/mcpConsole';
@@ -14,6 +15,7 @@ import { formatDate } from '@/utils';
 
 const Settings: FC = () => {
   const { t } = useLang();
+  const [confirm] = useConfirm();
   const actionRef = useRef<ActionType>(null);
 
   const onRefresh = useMemoizedFn(() => {
@@ -33,6 +35,17 @@ const Settings: FC = () => {
         <EditForm
           formData={record}
           onSaved={onRefresh}
+          onSaveBefore={() => {
+            return new Promise((resolve, reject) => {
+              confirm({
+                staticFn: true,
+                enableConfirm: true,
+                title: t('common.updateTipText'),
+                onConfirm: async () => resolve(),
+                onCancel: reject
+              });
+            })
+          }}
         />
       </TriggerModal>
     );
