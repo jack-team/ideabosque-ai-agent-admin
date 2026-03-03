@@ -1,9 +1,24 @@
-import type { UiComponentType, ActionFunctionType, OptionType } from "@/components/FlowCanvas/types";
+import { useRequest } from 'ahooks';
 import type { UiComponentDataType } from '@/typings/ui';
+import { wizardGroupListApi } from '@/services/wizardGroup';
+import { ComponentType } from '@/pages/uiComponent/list/enmu';
 import type { McpServerDataType, McpServerToolDataType } from '@/typings/mcp';
+import type { UiComponentType, ActionFunctionType, OptionType, ElementResultOptionType } from '@/components/FlowCanvas/types';
 
 export const useUiComponents = (data: UiComponentDataType[] = []) => {
+  const { data: wizards } = useRequest(async () => {
+    const result = await wizardGroupListApi({});
+    return result.data.map(item => {
+      return {
+        id: item.wizardGroupUuid,
+        value: item.wizardGroupUuid,
+        label: item.wizardGroupName
+      }
+    });
+  });
+
   return data.map<UiComponentType>(item => {
+    const type = item.uiComponentType;
 
     const parameters = [
       ...item.parameters,
@@ -14,21 +29,33 @@ export const useUiComponents = (data: UiComponentDataType[] = []) => {
     ];
 
     return {
+      componentType: type,
       componentName: item.tagName,
       componentTag: item.tagName,
       componentId: item.uiComponentUuid,
-      componentType: item.uiComponentType,
-      input: parameters.map(item => {
-        let initialValue = item.parameter;
+
+      input: parameters.map(e => {
+        let initialValue = e.parameter;
+
         if (initialValue) {
           initialValue = `{${initialValue}}`;
         }
-        return {
+
+        const obj: ElementResultOptionType = {
           required: true,
-          label: item.name,
-          name: item.name,
-          initialValue
+          label: e.name,
+          name: e.parameter
         }
+
+        if (type === ComponentType.wizardGroup) {
+          if (e.parameter === 'wizard_group_uuid') {
+            obj.options = wizards;
+          }
+        } else {
+          obj.initialValue = initialValue;
+        }
+
+        return obj;
       })
     }
   });

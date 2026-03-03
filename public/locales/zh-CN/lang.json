@@ -1,6 +1,6 @@
 {
   "flowCanvas": {
-    "action": "Action",
+    "action": "动作",
     "actionDesc": "执行一些业务操作。",
     "text": "文本",
     "Text response": "文本回复",

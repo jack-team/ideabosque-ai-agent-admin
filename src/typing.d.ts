@@ -11,7 +11,7 @@ declare module '*.svg?react' {
 
 declare type SplitPageParams<Params extends Record<string, any> = {}> = Params & {
   current?: number;
-  pageSize?: string;
+  pageSize?: string | number;
 }
 
 //sdk

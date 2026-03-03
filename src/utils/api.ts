@@ -9,7 +9,7 @@ const baseConfigs = {
 }
 
 export function getSplitPageParams(params?: SplitPageParams) {
-  const { current: pageNumber, pageSize: limit, ...rest } = { ...params };
+  const { current: pageNumber = 1, pageSize: limit = 100, ...rest } = { ...params };
   return { pageNumber, limit, ...rest };
 }
 
