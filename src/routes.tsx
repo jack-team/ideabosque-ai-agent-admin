@@ -83,6 +83,14 @@ export const routes: RouteObject[] = [
         Component: lazy(() => import('./pages/mcpConsole/functions/detail'))
       },
       {
+        path: '/clients',
+        Component: lazy(() => import('./pages/clients/list'))
+      },
+      {
+        path: '/clients/:clientd',
+        Component: lazy(() => import('./pages/clients/detail'))
+      },
+      {
         path: '/404',
         Component: lazy(() => import('./pages/notFound'))
       },

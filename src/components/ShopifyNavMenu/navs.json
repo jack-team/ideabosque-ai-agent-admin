@@ -27,5 +27,9 @@
   {
     "path": "/theme",
     "title": "theme.Themes"
+  },
+  {
+    "path": "/clients",
+    "title": "clients.clients"
   }
 ]

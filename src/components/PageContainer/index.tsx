@@ -20,9 +20,7 @@ const PageContainer: FC<Props> = (props) => {
       backIcon={<BackIcon />}
       className={classNames(
         styles.page_container,
-        { 
-          [styles.full_screen]: fullScreen 
-        }
+        { [styles.full_screen]: fullScreen }
       )}
     >
       {children}

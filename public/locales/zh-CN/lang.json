@@ -335,5 +335,8 @@
     "Set text size, such as bubble title text, welcome message, etc": "设置文本大小，例如气泡标题文本、欢迎消息等。",
     "UI switch": "UI开关",
     "Show or hide some UI elements": "显示或隐藏某些UI元素。"
+  },
+  "clients": {
+    "clients": "客户端"
   }
 }
