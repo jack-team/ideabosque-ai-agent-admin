@@ -1,11 +1,8 @@
 import type { FC } from 'react';
-import { App } from 'antd';
 import { ProForm, ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-components';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { ThemeSettingDataType } from '@/typings/themeSetting';
-import { useLang } from '@/hooks/useLang';
 import { PlatformsMap, Platforms } from './enum';
-import { partId } from '@/env';
 
 type EditFormProps = {
   record?: ThemeSettingDataType;
@@ -14,12 +11,10 @@ type EditFormProps = {
 
 const EditForm: FC<EditFormProps> = (props) => {
   const { record } = props;
-  const { t } = useLang();
   const [form] = ProForm.useForm();
-  const { message } = App.useApp();
 
   useModalOkClick(async () => {
-    const fromData = await form.validateFields();
+    
   });
 
   return (
