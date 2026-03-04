@@ -29,19 +29,19 @@ const EditForm: FC<EditFormProps> = (props) => {
       initialValues={record}
     >
       <ProFormText
-        label="集成标题"
+        label="标题"
         name="themeTitle"
         rules={[{ required: true }]}
       />
       <ProFormSelect
-        label="集成平台"
+        label="平台"
         name="p"
         valueEnum={PlatformsMap}
         initialValue={Platforms.Web}
         rules={[{ required: true }]}
       />
       <ProFormTextArea
-        label="集成描述"
+        label="描述"
         name="themeDescription"
         rules={[{ required: true }]}
       />

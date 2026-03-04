@@ -160,7 +160,7 @@
     "pleaseAddHeader": "请添加表头",
     "addHeader": "添加表头",
     "addComponent": "添加组件",
-    "tagName": "标签名",
+    "tagName": "组件名称",
     "componentType": "组件类型",
     "editComponent": "编辑组件",
     "waitFor": "等待",

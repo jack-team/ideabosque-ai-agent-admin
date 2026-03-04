@@ -48,15 +48,15 @@ const ClientList: FC = () => {
             },
             {
               dataIndex: 'title',
-              title: '集成标题'
+              title: '标题'
             },
             {
               dataIndex: 'platform',
-              title: '集成平台'
+              title: '平台'
             },
             {
               dataIndex: 'description',
-              title: '集成描述'
+              title: '描述'
             },
             {
               title: t('common.createdAt'),
