@@ -1,5 +1,5 @@
 import {
-  SmoothStepEdge,
+  BaseEdge,
   useReactFlow,
   EdgeLabelRenderer,
   getSmoothStepPath,
@@ -25,11 +25,14 @@ const CustomStepEdge: FC<EdgeProps> = (props) => {
 
   const { setEdges } = useReactFlow();
 
-  const [_, labelX, labelY] = getSmoothStepPath({
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
     targetX,
-    targetY
+    targetY,
+    sourcePosition,
+    targetPosition,
+    borderRadius: 20
   });
 
   const transform = useMemo(() => {
@@ -46,15 +49,11 @@ const CustomStepEdge: FC<EdgeProps> = (props) => {
   return (
     <Fragment>
       <Marker stroke={stroke} id={id} />
-      <SmoothStepEdge
-        sourceX={sourceX}
-        sourceY={sourceY}
-        targetX={targetX}
-        targetY={targetY}
+      <BaseEdge
+        id={id}
+        path={edgePath}
         markerEnd={`url(#${id})`}
-        sourcePosition={sourcePosition}
-        targetPosition={targetPosition}
-        style={{ stroke, strokeWidth: 3 }}
+        style={{ stroke, strokeWidth: 4 }}
       />
       <EdgeLabelRenderer>
         {selected ? (
