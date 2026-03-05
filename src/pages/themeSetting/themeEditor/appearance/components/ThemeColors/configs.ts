@@ -19,6 +19,8 @@ export const DarkTheme = {
     // antd text input
     antdInputBgColor: '#34322E',
     antdInputTextColor: '#fff',
+    antdSelectArrowColor: '#9DA2AE',
+    antdInputClearIconColor: '#9DA2AE',
 
     //antd button
     defaultButtonBgColor: 'rgba(0,0,0,0)',
@@ -38,7 +40,7 @@ export const DarkTheme = {
     footerInputBgColor: '#34322E',
     footerInputPlaceholderColor: '#707070',
     footerSubmitBtnDisabledBgColor: '#1C1B19',
-    footerSubmitBtnActiveBgColor:  '#1C1B19'
+    footerSubmitBtnActiveBgColor: '#1C1B19'
   },
   chatOverrides: {
     googlePlace: {
@@ -52,7 +54,8 @@ export const DarkTheme = {
     wizardGroup: {
       cssVariables: {
         uiBlockGroupBackground: '#34322E',
-        uiBlockGroupFormItemBackground: '#34322E'
+        uiBlockGroupFormItemBackground: '#34322E',
+        uiBlockGroupMultipleChoiceSelectAllTextColor: '#fff'
       }
     }
   }
@@ -71,5 +74,5 @@ export const StandardTheme = {
     //header 
     headerTitleColor: '#FFFFFF'
   },
-  chatOverrides: { }
+  chatOverrides: {}
 }
