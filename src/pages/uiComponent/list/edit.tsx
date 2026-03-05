@@ -102,7 +102,7 @@ const EditForm: FC<EditFormProps> = (props) => {
           </Col>
           <Col span={24}>
             <ProFormSelect
-              name="value_list_funct"
+              name="valueListFunct"
               label={t('workflow.Get Data Function')}
               valueEnum={objectIteration(ValueListFunctMap, t)}
             />
