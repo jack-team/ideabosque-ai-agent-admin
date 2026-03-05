@@ -1,25 +1,13 @@
-import { useRequest } from 'ahooks';
 import type { UiComponentDataType } from '@/typings/ui';
-import { wizardGroupListApi } from '@/services/wizardGroup';
-import { ComponentType } from '@/pages/uiComponent/list/enmu';
 import type { McpServerDataType, McpServerToolDataType } from '@/typings/mcp';
-import type { UiComponentType, ActionFunctionType, OptionType, ElementResultOptionType } from '@/components/FlowCanvas/types';
+import type { UiComponentType, ActionFunctionType, OptionType } from '@/components/FlowCanvas/types';
 
+// 获取所有的 UI 组件
 export const useUiComponents = (data: UiComponentDataType[] = []) => {
-  const { data: wizards } = useRequest(async () => {
-    const result = await wizardGroupListApi({});
-    return result.data.map(item => {
-      return {
-        id: item.wizardGroupUuid,
-        value: item.wizardGroupUuid,
-        label: item.wizardGroupName
-      }
-    });
-  });
-
   return data.map<UiComponentType>(item => {
     const type = item.uiComponentType;
-
+    const label = item.tagAlias || item.tagName;
+    
     const parameters = [
       ...item.parameters,
       {
@@ -30,37 +18,26 @@ export const useUiComponents = (data: UiComponentDataType[] = []) => {
 
     return {
       componentType: type,
-      componentName: item.tagName,
+      componentName: label,
       componentTag: item.tagName,
       componentId: item.uiComponentUuid,
-
       input: parameters.map(e => {
         let initialValue = e.parameter;
-
         if (initialValue) {
           initialValue = `{${initialValue}}`;
         }
-
-        const obj: ElementResultOptionType = {
+        return {
           required: true,
           label: e.name,
-          name: e.parameter
+          name: e.parameter,
+          actionFunc: e.valueListFunct 
         }
-
-        if (type === ComponentType.wizardGroup) {
-          if (e.parameter === 'wizard_group_uuid') {
-            obj.options = wizards;
-          }
-        } else {
-          obj.initialValue = initialValue;
-        }
-
-        return obj;
       })
     }
   });
 }
 
+//获取所有的 tools
 export const useActions = (data: McpServerDataType[] = []) => {
   const tools = data.reduce((pre, current) => {
     return [...pre, ...current?.tools || []];
@@ -74,6 +51,7 @@ export const useActions = (data: McpServerDataType[] = []) => {
   });
 }
 
+// 获取所有的转换工具
 export const useTransformTools = () => {
   return <OptionType[]>[
     {

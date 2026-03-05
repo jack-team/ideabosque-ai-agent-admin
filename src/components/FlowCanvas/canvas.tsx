@@ -63,7 +63,7 @@ const Canvas: FC<CanvasProps> = (props) => {
       <ReactFlow<NormalNodeType>
         fitView
         minZoom={0.2}
-        maxZoom={5}
+        maxZoom={2.5}
         nodes={nodes}
         edges={computedEdages}
         edgeTypes={edgeTypes}

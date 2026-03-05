@@ -92,7 +92,7 @@ const AgentList: FC<AgentListProps> = (props) => {
         options={false}
         search={false}
         //@ts-ignore
-        toolbar={ false && {
+        toolbar={false && {
           search: {
             onSearch,
             style: { width: 300 },
@@ -102,12 +102,12 @@ const AgentList: FC<AgentListProps> = (props) => {
         rowKey="agentUuid"
         columns={[
           {
-            title: t('agent.agentUuid'),
-            dataIndex: 'agentUuid',
-          },
-          {
             title: t('agent.agentName'),
             dataIndex: 'agentName'
+          },
+          {
+            title: t('agent.agentUuid'),
+            dataIndex: 'agentUuid',
           },
           {
             title: t('common.status'),

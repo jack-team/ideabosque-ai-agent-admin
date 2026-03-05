@@ -8,9 +8,10 @@ import {
 } from '@ant-design/pro-components';
 import { useLang } from '@/hooks/useLang';
 import type { UiComponentDataType } from '@/typings/ui';
-import {  useModalOkClick } from '@/components/TriggerModal';
+import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateUiComponentApi } from '@/services/uiCpt';
-import { ComponentTypeMap } from './enmu';
+import { ComponentTypeMap, ValueListFunctMap } from '@/constants/enum';
+import { objectIteration } from '@/utils';
 import { partId } from '@/env';
 
 type EditFormProps = {
@@ -24,7 +25,7 @@ const EditForm: FC<EditFormProps> = (props) => {
   const { message } = App.useApp();
 
   useModalOkClick(async () => {
-     const values = await form.validateFields();
+    const values = await form.validateFields();
     try {
       await insertUpdateUiComponentApi({
         ...values,
@@ -48,6 +49,11 @@ const EditForm: FC<EditFormProps> = (props) => {
       <ProFormText
         label={t('workflow.tagName')}
         name="tagName"
+        rules={[{ required: true }]}
+      />
+      <ProFormText
+        label={t('workflow.tagAlias')}
+        name="tagAlias"
         rules={[{ required: true }]}
       />
       <ProFormSelect
@@ -92,6 +98,13 @@ const EditForm: FC<EditFormProps> = (props) => {
               name="parameter"
               label={t('workflow.parameter')}
               rules={[{ required: true }]}
+            />
+          </Col>
+          <Col span={24}>
+            <ProFormSelect
+              name="value_list_funct"
+              label={t('workflow.Get Data Function')}
+              valueEnum={objectIteration(ValueListFunctMap, t)}
             />
           </Col>
         </Row>

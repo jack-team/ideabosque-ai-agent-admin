@@ -119,7 +119,7 @@
     "coordinations": "Coordinations",
     "addCoordination": "Add Agent Coordination",
     "coordinationUuid": "Coordination UUID",
-    "coordinationName": "Coordination Name",
+    "coordinationName": "Coordination name",
     "coordinationDescription": "Coordination description",
     "edtCoordination": "Edt coordination",
     "connectedTheme": "Connected theme",
@@ -166,7 +166,9 @@
     "waitFor": "Wait for",
     "parameters": "Parameters",
     "parameter": "Parameter",
-    "pleaseAddParameter": "Please Add Parameter"
+    "pleaseAddParameter": "Please Add Parameter",
+    "tagAlias": "Component alias",
+    "Get Data Function": "Get Data Function"
   },
   "uiBlockGroup": {
     "uiBlockGroups": "UI Block Groups",

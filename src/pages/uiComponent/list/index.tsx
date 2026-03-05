@@ -95,6 +95,11 @@ const UiComponentList: FC = () => {
             hideInSearch: true
           },
           {
+            title: t('workflow.tagAlias'),
+            dataIndex: 'tagAlias',
+            hideInSearch: true
+          },
+          {
             title: t('workflow.componentType'),
             dataIndex: 'uiComponentType',
             hideInSearch: true

@@ -166,7 +166,9 @@
     "waitFor": "待機対象",
     "parameters": "パラメータ",
     "parameter": "パラメータ",
-    "pleaseAddParameter": "パラメータを追加してください"
+    "pleaseAddParameter": "パラメータを追加してください",
+    "tagAlias": "コンポーネント別名",
+    "Get Data Function": "データ関数の取得"
   },
   "uiBlockGroup": {
     "uiBlockGroups": "UIブロックグループ",

@@ -5,6 +5,7 @@ export type UiComponentDataType = {
   createdAt: string;
   updatedAt: string;
   tagName: string;
+  tagAlias: string;
   uiComponentType: string;
   uiComponentUuid: string;
   parameters: ParameterType[];

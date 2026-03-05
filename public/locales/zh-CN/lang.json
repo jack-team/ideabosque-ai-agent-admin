@@ -166,7 +166,9 @@
     "waitFor": "等待",
     "parameters": "参数",
     "parameter": "参数",
-    "pleaseAddParameter": "请添加参数"
+    "pleaseAddParameter": "请添加参数",
+    "tagAlias": "组件别名",
+    "Get Data Function": "获取数据函数"
   },
   "uiBlockGroup": {
     "uiBlockGroups": "UI区块组",

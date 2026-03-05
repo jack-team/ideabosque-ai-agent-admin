@@ -1,6 +1,7 @@
 import { type FC, Fragment } from 'react';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-components';
 import type { ElementResultOptionType } from '../../types';
+import { getListData } from './helper';
 
 type InputPramsFormItemsProps = {
   inputParams?: ElementResultOptionType[];
@@ -10,7 +11,7 @@ const InputPramsFormItems: FC<InputPramsFormItemsProps> = (props) => {
   const { inputParams = [] } = props;
 
   return inputParams.map(item => {
-    const options = item.options;
+    const options = item.options || [];
 
     const formItemProps = {
       label: item.label,
@@ -21,12 +22,22 @@ const InputPramsFormItems: FC<InputPramsFormItemsProps> = (props) => {
       rules: [{ required: item.required }]
     }
 
+    const isSelect = options.length || item.actionFunc;
+
     return (
       <Fragment key={item.name}>
         {
-          !options?.length ?
+          !isSelect ?
             <ProFormText {...formItemProps} /> :
-            <ProFormSelect {...formItemProps} options={options} />
+            <ProFormSelect
+              {...formItemProps}
+              request={async () => {
+                if (item.actionFunc) {
+                  return getListData(item.actionFunc);
+                }
+                return options;
+              }}
+            />
         }
       </Fragment>
     );

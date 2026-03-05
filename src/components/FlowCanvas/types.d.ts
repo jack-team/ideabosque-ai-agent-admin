@@ -16,6 +16,7 @@ export type ElementResultOptionType = {
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
+  actionFunc?: string;
   options?: OptionType[]; // 枚举值
   children?: ElementResultOptionType[];
 }

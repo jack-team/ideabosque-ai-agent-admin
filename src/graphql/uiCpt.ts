@@ -22,6 +22,7 @@ export const uiComponentListQuery = `
       uiComponentType
       uiComponentUuid
       tagName
+      tagAlias
       parameters
       waitFor
       updatedBy
@@ -35,6 +36,7 @@ export const uiComponentListQuery = `
 export const insertUpdateUiComponentQuery = `
 mutation insertUpdateUiComponent(
     $parameters: [JSONCamelCase]
+    $tagAlias: String
     $tagName: String!
     $uiComponentType: String!
     $uiComponentUuid: String
@@ -43,6 +45,7 @@ mutation insertUpdateUiComponent(
 ){
   insertUpdateUiComponent(
     parameters: $parameters
+    tagAlias: $tagAlias
     tagName: $tagName
     uiComponentType: $uiComponentType
     uiComponentUuid: $uiComponentUuid

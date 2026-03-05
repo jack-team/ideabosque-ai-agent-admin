@@ -6,6 +6,8 @@ import { type ActionType, ProCard } from '@ant-design/pro-components';
 import { EditIcon, DeleteIcon, EyeCheckMarkIcon, PlusIcon } from '@shopify/polaris-icons';
 import { coordinationListApi, deleteCoordinationApi } from '@/services/agent';
 import Button from '@/components/Button';
+import StatusTag from '@/components/StatusTag';
+import { StatusEnum, StatusMap } from '@/constants/enum';
 import IconButton, { withIcon } from '@/components/IconButton';
 import TriggerModal from '@/components/TriggerModal';
 import type { CoordinationDataType } from '@/typings/agent';
@@ -96,13 +98,25 @@ const CoordinationList: FC<CoordinationListProps> = (props) => {
         }}
         columns={[
           {
+            title: t('agent.coordinationName'),
+            dataIndex: 'coordinationName'
+          },
+          {
             title: t('agent.coordinationUuid'),
             dataIndex: 'coordinationUuid',
             hideInSearch: true
           },
-          {
-            title: t('agent.coordinationName'),
-            dataIndex: 'coordinationName'
+           {
+            title: t('common.status'),
+            dataIndex: 'status',
+            hideInSearch: true,
+            render: () => {
+              return (
+                <StatusTag suatus={StatusEnum.Active}>
+                  {t(StatusMap[StatusEnum.Active])}
+                </StatusTag>
+              );
+            }
           },
           {
             title: t('common.createdAt'),
