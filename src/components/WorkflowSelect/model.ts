@@ -25,7 +25,7 @@ export const useWorkflowModel = create(persist<WorkflowModelTypes & WorkflowMode
     }
   }),
   {
-    name: `${partId}-workflows`,
+    name: `${partId()}-workflows`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)

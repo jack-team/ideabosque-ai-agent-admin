@@ -50,7 +50,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       await insertUpdateWorkflowApi({
         ...values,
-        updatedBy: partId,
+        updatedBy: partId(),
         status: StatusEnum.Active
       });
       props.onSaveSuccess?.();

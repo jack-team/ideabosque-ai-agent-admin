@@ -31,7 +31,7 @@ const checkSubscription = (res: AppInstalledResult) => (
       resolve(null);
     } else {
       // 如果当前订阅无效跳转订阅链接
-      openUrl(`https://admin.shopify.com/store/${partId}/charges/${partId}/pricing_plans`);
+      openUrl(`https://admin.shopify.com/store/${partId()}/charges/${partId()}/pricing_plans`);
     }
   })
 );

@@ -60,7 +60,7 @@ function WorkflowDetail() {
 
     const params: Record<string, any> = {
       flowSnippetUuid,
-      updatedBy: partId,
+      updatedBy: partId(),
       flowContext: JSON.stringify(data.assembleData),
       flowRelationship: JSON.stringify(data.realDetails)
     }

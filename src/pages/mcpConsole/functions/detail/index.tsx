@@ -50,7 +50,7 @@ const FunctionDetail: FC = () => {
         try {
           const params = {
             ...values,
-            updatedBy: partId,
+            updatedBy: partId(),
           };
           await insertUpdateMcpFunctionApi(params);
           message.success(t('common.Saved successfully'));

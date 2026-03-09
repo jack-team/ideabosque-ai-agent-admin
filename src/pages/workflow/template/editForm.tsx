@@ -91,7 +91,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       ...rest,
       mcpServers,
       uiComponents,
-      updatedBy: partId
+      updatedBy: partId()
     }
 
     if (editType === 'new') {

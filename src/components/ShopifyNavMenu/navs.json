@@ -6,26 +6,32 @@
   },
   {
     "path": "/agent",
-    "title": "agent.agents"
+    "title": "agent.agents",
+    "icon": "RobotOutlined"
   },
   {
     "path": "/workflow",
-    "title": "workflow.workflows"
+    "title": "workflow.workflows",
+    "icon": "ForkOutlined"
   },
   {
     "path": "/ui-block-group",
-    "title": "uiBlockGroup.uiBlockGroups"
+    "title": "uiBlockGroup.uiBlockGroups",
+    "icon": "LayoutOutlined"
   },
   {
     "path": "/thread",
-    "title": "thread.Message Threads"
+    "title": "thread.Message Threads",
+    "icon": "ApiOutlined"
   },
   {
     "path": "/mcp-console",
-    "title": "mcpConsole.Mcp Console"
+    "title": "mcpConsole.Mcp Console",
+    "icon": "DashboardOutlined"
   },
   {
     "path": "/theme",
-    "title": "theme.Themes"
+    "title": "theme.Themes",
+    "icon": "BgColorsOutlined"
   }
 ]

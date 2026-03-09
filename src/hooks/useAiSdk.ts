@@ -27,8 +27,8 @@ export const useAiSdk = (options: DefaultOptions) => {
 
     if (configs) {
       createChatOptions.configs = {
-        partId,
-        userId: partId,
+        partId: partId(),
+        userId: partId(),
         ...configs
       }
     }

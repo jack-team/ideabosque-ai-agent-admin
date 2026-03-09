@@ -34,7 +34,7 @@ const ModuleForm: FC<ModuleFormProps> = ({
       const values = await form.validateFields();
       const params = {
         ...values,
-        updatedBy: partId,
+        updatedBy: partId(),
       };
       await insertUpdateMcpModuleApi(params);
       message.success(t('common.Saved successfully'));

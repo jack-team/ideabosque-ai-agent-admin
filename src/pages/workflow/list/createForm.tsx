@@ -35,7 +35,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     const values = await form.validateFields();
     const result = await insertUpdateWorkflowApi({
       ...values,
-      updatedBy: partId,
+      updatedBy: partId(),
       flowContext: JSON.stringify({}),
       flowRelationship: JSON.stringify({})
     });

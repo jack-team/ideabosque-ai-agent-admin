@@ -29,7 +29,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       await insertUpdateUiComponentApi({
         ...values,
-        updatedBy: partId,
+        updatedBy: partId(),
       });
       props.onSaveSuccess?.();
       message.success(t('common.Saved successfully'));

@@ -58,7 +58,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       await insertUpdateMcpServerApi({
         ...reset,
         headers: optionsToObject(headers),
-        updatedBy: partId,
+        updatedBy: partId(),
       });
       props.onSaveSuccess?.();
       message.success(`Successfully ${formData ? "updated" : "created"} Mcp server.`);

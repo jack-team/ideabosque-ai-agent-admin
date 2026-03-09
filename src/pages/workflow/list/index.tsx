@@ -49,7 +49,7 @@ const WorkflowList: FC = () => {
       onOk: async () => {
         try {
           await insertUpdateWorkflowApi({
-            updatedBy: partId,
+            updatedBy: partId(),
             status: StatusEnum.Active,
             flowSnippetUuid: record.flowSnippetUuid,
           });
@@ -67,7 +67,7 @@ const WorkflowList: FC = () => {
     const closeLoading = message.loading(t('common.loading'));
     await insertUpdateWorkflowApi({
       duplicate: true,
-      updatedBy: partId,
+      updatedBy: partId(),
       flowSnippetUuid: record.flowSnippetUuid,
     });
     onRefresh();

@@ -32,6 +32,6 @@ export const formDataTransfromParams = (
   return {
     ...rest,
     agents,
-    updatedBy: partId
+    updatedBy: partId()
   };
 }

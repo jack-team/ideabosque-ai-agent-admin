@@ -1,4 +1,5 @@
 import { getUrlParams } from '@/utils';
+import { useUserModel } from '@/store/user';
 
 export const apiKey = import.meta.env.ENV_API_KEY;
 export const apiBaseUrl = import.meta.env.ENV_API_BASE_URL;
@@ -6,7 +7,21 @@ export const endpointId = import.meta.env.ENV_API_ENDPOINT_ID;
 
 // url params
 export const shop = getUrlParams('shop');
-export const partId = shop?.split('.')?.[0] || import.meta.env.ENV_DEFAULT_PART_ID;
+
+// partId 
+export const partId = () => {
+  let _partId = import.meta.env.ENV_DEFAULT_PART_ID;
+  const s = useUserModel.getState();
+
+  if (shop) {
+    _partId = shop?.split('.')?.[0];
+  } else if (s.user?.email) {
+    _partId = s.user?.email;
+  }
+
+  return _partId;
+};
+
 // 是否在 shopify 中打开
 export const inShopify = getUrlParams('embedded') === '1';
 
@@ -25,4 +40,6 @@ export const sdkUrl = `${import.meta.env.ENV_AI_SDK_URL}/sdk-${sdkVersion}.iife.
 
 //语言
 export const lng = getUrlParams('locale');
+
+export const appName = import.meta.env.ENV_APP_NAME;
 

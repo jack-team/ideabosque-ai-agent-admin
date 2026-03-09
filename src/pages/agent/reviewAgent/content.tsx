@@ -88,7 +88,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
               const code = renderTpl(codeTpl, {
                 sdkUrl,
-                partId,
+                partId: partId(),
                 agent,
                 coordination: coordinationUuid
               });

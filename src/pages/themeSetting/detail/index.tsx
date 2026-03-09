@@ -35,7 +35,7 @@ const ThemeDetail: FC = () => {
     try {
       setSubmiting(true);
       await insertUpdateThemeSettingApi({
-        updatedBy: partId,
+        updatedBy: partId(),
         themeUuid: themeUuid!,
         themeType: 'chatbotTheme',
         setting: settingData

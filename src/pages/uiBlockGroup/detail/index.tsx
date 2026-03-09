@@ -65,7 +65,7 @@ const UiBlockGroupDetail: FC = () => {
       const values = processOutputData(formData);
       await insertUpdateWizardGroupWithWizards({
         ...values,
-        updatedBy: partId
+        updatedBy: partId()
       });
       message.success(t('common.Saved successfully'));
     } catch (err) {

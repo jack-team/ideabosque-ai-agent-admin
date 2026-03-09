@@ -23,7 +23,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       const result = await insertUpdateThemeSettingApi({
         ...fromData,
-        updatedBy: partId
+        updatedBy: partId()
       });
 
       if (record) {

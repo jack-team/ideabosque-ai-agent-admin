@@ -25,7 +25,7 @@ export const useLlmModel = create(persist<LlmModelTypes & LlmModelMethods>(
     }
   }),
   {
-    name: `${partId}-llms`,
+    name: `${partId()}-llms`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)

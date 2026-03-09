@@ -3,7 +3,7 @@ import * as env from '@/env';
 
 const baseConfigs = {
   apiKey: env.apiKey,
-  partId: env.partId,
+  partId: env.partId(),
   baseUrl: env.apiBaseUrl,
   endpointId: env.endpointId
 }

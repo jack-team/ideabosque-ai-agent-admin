@@ -25,7 +25,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     const result = await insertUpdatePromptTemplateApi({
       ...values,
       templateContext: '',
-      updatedBy: partId
+      updatedBy: partId()
     });
     props.onSaveSuccess?.(result.promptTemplate);
   });

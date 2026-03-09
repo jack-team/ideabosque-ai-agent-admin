@@ -1,0 +1,49 @@
+.container {
+  height: 64px;
+  user-select: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e3e3;
+
+  .menu_switch {
+    padding: 0 0 0 24px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .user {
+    height: 100%;
+    line-height: 64px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    padding: 0 24px;
+
+    .user_name {
+      color: var(--primaryColor);
+    }
+
+    .arrow {
+      font-size: 14px;
+      transform: rotate(0);
+      transform-origin: center;
+      transition: all .2s linear;
+    }
+
+    &.menu_open {
+      background: #f9f9f9;
+
+      .arrow {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.logout_text {
+  font-size: 16px !important;
+}

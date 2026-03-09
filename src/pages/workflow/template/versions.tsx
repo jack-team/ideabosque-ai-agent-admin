@@ -43,7 +43,7 @@ const Versions: FC<VersionsProps> = (props) => {
       await insertUpdatePromptTemplateApi({
         ...values,
         status: StatusEnum.Active,
-        updatedBy: partId
+        updatedBy: partId()
       });
       props.onSaveSuccess?.();
       message.success(t('common.Version successfully applied'));

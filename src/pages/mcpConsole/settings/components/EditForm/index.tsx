@@ -31,7 +31,7 @@ const ModuleForm: FC<ModuleFormProps> = ({
     try {
       await insertUpdateMcpSettingApi({
         setting: values,
-        updatedBy: partId,
+        updatedBy: partId(),
         settingId: formData.settingId
       });
       onSaved();

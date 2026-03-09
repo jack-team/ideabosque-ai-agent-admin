@@ -26,7 +26,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     try {
       const result = await insertUpdateWizardGroupApi({
         ...values,
-        updatedBy: partId
+        updatedBy: partId()
       });
       props.onSuccess?.(result.wizardGroup);
       message.success(t('common.Saved successfully'));

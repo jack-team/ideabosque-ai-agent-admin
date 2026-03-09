@@ -25,7 +25,7 @@ export const useMcpServerModel = create(persist<McpServerModelTypes & McpServerM
     }
   }),
   {
-    name: `${partId}-mcp-servers`,
+    name: `${partId()}-mcp-servers`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)
