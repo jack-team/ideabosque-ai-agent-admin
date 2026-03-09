@@ -21,9 +21,11 @@ export const ComponentTypeMap = {
 }
 
 export enum ValueListFunct {
-  WizardGroupList = 'wizardGroupList'
+  WizardGroupList = 'wizardGroupList',
+  AgentList = 'agentList'
 }
 
 export const ValueListFunctMap = {
-  [ValueListFunct.WizardGroupList]: 'uiBlockGroup.uiBlockGroups'
+  [ValueListFunct.WizardGroupList]: 'uiBlockGroup.uiBlockGroups',
+  [ValueListFunct.AgentList]: 'agent.agents',
 }
