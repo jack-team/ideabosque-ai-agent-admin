@@ -96,7 +96,8 @@
     "Oops, the server is down": "哎呀，服务器出错了",
     "We apologize for the inconvenience You can take the following actions": "很抱歉给您带来不便, 您可以执行以下操作",
     "updateTipText": "修改这些设置可能会导致不可预知的问题。请确保您了解操作的后果。确认更改？",
-    "inputConfirmTipText": "确认此操作，请输入“confirm”"
+    "inputConfirmTipText": "确认此操作，请输入“confirm”",
+    "defaultValue": "默认值"
   },
   "agent": {
     "chooseAgent": "选择智能体",

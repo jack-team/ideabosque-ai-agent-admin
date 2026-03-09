@@ -88,6 +88,13 @@ const EditForm: FC<EditFormProps> = (props) => {
         <Row gutter={16}>
           <Col span={12}>
             <ProFormText
+              name="label"
+              label={t('flowCanvas.label')}
+              rules={[{ required: true }]}
+            />
+          </Col>
+          <Col span={12}>
+            <ProFormText
               name="name"
               label={t('common.name')}
               rules={[{ required: true }]}
@@ -96,11 +103,11 @@ const EditForm: FC<EditFormProps> = (props) => {
           <Col span={12}>
             <ProFormText
               name="parameter"
-              label={t('workflow.parameter')}
-              rules={[{ required: true }]}
+              label={t('common.defaultValue')}
+              rules={[{ required: false }]}
             />
           </Col>
-          <Col span={24}>
+          <Col span={12}>
             <ProFormSelect
               name="valueListFunct"
               label={t('workflow.Get Data Function')}

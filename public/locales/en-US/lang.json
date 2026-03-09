@@ -96,7 +96,8 @@
     "Oops, the server is down": "Oops, the server is down",
     "We apologize for the inconvenience You can take the following actions": "We apologize for the inconvenience. You can take the following actions",
     "updateTipText": "Modifying these settings may lead to unpredictable issues. Please ensure you understand the implications of your actions. Confirm changes?",
-    "inputConfirmTipText": "To Confirm this action, type \"confirm\""
+    "inputConfirmTipText": "To Confirm this action, type \"confirm\"",
+    "defaultValue": "Default Value"
   },
   "agent": {
     "chooseAgent": "Agent",

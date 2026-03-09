@@ -96,7 +96,8 @@
     "Oops, the server is down": "おっと、サーバーがダウンしています",
     "We apologize for the inconvenience You can take the following actions": "ご不便をおかけして申し訳ありません。次のアクションを取ることができます。",
     "updateTipText": "これらの設定を変更すると、予知できない問題が発生する可能性があります。操作の結果を理解していることを確認してください。変更を確認しますか？",
-    "inputConfirmTipText": "この操作を確認するには「confirm」と入力してください"
+    "inputConfirmTipText": "この操作を確認するには「confirm」と入力してください",
+    "defaultValue": "デフォルト値"
   },
   "agent": {
     "chooseAgent": "エージェント",

@@ -7,11 +7,12 @@ export const useUiComponents = (data: UiComponentDataType[] = []) => {
   return data.map<UiComponentType>(item => {
     const type = item.uiComponentType;
     const label = item.tagAlias || item.tagName;
-    
+
     const parameters = [
       ...item.parameters,
       {
         name: 'waitFor',
+        label: 'Wait for',
         parameter: item.waitFor
       }
     ];
@@ -22,15 +23,19 @@ export const useUiComponents = (data: UiComponentDataType[] = []) => {
       componentTag: item.tagName,
       componentId: item.uiComponentUuid,
       input: parameters.map(e => {
-        let initialValue = e.parameter;
-        if (initialValue) {
-          initialValue = `{${initialValue}}`;
+        const label = e.label || e.name;
+        let initialValue: string | undefined;
+
+        if (e.parameter) {
+          initialValue = `{${e.parameter}}`;
         }
+
         return {
           required: true,
-          label: e.name,
-          name: e.parameter,
-          actionFunc: e.valueListFunct 
+          label: label,
+          name: e.name,
+          initialValue,
+          actionFunc: e.valueListFunct
         }
       })
     }
