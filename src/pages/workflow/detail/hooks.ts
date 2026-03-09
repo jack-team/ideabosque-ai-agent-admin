@@ -27,7 +27,7 @@ export const useUiComponents = (data: UiComponentDataType[] = []) => {
         let initialValue: string | undefined;
 
         if (e.parameter) {
-          initialValue = `{${e.parameter}}`;
+          initialValue = e.parameter;
         }
 
         return {

@@ -89,14 +89,14 @@ const EditForm: FC<EditFormProps> = (props) => {
           <Col span={12}>
             <ProFormText
               name="label"
-              label={t('flowCanvas.label')}
+              label={t('common.name')}
               rules={[{ required: true }]}
             />
           </Col>
           <Col span={12}>
             <ProFormText
               name="name"
-              label={t('common.name')}
+              label={t('workflow.parameter')}
               rules={[{ required: true }]}
             />
           </Col>
