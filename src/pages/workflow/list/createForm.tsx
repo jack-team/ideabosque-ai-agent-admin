@@ -5,7 +5,7 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-components';
 import { useRequest } from 'ahooks';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
@@ -35,7 +35,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     const values = await form.validateFields();
     const result = await insertUpdateWorkflowApi({
       ...values,
-      updatedBy: partId(),
+      updatedBy: getPartId(),
       flowContext: JSON.stringify({}),
       flowRelationship: JSON.stringify({})
     });

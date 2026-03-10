@@ -9,7 +9,7 @@ import ShopifyButton from '@/components/Button';
 import ThemeEditor from '../themeEditor';
 import type { ThemeEditorActionType } from '../themeEditor/types';
 import { getThemeSettingApi, insertUpdateThemeSettingApi } from '@/services/themeSetting';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
@@ -35,7 +35,7 @@ const ThemeDetail: FC = () => {
     try {
       setSubmiting(true);
       await insertUpdateThemeSettingApi({
-        updatedBy: partId(),
+        updatedBy: getPartId(),
         themeUuid: themeUuid!,
         themeType: 'chatbotTheme',
         setting: settingData

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useMount, useUnmount, useMemoizedFn, useSafeState } from 'ahooks';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type DefaultOptions = {
   openMode?: OpenModeType;
@@ -27,8 +27,8 @@ export const useAiSdk = (options: DefaultOptions) => {
 
     if (configs) {
       createChatOptions.configs = {
-        partId: partId(),
-        userId: partId(),
+        partId: getPartId(),
+        userId: getPartId(),
         ...configs
       }
     }

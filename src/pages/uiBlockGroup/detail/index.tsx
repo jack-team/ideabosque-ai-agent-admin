@@ -23,7 +23,7 @@ import { useBlockSchemas, useWizardGroupDetail } from './hooks';
 import type { WizardGroupResultType, WizardSchemaType } from './types';
 import { insertUpdateWizardGroupWithWizards } from '@/services/wizardGroup';
 import Wizards from './wizards';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
@@ -65,7 +65,7 @@ const UiBlockGroupDetail: FC = () => {
       const values = processOutputData(formData);
       await insertUpdateWizardGroupWithWizards({
         ...values,
-        updatedBy: partId()
+        updatedBy: getPartId()
       });
       message.success(t('common.Saved successfully'));
     } catch (err) {

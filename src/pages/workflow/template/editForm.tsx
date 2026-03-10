@@ -24,7 +24,7 @@ import { promptTemplateDetailApi, insertUpdatePromptTemplateApi } from '@/servic
 import { TemplateTypeMap } from './enum';
 import { useLang } from '@/hooks/useLang';
 import { objectIteration } from '@/utils'
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type EditFormProps = {
   workflow?: WorkflowDataType;
@@ -91,7 +91,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       ...rest,
       mcpServers,
       uiComponents,
-      updatedBy: partId()
+      updatedBy: getPartId()
     }
 
     if (editType === 'new') {

@@ -18,7 +18,7 @@ import StatusTag from '@/components/StatusTag';
 import { useLang } from '@/hooks/useLang';
 import CreateForm from './createForm';
 import EditForm from './editForm';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 const WEditIcon = withIcon(EditIcon);
 const WDeleteIcon = withIcon(DeleteIcon);
@@ -49,7 +49,7 @@ const WorkflowList: FC = () => {
       onOk: async () => {
         try {
           await insertUpdateWorkflowApi({
-            updatedBy: partId(),
+            updatedBy: getPartId(),
             status: StatusEnum.Active,
             flowSnippetUuid: record.flowSnippetUuid,
           });
@@ -67,7 +67,7 @@ const WorkflowList: FC = () => {
     const closeLoading = message.loading(t('common.loading'));
     await insertUpdateWorkflowApi({
       duplicate: true,
-      updatedBy: partId(),
+      updatedBy: getPartId(),
       flowSnippetUuid: record.flowSnippetUuid,
     });
     onRefresh();

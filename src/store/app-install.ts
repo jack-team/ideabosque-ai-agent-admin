@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { create } from 'zustand';
 import type { AppInstalledResult } from '@/typings/app-install';
-import { appId, shop, installBaseUrl, partId } from '@/env';
+import { appId, shop, installBaseUrl, getPartId } from '@/env';
 import { appInstallApi } from '@/services/auth';
 
 type AppInstallModelTypes = {
@@ -31,7 +31,7 @@ const checkSubscription = (res: AppInstalledResult) => (
       resolve(null);
     } else {
       // 如果当前订阅无效跳转订阅链接
-      openUrl(`https://admin.shopify.com/store/${partId()}/charges/${partId()}/pricing_plans`);
+      openUrl(`https://admin.shopify.com/store/${getPartId()}/charges/${getPartId()}/pricing_plans`);
     }
   })
 );

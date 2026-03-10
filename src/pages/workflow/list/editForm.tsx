@@ -6,7 +6,7 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-components';
 import { useRequest } from 'ahooks';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import SpinBox from '@/components/SpinBox';
 import { StatusEnum } from '@/constants/enum';
 import type { WorkflowDataType } from '@/typings/workflow';
@@ -50,7 +50,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       await insertUpdateWorkflowApi({
         ...values,
-        updatedBy: partId(),
+        updatedBy: getPartId(),
         status: StatusEnum.Active
       });
       props.onSaveSuccess?.();

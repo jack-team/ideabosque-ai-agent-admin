@@ -10,7 +10,7 @@ import { useLang } from '@/hooks/useLang';
 import { useModalOkClick } from '@/components/TriggerModal';
 import type { WizardGroupResultType } from '@/typings/wizardGroup';
 import { insertUpdateWizardGroupApi } from '@/services/wizardGroup';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type CreateFormProps = {
   onSuccess?: (data: WizardGroupResultType) => void;
@@ -26,7 +26,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     try {
       const result = await insertUpdateWizardGroupApi({
         ...values,
-        updatedBy: partId()
+        updatedBy: getPartId()
       });
       props.onSuccess?.(result.wizardGroup);
       message.success(t('common.Saved successfully'));

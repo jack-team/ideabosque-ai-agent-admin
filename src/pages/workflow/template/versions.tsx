@@ -7,7 +7,7 @@ import { useModalOkClick } from '@/components/TriggerModal';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { promptTemplateListApi, insertUpdatePromptTemplateApi } from '@/services/workflow';
 import type { PromptTemplateDataType } from '@/typings/workflow';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 
 type VersionsProps = {
@@ -43,7 +43,7 @@ const Versions: FC<VersionsProps> = (props) => {
       await insertUpdatePromptTemplateApi({
         ...values,
         status: StatusEnum.Active,
-        updatedBy: partId()
+        updatedBy: getPartId()
       });
       props.onSaveSuccess?.();
       message.success(t('common.Version successfully applied'));

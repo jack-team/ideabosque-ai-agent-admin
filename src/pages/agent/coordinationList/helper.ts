@@ -1,4 +1,4 @@
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import type { CoordinationDataType, AgentDataType } from '@/typings/agent';
 
 export const coordinationTransformFormData = (coordination: CoordinationDataType) => {
@@ -32,6 +32,6 @@ export const formDataTransfromParams = (
   return {
     ...rest,
     agents,
-    updatedBy: partId()
+    updatedBy: getPartId()
   };
 }

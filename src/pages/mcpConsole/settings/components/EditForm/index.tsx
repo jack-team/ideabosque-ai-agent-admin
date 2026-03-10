@@ -4,7 +4,7 @@ import { ProForm, ProFormSwitch, ProFormText, ProCard } from '@ant-design/pro-co
 import type { McpSettingDataType } from '@/typings/mcpConsole';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpSettingApi } from '@/services/mcpConsole';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
@@ -31,7 +31,7 @@ const ModuleForm: FC<ModuleFormProps> = ({
     try {
       await insertUpdateMcpSettingApi({
         setting: values,
-        updatedBy: partId(),
+        updatedBy: getPartId(),
         settingId: formData.settingId
       });
       onSaved();

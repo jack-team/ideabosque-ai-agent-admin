@@ -5,7 +5,7 @@ import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateThemeSettingApi } from '@/services/themeSetting';
 import type { ThemeSettingDataType } from '@/typings/themeSetting';
 import { useLang } from '@/hooks/useLang';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type EditFormProps = {
   record?: ThemeSettingDataType;
@@ -23,7 +23,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       const result = await insertUpdateThemeSettingApi({
         ...fromData,
-        updatedBy: partId()
+        updatedBy: getPartId()
       });
 
       if (record) {

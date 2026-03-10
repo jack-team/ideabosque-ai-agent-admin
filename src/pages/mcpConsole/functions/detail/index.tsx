@@ -18,7 +18,7 @@ import SpinBox from '@/components/SpinBox';
 import FunctionCalls from '../calls';
 import { getFunctionDetailApi } from '@/services/mcpConsole';
 import { insertUpdateMcpFunctionApi } from '@/services/mcpConsole';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 const FunctionDetail: FC = () => {
   const { t } = useLang();
@@ -50,7 +50,7 @@ const FunctionDetail: FC = () => {
         try {
           const params = {
             ...values,
-            updatedBy: partId(),
+            updatedBy: getPartId(),
           };
           await insertUpdateMcpFunctionApi(params);
           message.success(t('common.Saved successfully'));

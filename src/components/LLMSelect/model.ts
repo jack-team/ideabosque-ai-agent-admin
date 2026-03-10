@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { llmListApi } from '@/services/llm';
 import type { LLMDataType } from '@/typings/llm';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type LlmModelTypes = {
   loading?: boolean;
@@ -25,7 +25,7 @@ export const useLlmModel = create(persist<LlmModelTypes & LlmModelMethods>(
     }
   }),
   {
-    name: `${partId()}-llms`,
+    name: `${getPartId()}-llms`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)

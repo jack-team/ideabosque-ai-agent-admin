@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { uiComponentListApi } from '@/services/uiCpt';
 import type { UiComponentDataType } from '@/typings/ui';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type UiComponentModeTypes = {
   loading?: boolean;
@@ -25,7 +25,7 @@ export const useUiComponentModel = create(persist<UiComponentModeTypes & UiCompo
     }
   }),
   {
-    name: `${partId()}-ui-components`,
+    name: `${getPartId()}-ui-components`,
     // @ts-ignore
     partialize: (state) => ({ list: state.list }),
     storage: createJSONStorage(() => sessionStorage)

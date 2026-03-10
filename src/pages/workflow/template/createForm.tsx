@@ -5,7 +5,7 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-components';
 import { useLang } from '@/hooks/useLang';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdatePromptTemplateApi } from '@/services/workflow';
 import type { PromptTemplateDataType } from '@/typings/workflow';
@@ -25,7 +25,7 @@ const CreateForm: FC<CreateFormProps> = (props) => {
     const result = await insertUpdatePromptTemplateApi({
       ...values,
       templateContext: '',
-      updatedBy: partId()
+      updatedBy: getPartId()
     });
     props.onSaveSuccess?.(result.promptTemplate);
   });

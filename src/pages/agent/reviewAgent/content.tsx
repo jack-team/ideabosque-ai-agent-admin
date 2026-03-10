@@ -8,7 +8,7 @@ import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ProForm, ProFormSelect, ProFormDependency } from '@ant-design/pro-components';
 import { useAiSdk } from '@/hooks/useAiSdk';
 import type { AgentDataType } from '@/typings/agent';
-import { sdkUrl, partId } from '@/env';
+import { sdkUrl, getPartId } from '@/env';
 import { renderTpl } from './helper';
 import styles from './styles.module.less';
 import codeTpl from './code_tpl.txt?raw';
@@ -88,7 +88,7 @@ const ReviewAgentContent: FC<ReviewAgentContentProps> = (props) => {
 
               const code = renderTpl(codeTpl, {
                 sdkUrl,
-                partId: partId(),
+                partId: getPartId(),
                 agent,
                 coordination: coordinationUuid
               });

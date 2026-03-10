@@ -9,7 +9,7 @@ import type { McpServerDataType } from '@/typings/mcp';
 import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpServerApi } from '@/services/mcp';
 import { useLang } from '@/hooks/useLang';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type EditFormProps = {
   formData?: McpServerDataType;
@@ -58,7 +58,7 @@ const EditForm: FC<EditFormProps> = (props) => {
       await insertUpdateMcpServerApi({
         ...reset,
         headers: optionsToObject(headers),
-        updatedBy: partId(),
+        updatedBy: getPartId(),
       });
       props.onSaveSuccess?.();
       message.success(`Successfully ${formData ? "updated" : "created"} Mcp server.`);

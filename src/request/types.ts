@@ -1,7 +1,6 @@
 export type BaseRequestOptions = {
   baseUrl: string;
   apiKey: string;
-  partId: string;
   endpointId: string;
 }
 

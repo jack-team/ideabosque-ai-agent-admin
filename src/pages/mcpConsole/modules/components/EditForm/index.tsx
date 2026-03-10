@@ -9,7 +9,7 @@ import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateMcpModuleApi } from '@/services/mcpConsole';
 import type { McpModuleDataType } from '@/typings/mcpConsole';
 import { useLang } from '@/hooks/useLang';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 
 type ModuleFormProps = {
@@ -34,7 +34,7 @@ const ModuleForm: FC<ModuleFormProps> = ({
       const values = await form.validateFields();
       const params = {
         ...values,
-        updatedBy: partId(),
+        updatedBy: getPartId(),
       };
       await insertUpdateMcpModuleApi(params);
       message.success(t('common.Saved successfully'));

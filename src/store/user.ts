@@ -3,27 +3,25 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { signIn } from '@/libs/cognitoClient';
 
-type SignInResultType = Awaited<ReturnType<typeof signIn>>;
+export type SessionType = Awaited<ReturnType<typeof signIn>>;
 
 type UserType = {
   email: string;
-  userName: string;
 }
-
-type TokenResult = Omit<SignInResultType, 'userName'>;
 
 type UserModelTypes = {
   user: UserType | null;
-  token: TokenResult | null;
+  token: SessionType | null;
   collapsed: boolean;
 }
 
-type UpdateParams = TokenResult & UserType;
+type UpdateParams = SessionType & UserType;
 
 type UserModelMethods = {
-  toggleCollapsed: () => void;
-  updateUser: (params: UpdateParams) => void;
   logout: () => void;
+  toggleCollapsed: () => void;
+  updateToken: (token: SessionType) => void;
+  updateUser: (params: UpdateParams) => void;
 }
 
 export const useUserModel = create(
@@ -33,8 +31,11 @@ export const useUserModel = create(
       token: null,
       collapsed: false,
       updateUser: (params) => {
-        const { userName, email, ...token } = params;
-        set({ token, user: { email, userName } });
+        const { email, ...token } = params;
+        set({ token, user: { email } });
+      },
+      updateToken: (token) => {
+        set({ token });
       },
       toggleCollapsed: () => {
         set({ collapsed: !get().collapsed });

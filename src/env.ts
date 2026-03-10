@@ -4,26 +4,26 @@ import { useUserModel } from '@/store/user';
 export const apiKey = import.meta.env.ENV_API_KEY;
 export const apiBaseUrl = import.meta.env.ENV_API_BASE_URL;
 export const endpointId = import.meta.env.ENV_API_ENDPOINT_ID;
+export const defaultPartId = import.meta.env.ENV_DEFAULT_PART_ID;
 
 // url params
 export const shop = getUrlParams('shop');
 
-// partId 
-export const partId = () => {
-  let _partId = import.meta.env.ENV_DEFAULT_PART_ID;
+// 获取 partId
+export const getPartId = () => {
   const s = useUserModel.getState();
+  let pId: string | undefined;
 
   if (shop) {
-    _partId = shop?.split('.')?.[0];
-  } else if (s.user?.email) {
-    _partId = s.user?.email;
+    pId = shop.split('.')?.[0];
+  } else if (s.token) {
+    pId = s.token.userName;
   }
-
-  return _partId;
-};
+  return pId || defaultPartId;
+}
 
 // 是否在 shopify 中打开
-export const inShopify = getUrlParams('embedded') === '1';
+export const inShopify = shop && getUrlParams('embedded') === '1';
 
 //shopify
 export const appId = import.meta.env.ENV_SHOPIFY_APP_ID;

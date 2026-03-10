@@ -13,7 +13,7 @@ import { useLeavePage } from '@/hooks/useLeavePage';
 import { useConfirm } from '@/hooks/useConfirm';
 import SpinBox from '@/components/SpinBox';
 import DetailContent from './content';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 import { useLang } from '@/hooks/useLang';
 import styles from './styles.module.less';
 
@@ -60,7 +60,7 @@ function WorkflowDetail() {
 
     const params: Record<string, any> = {
       flowSnippetUuid,
-      updatedBy: partId(),
+      updatedBy: getPartId(),
       flowContext: JSON.stringify(data.assembleData),
       flowRelationship: JSON.stringify(data.realDetails)
     }

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type TableModelTypes = {
   tableDatas: Record<string, any[]>;
@@ -22,7 +22,7 @@ export const useTableModel = create(
       });
     }
   }), {
-    name: `tables-${partId()}`,
+    name: `tables-${getPartId()}`,
     storage: createJSONStorage(() => sessionStorage)
   })
 );

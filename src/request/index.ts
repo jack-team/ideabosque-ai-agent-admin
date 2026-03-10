@@ -1,12 +1,13 @@
 import Axios, { type AxiosInstance, type AxiosResponse, type AxiosError } from 'axios';
 import type { BaseRequestOptions, GraphqlPayload, GraphqlResultType, QueryResult } from './types';
+import { getPartId, shop } from '@/env';
+import tokenCenter from '@/utils/token';
 import { ResultError } from './result';
 import { getOperationName } from './helper';
 
 export class BaseRequest {
   private baseUrl: string;
   private apiKey: string;
-  private partId: string;
   private namespace: string;
   private endpointId: string;
   private axios: AxiosInstance;
@@ -18,7 +19,6 @@ export class BaseRequest {
   constructor(namespace: string, options: BaseRequestOptions) {
     this.baseUrl = options.baseUrl;
     this.apiKey = options.apiKey;
-    this.partId = options.partId;
     this.namespace = namespace;
     this.endpointId = options.endpointId;
 
@@ -27,10 +27,22 @@ export class BaseRequest {
 
     this.axios = Axios.create({
       baseURL: this.apiUrl,
-      headers: {
-        'x-api-key': this.apiKey,
-        'part-id': this.partId
+      headers: { 'x-api-key': this.apiKey }
+    });
+
+    this.axios.interceptors.request.use(async config => {
+      // 如果不是在 shopify 环境, 校验 token
+      if (!shop) {
+        const token = await tokenCenter.getToken();
+
+        if (!token) {
+          tokenCenter.logout();
+          return Promise.reject(new Error('Token expired'));
+        }
       }
+
+      config.headers['part-id'] = getPartId();
+      return config;
     });
 
     this.axios.interceptors.response.use(
@@ -77,7 +89,7 @@ export class BaseRequest {
       return this.parseSuccess(result.response);
     } else {
       const message = result.message;
-      const error = new ResultError(code!, message); 
+      const error = new ResultError(code!, message);
       this.printError(error);
       return Promise.reject(error);
     }

@@ -12,7 +12,7 @@ import { useModalOkClick } from '@/components/TriggerModal';
 import { insertUpdateUiComponentApi } from '@/services/uiCpt';
 import { ComponentTypeMap, ValueListFunctMap } from '@/constants/enum';
 import { objectIteration } from '@/utils';
-import { partId } from '@/env';
+import { getPartId } from '@/env';
 
 type EditFormProps = {
   formData?: UiComponentDataType;
@@ -29,7 +29,7 @@ const EditForm: FC<EditFormProps> = (props) => {
     try {
       await insertUpdateUiComponentApi({
         ...values,
-        updatedBy: partId(),
+        updatedBy: getPartId(),
       });
       props.onSaveSuccess?.();
       message.success(t('common.Saved successfully'));
